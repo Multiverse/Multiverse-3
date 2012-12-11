@@ -21,8 +21,9 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
 
     private BukkitWorldManager worldManager;
 
-    public MultiverseCorePlugin() {
-        this.setPermissionName("multiverse.core");
+    @Override
+    public String getPermissionName() {
+        return "multiverse";
     }
 
     @Override
