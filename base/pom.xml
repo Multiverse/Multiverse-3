@@ -137,6 +137,14 @@
         </dependency>
         <!-- End of PluginBase Dependency -->
 
+        <dependency>
+            <groupId>com.intellij</groupId>
+            <artifactId>annotations</artifactId>
+            <version>9.0.4</version>
+            <type>jar</type>
+            <scope>compile</scope>
+        </dependency>
+
         <!-- Start of Test Dependencies -->
         <dependency>
             <groupId>junit</groupId>
