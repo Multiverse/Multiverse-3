@@ -32,21 +32,21 @@ import java.util.List;
 public class ImportCommand extends MultiverseCommand {
 
     public static final Message IMPORT_HELP = new Message("command.import.help",
-            "Imports a world into the server from a folder with the given name.",
-            "The folder must exist in the location where worlds are normally located and must contain Minecraft world data.",
-            "You must specify a world environment such as NORMAL or NETHER.",
-            "You may also specify a generator to use along with an optional generator ID.",
-            "The generator name is case sensitive!",
-            "Flags:",
-            "  -g {GENERATOR[:ID]} Specify a generator.",
-            "  -n Do not adjust spawn",
-            "Examples:",
-            "  /mv import &6gargamel&a normal",
-            "  /mv import &6hell_world&a nether",
-            "  /mv import &6Cleanroom&a normal -g &3CleanroomGenerator");
+            "Imports a world into the server from a folder with the given name."
+            + "\nThe folder must exist in the location where worlds are normally located and must contain Minecraft world data."
+            + "\nYou must specify a world environment such as NORMAL or NETHER."
+            + "\nYou may also specify a generator to use along with an optional generator ID."
+            + "\nThe generator name is case sensitive!"
+            + "\nFlags:"
+            + "\n  -g {GENERATOR[:ID]} Specify a generator."
+            + "\n  -n Do not adjust spawn"
+            + "\nExamples:"
+            + "\n  /mv import &6gargamel&a normal"
+            + "\n  /mv import &6hell_world&a nether"
+            + "\n  /mv import &6Cleanroom&a normal -g &3CleanroomGenerator");
 
     public static final Message POTENTIAL_WORLD_LIST = new Message("command.import.potential_world_list",
-            "&b====[ These look like worlds ]====", "%s");
+            "&b====[ These look like worlds ]====\n%s");
 
     public static final Message NO_POTENTIAL_WORLDS = new Message("command.import.no_potential_worlds",
             "&cNo potential worlds found. Sorry!");

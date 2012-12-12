@@ -10,9 +10,9 @@ public class PropertyDescriptions {
     public static void init() { }
 
     public static final Message ALIAS = new Message("world_properties.descriptions.alias",
-            "World aliases allow you to name a world differently than what the folder name is.",
-            "This lets you choose fancy names for your worlds while keeping the folders nice and neat.",
-            "You may add minecraft color and formatting codes here prepended with a &");
+            "World aliases allow you to name a world differently than what the folder name is."
+            + "\nThis lets you choose fancy names for your worlds while keeping the folders nice and neat."
+            + "\nYou may add minecraft color and formatting codes here prepended with a &");
 
     public static final Message HIDDEN = new Message("world_properties.descriptions.hidden",
             "The hidden property allows you to have a world that exists but does not show up in lists.");
@@ -30,8 +30,8 @@ public class PropertyDescriptions {
             "The environment property the Minecraft world environment such as NORMAL, NETHER, THE_END");
 
     public static final Message PLAYER_LIMIT = new Message("world_properties.descriptions.playerLimit",
-            "The player limit property limits the number of players in a world at a time.",
-            "A value of -1 or lower signifies no player limit.");
+            "The player limit property limits the number of players in a world at a time."
+            + "\nA value of -1 or lower signifies no player limit.");
 
     public static final Message ADJUST_SPAWN = new Message("world_properties.descriptions.adjustSpawn",
             "The adjust spawn property determines whether or not Multiverse will make adjustments to the world's spawn location if it is unsafe.");
@@ -52,52 +52,52 @@ public class PropertyDescriptions {
             "The pvp property states whether or not players may harm each other in this world. If set to true, they may.");
 
     public static final Message SCALE = new Message("world_properties.descriptions.scale",
-            "The scale property represents the scaling of worlds when using Multiverse-NetherPortals.",
-            "Setting this value will have no effect on anything but Multiverse-NetherPortals.");
+            "The scale property represents the scaling of worlds when using Multiverse-NetherPortals."
+            + "\nSetting this value will have no effect on anything but Multiverse-NetherPortals.");
 
     public static final Message RESPAWN_WORLD = new Message("world_properties.descriptions.respawnWorld",
-            "The respawnWorld property is the world you will respawn to if you die in this world.",
-            "This value can be the same as this world.");
+            "The respawnWorld property is the world you will respawn to if you die in this world."
+            + "\nThis value can be the same as this world.");
 
     public static final Message ALLOW_WEATHER = new Message("world_properties.descriptions.allowWeather",
             "The allowWeather property specifies whether or not to allow weather events in this world.");
 
     public static final Message DIFFICULTY = new Message("world_properties.descriptions.difficulty",
-            "The difficulty property allows you to set the difficulty for the world.",
-            "World difficulty affects spawn rates, hunger rates, and other things that make the game more or less difficult.");
+            "The difficulty property allows you to set the difficulty for the world."
+            + "\nWorld difficulty affects spawn rates, hunger rates, and other things that make the game more or less difficult.");
 
     public static final Message AUTO_HEAL = new Message("world_properties.descriptions.autoHeal",
-            "The autoHeal property will specify whether ot not players will regain health in PEACEFUL difficulty only.",
-            "This setting has no effect on worlds with a difficulty greater than peaceful or 0.");
+            "The autoHeal property will specify whether ot not players will regain health in PEACEFUL difficulty only."
+            + "\nThis setting has no effect on worlds with a difficulty greater than peaceful or 0.");
 
     public static final Message PORTAL_FORM = new Message("world_properties.descriptions.portalForm",
             "The portalFrom property allows you to specify which type of portals are allowed to be created in this world.");
 
     public static final Message GAME_MODE = new Message("world_properties.descriptions.gameMode",
-            "The gameMode property allows you to specify the GameMode for this world.",
-            "Players entering this world will automatically be switched to this GameMode unless they are exempted.");
+            "The gameMode property allows you to specify the GameMode for this world."
+            + "\nPlayers entering this world will automatically be switched to this GameMode unless they are exempted.");
 
     public static final Message KEEP_SPAWN = new Message("world_properties.descriptions.keepSpawnInMemory",
-            "The keepSpawnInMemory property specifies whether or not to keep the spawn chunks loaded in memory when players aren't in the spawn area.",
-            "Setting this to false will potentially save you some memory.");
+            "The keepSpawnInMemory property specifies whether or not to keep the spawn chunks loaded in memory when players aren't in the spawn area."
+            + "\nSetting this to false will potentially save you some memory.");
 
     public static final Message SPAWN_LOCATION = new Message("world_properties.descriptions.spawnLocation",
             "The spawnLocation property specifies where in the world players will spawn.");
 
     public static final Message AMOUNT = new Message("world_properties.descriptions.amount",
-            "The amount property specifies how much a player has to pay to enter this world.",
-            "What the player has to pay is specified by the 'currency' property");
+            "The amount property specifies how much a player has to pay to enter this world."
+            + "\nWhat the player has to pay is specified by the 'currency' property");
 
     public static final Message CURRENCY = new Message("world_properties.descriptions.currency",
-            "The currency property specifies what type of currency the player must pay (if any) to enter this world.",
-            "Currency can be an economy money by specifying -1 or a block type by specifying the block id.");
+            "The currency property specifies what type of currency the player must pay (if any) to enter this world."
+            + "\nCurrency can be an economy money by specifying -1 or a block type by specifying the block id.");
 
     public static final Message ANIMALS_SPAWN = new Message("world_properties.descriptions.animals.spawn",
             "The animals spawn property specifies whether or not to spawn animals in this world.");
 
     public static final Message ANIMALS_SPAWN_RATE = new Message("world_properties.descriptions.animals.spawnRate",
-            "The animals spawnRate property defines how many ticks in between attempting to spawn animals.",
-            "A value of -1 indicates the default should be used and is recommended unless you know what you are doing.");
+            "The animals spawnRate property defines how many ticks in between attempting to spawn animals."
+            + "\nA value of -1 indicates the default should be used and is recommended unless you know what you are doing.");
 
     public static final Message ANIMALS_SPAWN_EXCEPTIONS = new Message("world_properties.descriptions.animals.exceptions",
             "The animals exceptions property defines what animals are exempt from the animals spawn property.");
@@ -106,8 +106,8 @@ public class PropertyDescriptions {
             "The monsters spawn property specifies whether or not to spawn monsters in this world.");
 
     public static final Message MONSTERS_SPAWN_RATE = new Message("world_properties.descriptions.monsters.spawnRate",
-            "The monsters spawnRate property defines how many ticks in between attempting to spawn monsters.",
-            "A value of -1 indicates the default should be used and is recommended unless you know what you are doing.");
+            "The monsters spawnRate property defines how many ticks in between attempting to spawn monsters."
+            + "\nA value of -1 indicates the default should be used and is recommended unless you know what you are doing.");
 
     public static final Message MONSTERS_SPAWN_EXCEPTIONS = new Message("world_properties.descriptions.monsters.exceptions",
             "The monsters exceptions property defines what monsters are exempt from the monsters spawn property.");
