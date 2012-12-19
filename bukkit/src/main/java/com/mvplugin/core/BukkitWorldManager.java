@@ -193,6 +193,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
 
     @Override
     public List<String> getUnloadedWorlds() {
+        // TODO: This needs to be changed to support world files being added/removed from the folder.
         return Collections.unmodifiableList(new ArrayList<String>(worldPropertiesMap.keySet()));
     }
 }

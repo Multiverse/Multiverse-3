@@ -1,6 +1,7 @@
 package com.mvplugin.core.api;
 
 import com.dumptruckman.minecraft.pluginbase.plugin.PluginBase;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Multiverse 3 Core API
@@ -17,6 +18,7 @@ public interface MultiverseCore extends MultiversePlugin, PluginBase {
      *
      * @return {@link WorldManager}.
      */
+    @NotNull
     WorldManager getWorldManager();
 
     /**
@@ -24,5 +26,16 @@ public interface MultiverseCore extends MultiversePlugin, PluginBase {
      *
      * @return The Multiverse-Core configuration.
      */
+    @NotNull
     CoreConfig getMVConfig();
+
+    /**
+     * Gets the event processor for Multiverse-Core.
+     *
+     * All server implementation events that Multiverse-Core cares about are passed to this processor.
+     *
+     * @return the Multiverse-Core event processor.
+     */
+    @NotNull
+    EventProcessor getEventProcessor();
 }
