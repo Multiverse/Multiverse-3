@@ -1,9 +1,11 @@
 package com.mvplugin.core.api;
 
+import com.dumptruckman.minecraft.pluginbase.plugin.PluginBase;
+
 /**
  * Implement this if you would
  */
-public interface MultiversePlugin {
+public interface MultiversePlugin extends PluginBase {
 
     /**
      * Gets the reference to MultiverseCore.
