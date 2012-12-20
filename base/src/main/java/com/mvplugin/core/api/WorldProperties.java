@@ -14,6 +14,7 @@ import com.mvplugin.core.minecraft.PlayerPosition;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.util.PropertyDescriptions;
+import org.jetbrains.annotations.Nullable;
 
 /**
  * Houses all of the properties for a Multiverse world.
@@ -99,9 +100,10 @@ public interface WorldProperties extends Properties {
             .build();
 
     class ScaleValidator implements PropertyValidator<Double> {
+
         @Override
-        public boolean isValid(Double scale) {
-            return scale > 0D;
+        public boolean isValid(@Nullable final Double scale) {
+            return scale != null && scale > 0D;
         }
 
         @Override

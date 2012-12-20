@@ -20,14 +20,16 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
 
     private static final int PROTOCOL = 19;
     private static final String COMMAND_PREFIX = "mv";
+    private static final String PERMISSION_PREFIX = "multiverse";
 
     private BukkitWorldManager worldManager;
 
     private final EventProcessor eventProcessor = new DefaultEventProcessor(this);
 
+    @NotNull
     @Override
     public String getPermissionName() {
-        return "multiverse";
+        return PERMISSION_PREFIX;
     }
 
     @Override
@@ -50,11 +52,13 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
         registerCommand(ImportCommand.class);
     }
 
+    @NotNull
     @Override
     public String getCommandPrefix() {
         return COMMAND_PREFIX;
     }
 
+    @NotNull
     @Override
     protected Properties getNewConfig() throws IOException {
         return new YamlCoreConfig(this);
@@ -86,14 +90,13 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     }
 
     @Override
-    public void setCore(MultiverseCore core) { }
+    public void setCore(@NotNull final MultiverseCore core) { }
 
     @Override
     public int getProtocolVersion() {
         return PROTOCOL;
     }
 
-    @NotNull
     @Override
     public EventProcessor getEventProcessor() {
         return eventProcessor;

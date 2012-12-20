@@ -7,6 +7,8 @@ import com.mvplugin.core.minecraft.Generator;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.PropertyDescriptions;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
 import java.util.Collection;
@@ -20,7 +22,7 @@ import java.util.List;
  */
 public interface WorldManager {
 
-    public class WorldCreationSettings {
+    class WorldCreationSettings {
 
         private final String name;
         private WorldEnvironment env;
@@ -37,26 +39,32 @@ public interface WorldManager {
             this.name = name;
         }
 
+        @NotNull
         public String name() {
             return name;
         }
 
+        @Nullable
         public WorldEnvironment env() {
             return env;
         }
 
+        @Nullable
         public Long seed() {
             return seed;
         }
 
+        @Nullable
         public WorldType type() {
             return type;
         }
 
+        @Nullable
         public Boolean generateStructures() {
             return generateStructures;
         }
 
+        @Nullable
         public String generator() {
             return generator;
         }
@@ -65,32 +73,38 @@ public interface WorldManager {
             return adjustSpawn;
         }
 
-        public WorldCreationSettings env(WorldEnvironment e) {
+        @NotNull
+        public WorldCreationSettings env(@Nullable final WorldEnvironment e) {
             this.env = e;
             return this;
         }
 
-        public WorldCreationSettings seed(Long l) {
+        @NotNull
+        public WorldCreationSettings seed(@Nullable final Long l) {
             this.seed = l;
             return this;
         }
 
-        public WorldCreationSettings type(WorldType t) {
+        @NotNull
+        public WorldCreationSettings type(@Nullable final WorldType t) {
             this.type = t;
             return this;
         }
 
-        public WorldCreationSettings generateStructures(Boolean b) {
+        @NotNull
+        public WorldCreationSettings generateStructures(@Nullable final Boolean b) {
             this.generateStructures = b;
             return this;
         }
 
-        public WorldCreationSettings generator(String g) {
+        @NotNull
+        public WorldCreationSettings generator(@Nullable final String g) {
             this.generator = g;
             return this;
         }
 
-        public WorldCreationSettings adjustSpawn(boolean a) {
+        @NotNull
+        public WorldCreationSettings adjustSpawn(final boolean a) {
             this.adjustSpawn = a;
             return this;
         }
@@ -105,7 +119,8 @@ public interface WorldManager {
      * @return The world properties for the given world name.
      * @throws IOException In case there are any issues accessing the persistence for the world properties.
      */
-    WorldProperties getWorldProperties(final String worldName) throws IOException;
+    @NotNull
+    WorldProperties getWorldProperties(@Nullable final String worldName) throws IOException;
 
     /**
      * Add a new World to the Multiverse Setup.
@@ -121,12 +136,13 @@ public interface WorldManager {
      * @return The new world.
      * @throws WorldCreationException If world creation fails.
      */
-    MultiverseWorld addWorld(String name,
-               WorldEnvironment env,
-               String seedString,
-               WorldType type,
-               Boolean generateStructures,
-               String generator) throws WorldCreationException;
+    @NotNull
+    MultiverseWorld addWorld(@NotNull final String name,
+                             @Nullable final WorldEnvironment env,
+                             @Nullable final String seedString,
+                             @Nullable final WorldType type,
+                             @Nullable final Boolean generateStructures,
+                             @Nullable final String generator) throws WorldCreationException;
 
     /**
      * Add a new World to the Multiverse Setup.
@@ -143,13 +159,14 @@ public interface WorldManager {
      * @return The new world.
      * @throws WorldCreationException If world creation fails.
      */
-    MultiverseWorld addWorld(String name,
-               WorldEnvironment env,
-               String seedString,
-               WorldType type,
-               Boolean generateStructures,
-               String generator,
-               boolean useSpawnAdjust) throws WorldCreationException;
+    @NotNull
+    MultiverseWorld addWorld(@NotNull final String name,
+                             @Nullable final WorldEnvironment env,
+                             @Nullable final String seedString,
+                             @Nullable final WorldType type,
+                             @Nullable final Boolean generateStructures,
+                             @Nullable final String generator,
+                             final boolean useSpawnAdjust) throws WorldCreationException;
 
     /**
      * Adds a new World to the Multiverse Setup.
@@ -157,7 +174,8 @@ public interface WorldManager {
      * @return The new world.
      * @throws WorldCreationException If world creation fails.
      */
-    MultiverseWorld addWorld(WorldCreationSettings settings) throws WorldCreationException;
+    @NotNull
+    MultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;
 
     /**
      * Make a copy of a world.
@@ -239,6 +257,7 @@ public interface WorldManager {
      *
      * @return A list of {@link MultiverseWorld}.
      */
+    @NotNull
     Collection<MultiverseWorld> getMVWorlds();
 
 
@@ -257,7 +276,7 @@ public interface WorldManager {
      * @param name The name or alias of the world to check.
      * @return True if the world exists, false if not.
      */
-    boolean isMVWorld(String name);
+    boolean isMVWorld(@NotNull final String name);
 
     /**
      * Load the Worlds & Settings from the configuration file.
@@ -289,6 +308,7 @@ public interface WorldManager {
      *
      * @return A List of worlds as strings.
      */
+    @NotNull
     List<String> getUnloadedWorlds();
 
     /**
@@ -336,15 +356,16 @@ public interface WorldManager {
 
         private final WorldManager worldManager;
 
-        public RespawnWorldValidator(WorldManager worldManager) {
+        public RespawnWorldValidator(@NotNull final WorldManager worldManager) {
             this.worldManager = worldManager;
         }
 
         @Override
-        public boolean isValid(String s) {
-            return worldManager.isMVWorld(s);
+        public boolean isValid(@Nullable final String s) {
+            return s != null && worldManager.isMVWorld(s);
         }
 
+        @NotNull
         @Override
         public Message getInvalidMessage() {
             return PropertyDescriptions.INVALID_RESPAWN_WORLD;

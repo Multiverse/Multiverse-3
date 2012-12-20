@@ -18,7 +18,6 @@ public interface MultiverseCore extends MultiversePlugin, PluginBase {
      *
      * @return {@link WorldManager}.
      */
-    @NotNull
     WorldManager getWorldManager();
 
     /**
@@ -26,7 +25,6 @@ public interface MultiverseCore extends MultiversePlugin, PluginBase {
      *
      * @return The Multiverse-Core configuration.
      */
-    @NotNull
     CoreConfig getMVConfig();
 
     /**

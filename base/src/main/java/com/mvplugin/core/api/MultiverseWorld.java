@@ -13,6 +13,8 @@ import com.mvplugin.core.minecraft.PlayerPosition;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.UUID;
@@ -30,6 +32,7 @@ public interface MultiverseWorld {
      *
      * @return The name of the world as a String.
      */
+    @NotNull
     String getName();
 
     /**
@@ -39,6 +42,7 @@ public interface MultiverseWorld {
      *
      * @return The UUID for this world.
      */
+    @NotNull
     UUID getWorldUID();
 
     /**
@@ -50,6 +54,7 @@ public interface MultiverseWorld {
      *
      * @return The properties for this world.
      */
+    @NotNull
     WorldProperties getProperties();
 
     /**
@@ -60,6 +65,7 @@ public interface MultiverseWorld {
      *
      * @return The Type of this world.
      */
+    @NotNull
     WorldType getWorldType();
 
     /**
@@ -69,6 +75,7 @@ public interface MultiverseWorld {
      *
      * @return The environment of this world.
      */
+    @NotNull
     WorldEnvironment getEnvironment();
 
     /**
@@ -78,13 +85,14 @@ public interface MultiverseWorld {
      *
      * @param environment The new environment for the world.
      */
-    void setEnvironment(WorldEnvironment environment);
+    void setEnvironment(@NotNull WorldEnvironment environment);
 
     /**
      * Gets the difficulty of this world.
      *
      * @return The difficulty of this world.
      */
+    @NotNull
     Difficulty getDifficulty();
 
     /**
@@ -95,7 +103,7 @@ public interface MultiverseWorld {
      * @param difficulty The new difficulty.
      * @return True if success, false if the operation failed... for whatever reason.
      */
-    boolean setDifficulty(Difficulty difficulty);
+    boolean setDifficulty(@NotNull Difficulty difficulty);
 
     /**
      * Gets the world seed of this world.
@@ -116,6 +124,7 @@ public interface MultiverseWorld {
      *
      * @return The name of the generator.
      */
+    @Nullable
     String getGenerator();
 
     /**
@@ -123,13 +132,14 @@ public interface MultiverseWorld {
      *
      * @param generator The new generator's name.
      */
-    void setGenerator(String generator);
+    void setGenerator(@Nullable String generator);
 
     /**
      * Gets all the names of all properties that can be SET.
      *
      * @return All property names, with alternating colors.
      */
+    @NotNull
     String getAllPropertyNames();
 
     /**
@@ -139,6 +149,7 @@ public interface MultiverseWorld {
      *
      * @return The alias of the world as a String.
      */
+    @NotNull
     String getAlias();
 
     /**
@@ -146,7 +157,7 @@ public interface MultiverseWorld {
      *
      * @param alias A string that is the new alias.
      */
-    void setAlias(String alias);
+    void setAlias(@Nullable String alias);
 
     // animals&monster stuff
     /**
@@ -170,6 +181,7 @@ public interface MultiverseWorld {
      *
      * @return A list of animals that will spawn if {@link #canAnimalsSpawn()} is false.
      */
+    @NotNull
     List<String> getAnimalList();
 
     /**
@@ -193,6 +205,7 @@ public interface MultiverseWorld {
      *
      * @return A list of monsters that will spawn if {@link #canMonstersSpawn()} is false.
      */
+    @NotNull
     List<String> getMonsterList();
     // end of animal&monster stuff
 
@@ -281,6 +294,7 @@ public interface MultiverseWorld {
      *
      * @return The spawn location of this world.
      */
+    @NotNull
     PlayerPosition getSpawnLocation();
 
     /**
@@ -288,7 +302,7 @@ public interface MultiverseWorld {
      *
      * @param spawnLocation The spawn location for a world.
      */
-    void setSpawnLocation(PlayerPosition spawnLocation);
+    void setSpawnLocation(@NotNull PlayerPosition spawnLocation);
 
     /**
      * Gets whether or not the hunger level of players will go down in a world.
@@ -310,6 +324,7 @@ public interface MultiverseWorld {
      *
      * @return The GameMode of this world.
      */
+    @NotNull
     GameMode getGameMode();
 
     /**
@@ -318,7 +333,7 @@ public interface MultiverseWorld {
      * @param gameMode The new {@link GameMode}.
      * @return True if the game mode was successfully changed, false if not.
      */
-    boolean setGameMode(GameMode gameMode);
+    boolean setGameMode(@NotNull GameMode gameMode);
 
     /**
      * Gets the amount of currency it requires to enter this world.
@@ -365,7 +380,7 @@ public interface MultiverseWorld {
      * @param respawnWorld The name of a world that exists on the server.
      * @return True if respawnWorld existed, false if not.
      */
-    boolean setRespawnToWorld(String respawnWorld);
+    boolean setRespawnToWorld(@NotNull String respawnWorld);
 
     /**
      * Gets the scaling value of this world.Really only has an effect if you use
@@ -466,6 +481,7 @@ public interface MultiverseWorld {
      * Same as {@link #getTime()}, but returns a string.
      * @return The time as a short string: 12:34pm
      */
+    @NotNull
     String getTime();
 
     /**
@@ -479,20 +495,21 @@ public interface MultiverseWorld {
      * @param timeAsString The formatted time to set the world to.
      * @return True if the time was set, false if not.
      */
-    boolean setTime(String timeAsString);
+    boolean setTime(@NotNull String timeAsString);
 
     /**
      * Sets The types of portals that are allowed in this world.
      *
      * @param type The type of portals allowed in this world.
      */
-    void allowPortalMaking(PortalType type);
+    void allowPortalMaking(@NotNull PortalType type);
 
     /**
      * Gets which type(s) of portals are allowed to be constructed in this world.
      *
      * @return The type of portals that are allowed.
      */
+    @NotNull
     PortalType getAllowedPortals();
 
     // properties that are not "getter+setter" style
@@ -502,6 +519,7 @@ public interface MultiverseWorld {
      *
      * @return A List of world names.
      */
+    @NotNull
     List<String> getWorldBlacklist();
 
     void save();

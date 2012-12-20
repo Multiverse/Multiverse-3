@@ -1,6 +1,7 @@
 package com.mvplugin.core.api;
 
 import com.dumptruckman.minecraft.pluginbase.plugin.PluginBase;
+import org.jetbrains.annotations.NotNull;
 
 /**
  * Implement this if you would
@@ -19,7 +20,7 @@ public interface MultiversePlugin extends PluginBase {
      *
      * @param core A valid {@link MultiverseCore}.
      */
-    void setCore(MultiverseCore core);
+    void setCore(@NotNull final MultiverseCore core);
 
     /**
      * Allows Multiverse or a plugin to query another Multiverse plugin to see what version its protocol is.
