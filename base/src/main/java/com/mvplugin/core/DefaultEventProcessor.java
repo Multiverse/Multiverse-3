@@ -10,9 +10,10 @@ import org.jetbrains.annotations.NotNull;
  */
 class DefaultEventProcessor implements EventProcessor {
 
+    @NotNull
     private final MultiverseCore plugin;
 
-    DefaultEventProcessor(final MultiverseCore plugin) {
+    DefaultEventProcessor(@NotNull final MultiverseCore plugin) {
         this.plugin = plugin;
     }
 

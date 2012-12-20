@@ -17,5 +17,5 @@ public interface EventProcessor {
      *
      * @param world The world being unloaded.
      */
-    void worldUnload(@NotNull MultiverseWorld world);
+    void worldUnload(@NotNull final MultiverseWorld world);
 }

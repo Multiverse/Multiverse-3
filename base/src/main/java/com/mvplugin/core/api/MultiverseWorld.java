@@ -281,7 +281,7 @@ public interface MultiverseWorld {
     boolean isKeepingSpawnInMemory();
 
     /**
-     * If true, tells Craftbukkit to keep a worlds spawn chunks loaded in memory (default: true)
+     * If true, tells CraftBukkit to keep a worlds spawn chunks loaded in memory (default: true)
      * If not, CraftBukkit will attempt to free memory when players have not used that world.
      * This will not happen immediately.
      *
@@ -439,7 +439,7 @@ public interface MultiverseWorld {
      * <p>
      * True is default.
      *
-     * @param autoLoad True if multiverse should autoload this world the spawn, false if not.
+     * @param autoLoad True if multiverse should auto load this world, false if not.
      */
     void setAutoLoad(boolean autoLoad);
 

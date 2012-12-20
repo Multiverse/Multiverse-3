@@ -17,5 +17,5 @@ public enum PortalType {
     /**
      * Only Ender style portals are allowed.
      */
-    END;
+    END
 }

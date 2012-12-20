@@ -5,6 +5,7 @@ import com.dumptruckman.minecraft.pluginbase.properties.YamlProperties;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.minecraft.PlayerPosition;
 import org.bukkit.configuration.ConfigurationSection;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -17,7 +18,7 @@ import java.util.Map;
  */
 class YamlWorldProperties extends YamlProperties implements WorldProperties {
 
-    YamlWorldProperties(File configFile) throws IOException {
+    YamlWorldProperties(@NotNull final File configFile) throws IOException {
         super(false, true, configFile, WorldProperties.class);
     }
 

@@ -14,16 +14,20 @@ import java.io.IOException;
 /**
  * The primary Bukkit plugin implementation of Multiverse-Core.
  *
- * See {@link MultiverseCore} for a more detailed external api javadocs.
+ * See {@link MultiverseCore} for a more detailed external api javadoc.
  */
 public class MultiverseCorePlugin extends AbstractBukkitPlugin implements MultiverseCore {
 
     private static final int PROTOCOL = 19;
+    @NotNull
     private static final String COMMAND_PREFIX = "mv";
+    @NotNull
     private static final String PERMISSION_PREFIX = "multiverse";
 
+    @NotNull
     private BukkitWorldManager worldManager;
 
+    @NotNull
     private final EventProcessor eventProcessor = new DefaultEventProcessor(this);
 
     @NotNull
@@ -69,6 +73,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
         return (CoreConfig) super.config();
     }
 
+    @NotNull
     @Override
     public CoreConfig getMVConfig() {
         return config();
@@ -79,11 +84,13 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
         return false;
     }
 
+    @NotNull
     @Override
     public BukkitWorldManager getWorldManager() {
         return this.worldManager;
     }
 
+    @NotNull
     @Override
     public MultiverseCore getCore() {
         return this;
@@ -97,6 +104,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
         return PROTOCOL;
     }
 
+    @NotNull
     @Override
     public EventProcessor getEventProcessor() {
         return eventProcessor;

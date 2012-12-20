@@ -13,6 +13,7 @@ public interface MultiversePlugin extends PluginBase {
      *
      * @return A valid {@link MultiverseCore}.
      */
+    @NotNull
     MultiverseCore getCore();
 
     /**

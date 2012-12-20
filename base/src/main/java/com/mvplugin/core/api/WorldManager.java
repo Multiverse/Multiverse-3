@@ -120,10 +120,11 @@ public interface WorldManager {
      * @throws IOException In case there are any issues accessing the persistence for the world properties.
      */
     @NotNull
-    WorldProperties getWorldProperties(@Nullable final String worldName) throws IOException;
+    WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
 
     /**
      * Add a new World to the Multiverse Setup.
+     *
      *
      * @param name               World Name
      * @param env                Environment Type
