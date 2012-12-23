@@ -1,7 +1,7 @@
 package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
-import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.api.CorePlugin;
 import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -15,10 +15,10 @@ import java.util.Map;
 
 abstract class AbstractWorldManager implements WorldManager {
 
-    protected final MultiverseCore core;
+    protected final CorePlugin core;
     protected final Map<String, MultiverseWorld> worldsMap;
 
-    protected AbstractWorldManager(final MultiverseCore core) {
+    protected AbstractWorldManager(final CorePlugin core) {
         this.core = core;
         this.worldsMap = new HashMap<String, MultiverseWorld>();
     }

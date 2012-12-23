@@ -1,6 +1,6 @@
 package com.mvplugin.core.listeners;
 
-import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.api.CorePlugin;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -8,9 +8,9 @@ import org.bukkit.event.world.WorldUnloadEvent;
 
 public class WorldListener implements Listener {
 
-    private final MultiverseCore plugin;
+    private final CorePlugin plugin;
 
-    public WorldListener(final MultiverseCore plugin) {
+    public WorldListener(final CorePlugin plugin) {
         this.plugin = plugin;
     }
 

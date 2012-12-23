@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
  * This API contains a bunch of useful things you can get out of Multiverse in general!
  * This is the class you should cast your plugin to unless you need more Implementation specific API.
  */
-public interface MultiverseCore extends MultiversePlugin, PluginBase {
+public interface CorePlugin extends MultiversePlugin, PluginBase {
 
     /**
      * Gets the Multiverse world manager.

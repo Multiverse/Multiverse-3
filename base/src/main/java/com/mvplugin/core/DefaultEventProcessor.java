@@ -1,7 +1,7 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.api.CorePlugin;
 import com.mvplugin.core.api.EventProcessor;
-import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
@@ -10,9 +10,9 @@ import org.jetbrains.annotations.NotNull;
  */
 class DefaultEventProcessor implements EventProcessor {
 
-    private final MultiverseCore plugin;
+    private final CorePlugin plugin;
 
-    DefaultEventProcessor(final MultiverseCore plugin) {
+    DefaultEventProcessor(final CorePlugin plugin) {
         this.plugin = plugin;
     }
 

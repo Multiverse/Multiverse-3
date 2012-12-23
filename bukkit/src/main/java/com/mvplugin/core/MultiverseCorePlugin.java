@@ -3,8 +3,8 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.api.CoreConfig;
+import com.mvplugin.core.api.CorePlugin;
 import com.mvplugin.core.api.EventProcessor;
-import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
@@ -14,9 +14,9 @@ import java.io.IOException;
 /**
  * The primary Bukkit plugin implementation of Multiverse-Core.
  *
- * See {@link MultiverseCore} for a more detailed external api javadocs.
+ * See {@link com.mvplugin.core.api.CorePlugin} for a more detailed external api javadocs.
  */
-public class MultiverseCorePlugin extends AbstractBukkitPlugin implements MultiverseCore {
+public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePlugin {
 
     private static final int PROTOCOL = 19;
     private static final String COMMAND_PREFIX = "mv";
@@ -85,12 +85,12 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     }
 
     @Override
-    public MultiverseCore getCore() {
+    public CorePlugin getCore() {
         return this;
     }
 
     @Override
-    public void setCore(@NotNull final MultiverseCore core) { }
+    public void setCore(@NotNull final CorePlugin core) { }
 
     @Override
     public int getProtocolVersion() {
