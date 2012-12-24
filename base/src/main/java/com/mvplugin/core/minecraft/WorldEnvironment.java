@@ -1,14 +1,17 @@
 package com.mvplugin.core.minecraft;
 
+import org.jetbrains.annotations.Nullable;
+
 public enum WorldEnvironment {
     NETHER,
     NORMAL,
     THE_END
     ;
 
-    public static WorldEnvironment getFromString(final String name) {
+    @Nullable
+    public static WorldEnvironment getFromString(@Nullable final String name) {
         for (final WorldEnvironment env : WorldEnvironment.values()) {
-            if (name.equalsIgnoreCase(env.toString())) {
+            if (env.toString().equalsIgnoreCase(name)) {
                 return env;
             }
         }

@@ -8,16 +8,21 @@ import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Convert;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
 class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWorld {
 
+    @NotNull
     private final String name;
+    @NotNull
     private final UUID worldUID;
+    @NotNull
     private final WorldType worldType;
 
-    BukkitWorld(final World world, final WorldProperties worldProperties) {
+    BukkitWorld(@NotNull final World world, @NotNull final WorldProperties worldProperties) {
         super(worldProperties);
         this.name = world.getName();
         this.worldUID = world.getUID();
@@ -25,7 +30,7 @@ class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWor
     }
 
     @Override
-    protected void update(Object obj) {
+    protected void update(@Nullable Object obj) {
         if (obj == WorldProperties.DIFFICULTY) {
             getBukkitWorld().setDifficulty(Convert.toBukkit(getDifficulty()));
         } else if (obj == WorldProperties.ALLOW_WEATHER) {
@@ -46,21 +51,25 @@ class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWor
         }
     }
 
+    @NotNull
     @Override
     public String getName() {
         return this.name;
     }
 
+    @NotNull
     @Override
     public UUID getWorldUID() {
         return this.worldUID;
     }
 
+    @NotNull
     @Override
     public WorldType getWorldType() {
         return worldType;
     }
 
+    @NotNull
     @Override
     public World getBukkitWorld() {
         final World world = Bukkit.getWorld(worldUID);
@@ -70,13 +79,14 @@ class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWor
         return world;
     }
 
+    @NotNull
     @Override
     public String getTime() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public boolean setTime(String timeAsString) {
+    public boolean setTime(@NotNull final String timeAsString) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

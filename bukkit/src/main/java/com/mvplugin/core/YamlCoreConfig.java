@@ -2,6 +2,7 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.properties.YamlProperties;
 import com.mvplugin.core.api.CoreConfig;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.IOException;
@@ -11,7 +12,7 @@ import java.io.IOException;
  */
 class YamlCoreConfig extends YamlProperties implements CoreConfig {
 
-    public YamlCoreConfig(MultiverseCorePlugin plugin) throws IOException {
+    public YamlCoreConfig(@NotNull final MultiverseCorePlugin plugin) throws IOException {
         super(true, true, new File(plugin.getDataFolder(), "config.yml"), CoreConfig.class);
     }
 }

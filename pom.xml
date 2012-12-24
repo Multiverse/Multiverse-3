@@ -40,7 +40,7 @@
             <url>http://repo.onarandombox.com/content/repositories/multiverse-snapshots/</url>
         </snapshotRepository>
     </distributionManagement>
-    
+
     <scm>
         <connection>scm:git:git://github.com/multiverse/Multiverse-Core.git</connection>
         <url>https://github.com/multiverse/Multiverse-Core</url>

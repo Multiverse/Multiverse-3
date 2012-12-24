@@ -2,6 +2,8 @@ package com.mvplugin.core.api;
 
 import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
 import com.mvplugin.core.minecraft.Entity;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
@@ -14,9 +16,9 @@ public interface WorldPurger {
      *
      * @param worlds A list of {@link com.mvplugin.core.api.MultiverseWorld}
      */
-    void purgeWorlds(List<MultiverseWorld> worlds);
+    void purgeWorlds(@NotNull final List<MultiverseWorld> worlds);
 
-    void purgeWorld(MultiverseWorld world);
+    void purgeWorld(@NotNull final MultiverseWorld world);
 
     /**
      * Clear all animals/monsters that do not belong to a world according to the config.
@@ -26,8 +28,10 @@ public interface WorldPurger {
      * @param negateAnimals Whether the monsters in the list should be negated.
      * @param negateMonsters Whether the animals in the list should be negated.
      */
-    void purgeWorld(MultiverseWorld mvworld, List<String> thingsToKill, boolean negateAnimals,
-                    boolean negateMonsters);
+    void purgeWorld(@NotNull final MultiverseWorld mvworld,
+                    @NotNull final List<String> thingsToKill,
+                    final boolean negateAnimals,
+                    final boolean negateMonsters);
 
     /**
      * Clear all animals/monsters that do not belong to a world according to the config.
@@ -38,8 +42,11 @@ public interface WorldPurger {
      * @param negateMonsters Whether the animals in the list should be negated.
      * @param sender The {@link BasePlayer} that initiated the action. He will/should be notified.
      */
-    void purgeWorld(MultiverseWorld mvworld, List<String> thingsToKill, boolean negateAnimals,
-                    boolean negateMonsters, BasePlayer sender);
+    void purgeWorld(@NotNull final MultiverseWorld mvworld,
+                    @NotNull final List<String> thingsToKill,
+                    final boolean negateAnimals,
+                    final boolean negateMonsters,
+                    @Nullable final BasePlayer sender);
 
     /**
      * Determines whether the specified creature should be killed.
@@ -50,7 +57,10 @@ public interface WorldPurger {
      * @param negateMonsters Whether the animals in the list should be negated.
      * @return {@code true} if the creature should be killed, otherwise {@code false}.
      */
-    boolean shouldWeKillThisCreature(Entity e, List<String> thingsToKill, boolean negateAnimals, boolean negateMonsters);
+    boolean shouldWeKillThisCreature(@NotNull final Entity e,
+                                     @NotNull final List<String> thingsToKill,
+                                     final boolean negateAnimals,
+                                     final boolean negateMonsters);
 
     /**
      * Determines whether the specified creature should be killed and automatically reads the params from a world object.
@@ -59,5 +69,5 @@ public interface WorldPurger {
      * @param e The creature.
      * @return {@code true} if the creature should be killed, otherwise {@code false}.
      */
-    boolean shouldWeKillThisCreature(MultiverseWorld w, Entity e);
+    boolean shouldWeKillThisCreature(@NotNull final MultiverseWorld w, @NotNull final Entity e);
 }

@@ -8,6 +8,8 @@ import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PlayerPosition;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 import java.util.Observable;
@@ -17,7 +19,7 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
 
     private final WorldProperties worldProperties;
 
-    protected AbstractMultiverseWorld(final WorldProperties worldProperties) {
+    AbstractMultiverseWorld(@NotNull final WorldProperties worldProperties) {
         this.worldProperties = worldProperties;
         worldProperties.addObserver(this);
         worldProperties.get(WorldProperties.SPAWNING).get(Spawning.ANIMALS).addObserver(this);
@@ -25,29 +27,31 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
     }
 
     @Override
-    public final void update(Observable o, Object arg) {
+    public final void update(@NotNull Observable o, @Nullable Object arg) {
         update(arg);
     }
 
-    protected abstract void update(Object property);
+    protected abstract void update(@Nullable Object property);
 
+    @NotNull
     @Override
     public WorldEnvironment getEnvironment() {
         return getProperties().get(WorldProperties.ENVIRONMENT);
     }
 
     @Override
-    public void setEnvironment(final WorldEnvironment environment) {
+    public void setEnvironment(@NotNull final WorldEnvironment environment) {
         getProperties().set(WorldProperties.ENVIRONMENT, environment);
     }
 
+    @NotNull
     @Override
     public Difficulty getDifficulty() {
         return getProperties().get(WorldProperties.DIFFICULTY);
     }
 
     @Override
-    public boolean setDifficulty(final Difficulty difficulty) {
+    public boolean setDifficulty(@NotNull final Difficulty difficulty) {
         // TODO Validate?
         return getProperties().set(WorldProperties.DIFFICULTY, difficulty);
     }
@@ -72,23 +76,26 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
         getProperties().set(WorldProperties.GENERATOR, generator != null ? generator : "");
     }
 
+    @NotNull
     @Override
     public WorldProperties getProperties() {
         return worldProperties;
     }
 
+    @NotNull
     @Override
     public String getAllPropertyNames() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
+    @NotNull
     @Override
     public String getAlias() {
         return getProperties().get(WorldProperties.ALIAS);
     }
 
     @Override
-    public void setAlias(final String alias) {
+    public void setAlias(@Nullable final String alias) {
         getProperties().set(WorldProperties.ALIAS, alias != null ? alias : "");
     }
 
@@ -106,6 +113,7 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
                 .set(WorldProperties.Spawning.Animals.SPAWN, allowAnimalSpawn);
     }
 
+    @NotNull
     @Override
     public List<String> getAnimalList() {
         return getProperties().get(WorldProperties.SPAWNING)
@@ -127,6 +135,7 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
                 .set(WorldProperties.Spawning.Monsters.SPAWN, allowMonsterSpawn);
     }
 
+    @NotNull
     @Override
     public List<String> getMonsterList() {
         return getProperties().get(WorldProperties.SPAWNING)
@@ -184,13 +193,14 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
         getProperties().set(WorldProperties.KEEP_SPAWN, keepSpawnInMemory);
     }
 
+    @NotNull
     @Override
     public PlayerPosition getSpawnLocation() {
         return getProperties().get(WorldProperties.SPAWN_LOCATION);
     }
 
     @Override
-    public void setSpawnLocation(final PlayerPosition spawnLocation) {
+    public void setSpawnLocation(@NotNull final PlayerPosition spawnLocation) {
         getProperties().set(WorldProperties.SPAWN_LOCATION, spawnLocation);
     }
 
@@ -204,13 +214,14 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
         getProperties().set(WorldProperties.HUNGER, hungerEnabled);
     }
 
+    @NotNull
     @Override
     public GameMode getGameMode() {
         return getProperties().get(WorldProperties.GAME_MODE);
     }
 
     @Override
-    public boolean setGameMode(final GameMode gameMode) {
+    public boolean setGameMode(@NotNull final GameMode gameMode) {
         // Todo validate?
         return getProperties().set(WorldProperties.GAME_MODE, gameMode);
     }
@@ -235,13 +246,14 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
         getProperties().get(WorldProperties.ENTRY_FEE).set(WorldProperties.EntryFee.CURRENCY, item);
     }
 
+    @NotNull
     @Override
     public String getRespawnToWorld() {
         return getProperties().get(WorldProperties.RESPAWN_WORLD);
     }
 
     @Override
-    public boolean setRespawnToWorld(final String respawnWorld) {
+    public boolean setRespawnToWorld(@NotNull final String respawnWorld) {
         // TODO validation?
         return getProperties().set(WorldProperties.RESPAWN_WORLD, respawnWorld);
     }
@@ -308,15 +320,17 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
     }
 
     @Override
-    public void allowPortalMaking(final PortalType type) {
+    public void allowPortalMaking(@NotNull final PortalType type) {
         getProperties().set(WorldProperties.PORTAL_FORM, type);
     }
 
+    @NotNull
     @Override
     public PortalType getAllowedPortals() {
         return getProperties().get(WorldProperties.PORTAL_FORM);
     }
 
+    @NotNull
     @Override
     public List<String> getWorldBlacklist() {
         return getProperties().get(WorldProperties.BLACK_LIST);

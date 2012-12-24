@@ -163,7 +163,10 @@ public class ImportCommand extends MultiverseCommand {
             return "";
         }
         File[] files = worldFolder.listFiles();
-        String worldList = "";
+        if (files == null) {
+            files = new File[0];
+        }
+        StringBuilder worldList = new StringBuilder();
         Collection<MultiverseWorld> worlds = core.getWorldManager().getMVWorlds();
         List<String> worldStrings = new ArrayList<String>();
         for (MultiverseWorld world : worlds) {
@@ -175,7 +178,7 @@ public class ImportCommand extends MultiverseCommand {
         ChatColor currColor = ChatColor.WHITE;
         for (File file : files) {
             if (file.isDirectory() && checkIfIsWorld(file) && !worldStrings.contains(file.getName())) {
-                worldList += currColor + file.getName() + " ";
+                worldList.append(currColor).append(file.getName()).append(" ");
                 if (currColor == ChatColor.WHITE) {
                     currColor = ChatColor.YELLOW;
                 } else {
@@ -183,6 +186,6 @@ public class ImportCommand extends MultiverseCommand {
                 }
             }
         }
-        return worldList;
+        return worldList.toString();
     }
 }
