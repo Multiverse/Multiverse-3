@@ -10,9 +10,10 @@ import org.jetbrains.annotations.NotNull;
  */
 class DefaultEventProcessor implements EventProcessor {
 
+    @NotNull
     private final CorePlugin plugin;
 
-    DefaultEventProcessor(final CorePlugin plugin) {
+    DefaultEventProcessor(@NotNull final CorePlugin plugin) {
         this.plugin = plugin;
     }
 

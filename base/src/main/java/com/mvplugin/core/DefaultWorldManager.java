@@ -7,35 +7,51 @@ import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Language;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
-abstract class AbstractWorldManager implements WorldManager {
+final class DefaultWorldManager implements WorldManager {
 
-    protected final CorePlugin core;
+    @NotNull
+    protected final CorePlugin plugin;
+    @NotNull
     protected final Map<String, MultiverseWorld> worldsMap;
+    @NotNull
+    private final WorldFactory worldFactory;
 
-    protected AbstractWorldManager(final CorePlugin core) {
-        this.core = core;
+    DefaultWorldManager(@NotNull final CorePlugin plugin, @NotNull final WorldFactory worldFactory) {
+        this.plugin = plugin;
         this.worldsMap = new HashMap<String, MultiverseWorld>();
+        this.worldFactory = worldFactory;
     }
 
+    // Gotta be a better way...
+    public void initialize() {
+        worldFactory.initializeWorlds();
+    }
+
+    @NotNull
     @Override
-    public MultiverseWorld addWorld(String name, WorldEnvironment env, String seedString, WorldType type, Boolean generateStructures, String generator) throws WorldCreationException {
+    public MultiverseWorld addWorld(@NotNull final String name,
+                                    @Nullable final WorldEnvironment env,
+                                    @Nullable final String seedString,
+                                    @Nullable final WorldType type,
+                                    @Nullable final Boolean generateStructures,
+                                    @Nullable final String generator) throws WorldCreationException {
         return this.addWorld(name, env, seedString, type, generateStructures, generator, true);
     }
 
+    @NotNull
     @Override
-    public MultiverseWorld addWorld(String name,
-                      WorldEnvironment env,
-                      String seedString,
-                      WorldType type,
-                      Boolean generateStructures,
-                      String generator,
-                      boolean useSpawnAdjust) throws WorldCreationException {
+    public MultiverseWorld addWorld(@NotNull final String name,
+                                    @Nullable final WorldEnvironment env,
+                                    @Nullable final String seedString,
+                                    @Nullable final WorldType type,
+                                    @Nullable final Boolean generateStructures,
+                                    @Nullable final String generator,
+                                    boolean useSpawnAdjust) throws WorldCreationException {
         final WorldCreationSettings settings = new WorldCreationSettings(name);
         if (seedString != null && !seedString.isEmpty()) {
             try {
@@ -58,55 +74,46 @@ abstract class AbstractWorldManager implements WorldManager {
         return addWorld(settings);
     }
 
+    @NotNull
     @Override
-    public MultiverseWorld addWorld(WorldCreationSettings settings) throws WorldCreationException {
+    public MultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
         if (this.worldsMap.containsKey(settings.name())) {
             throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
         }
-        MultiverseWorld mvWorld = createWorld(settings);
+        MultiverseWorld mvWorld = this.worldFactory.createWorld(settings);
         mvWorld.setAdjustSpawn(settings.adjustSpawn());
         this.worldsMap.put(settings.name(), mvWorld);
         return mvWorld;
     }
 
-    /**
-     * Creates a world with the given properties.
-     *
-     * If a Minecraft world is already loaded with this name, null will be returned.  If a Minecraft world already
-     * exists but it not loaded, it will be loaded instead.
-     *
-     * @param name The name for the world.  May not be null.
-     * @param env The environment for the world.  May not be null.
-     * @param seed The seed for the world.  Null means a random seed will be used if creating a new Minecraft world.
-     * @param type The world type for the world.  Null means the Minecraft default will be used if creating a new
-     *             Minecraft world or, if loading a world, the loaded world's type will be used.
-     * @param generateStructures Whether or not to generate structures for the world.  Null means the Minecraft default
-     *                           will be used if creating a new world or, if loading a world, the loaded world's
-     *                           setting will be used.
-     * @param generator The name of the generator for the world.  Null may be used to specify no generator.
-     * @return A new {@link W} or null if a Minecraft world by this name is already loaded.
-     * @throws WorldCreationException If any problems occured while trying to create the world.
-     */
-
-    /**
-     * Creates a world with the given properties.
-     *
-     * If a Minecraft world is already loaded with this name, null will be returned.  If a Minecraft world already
-     * exists but it not loaded, it will be loaded instead.
-     *
-     * @param settings
-     * @return
-     * @throws WorldCreationException
-     */
-    protected abstract MultiverseWorld createWorld(WorldCreationSettings settings) throws WorldCreationException;
-
     @Override
-    public boolean isMVWorld(final String name) {
-        return this.worldsMap.containsKey(name);
+    public boolean loadWorld(@NotNull final MultiverseWorld world) {
+        if (isManaged(world.getName())) {
+            return false;
+        }
+        this.worldsMap.put(world.getName(), world);
+        return true;
     }
 
     @Override
+    public boolean isManaged(@NotNull final String name) {
+        return this.worldsMap.containsKey(name);
+    }
+
+    // TODO: Probably remove this in favor of isManaged
+    @Override
+    public boolean isMVWorld(@NotNull final String name) {
+        return this.worldsMap.containsKey(name);
+    }
+
+    @NotNull
+    @Override
     public Collection<MultiverseWorld> getMVWorlds() {
         return Collections.unmodifiableCollection(this.worldsMap.values());
+    }
+
+    @Override
+    public List<String> getUnloadedWorlds() {
+        return this.worldFactory.getUnloadedWorlds();
     }
 }

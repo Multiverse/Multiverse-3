@@ -36,4 +36,7 @@ public interface MultiverseCore {
      */
     @NotNull
     EventProcessor getEventProcessor();
+
+    @NotNull
+    CorePlugin getPlugin();
 }

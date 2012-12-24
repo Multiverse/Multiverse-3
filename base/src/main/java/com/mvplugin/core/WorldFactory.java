@@ -4,9 +4,9 @@ import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.api.WorldProperties;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.List;
 
 interface WorldFactory {
 
@@ -45,7 +45,8 @@ interface WorldFactory {
      * @return
      * @throws WorldCreationException
      */
-    MultiverseWorld createWorld(WorldManager.WorldCreationSettings settings) throws WorldCreationException;
+    @NotNull
+    MultiverseWorld createWorld(@NotNull final WorldManager.WorldCreationSettings settings) throws WorldCreationException;
 
     /**
      * Gets an existing WorldProperties object or creates a new one based on the name.
@@ -57,5 +58,9 @@ interface WorldFactory {
      * @throws java.io.IOException In case there are any issues accessing the persistence for the world properties.
      */
     @NotNull
-    WorldProperties getWorldProperties(@Nullable final String worldName) throws IOException;
+    WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
+
+
+    // Leaving in for now
+    List<String> getUnloadedWorlds();
 }

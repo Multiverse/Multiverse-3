@@ -4,7 +4,7 @@ import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.api.CoreConfig;
 import com.mvplugin.core.api.CorePlugin;
-import com.mvplugin.core.api.EventProcessor;
+import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
@@ -22,9 +22,8 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
     private static final String COMMAND_PREFIX = "mv";
     private static final String PERMISSION_PREFIX = "multiverse";
 
-    private BukkitWorldManager worldManager;
-
-    private final EventProcessor eventProcessor = new DefaultEventProcessor(this);
+    @NotNull
+    private MultiverseCore core;
 
     @NotNull
     @Override
@@ -39,12 +38,17 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
 
     @Override
     public void onPluginEnable() {
-        worldManager = new BukkitWorldManager(this);
+        prepareCore();
     }
 
     @Override
     protected void onReloadConfig() {
-        worldManager = new BukkitWorldManager(this);
+        prepareCore();
+    }
+
+    private void prepareCore() {
+        this.core = new DefaultMultiverseCore(this, new BukkitWorldFactory(this));
+        ((DefaultMultiverseCore) this.core).initialize();
     }
 
     @Override
@@ -64,14 +68,10 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
         return new YamlCoreConfig(this);
     }
 
+    @NotNull
     @Override
     public CoreConfig config() {
         return (CoreConfig) super.config();
-    }
-
-    @Override
-    public CoreConfig getMVConfig() {
-        return config();
     }
 
     @Override
@@ -79,26 +79,14 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
         return false;
     }
 
+    @NotNull
     @Override
-    public BukkitWorldManager getWorldManager() {
-        return this.worldManager;
+    public MultiverseCore getMultiverseCore() {
+        return this.core;
     }
-
-    @Override
-    public CorePlugin getCore() {
-        return this;
-    }
-
-    @Override
-    public void setCore(@NotNull final CorePlugin core) { }
 
     @Override
     public int getProtocolVersion() {
         return PROTOCOL;
-    }
-
-    @Override
-    public EventProcessor getEventProcessor() {
-        return eventProcessor;
     }
 }

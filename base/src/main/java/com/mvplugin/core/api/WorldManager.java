@@ -10,7 +10,6 @@ import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -109,18 +108,6 @@ public interface WorldManager {
             return this;
         }
     }
-
-    /**
-     * Gets an existing WorldProperties object or creates a new one based on the name.
-     *
-     * TODO explain that they should use getWorld() in general.
-     *
-     * @param worldName The name of the world to get properties for.
-     * @return The world properties for the given world name.
-     * @throws IOException In case there are any issues accessing the persistence for the world properties.
-     */
-    @NotNull
-    WorldProperties getWorldProperties(@Nullable final String worldName) throws IOException;
 
     /**
      * Add a new World to the Multiverse Setup.
@@ -227,17 +214,27 @@ public interface WorldManager {
     //TODO boolean unloadWorld(String name);
 
     /**
-     * Loads the world. Only use this if the world has been
-     * unloaded with {@link #unloadWorld(String)}.
+     * Loads the world for management with Multiverse.
      *
-     * @param name The name of the world to load
-     * @return True if success, false if failure.
+     * Does nothing for a world already managed by Multiverse.
+     *
+     * @param world The world to start tracking.
+     * @return True if success, false if already tracked.
      */
-    //TODO boolean loadWorld(String name);
+    boolean loadWorld(@NotNull final MultiverseWorld world);
+
+    /**
+     * Checks if Multiverse is managing the given world by name.
+     *
+     * @param name The name of the world to check for.
+     * @return True if Multiverse is managing this world.
+     */
+    boolean isManaged(@NotNull final String name);
 
     /**
      * Removes all players from the specified world.
      *
+     * @param name World to remove players from.
      * @param name World to remove players from.
      */
     //TODO void removePlayersFromWorld(String name);
@@ -304,14 +301,6 @@ public interface WorldManager {
     //TODO MultiverseWorld getSpawnWorld();
 
     /**
-     * Gets the list of worlds in the config, but unloaded.
-     *
-     * @return A List of worlds as strings.
-     */
-    @NotNull
-    List<String> getUnloadedWorlds();
-
-    /**
      * Saves the world config to disk.
      *
      * @return True if success, false if fail.
@@ -351,6 +340,8 @@ public interface WorldManager {
      * @return True if success, false if fail.
      */
     //TODO boolean regenWorld(String name, boolean useNewSeed, boolean randomSeed, String seed);
+
+    List<String> getUnloadedWorlds();
 
     class RespawnWorldValidator implements PropertyValidator<String> {
 

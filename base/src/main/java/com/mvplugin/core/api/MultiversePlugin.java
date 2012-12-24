@@ -13,14 +13,8 @@ public interface MultiversePlugin extends PluginBase {
      *
      * @return A valid {@link CorePlugin}.
      */
-    CorePlugin getCore();
-
-    /**
-     * Sets the reference to MultiverseCore.
-     *
-     * @param core A valid {@link CorePlugin}.
-     */
-    void setCore(@NotNull final CorePlugin core);
+    @NotNull
+    MultiverseCore getMultiverseCore();
 
     /**
      * Allows Multiverse or a plugin to query another Multiverse plugin to see what version its protocol is.

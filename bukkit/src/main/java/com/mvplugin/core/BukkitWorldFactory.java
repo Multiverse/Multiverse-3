@@ -3,6 +3,8 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
 import com.mvplugin.core.api.BukkitMultiverseWorld;
+import com.mvplugin.core.api.CorePlugin;
+import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.util.BukkitLanguage;
 import com.mvplugin.core.util.Convert;
@@ -12,34 +14,37 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
-public class BukkitWorldManager extends AbstractWorldManager {
+public class BukkitWorldFactory implements WorldFactory {
 
-    private final MultiverseCorePlugin plugin;
+    @NotNull
+    private final CorePlugin plugin;
+    @NotNull
     private final File worldsFolder;
 
+    @NotNull
     private final Map<String, WorldProperties> worldPropertiesMap;
+    @NotNull
     private final Map<String, String> defaultGens;
 
-    public BukkitWorldManager(MultiverseCorePlugin plugin) {
-        super(plugin);
+    public BukkitWorldFactory(@NotNull final CorePlugin plugin) {
         this.plugin = plugin;
         this.worldsFolder = new File(plugin.getDataFolder(), "worlds");
         this.worldPropertiesMap = new HashMap<String, WorldProperties>();
         this.defaultGens = new HashMap<String, String>();
         initializeDefaultWorldGenerators();
-        initializeWorlds();
+    }
+
+    @NotNull
+    private WorldManager getWorldManager() {
+        return this.plugin.getMultiverseCore().getWorldManager();
     }
 
     private void initializeDefaultWorldGenerators() {
@@ -62,11 +67,11 @@ public class BukkitWorldManager extends AbstractWorldManager {
         }
     }
 
-    private void initializeWorlds() {
+    public void initializeWorlds() {
         StringBuilder builder = new StringBuilder();
-        for (final World w : this.plugin.getServer().getWorlds()) {
+        for (final World w : Bukkit.getWorlds()) {
             try {
-                worldsMap.put(w.getName(), getBukkitWorld(w));
+                getWorldManager().loadWorld(getBukkitWorld(w));
                 if (builder.length() != 0) {
                     builder.append(", ");
                 }
@@ -78,13 +83,13 @@ public class BukkitWorldManager extends AbstractWorldManager {
 
         for (File file : getPotentialWorldFiles()) {
             final String worldName = getWorldNameFromFile(file);
-            if (worldsMap.containsKey(worldName)) {
+            if (getWorldManager().isManaged(worldName)) {
                 continue;
             }
             try {
-                WorldProperties worldProperties = getWorldProperties(file);
+                final WorldProperties worldProperties = getWorldProperties(file);
                 if (worldProperties.get(WorldProperties.AUTO_LOAD)) {
-                    addWorld(worldName, worldProperties.get(WorldProperties.ENVIRONMENT), null, null,
+                    getWorldManager().addWorld(worldName, worldProperties.get(WorldProperties.ENVIRONMENT), null, null,
                             null, worldProperties.get(WorldProperties.GENERATOR),
                             worldProperties.get(WorldProperties.ADJUST_SPAWN));
                     if (builder.length() != 0) {
@@ -105,7 +110,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
         Logging.config("Multiverse is now managing: %s", builder.toString());
     }
 
-    private String getWorldNameFromFile(final File file) {
+    private String getWorldNameFromFile(@NotNull final File file) {
         final String simpleName = file.getName();
         if (simpleName.endsWith(".yml")) {
             return simpleName.substring(0, simpleName.indexOf(".yml"));
@@ -122,14 +127,15 @@ public class BukkitWorldManager extends AbstractWorldManager {
         });
     }
 
-    private WorldProperties getWorldProperties(final File file) throws IOException {
+    private WorldProperties getWorldProperties(@NotNull final File file) throws IOException {
         final YamlWorldProperties worldProperties = new YamlWorldProperties(file);
-        worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(this));
+        worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new WorldManager.RespawnWorldValidator(getWorldManager()));
         return worldProperties;
     }
 
+    @NotNull
     @Override
-    public WorldProperties getWorldProperties(String worldName) throws IOException {
+    public WorldProperties getWorldProperties(@NotNull String worldName) throws IOException {
         final World world = Bukkit.getWorld(worldName);
         if (world != null) {
             worldName = world.getName();
@@ -146,8 +152,9 @@ public class BukkitWorldManager extends AbstractWorldManager {
     /**
      * {@inheritDoc}
      */
+    @NotNull
     @Override
-    public BukkitMultiverseWorld createWorld(final WorldCreationSettings settings) throws WorldCreationException {
+    public BukkitMultiverseWorld createWorld(@NotNull final WorldManager.WorldCreationSettings settings) throws WorldCreationException {
         if (Bukkit.getWorld(settings.name()) != null) {
             return null;
         }
@@ -187,13 +194,13 @@ public class BukkitWorldManager extends AbstractWorldManager {
         }
     }
 
-    private BukkitWorld getBukkitWorld(final World world) throws IOException {
+    @NotNull
+    private BukkitWorld getBukkitWorld(@NotNull final World world) throws IOException {
         return new BukkitWorld(world, getWorldProperties(world.getName()));
     }
 
-    @Override
+    @NotNull
     public List<String> getUnloadedWorlds() {
-        // TODO: This needs to be changed to support world files being added/removed from the folder.
         return Collections.unmodifiableList(new ArrayList<String>(worldPropertiesMap.keySet()));
     }
 }
