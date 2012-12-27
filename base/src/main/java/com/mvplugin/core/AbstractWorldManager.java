@@ -13,22 +13,18 @@ import org.jetbrains.annotations.Nullable;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-class DefaultWorldManager implements WorldManager {
+abstract class AbstractWorldManager implements WorldManager {
 
     @NotNull
     protected final MultiverseCore plugin;
     @NotNull
     protected final Map<String, MultiverseWorld> worldsMap;
-    @NotNull
-    private final WorldFactory worldFactory;
 
-    DefaultWorldManager(@NotNull final MultiverseCore plugin, @NotNull final WorldFactory worldFactory) {
+    AbstractWorldManager(@NotNull final MultiverseCore plugin) {
         this.plugin = plugin;
         this.worldsMap = new HashMap<String, MultiverseWorld>();
-        this.worldFactory = worldFactory;
     }
 
     @NotNull
@@ -79,7 +75,7 @@ class DefaultWorldManager implements WorldManager {
         if (this.worldsMap.containsKey(settings.name())) {
             throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
         }
-        MultiverseWorld mvWorld = this.worldFactory.createWorld(settings);
+        MultiverseWorld mvWorld = createWorld(settings);
         mvWorld.setAdjustSpawn(settings.adjustSpawn());
         this.worldsMap.put(settings.name(), mvWorld);
         return mvWorld;
@@ -111,8 +107,17 @@ class DefaultWorldManager implements WorldManager {
         return Collections.unmodifiableCollection(this.worldsMap.values());
     }
 
-    @Override
-    public List<String> getUnloadedWorlds() {
-        return this.worldFactory.getUnloadedWorlds();
-    }
+
+    /**
+     * Creates a world with the given properties.
+     *
+     * If a Minecraft world is already loaded with this name, null will be returned.  If a Minecraft world already
+     * exists but it not loaded, it will be loaded instead.
+     *
+     * @param settings
+     * @return
+     * @throws WorldCreationException
+     */
+    @NotNull
+    protected abstract MultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;
 }

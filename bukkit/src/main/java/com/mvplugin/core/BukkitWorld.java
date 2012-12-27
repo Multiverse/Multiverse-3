@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
 import com.mvplugin.core.api.BukkitMultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.api.WorldProperties.Spawning.Animals;
@@ -9,7 +10,6 @@ import com.mvplugin.core.util.Convert;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.util.UUID;
 
@@ -30,7 +30,7 @@ class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWor
     }
 
     @Override
-    protected void update(@Nullable Object obj) {
+    protected void update(@NotNull final ValueProperty obj) {
         if (obj == WorldProperties.DIFFICULTY) {
             getBukkitWorld().setDifficulty(Convert.toBukkit(getDifficulty()));
         } else if (obj == WorldProperties.ALLOW_WEATHER) {

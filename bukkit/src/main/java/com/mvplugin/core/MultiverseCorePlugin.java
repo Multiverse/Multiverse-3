@@ -5,7 +5,6 @@ import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.api.CoreConfig;
 import com.mvplugin.core.api.EventProcessor;
 import com.mvplugin.core.api.MultiverseCore;
-import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +24,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
 
     private final EventProcessor eventProcessor = new DefaultEventProcessor(this);
 
-    private WorldManager worldManager;
+    private BukkitWorldManager worldManager;
 
     @NotNull
     @Override
@@ -49,7 +48,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     }
 
     private void prepareWorldManager() {
-        this.worldManager = new BukkitWorldManager(this, new BukkitWorldFactory(this));
+        this.worldManager = new BukkitWorldManager(this);
     }
 
     @Override
@@ -64,11 +63,9 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     }
 
     @NotNull
+    @Override
     public BukkitWorldManager getWorldManager() {
-        if (!(this.worldManager instanceof BukkitWorldManager)) {
-            throw new IllegalStateException("World manager wasn't a bukkit world manager!");
-        }
-        return (BukkitWorldManager) this.worldManager;
+        return this.worldManager;
     }
 
     @NotNull

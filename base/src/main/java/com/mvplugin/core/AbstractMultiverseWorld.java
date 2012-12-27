@@ -1,5 +1,8 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.properties.Observer;
+import com.dumptruckman.minecraft.pluginbase.properties.Properties;
+import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
 import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.api.WorldProperties.Spawning;
@@ -12,8 +15,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
-import java.util.Observable;
-import java.util.Observer;
 
 abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
 
@@ -27,11 +28,13 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
     }
 
     @Override
-    public final void update(@NotNull Observable o, @Nullable Object arg) {
-        update(arg);
+    public final void update(@NotNull final Properties properties, @NotNull final ValueProperty property) {
+        if (properties == worldProperties) {
+            update(property);
+        }
     }
 
-    protected abstract void update(@Nullable Object property);
+    protected abstract void update(@NotNull ValueProperty property);
 
     @NotNull
     @Override
