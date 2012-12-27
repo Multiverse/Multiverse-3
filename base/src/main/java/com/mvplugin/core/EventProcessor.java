@@ -27,6 +27,6 @@ public class EventProcessor {
      * @param world The world being unloaded.
      */
     public void worldUnload(@NotNull final MultiverseWorld world) {
-        // TODO: unload the world from MV.
+        plugin.getWorldManager().unloadWorld(world);
     }
 }
