@@ -3,7 +3,6 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.api.CoreConfig;
-import com.mvplugin.core.api.EventProcessor;
 import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.util.PropertyDescriptions;
@@ -22,7 +21,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     private static final String COMMAND_PREFIX = "mv";
     private static final String PERMISSION_PREFIX = "multiverse";
 
-    private final EventProcessor eventProcessor = new DefaultEventProcessor(this);
+    private final EventProcessor eventProcessor = new EventProcessor(this);
 
     private BukkitWorldManager worldManager;
 

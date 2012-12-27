@@ -1,5 +1,7 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core;
 
+import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.api.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -7,7 +9,14 @@ import org.jetbrains.annotations.NotNull;
  *
  * The events Multiverse-Core cares about will be described by the methods in this interface.
  */
-public interface EventProcessor {
+public class EventProcessor {
+
+    @NotNull
+    private final MultiverseCore plugin;
+
+    EventProcessor(@NotNull final MultiverseCore plugin) {
+        this.plugin = plugin;
+    }
 
     /**
      * Call this when a world Multiverse manages WILL be unloaded by the server implementation.
@@ -17,5 +26,7 @@ public interface EventProcessor {
      *
      * @param world The world being unloaded.
      */
-    void worldUnload(@NotNull final MultiverseWorld world);
+    public void worldUnload(@NotNull final MultiverseWorld world) {
+        // TODO: unload the world from MV.
+    }
 }

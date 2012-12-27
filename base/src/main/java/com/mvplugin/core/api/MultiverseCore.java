@@ -1,6 +1,7 @@
 package com.mvplugin.core.api;
 
 import com.dumptruckman.minecraft.pluginbase.plugin.PluginBase;
+import com.mvplugin.core.EventProcessor;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -36,6 +37,8 @@ public interface MultiverseCore extends MultiversePlugin, PluginBase {
      * Gets the event processor for Multiverse-Core.
      *
      * All server implementation events that Multiverse-Core cares about are passed to this processor.
+     *
+     * This is mostly used internally by Multiverse only.
      *
      * @return the Multiverse-Core event processor.
      */
