@@ -302,14 +302,6 @@ public interface WorldManager {
     //TODO W getMVWorld(String name);
 
     /**
-     * Checks to see if the given name is a valid {@link MultiverseWorld}.
-     *
-     * @param name The name or alias of the world to check.
-     * @return True if the world exists, false if not.
-     */
-    boolean isMVWorld(@NotNull final String name);
-
-    /**
      * Load the Worlds & Settings from the configuration file.
      *
      * @param forceLoad If set to true, this will perform a total
@@ -387,7 +379,7 @@ public interface WorldManager {
 
         @Override
         public boolean isValid(@Nullable final String s) {
-            return s != null && worldManager.isMVWorld(s);
+            return s != null && worldManager.isManaged(s);
         }
 
         @NotNull

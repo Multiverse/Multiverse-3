@@ -17,11 +17,11 @@ public class WorldListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void worldUnload(final WorldUnloadEvent event) {
-        if (!this.plugin.getWorldManager().isMVWorld(event.getWorld().getName())) {
+        if (!this.plugin.getWorldManager().isManaged(event.getWorld().getName())) {
             return;
         }
 
         MultiverseWorld world = this.plugin.getWorldManager().getWorld(event.getWorld());
-        this.plugin.getMultiverseCore().getEventProcessor().worldUnload(world);
+        this.plugin.getEventProcessor().worldUnload(world);
     }
 }

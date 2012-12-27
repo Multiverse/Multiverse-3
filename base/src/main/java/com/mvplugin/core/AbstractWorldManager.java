@@ -95,12 +95,6 @@ abstract class AbstractWorldManager implements WorldManager {
         return this.worldsMap.containsKey(name);
     }
 
-    // TODO: Probably remove this in favor of isManaged
-    @Override
-    public boolean isMVWorld(@NotNull final String name) {
-        return this.worldsMap.containsKey(name);
-    }
-
     @NotNull
     @Override
     public Collection<MultiverseWorld> getMVWorlds() {
