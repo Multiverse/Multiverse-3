@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
 import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.MultiverseWorld;
@@ -109,6 +110,38 @@ abstract class AbstractWorldManager implements WorldManager {
         return Collections.unmodifiableCollection(this.worldsMap.values());
     }
 
+    @Override
+    public boolean unloadWorld(@NotNull final String name) {
+        final MultiverseWorld world = getWorld(name);
+        if (world != null) {
+            return unloadWorld(world);
+        }
+        // TODO finish... needs to be implemented by bukkit side somehow
+        /*
+        else if (this.plugin.getServer().getWorld(name) != null) {
+            Logging.warning("Hmm Multiverse does not know about this world but it's loaded in memory.");
+            Logging.warning("To let Multiverse know about it, use:");
+            Logging.warning("/mv import %s %s", name, this.plugin.getServer().getWorld(name).getEnvironment().toString());
+        } else if (this.worldsFromTheConfig.containsKey(name)) {
+            return true; // it's already unloaded
+        } else {
+            Logging.info("Multiverse does not know about '%s' and it's not loaded by Bukkit.", name);
+        }
+        */
+        return false;
+    }
+
+    @Override
+    public boolean unloadWorld(@NotNull final MultiverseWorld world) {
+        if (unloadWorldFromServer(world)) {
+            this.worldsMap.remove(world.getName());
+            Logging.info("World '%s' was unloaded from memory.", world.getName());
+            return true;
+        } else {
+            Logging.warning("World '%s' could not be unloaded. Is it a default world?", world.getName());
+            return false;
+        }
+    }
 
     /**
      * Creates a world with the given properties.
@@ -138,4 +171,6 @@ abstract class AbstractWorldManager implements WorldManager {
      */
     @NotNull
     protected abstract WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
+
+    protected abstract boolean unloadWorldFromServer(@NotNull final MultiverseWorld world);
 }

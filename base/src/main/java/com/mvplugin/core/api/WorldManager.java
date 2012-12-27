@@ -255,20 +255,24 @@ public interface WorldManager {
     //TODO boolean deleteWorld(String name, boolean removeFromConfig, boolean deleteWorldFolder);
 
     /**
-     * Unload a world from Multiverse.
+     * Unload a world from Multiverse. TODO better docs
      *
      * @param name Name of the world to unload
      * @return True if the world was unloaded, false if not.
      */
-    //TODO boolean unloadWorld(String name);
+    boolean unloadWorld(@NotNull final String name);
+
+    //TODO docs
+    boolean unloadWorld(@NotNull final MultiverseWorld world);
 
     /**
-     * Removes all players from the specified world.
+     * Removes all players from the specified world. // TODO better docs
      *
      * @param name World to remove players from.
      * @param name World to remove players from.
      */
-    //TODO void removePlayersFromWorld(String name);
+    // TODO make this accept MultiverseWorld only?
+    void removePlayersFromWorld(@NotNull final String name);
 
     /**
      * Test if a given chunk generator is valid.

@@ -2,6 +2,7 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
@@ -12,6 +13,7 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
+import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -244,5 +246,26 @@ public class BukkitWorldManager extends AbstractWorldManager {
     @NotNull
     public List<String> getUnloadedWorlds() {
         return Collections.unmodifiableList(new ArrayList<String>(worldPropertiesMap.keySet()));
+    }
+
+    @Override
+    protected boolean unloadWorldFromServer(@NotNull final MultiverseWorld world) {
+        removePlayersFromWorld(world.getName());
+        return this.plugin.getServer().unloadWorld(world.getName(), true);
+    }
+
+    @Override
+    public void removePlayersFromWorld(@NotNull final String name) {
+        final World w = this.plugin.getServer().getWorld(name);
+        if (w != null) {
+            World safeWorld = this.plugin.getServer().getWorlds().get(0);
+            List<Player> ps = w.getPlayers();
+            // TODO SafeTTeleporter teleporter = this.plugin.getSafeTTeleporter();
+            for (final Player p : ps) {
+                p.teleport(safeWorld.getSpawnLocation());
+                // We're removing players forcefully from a world, they'd BETTER spawn safely.
+                // TODO teleporter.safelyTeleport(null, p, safeWorld.getSpawnLocation(), true);
+            }
+        }
     }
 }
