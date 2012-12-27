@@ -1,7 +1,6 @@
 package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
-import com.mvplugin.core.api.BukkitMultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.api.WorldProperties.Spawning.Animals;
 import com.mvplugin.core.minecraft.PlayerPosition;
@@ -13,7 +12,13 @@ import org.jetbrains.annotations.NotNull;
 
 import java.util.UUID;
 
-class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWorld {
+/**
+ * Bukkit implementation of MultiverseWorld which links to a {@link World}.
+ *
+ * This class may offer additional methods over the standard ones provided by
+ * {@link com.mvplugin.core.api.MultiverseWorld} that relate specifically to Bukkit.
+ */
+public class BukkitMultiverseWorld extends AbstractMultiverseWorld {
 
     @NotNull
     private final String name;
@@ -22,7 +27,7 @@ class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWor
     @NotNull
     private final WorldType worldType;
 
-    BukkitWorld(@NotNull final World world, @NotNull final WorldProperties worldProperties) {
+    BukkitMultiverseWorld(@NotNull final World world, @NotNull final WorldProperties worldProperties) {
         super(worldProperties);
         this.name = world.getName();
         this.worldUID = world.getUID();
@@ -71,16 +76,6 @@ class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWor
 
     @NotNull
     @Override
-    public World getBukkitWorld() {
-        final World world = Bukkit.getWorld(worldUID);
-        if (world == null) {
-            throw new IllegalStateException("Multiverse lost track of Bukkit world '" + this.name + "'");
-        }
-        return world;
-    }
-
-    @NotNull
-    @Override
     public String getTime() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
@@ -88,5 +83,20 @@ class BukkitWorld extends AbstractMultiverseWorld implements BukkitMultiverseWor
     @Override
     public boolean setTime(@NotNull final String timeAsString) {
         return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    /**
+     * Gets the Bukkit {@link World} associated with this MultiverseWorld.
+     *
+     * @return The Bukkit world associated with this Multiverse world.
+     * @throws IllegalStateException Thrown if the reference to the Bukkit world is lost for some reason.
+     */
+    @NotNull
+    public World getBukkitWorld() {
+        final World world = Bukkit.getWorld(worldUID);
+        if (world == null) {
+            throw new IllegalStateException("Multiverse lost track of Bukkit world '" + this.name + "'");
+        }
+        return world;
     }
 }

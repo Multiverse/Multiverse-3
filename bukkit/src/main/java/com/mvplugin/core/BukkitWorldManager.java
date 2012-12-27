@@ -2,7 +2,6 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
-import com.mvplugin.core.api.BukkitMultiverseWorld;
 import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.util.BukkitLanguage;
@@ -202,8 +201,8 @@ public class BukkitWorldManager extends AbstractWorldManager {
     }
 
     @NotNull
-    private BukkitWorld getBukkitWorld(@NotNull final World world) throws IOException {
-        return new BukkitWorld(world, getWorldProperties(world.getName()));
+    private BukkitMultiverseWorld getBukkitWorld(@NotNull final World world) throws IOException {
+        return new BukkitMultiverseWorld(world, getWorldProperties(world.getName()));
     }
 
     @NotNull
