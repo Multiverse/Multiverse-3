@@ -1,9 +1,8 @@
 package com.onarandombox.MultiverseCore.event;
 
+import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import org.bukkit.event.Cancellable;
 import org.bukkit.event.Event;
-
-import com.onarandombox.MultiverseCore.api.MultiverseWorld;
 import org.bukkit.event.HandlerList;
 
 /**

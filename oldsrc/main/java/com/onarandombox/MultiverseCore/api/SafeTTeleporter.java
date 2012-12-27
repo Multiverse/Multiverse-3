@@ -1,10 +1,9 @@
 package com.onarandombox.MultiverseCore.api;
 
+import com.onarandombox.MultiverseCore.enums.TeleportResult;
 import org.bukkit.Location;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Entity;
-
-import com.onarandombox.MultiverseCore.enums.TeleportResult;
 
 /**
  * Used to safely teleport people.

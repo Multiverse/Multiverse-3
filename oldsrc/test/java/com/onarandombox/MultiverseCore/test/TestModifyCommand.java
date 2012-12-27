@@ -1,8 +1,8 @@
 package com.onarandombox.MultiverseCore.test;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
+import com.onarandombox.MultiverseCore.MultiverseCore;
+import com.onarandombox.MultiverseCore.api.MultiverseWorld;
+import com.onarandombox.MultiverseCore.test.utils.TestInstanceCreator;
 import org.bukkit.Server;
 import org.bukkit.World.Environment;
 import org.bukkit.command.Command;
@@ -15,9 +15,8 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
-import com.onarandombox.MultiverseCore.api.MultiverseWorld;
-import com.onarandombox.MultiverseCore.test.utils.TestInstanceCreator;
+import static org.junit.Assert.*;
+import static org.mockito.Mockito.*;
 
 
 @RunWith(PowerMockRunner.class)

@@ -9,7 +9,6 @@ package com.onarandombox.MultiverseCore.api;
 
 import com.onarandombox.MultiverseCore.enums.AllowedPortalType;
 import com.onarandombox.MultiverseCore.exceptions.PropertyDoesNotExistException;
-
 import org.bukkit.ChatColor;
 import org.bukkit.Difficulty;
 import org.bukkit.GameMode;

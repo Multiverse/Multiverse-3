@@ -7,12 +7,11 @@
 
 package com.onarandombox.MultiverseCore.listeners;
 
-import java.util.logging.Level;
-
+import com.onarandombox.MultiverseCore.MultiverseCore;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
+import java.util.logging.Level;
 
 /**
  * Multiverse's {@link org.bukkit.event.Listener} for players.

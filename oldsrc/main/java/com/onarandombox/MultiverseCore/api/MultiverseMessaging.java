@@ -1,8 +1,8 @@
 package com.onarandombox.MultiverseCore.api;
 
-import java.util.Collection;
-
 import org.bukkit.command.CommandSender;
+
+import java.util.Collection;
 
 /**
  * Multiverse-messaging.

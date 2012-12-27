@@ -3,7 +3,11 @@ package com.mvplugin.core;
 import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.api.WorldProperties.Spawning;
-import com.mvplugin.core.minecraft.*;
+import com.mvplugin.core.minecraft.Difficulty;
+import com.mvplugin.core.minecraft.GameMode;
+import com.mvplugin.core.minecraft.PlayerPosition;
+import com.mvplugin.core.minecraft.PortalType;
+import com.mvplugin.core.minecraft.WorldEnvironment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

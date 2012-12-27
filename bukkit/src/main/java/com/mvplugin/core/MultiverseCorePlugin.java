@@ -23,7 +23,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
     private static final String PERMISSION_PREFIX = "multiverse";
 
     @NotNull
-    private MultiverseCore core;
+    private DefaultMultiverseCore core;
 
     @NotNull
     @Override
@@ -48,7 +48,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
 
     private void prepareCore() {
         this.core = new DefaultMultiverseCore(this, new BukkitWorldFactory(this));
-        ((DefaultMultiverseCore) this.core).initialize();
+        this.core.initialize();
     }
 
     @Override

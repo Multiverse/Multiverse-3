@@ -1,12 +1,10 @@
 package com.onarandombox.MultiverseCore.configuration;
 
-import org.bukkit.Bukkit;
-
 import com.onarandombox.MultiverseCore.MVWorld;
 import com.onarandombox.MultiverseCore.event.MVWorldPropertyChangeEvent;
-
 import me.main__.util.SerializationConfig.ChangeDeniedException;
 import me.main__.util.SerializationConfig.ObjectUsingValidator;
+import org.bukkit.Bukkit;
 
 /**
  * Validates world-property-changes.

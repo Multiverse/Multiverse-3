@@ -7,7 +7,12 @@
 
 package com.mvplugin.core.api;
 
-import com.mvplugin.core.minecraft.*;
+import com.mvplugin.core.minecraft.Difficulty;
+import com.mvplugin.core.minecraft.GameMode;
+import com.mvplugin.core.minecraft.PlayerPosition;
+import com.mvplugin.core.minecraft.PortalType;
+import com.mvplugin.core.minecraft.WorldEnvironment;
+import com.mvplugin.core.minecraft.WorldType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

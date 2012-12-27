@@ -7,10 +7,9 @@
 
 package com.onarandombox.MultiverseCore.utils;
 
+import com.onarandombox.MultiverseCore.api.MultiverseMessaging;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
-
-import com.onarandombox.MultiverseCore.api.MultiverseMessaging;
 
 import java.util.Collection;
 import java.util.HashMap;

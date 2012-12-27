@@ -9,7 +9,6 @@ package com.onarandombox.MultiverseCore.api;
 
 import com.onarandombox.MultiverseCore.utils.PurgeWorlds;
 import com.onarandombox.MultiverseCore.utils.SimpleWorldPurger;
-
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldType;

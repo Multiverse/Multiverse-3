@@ -10,7 +10,11 @@ import com.mvplugin.core.util.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 final class DefaultWorldManager implements WorldManager {
 

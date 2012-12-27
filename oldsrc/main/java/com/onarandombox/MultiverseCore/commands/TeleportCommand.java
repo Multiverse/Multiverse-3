@@ -9,12 +9,12 @@ package com.onarandombox.MultiverseCore.commands;
 
 import com.onarandombox.MultiverseCore.MultiverseCore;
 import com.onarandombox.MultiverseCore.api.MVDestination;
+import com.onarandombox.MultiverseCore.api.SafeTTeleporter;
 import com.onarandombox.MultiverseCore.destination.DestinationFactory;
 import com.onarandombox.MultiverseCore.destination.InvalidDestination;
 import com.onarandombox.MultiverseCore.destination.WorldDestination;
 import com.onarandombox.MultiverseCore.enums.TeleportResult;
 import com.onarandombox.MultiverseCore.event.MVTeleportEvent;
-import com.onarandombox.MultiverseCore.api.SafeTTeleporter;
 import org.bukkit.ChatColor;
 import org.bukkit.Location;
 import org.bukkit.World;

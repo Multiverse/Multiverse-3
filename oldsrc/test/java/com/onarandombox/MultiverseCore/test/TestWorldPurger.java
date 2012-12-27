@@ -1,10 +1,9 @@
 package com.onarandombox.MultiverseCore.test;
 
-import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
-
-import java.util.Arrays;
-
+import com.onarandombox.MultiverseCore.MultiverseCore;
+import com.onarandombox.MultiverseCore.api.MultiverseWorld;
+import com.onarandombox.MultiverseCore.api.WorldPurger;
+import com.onarandombox.MultiverseCore.test.utils.TestInstanceCreator;
 import org.bukkit.World;
 import org.bukkit.entity.Entity;
 import org.bukkit.entity.EntityType;
@@ -18,10 +17,10 @@ import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
 
-import com.onarandombox.MultiverseCore.MultiverseCore;
-import com.onarandombox.MultiverseCore.api.MultiverseWorld;
-import com.onarandombox.MultiverseCore.api.WorldPurger;
-import com.onarandombox.MultiverseCore.test.utils.TestInstanceCreator;
+import java.util.Arrays;
+
+import static org.junit.Assert.assertTrue;
+import static org.mockito.Mockito.*;
 
 @RunWith(PowerMockRunner.class)
 @PrepareForTest({ MultiverseCore.class, PluginDescriptionFile.class })
