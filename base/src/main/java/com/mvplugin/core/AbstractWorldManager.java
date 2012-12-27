@@ -4,12 +4,14 @@ import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
 import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldManager;
+import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Language;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -82,15 +84,6 @@ abstract class AbstractWorldManager implements WorldManager {
     }
 
     @Override
-    public boolean loadWorld(@NotNull final MultiverseWorld world) {
-        if (isManaged(world.getName())) {
-            return false;
-        }
-        this.worldsMap.put(world.getName(), world);
-        return true;
-    }
-
-    @Override
     public boolean isManaged(@NotNull final String name) {
         return this.worldsMap.containsKey(name);
     }
@@ -129,4 +122,14 @@ abstract class AbstractWorldManager implements WorldManager {
      */
     @NotNull
     protected abstract MultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;
+
+    /**
+     * Gets an existing WorldProperties object or creates a new one based on the name.
+     *
+     * @param worldName The name of the world to get properties for.
+     * @return The world properties for the given world name.
+     * @throws java.io.IOException In case there are any issues accessing the persistence for the world properties.
+     */
+    @NotNull
+    protected abstract WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
 }

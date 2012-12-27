@@ -77,7 +77,8 @@ public class BukkitWorldManager extends AbstractWorldManager {
         StringBuilder builder = new StringBuilder();
         for (final World w : Bukkit.getWorlds()) {
             try {
-                loadWorld(getBukkitWorld(w));
+                final BukkitMultiverseWorld world = getBukkitWorld(w);
+                this.worldsMap.put(world.getName(), world);
                 if (builder.length() != 0) {
                     builder.append(", ");
                 }

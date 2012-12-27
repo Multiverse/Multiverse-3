@@ -184,30 +184,6 @@ public interface WorldManager {
      * @throws WorldCreationException If any problems occured while trying to create the world.
      */
 
-
-
-    /**
-     * Gets an existing WorldProperties object or creates a new one based on the name.
-     *
-     * TODO explain that they should use getWorld() in general.
-     *
-     * @param worldName The name of the world to get properties for.
-     * @return The world properties for the given world name.
-     * @throws java.io.IOException In case there are any issues accessing the persistence for the world properties.
-     */
-    @NotNull
-    WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
-
-    /**
-     * Loads the world for management with Multiverse.
-     *
-     * Does nothing for a world already managed by Multiverse.
-     *
-     * @param world The world to start tracking.
-     * @return True if success, false if already tracked.
-     */
-    boolean loadWorld(@NotNull final MultiverseWorld world);
-
     /**
      * Checks if Multiverse is managing the given world by name.
      *
