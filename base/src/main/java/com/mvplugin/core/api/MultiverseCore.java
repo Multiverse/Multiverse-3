@@ -1,5 +1,6 @@
 package com.mvplugin.core.api;
 
+import com.dumptruckman.minecraft.pluginbase.plugin.PluginBase;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -7,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
  * <p>
  * This API contains a bunch of useful things you can get out of Multiverse in general!
  */
-public interface MultiverseCore {
+public interface MultiverseCore extends MultiversePlugin, PluginBase {
 
     /**
      * Gets the Multiverse world manager.
@@ -27,6 +28,10 @@ public interface MultiverseCore {
     @NotNull
     public CoreConfig getMVConfig();
 
+    @NotNull
+    // Overload type
+    CoreConfig config();
+
     /**
      * Gets the event processor for Multiverse-Core.
      *
@@ -36,7 +41,4 @@ public interface MultiverseCore {
      */
     @NotNull
     EventProcessor getEventProcessor();
-
-    @NotNull
-    CorePlugin getPlugin();
 }

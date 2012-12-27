@@ -11,7 +11,7 @@ public interface MultiversePlugin extends PluginBase {
     /**
      * Gets the reference to MultiverseCore.
      *
-     * @return A valid {@link CorePlugin}.
+     * @return A valid {@link MultiverseCore}.
      */
     @NotNull
     MultiverseCore getMultiverseCore();

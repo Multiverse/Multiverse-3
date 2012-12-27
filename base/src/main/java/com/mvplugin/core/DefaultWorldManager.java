@@ -1,7 +1,7 @@
 package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
-import com.mvplugin.core.api.CorePlugin;
+import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -19,21 +19,16 @@ import java.util.Map;
 class DefaultWorldManager implements WorldManager {
 
     @NotNull
-    protected final CorePlugin plugin;
+    protected final MultiverseCore plugin;
     @NotNull
     protected final Map<String, MultiverseWorld> worldsMap;
     @NotNull
     private final WorldFactory worldFactory;
 
-    DefaultWorldManager(@NotNull final CorePlugin plugin, @NotNull final WorldFactory worldFactory) {
+    DefaultWorldManager(@NotNull final MultiverseCore plugin, @NotNull final WorldFactory worldFactory) {
         this.plugin = plugin;
         this.worldsMap = new HashMap<String, MultiverseWorld>();
         this.worldFactory = worldFactory;
-    }
-
-    // Gotta be a better way...
-    public void initialize() {
-        worldFactory.initializeWorlds();
     }
 
     @NotNull

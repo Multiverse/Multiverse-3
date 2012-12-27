@@ -3,7 +3,7 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
 import com.mvplugin.core.api.BukkitMultiverseWorld;
-import com.mvplugin.core.api.CorePlugin;
+import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.util.BukkitLanguage;
@@ -30,7 +30,7 @@ import java.util.logging.Level;
 class BukkitWorldFactory implements WorldFactory {
 
     @NotNull
-    private final CorePlugin plugin;
+    private final MultiverseCore plugin;
     @NotNull
     private final File worldsFolder;
 
@@ -39,7 +39,7 @@ class BukkitWorldFactory implements WorldFactory {
     @NotNull
     private final Map<String, String> defaultGens;
 
-    public BukkitWorldFactory(@NotNull final CorePlugin plugin) {
+    public BukkitWorldFactory(@NotNull final MultiverseCore plugin) {
         this.plugin = plugin;
         this.worldsFolder = new File(plugin.getDataFolder(), "worlds");
         this.worldPropertiesMap = new HashMap<String, WorldProperties>();
@@ -49,7 +49,7 @@ class BukkitWorldFactory implements WorldFactory {
 
     @NotNull
     private WorldManager getWorldManager() {
-        return this.plugin.getMultiverseCore().getWorldManager();
+        return this.plugin.getWorldManager();
     }
 
     private void initializeDefaultWorldGenerators() {

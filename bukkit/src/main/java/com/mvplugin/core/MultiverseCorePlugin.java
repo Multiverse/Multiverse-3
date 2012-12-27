@@ -3,8 +3,9 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.api.CoreConfig;
-import com.mvplugin.core.api.CorePlugin;
+import com.mvplugin.core.api.EventProcessor;
 import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
@@ -14,16 +15,17 @@ import java.io.IOException;
 /**
  * The primary Bukkit plugin implementation of Multiverse-Core.
  *
- * See {@link com.mvplugin.core.api.CorePlugin} for a more detailed external api javadocs.
+ * See {@link com.mvplugin.core.api.MultiverseCore} for a more detailed external api javadocs.
  */
-public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePlugin {
+public class MultiverseCorePlugin extends AbstractBukkitPlugin implements MultiverseCore {
 
     private static final int PROTOCOL = 19;
     private static final String COMMAND_PREFIX = "mv";
     private static final String PERMISSION_PREFIX = "multiverse";
 
-    @NotNull
-    private DefaultMultiverseCore core;
+    private final EventProcessor eventProcessor = new DefaultEventProcessor(this);
+
+    private WorldManager worldManager;
 
     @NotNull
     @Override
@@ -38,17 +40,16 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
 
     @Override
     public void onPluginEnable() {
-        prepareCore();
+        prepareWorldManager();
     }
 
     @Override
     protected void onReloadConfig() {
-        prepareCore();
+        prepareWorldManager();
     }
 
-    private void prepareCore() {
-        this.core = new DefaultMultiverseCore(this, new BukkitWorldManager(this, new BukkitWorldFactory(this)));
-        this.core.initialize();
+    private void prepareWorldManager() {
+        this.worldManager = new BukkitWorldManager(this, new BukkitWorldFactory(this));
     }
 
     @Override
@@ -64,10 +65,10 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
 
     @NotNull
     public BukkitWorldManager getWorldManager() {
-        if (!(this.core.getWorldManager() instanceof BukkitWorldManager)) {
+        if (!(this.worldManager instanceof BukkitWorldManager)) {
             throw new IllegalStateException("World manager wasn't a bukkit world manager!");
         }
-        return (BukkitWorldManager) this.core.getWorldManager();
+        return (BukkitWorldManager) this.worldManager;
     }
 
     @NotNull
@@ -90,11 +91,23 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
     @NotNull
     @Override
     public MultiverseCore getMultiverseCore() {
-        return this.core;
+        return this;
     }
 
     @Override
     public int getProtocolVersion() {
         return PROTOCOL;
+    }
+
+    @Override
+    @NotNull
+    public CoreConfig getMVConfig() {
+        return config();
+    }
+
+    @Override
+    @NotNull
+    public EventProcessor getEventProcessor() {
+        return this.eventProcessor;
     }
 }

@@ -6,7 +6,7 @@ import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.dumptruckman.minecraft.pluginbase.plugin.command.CommandInfo;
 import com.mvplugin.core.WorldCreationException;
-import com.mvplugin.core.api.CorePlugin;
+import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.Perms;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -83,7 +83,7 @@ public class ImportCommand extends MultiverseCommand {
     }
 
     @Override
-    public boolean runCommand(CorePlugin core, BasePlayer sender, CommandContext context) {
+    public boolean runCommand(MultiverseCore core, BasePlayer sender, CommandContext context) {
         final String worldName = context.getString(0);
 
         if (worldName.toLowerCase().equals("--list") || worldName.toLowerCase().equals("-l")) {
@@ -163,7 +163,7 @@ public class ImportCommand extends MultiverseCommand {
         return false;
     }
 
-    private String getPotentialWorlds(final CorePlugin core) {
+    private String getPotentialWorlds(final MultiverseCore core) {
         final File worldFolder = core.getServerInterface().getWorldContainer();
         if (worldFolder == null) {
             return "";
