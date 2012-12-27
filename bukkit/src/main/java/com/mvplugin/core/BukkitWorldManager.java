@@ -2,8 +2,9 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
-import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
+import com.mvplugin.core.minecraft.WorldEnvironment;
+import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.BukkitLanguage;
 import com.mvplugin.core.util.Convert;
 import org.bukkit.Bukkit;
@@ -13,6 +14,7 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -48,9 +50,39 @@ public class BukkitWorldManager extends AbstractWorldManager {
         initializeWorlds();
     }
 
-    // TODO: this isn't right...
-    public MultiverseWorld getWorld(World world) {
-        return super.getWorld(world.getName());
+    @NotNull
+    @Override
+    public BukkitMultiverseWorld addWorld(@NotNull final String name, @Nullable final WorldEnvironment env, @Nullable final String seedString, @Nullable final WorldType type, @Nullable final Boolean generateStructures, @Nullable final String generator) throws WorldCreationException {
+        return (BukkitMultiverseWorld) super.addWorld(name, env, seedString, type, generateStructures, generator);
+    }
+
+    @NotNull
+    @Override
+    public BukkitMultiverseWorld addWorld(@NotNull final String name, @Nullable final WorldEnvironment env, @Nullable final String seedString, @Nullable final WorldType type, @Nullable final Boolean generateStructures, @Nullable final String generator, final boolean useSpawnAdjust) throws WorldCreationException {
+        return (BukkitMultiverseWorld) super.addWorld(name, env, seedString, type, generateStructures, generator, useSpawnAdjust);
+    }
+
+    @NotNull
+    @Override
+    public BukkitMultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
+        return (BukkitMultiverseWorld) super.addWorld(settings);
+    }
+
+    @Override
+    @Nullable
+    public BukkitMultiverseWorld getWorld(@NotNull final String name) {
+        return (BukkitMultiverseWorld) super.getWorld(name);
+    }
+
+    /**
+     * Convenience method for retrieving a Multiverse world from a given Bukkit world.
+     *
+     * @param world The Bukkit world to get the Multiverse world for.
+     * @return The Multiverse world associated with the given Bukkit world or null if no match is found.
+     */
+    @Nullable
+    public BukkitMultiverseWorld getWorld(@NotNull final World world) {
+        return getWorld(world.getName());
     }
 
     private void initializeDefaultWorldGenerators() {
