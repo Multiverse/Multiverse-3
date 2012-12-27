@@ -217,6 +217,19 @@ public interface WorldManager {
     boolean isManaged(@NotNull final String name);
 
     /**
+     * Gets the managed world by the given name (or alias).
+     *
+     * Worlds managed by Multiverse that are not loaded will not be returned with this method.
+     * //TODO explain how to load said worlds.
+     *
+     * @param name The name or alias of the world to get.
+     * @return The world Multiverse is managing or null if Multiverse does not manage a world by the given name
+     * or alias.
+     */
+    @Nullable
+    MultiverseWorld getWorld(@NotNull final String name);
+
+    /**
      * Returns a collection of all the loaded worlds managed by Multiverse.
      *
      * @return A collection of all the loaded worlds managed by Multiverse.
@@ -290,16 +303,6 @@ public interface WorldManager {
      * @return A {@link Generator} or null
      */
     //TODO Generator getChunkGenerator(String generator, String generatorID, String worldName);
-
-
-    /**
-     * Returns a {@link MultiverseWorld} if it exists, and null if it does not.
-     * This will search name AND alias.
-     *
-     * @param name The name or alias of the world to get.
-     * @return A {@link MultiverseWorld} or null.
-     */
-    //TODO W getMVWorld(String name);
 
     /**
      * Load the Worlds & Settings from the configuration file.

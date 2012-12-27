@@ -95,6 +95,21 @@ abstract class AbstractWorldManager implements WorldManager {
         return this.worldsMap.containsKey(name);
     }
 
+    @Nullable
+    @Override
+    public MultiverseWorld getWorld(@NotNull final String name) {
+        final MultiverseWorld world = this.worldsMap.get(name);
+        if (world != null) {
+            return world;
+        }
+        for (final MultiverseWorld w : this.worldsMap.values()) {
+            if (w.getAlias().equals(name)) {
+                return w;
+            }
+        }
+        return null;
+    }
+
     @NotNull
     @Override
     public Collection<MultiverseWorld> getWorlds() {

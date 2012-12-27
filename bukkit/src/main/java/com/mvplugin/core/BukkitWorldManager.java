@@ -50,7 +50,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
 
     // TODO: this isn't right...
     public MultiverseWorld getWorld(World world) {
-        return this.worldsMap.get(world.getName());
+        return super.getWorld(world.getName());
     }
 
     private void initializeDefaultWorldGenerators() {
