@@ -63,6 +63,15 @@ public class ImportCommand extends MultiverseCommand {
     public static final Message IMPORT_FAILED = new Message("command.import.import_failed",
             "&cImport failed!");
 
+    public static final Message NON_EXISTENT_ENVIRONMENT = new Message("command.import.non_existent_environment",
+            "&cThat world environment does not exist."
+            + "\nFor a list of available world types, type: &b/mvenv");
+
+    public static final Message NON_EXISTENT_FOLDER = new Message("command.import.non_existent_folder",
+            "&cThat world folder does not exist. &bThese look like worlds to me:");
+
+    private static final String WORLD_FILE_NAME = "level.dat";
+
     @Override
     public Perm getPerm() {
         return Perms.CMD_IMPORT;
@@ -122,14 +131,11 @@ public class ImportCommand extends MultiverseCommand {
             }
         } else if (env == null) {
             core.getMessager().message(sender, IMPORT_FAILED);
-            // TODO locale
-            sender.sendMessage("That world environment did not exist.");
-            sender.sendMessage("For a list of available world types, type: " + ChatColor.AQUA + "/mvenv");
+            core.getMessager().message(sender, NON_EXISTENT_ENVIRONMENT);
         } else {
             core.getMessager().message(sender, IMPORT_FAILED);
             String worldList = this.getPotentialWorlds(core);
-            // TODO locale
-            sender.sendMessage("That world folder does not exist. These look like worlds to me:");
+            core.getMessager().message(sender, NON_EXISTENT_FOLDER);
             sender.sendMessage(worldList);
         }
         return true;
@@ -147,7 +153,7 @@ public class ImportCommand extends MultiverseCommand {
             File[] files = worldFolder.listFiles(new FilenameFilter() {
                 @Override
                 public boolean accept(File file, String name) {
-                    return name.equalsIgnoreCase("level.dat");
+                    return name.equalsIgnoreCase(WORLD_FILE_NAME);
                 }
             });
             if (files != null && files.length > 0) {
