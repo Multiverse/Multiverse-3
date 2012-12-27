@@ -97,7 +97,7 @@ abstract class AbstractWorldManager implements WorldManager {
 
     @NotNull
     @Override
-    public Collection<MultiverseWorld> getMVWorlds() {
+    public Collection<MultiverseWorld> getWorlds() {
         return Collections.unmodifiableCollection(this.worldsMap.values());
     }
 

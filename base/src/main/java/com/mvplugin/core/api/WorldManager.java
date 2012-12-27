@@ -199,6 +199,32 @@ public interface WorldManager {
     WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
 
     /**
+     * Loads the world for management with Multiverse.
+     *
+     * Does nothing for a world already managed by Multiverse.
+     *
+     * @param world The world to start tracking.
+     * @return True if success, false if already tracked.
+     */
+    boolean loadWorld(@NotNull final MultiverseWorld world);
+
+    /**
+     * Checks if Multiverse is managing the given world by name.
+     *
+     * @param name The name of the world to check for.
+     * @return True if Multiverse is managing this world.
+     */
+    boolean isManaged(@NotNull final String name);
+
+    /**
+     * Returns a collection of all the loaded worlds managed by Multiverse.
+     *
+     * @return A collection of all the loaded worlds managed by Multiverse.
+     */
+    @NotNull
+    Collection<MultiverseWorld> getWorlds();
+
+    /**
      * Make a copy of a world.
      *
      * @param oldName            Name of world to be copied
@@ -248,24 +274,6 @@ public interface WorldManager {
     //TODO boolean unloadWorld(String name);
 
     /**
-     * Loads the world for management with Multiverse.
-     *
-     * Does nothing for a world already managed by Multiverse.
-     *
-     * @param world The world to start tracking.
-     * @return True if success, false if already tracked.
-     */
-    boolean loadWorld(@NotNull final MultiverseWorld world);
-
-    /**
-     * Checks if Multiverse is managing the given world by name.
-     *
-     * @param name The name of the world to check for.
-     * @return True if Multiverse is managing this world.
-     */
-    boolean isManaged(@NotNull final String name);
-
-    /**
      * Removes all players from the specified world.
      *
      * @param name World to remove players from.
@@ -282,14 +290,6 @@ public interface WorldManager {
      * @return A {@link Generator} or null
      */
     //TODO Generator getChunkGenerator(String generator, String generatorID, String worldName);
-
-    /**
-     * Returns a list of all the worlds Multiverse knows about.
-     *
-     * @return A list of {@link MultiverseWorld}.
-     */
-    @NotNull
-    Collection<MultiverseWorld> getMVWorlds();
 
 
     /**

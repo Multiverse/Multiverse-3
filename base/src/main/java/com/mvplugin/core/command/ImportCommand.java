@@ -173,7 +173,7 @@ public class ImportCommand extends MultiverseCommand {
             files = new File[0];
         }
         StringBuilder worldList = new StringBuilder();
-        Collection<MultiverseWorld> worlds = core.getWorldManager().getMVWorlds();
+        Collection<MultiverseWorld> worlds = core.getWorldManager().getWorlds();
         List<String> worldStrings = new ArrayList<String>();
         for (MultiverseWorld world : worlds) {
             worldStrings.add(world.getName());
