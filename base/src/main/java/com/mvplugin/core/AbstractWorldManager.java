@@ -112,13 +112,19 @@ abstract class AbstractWorldManager implements WorldManager {
 
     /**
      * Creates a world with the given properties.
+     * </p>
+     * If a Minecraft world is already loaded with this name, a WorldCreationException will be thrown with a message
+     * stating such.
+     * </p>
+     * If a Minecraft world already exists but it not loaded, it will be loaded and a Multiverse world will be created
+     * to represent it.
+     * </p>
+     * If no previous Minecraft world exists it will be created and loaded and a Multiverse world will be created to
+     * represent it.
      *
-     * If a Minecraft world is already loaded with this name, null will be returned.  If a Minecraft world already
-     * exists but it not loaded, it will be loaded instead.
-     *
-     * @param settings
-     * @return
-     * @throws WorldCreationException
+     * @param settings The settings to set up the world with.
+     * @return The new Multiverse world created to represent the given world.
+     * @throws WorldCreationException thrown if anything goes wrong during world creation.
      */
     @NotNull
     protected abstract MultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;

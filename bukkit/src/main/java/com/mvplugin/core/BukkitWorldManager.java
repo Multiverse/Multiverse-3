@@ -195,7 +195,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
     @Override
     public BukkitMultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
         if (Bukkit.getWorld(settings.name()) != null) {
-            return null;
+            throw new WorldCreationException(new BundledMessage(BukkitLanguage.ALREADY_BUKKIT_WORLD, settings.name()));
         }
 
         final WorldCreator c = WorldCreator.name(settings.name());
@@ -205,14 +205,17 @@ public class BukkitWorldManager extends AbstractWorldManager {
         if (settings.type() != null) {
             c.type(Convert.toBukkit(settings.type()));
         }
-        if (settings.seed() != null) {
-            c.seed(settings.seed());
+        final Long seed = settings.seed();
+        if (seed != null) {
+            c.seed(seed);
         }
-        if (settings.generateStructures() != null) {
-            c.generateStructures(settings.generateStructures());
+        final Boolean generateStructures = settings.generateStructures();
+        if (generateStructures != null) {
+            c.generateStructures(generateStructures);
         }
-        if (settings.generator() != null) {
-            final String[] split = settings.generator().split(":", 2);
+        final String generator = settings.generator();
+        if (generator != null) {
+            final String[] split = generator.split(":", 2);
             final String id = (split.length > 1) ? split[1] : null;
             final Plugin plugin = Bukkit.getPluginManager().getPlugin(split[0]);
 
