@@ -11,16 +11,21 @@ class DefaultMultiverseCore implements MultiverseCore {
 
     private final CorePlugin plugin;
     private final EventProcessor eventProcessor;
-    private final DefaultWorldManager worldManager;
+    private final WorldManager worldManager;
 
     public DefaultMultiverseCore(@NotNull final CorePlugin plugin, @NotNull final WorldFactory worldFactory) {
+        this(plugin, new DefaultWorldManager(plugin, worldFactory));
+    }
+
+    public DefaultMultiverseCore(@NotNull final CorePlugin plugin, WorldManager manager) {
         this.plugin = plugin;
-        this.worldManager = new DefaultWorldManager(plugin, worldFactory);
+        this.worldManager = manager;
         this.eventProcessor = new DefaultEventProcessor(plugin);
     }
 
     void initialize() {
-        this.worldManager.initialize();
+        // TODO: dumptruckman should fix this once he rearranges the structure
+        //this.worldManager.initialize();
     }
 
     @Override

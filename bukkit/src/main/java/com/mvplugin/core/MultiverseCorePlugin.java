@@ -47,7 +47,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
     }
 
     private void prepareCore() {
-        this.core = new DefaultMultiverseCore(this, new BukkitWorldFactory(this));
+        this.core = new DefaultMultiverseCore(this, new BukkitWorldManager(this, new BukkitWorldFactory(this)));
         this.core.initialize();
     }
 
@@ -60,6 +60,14 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements CorePl
     @Override
     public String getCommandPrefix() {
         return COMMAND_PREFIX;
+    }
+
+    @NotNull
+    public BukkitWorldManager getWorldManager() {
+        if (!(this.core.getWorldManager() instanceof BukkitWorldManager)) {
+            throw new IllegalStateException("World manager wasn't a bukkit world manager!");
+        }
+        return (BukkitWorldManager) this.core.getWorldManager();
     }
 
     @NotNull

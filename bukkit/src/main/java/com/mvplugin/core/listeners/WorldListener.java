@@ -1,6 +1,7 @@
 package com.mvplugin.core.listeners;
 
-import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.MultiverseCorePlugin;
+import com.mvplugin.core.api.MultiverseWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
@@ -8,9 +9,9 @@ import org.bukkit.event.world.WorldUnloadEvent;
 
 public class WorldListener implements Listener {
 
-    private final MultiverseCore plugin;
+    private final MultiverseCorePlugin plugin;
 
-    public WorldListener(final MultiverseCore plugin) {
+    public WorldListener(final MultiverseCorePlugin plugin) {
         this.plugin = plugin;
     }
 
@@ -20,6 +21,7 @@ public class WorldListener implements Listener {
             return;
         }
 
-        // TODO: pass this to EventProcessor once we can get MV worlds.
+        MultiverseWorld world = this.plugin.getWorldManager().getWorld(event.getWorld());
+        this.plugin.getMultiverseCore().getEventProcessor().worldUnload(world);
     }
 }

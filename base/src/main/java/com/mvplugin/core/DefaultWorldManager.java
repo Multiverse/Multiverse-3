@@ -16,7 +16,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-final class DefaultWorldManager implements WorldManager {
+class DefaultWorldManager implements WorldManager {
 
     @NotNull
     protected final CorePlugin plugin;
