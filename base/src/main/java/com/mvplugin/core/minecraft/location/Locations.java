@@ -27,7 +27,7 @@ public class Locations {
         return new DefaultWorldCoordinates(world, getFacingCoordinates((double) x, (double) y, (double) z, 0F, 0F));
     }
 
-    public static PlayerCoordinates getPlayerCoordinates(@NotNull final String world,
+    public static EntityCoordinates getPlayerCoordinates(@NotNull final String world,
                                                          final int x, final int y, final int z,
                                                          final float pitch, final float yaw) {
         return new DefaultWorldCoordinates(world, getFacingCoordinates((double) x, (double) y, (double) z, pitch, yaw));

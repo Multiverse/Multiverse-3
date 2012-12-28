@@ -2,7 +2,7 @@ package com.mvplugin.core.minecraft.location;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface PlayerCoordinates extends FacingCoordinates, BlockCoordinates {
+public interface EntityCoordinates extends FacingCoordinates, BlockCoordinates {
 
     /**
      * Gets the name of the world in which these coordinates are located.

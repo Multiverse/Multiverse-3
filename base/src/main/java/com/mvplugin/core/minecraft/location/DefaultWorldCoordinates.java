@@ -2,7 +2,7 @@ package com.mvplugin.core.minecraft.location;
 
 import org.jetbrains.annotations.NotNull;
 
-class DefaultWorldCoordinates implements PlayerCoordinates, BlockCoordinates {
+class DefaultWorldCoordinates implements EntityCoordinates, BlockCoordinates {
 
     private static int coordToBlock(final double coord) {
         final int floor = (int) coord;
