@@ -28,9 +28,9 @@ public class Locations {
     }
 
     public static EntityCoordinates getEntityCoordinates(@NotNull final String world,
-                                                         final int x, final int y, final int z,
+                                                         final double x, final double y, final double z,
                                                          final float pitch, final float yaw) {
-        return new DefaultWorldCoordinates(world, getFacingCoordinates((double) x, (double) y, (double) z, pitch, yaw));
+        return new DefaultWorldCoordinates(world, getFacingCoordinates(x, y, z, pitch, yaw));
     }
 
 }
