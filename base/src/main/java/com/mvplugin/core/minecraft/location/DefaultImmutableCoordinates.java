@@ -1,11 +1,11 @@
 package com.mvplugin.core.minecraft.location;
 
-class DefaultCoordinates implements Coordinates, FacingCoordinates {
+class DefaultImmutableCoordinates implements Coordinates, FacingCoordinates {
 
-    private double x, y, z;
-    private float pitch, yaw;
+    private final double x, y, z;
+    private final float pitch, yaw;
 
-    DefaultCoordinates(final double x, final double y, final double z, final float pitch, final float yaw) {
+    DefaultImmutableCoordinates(final double x, final double y, final double z, final float pitch, final float yaw) {
         this.x = x;
         this.y = y;
         this.z = z;
@@ -39,9 +39,9 @@ class DefaultCoordinates implements Coordinates, FacingCoordinates {
     }
 
     @Override
-    public DefaultCoordinates clone() {
+    public DefaultImmutableCoordinates clone() {
         try {
-            return (DefaultCoordinates) super.clone();
+            return (DefaultImmutableCoordinates) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new Error(e);
         }
@@ -49,8 +49,6 @@ class DefaultCoordinates implements Coordinates, FacingCoordinates {
 
     @Override
     public void add(final double x, final double y, final double z) {
-        this.x += x;
-        this.y += y;
-        this.z += z;
+        throw new UnsupportedOperationException();
     }
 }

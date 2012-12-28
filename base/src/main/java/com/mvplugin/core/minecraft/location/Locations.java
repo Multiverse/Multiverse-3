@@ -33,4 +33,23 @@ public class Locations {
         return new DefaultWorldCoordinates(world, getFacingCoordinates(x, y, z, pitch, yaw));
     }
 
+    public static Coordinates getImmutableCoordinates(final double x, final double y, final double z) {
+        return new DefaultImmutableCoordinates(x, y, z, 0F, 0F);
+    }
+
+    public static FacingCoordinates getImmutableFacingCoordinates(final double x, final double y, final double z,
+                                                         final float pitch, final float yaw) {
+        return new DefaultImmutableCoordinates(x, y, z, pitch, yaw);
+    }
+
+    public static BlockCoordinates getImmutableBlockCoordinates(@NotNull final String world,
+                                                       final int x, final int y, final int z) {
+        return new DefaultImmutableWorldCoordinates(world, getImmutableFacingCoordinates((double) x, (double) y, (double) z, 0F, 0F));
+    }
+
+    public static EntityCoordinates getImmutableEntityCoordinates(@NotNull final String world,
+                                                         final double x, final double y, final double z,
+                                                         final float pitch, final float yaw) {
+        return new DefaultImmutableWorldCoordinates(world, getImmutableFacingCoordinates(x, y, z, pitch, yaw));
+    }
 }

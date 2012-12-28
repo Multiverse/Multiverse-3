@@ -35,4 +35,6 @@ public interface BlockCoordinates extends Cloneable {
 
     @Override
     BlockCoordinates clone();
+
+    void add(final int x, final int y, final int z);
 }

@@ -2,7 +2,7 @@ package com.mvplugin.core.minecraft.location;
 
 import org.jetbrains.annotations.NotNull;
 
-class DefaultWorldCoordinates implements EntityCoordinates, BlockCoordinates {
+class DefaultImmutableWorldCoordinates implements EntityCoordinates, BlockCoordinates {
 
     private static int coordToBlock(final double coord) {
         final int floor = (int) coord;
@@ -10,11 +10,11 @@ class DefaultWorldCoordinates implements EntityCoordinates, BlockCoordinates {
     }
 
     @NotNull
-    private String world;
+    private final String world;
 
     @NotNull final FacingCoordinates parent;
 
-    DefaultWorldCoordinates(@NotNull final String world, @NotNull FacingCoordinates parent) {
+    DefaultImmutableWorldCoordinates(@NotNull final String world, @NotNull FacingCoordinates parent) {
         this.world = world;
         this.parent = parent;
     }
@@ -66,9 +66,9 @@ class DefaultWorldCoordinates implements EntityCoordinates, BlockCoordinates {
     }
 
     @Override
-    public DefaultWorldCoordinates clone() {
+    public DefaultImmutableWorldCoordinates clone() {
         try {
-            return (DefaultWorldCoordinates) super.clone();
+            return (DefaultImmutableWorldCoordinates) super.clone();
         } catch (CloneNotSupportedException e) {
             throw new Error(e);
         }
