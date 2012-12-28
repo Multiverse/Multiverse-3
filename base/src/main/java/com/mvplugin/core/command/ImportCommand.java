@@ -12,6 +12,7 @@ import com.mvplugin.core.api.Perms;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.util.Language;
 import com.sk89q.minecraft.util.commands.CommandContext;
+import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -77,13 +78,14 @@ public class ImportCommand extends MultiverseCommand {
         return Perms.CMD_IMPORT;
     }
 
+    @NotNull
     @Override
     public Message getHelp() {
         return IMPORT_HELP;
     }
 
     @Override
-    public boolean runCommand(MultiverseCore core, BasePlayer sender, CommandContext context) {
+    public boolean runCommand(@NotNull MultiverseCore core, @NotNull BasePlayer sender, @NotNull CommandContext context) {
         final String worldName = context.getString(0);
 
         if (worldName.toLowerCase().equals("--list") || worldName.toLowerCase().equals("-l")) {
@@ -148,11 +150,11 @@ public class ImportCommand extends MultiverseCommand {
      * @param worldFolder The File that may be a world.
      * @return True if it looks like a world, false if not.
      */
-    private static boolean checkIfIsWorld(File worldFolder) {
+    private static boolean checkIfIsWorld(@NotNull final File worldFolder) {
         if (worldFolder.isDirectory()) {
             File[] files = worldFolder.listFiles(new FilenameFilter() {
                 @Override
-                public boolean accept(File file, String name) {
+                public boolean accept(File file, @NotNull String name) {
                     return name.equalsIgnoreCase(WORLD_FILE_NAME);
                 }
             });
@@ -163,7 +165,8 @@ public class ImportCommand extends MultiverseCommand {
         return false;
     }
 
-    private String getPotentialWorlds(final MultiverseCore core) {
+    @NotNull
+    private String getPotentialWorlds(@NotNull final MultiverseCore core) {
         final File worldFolder = core.getServerInterface().getWorldContainer();
         if (worldFolder == null) {
             return "";

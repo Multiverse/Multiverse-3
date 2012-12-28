@@ -6,8 +6,8 @@ import org.jetbrains.annotations.NotNull;
 
 public class MultiverseException extends Exception {
 
+    @NotNull
     private final BundledMessage languageMessage;
-
 
     public MultiverseException(@NotNull final BundledMessage b) {
         super(String.format(ChatColor.translateAlternateColorCodes('&', b.getMessage().getDefault()), b.getArgs()));

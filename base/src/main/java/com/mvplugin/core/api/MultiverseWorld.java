@@ -371,6 +371,7 @@ public interface MultiverseWorld {
      *
      * @return A world that exists on the server.
      */
+    @NotNull
     String getRespawnToWorld();
 
     /**

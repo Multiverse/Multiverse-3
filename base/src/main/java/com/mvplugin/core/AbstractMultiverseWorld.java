@@ -16,8 +16,15 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.List;
 
+/**
+ * Our base implementation of MultiverseWorld.
+ *
+ * This class shall implement as much as possible, leaving only server specific operations to the server
+ * specific implementation.
+ */
 abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
 
+    @NotNull
     private final WorldProperties worldProperties;
 
     AbstractMultiverseWorld(@NotNull final WorldProperties worldProperties) {
@@ -75,7 +82,7 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
     }
 
     @Override
-    public void setGenerator(final String generator) {
+    public void setGenerator(@Nullable final String generator) {
         getProperties().set(WorldProperties.GENERATOR, generator != null ? generator : "");
     }
 

@@ -24,15 +24,21 @@ public interface WorldManager {
 
     class WorldCreationSettings {
 
+        @NotNull
         private final String name;
+        @Nullable
         private WorldEnvironment env;
+        @Nullable
         private Long seed;
+        @Nullable
         private WorldType type;
+        @Nullable
         private Boolean generateStructures;
+        @Nullable
         private String generator;
         private boolean adjustSpawn = true;
 
-        public WorldCreationSettings(final String name) {
+        public WorldCreationSettings(@NotNull final String name) {
             if (name == null) {
                 throw new IllegalArgumentException("name cannot be null!");
             }
@@ -349,11 +355,12 @@ public interface WorldManager {
      * @return True if success, false if fail.
      */
     //TODO boolean regenWorld(String name, boolean useNewSeed, boolean randomSeed, String seed);
-
+    @NotNull
     List<String> getUnloadedWorlds();
 
     class RespawnWorldValidator implements PropertyValidator<String> {
 
+        @NotNull
         private final WorldManager worldManager;
 
         public RespawnWorldValidator(@NotNull final WorldManager worldManager) {

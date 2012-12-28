@@ -90,7 +90,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
     private void initializeDefaultWorldGenerators() {
         File[] files = this.plugin.getServerFolder().listFiles(new FilenameFilter() {
             @Override
-            public boolean accept(File file, String s) {
+            public boolean accept(final File file, @NotNull final String s) {
                 return s.equalsIgnoreCase("bukkit.yml");
             }
         });
@@ -162,12 +162,13 @@ public class BukkitWorldManager extends AbstractWorldManager {
     private File[] getPotentialWorldFiles() {
         return worldsFolder.listFiles(new FilenameFilter() {
             @Override
-            public boolean accept(File dir, String name) {
+            public boolean accept(final File dir, @NotNull final String name) {
                 return name.endsWith(".yml");
             }
         });
     }
 
+    @NotNull
     private WorldProperties getWorldProperties(@NotNull final File file) throws IOException {
         final YamlWorldProperties worldProperties = new YamlWorldProperties(file);
         worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(this));

@@ -29,6 +29,7 @@ class YamlWorldProperties extends YamlProperties implements WorldProperties {
     }
 
     private static class PlayerPositionSerializer implements PropertySerializer<PlayerPosition> {
+        @NotNull
         @Override
         public PlayerPosition deserialize(Object o) {
             String world = "";
@@ -62,8 +63,9 @@ class YamlWorldProperties extends YamlProperties implements WorldProperties {
             return new PlayerPosition(world, x, y, z, pitch, yaw);
         }
 
+        @NotNull
         @Override
-        public Object serialize(PlayerPosition playerPosition) {
+        public Object serialize(@NotNull final PlayerPosition playerPosition) {
             Map<String, Object> result = new LinkedHashMap<String, Object>(6);
             result.put("world", playerPosition.getWorld() != null ? playerPosition.getWorld() : "");
             result.put("x", playerPosition.getX());

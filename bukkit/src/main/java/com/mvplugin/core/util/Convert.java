@@ -7,27 +7,32 @@ import org.bukkit.Location;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldType;
+import org.jetbrains.annotations.NotNull;
 
 public final class Convert {
-    private Convert() {}
 
-    public static Difficulty toBukkit(com.mvplugin.core.minecraft.Difficulty d) {
+    private Convert() {
+        throw new AssertionError();
+    }
+
+    public static Difficulty toBukkit(@NotNull final com.mvplugin.core.minecraft.Difficulty d) {
         return Difficulty.valueOf(d.name());
     }
     
-    public static WorldType toBukkit(com.mvplugin.core.minecraft.WorldType t) {
+    public static WorldType toBukkit(@NotNull final com.mvplugin.core.minecraft.WorldType t) {
         return WorldType.valueOf(t.name());
     }
 
-    public static com.mvplugin.core.minecraft.WorldType fromBukkit(WorldType t) {
+    public static com.mvplugin.core.minecraft.WorldType fromBukkit(@NotNull final WorldType t) {
         return com.mvplugin.core.minecraft.WorldType.valueOf(t.name());
     }
 
-    public static Environment toBukkit(WorldEnvironment e) {
+    public static Environment toBukkit(@NotNull final WorldEnvironment e) {
         return Environment.valueOf(e.name());
     }
 
-    public static Location toBukkit(PlayerPosition position, World world) {
+    @NotNull
+    public static Location toBukkit(@NotNull final PlayerPosition position, final World world) {
         return new Location(world, position.getX(), position.getY(), position.getZ());
     }
 }
