@@ -64,4 +64,13 @@ class DefaultWorldCoordinates implements EntityCoordinates, BlockCoordinates {
     public float getYaw() {
         return parent.getYaw();
     }
+
+    @Override
+    public DefaultWorldCoordinates clone() {
+        try {
+            return (DefaultWorldCoordinates) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new Error(e);
+        }
+    }
 }

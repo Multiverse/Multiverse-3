@@ -3,7 +3,7 @@ package com.mvplugin.core.minecraft.location;
 /**
  * Represents a point in 3-dimensional space.
  */
-public interface Coordinates {
+public interface Coordinates extends Cloneable {
 
     /**
      * Gets the x coordinate of this point.
@@ -25,4 +25,7 @@ public interface Coordinates {
      * @return The z coordinate of this point.
      */
     double getZ();
+
+    @Override
+    Coordinates clone();
 }

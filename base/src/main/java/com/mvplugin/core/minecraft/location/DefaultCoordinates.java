@@ -37,4 +37,13 @@ class DefaultCoordinates implements Coordinates, FacingCoordinates {
     public float getYaw() {
         return this.yaw;
     }
+
+    @Override
+    public DefaultCoordinates clone() {
+        try {
+            return (DefaultCoordinates) super.clone();
+        } catch (CloneNotSupportedException e) {
+            throw new Error(e);
+        }
+    }
 }

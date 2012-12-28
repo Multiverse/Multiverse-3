@@ -2,7 +2,7 @@ package com.mvplugin.core.minecraft.location;
 
 import org.jetbrains.annotations.NotNull;
 
-public interface BlockCoordinates {
+public interface BlockCoordinates extends Cloneable {
 
     /**
      * Gets the name of the world in which these coordinates are located.
@@ -32,4 +32,7 @@ public interface BlockCoordinates {
      * @return The block z coordinate represented by this location.
      */
     int getBlockZ();
+
+    @Override
+    BlockCoordinates clone();
 }
