@@ -2,6 +2,7 @@ package com.mvplugin.core.api;
 
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
+import com.mvplugin.core.TeleportException;
 import com.mvplugin.core.WorldCreationException;
 import com.mvplugin.core.minecraft.Generator;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -271,10 +272,9 @@ public interface WorldManager {
     /**
      * Removes all players from the specified world. // TODO better docs
      *
-     * @param name World to remove players from.
+     * @param world World to remove players from.
      */
-    // TODO make this accept MultiverseWorld only?
-    void removePlayersFromWorld(@NotNull final String name);
+    void removePlayersFromWorld(@NotNull final MultiverseWorld world) throws TeleportException;
 
     /**
      * Test if a given chunk generator is valid.

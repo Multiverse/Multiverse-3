@@ -44,4 +44,10 @@ public interface MultiverseCore extends MultiversePlugin, PluginBase {
      */
     @NotNull
     EventProcessor getEventProcessor();
+
+    @NotNull
+    SafeTeleporter getSafeTeleporter();
+
+    @NotNull
+    BlockSafety getBlockSafety();
 }

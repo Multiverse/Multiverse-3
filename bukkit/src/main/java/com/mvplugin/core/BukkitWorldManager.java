@@ -13,7 +13,6 @@ import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
-import org.bukkit.entity.Player;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -253,22 +252,26 @@ public class BukkitWorldManager extends AbstractWorldManager {
 
     @Override
     protected boolean unloadWorldFromServer(@NotNull final MultiverseWorld world) {
-        removePlayersFromWorld(world.getName());
         return this.plugin.getServer().unloadWorld(world.getName(), true);
     }
 
+    @NotNull
     @Override
-    public void removePlayersFromWorld(@NotNull final String name) {
-        final World w = this.plugin.getServer().getWorld(name);
-        if (w != null) {
-            World safeWorld = this.plugin.getServer().getWorlds().get(0);
-            List<Player> ps = w.getPlayers();
-            // TODO SafeTTeleporter teleporter = this.plugin.getSafeTTeleporter();
-            for (final Player p : ps) {
-                p.teleport(safeWorld.getSpawnLocation());
-                // We're removing players forcefully from a world, they'd BETTER spawn safely.
-                // TODO teleporter.safelyTeleport(null, p, safeWorld.getSpawnLocation(), true);
+    protected MultiverseWorld getSafeWorld() {
+        final World world = Bukkit.getWorlds().get(0);
+        MultiverseWorld mvWorld = getWorld(world);
+        if (mvWorld == null) {
+            Logging.warning("Safe world not locatable.  Loading default world into Multiverse!  This may be bad.");
+            final WorldCreationSettings settings = new WorldCreationSettings(world.getName());
+            settings.env(Convert.fromBukkit(world.getEnvironment()));
+            settings.seed(world.getSeed());
+            settings.type(Convert.fromBukkit(world.getWorldType()));
+            try {
+                mvWorld = addWorld(settings);
+            } catch (final WorldCreationException e) {
+                throw new RuntimeException(e);
             }
         }
+        return mvWorld;
     }
 }

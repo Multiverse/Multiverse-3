@@ -7,8 +7,9 @@
 
 package com.mvplugin.core.api;
 
+import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.Difficulty;
-import com.mvplugin.core.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -16,6 +17,7 @@ import com.mvplugin.core.minecraft.WorldType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.UUID;
 
@@ -524,4 +526,12 @@ public interface MultiverseWorld {
     List<String> getWorldBlacklist();
 
     void save();
+
+    /**
+     * Returns a collection containing the players logged in and in this world at the time of calling.
+     *
+     * @return A collection containing the players logged in and in this world at the time of calling.
+     */
+    @NotNull
+    Collection<BasePlayer> getPlayers();
 }

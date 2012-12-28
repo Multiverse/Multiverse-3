@@ -1,10 +1,10 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.dumptruckman.minecraft.pluginbase.properties.PropertySerializer;
 import com.dumptruckman.minecraft.pluginbase.properties.YamlProperties;
 import com.mvplugin.core.api.WorldProperties;
-import com.mvplugin.core.minecraft.location.FacingCoordinates;
-import com.mvplugin.core.minecraft.location.Locations;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 

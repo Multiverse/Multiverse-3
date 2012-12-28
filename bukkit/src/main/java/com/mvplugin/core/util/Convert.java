@@ -1,6 +1,6 @@
 package com.mvplugin.core.util;
 
-import com.mvplugin.core.minecraft.location.FacingCoordinates;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -29,6 +29,10 @@ public final class Convert {
 
     public static Environment toBukkit(@NotNull final WorldEnvironment e) {
         return Environment.valueOf(e.name());
+    }
+
+    public static WorldEnvironment fromBukkit(@NotNull final Environment e) {
+        return WorldEnvironment.valueOf(e.name());
     }
 
     @NotNull

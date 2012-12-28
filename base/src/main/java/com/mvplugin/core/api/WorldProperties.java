@@ -1,6 +1,8 @@
 package com.mvplugin.core.api;
 
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.dumptruckman.minecraft.pluginbase.properties.ListProperty;
 import com.dumptruckman.minecraft.pluginbase.properties.NestedProperties;
 import com.dumptruckman.minecraft.pluginbase.properties.NestedProperty;
@@ -12,8 +14,6 @@ import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
-import com.mvplugin.core.minecraft.location.FacingCoordinates;
-import com.mvplugin.core.minecraft.location.Locations;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.Nullable;
 

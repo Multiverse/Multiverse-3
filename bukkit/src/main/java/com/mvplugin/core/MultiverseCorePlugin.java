@@ -2,8 +2,10 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
+import com.mvplugin.core.api.BlockSafety;
 import com.mvplugin.core.api.CoreConfig;
 import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.api.SafeTeleporter;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
@@ -22,6 +24,8 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     private static final String PERMISSION_PREFIX = "multiverse";
 
     private final EventProcessor eventProcessor = new EventProcessor(this);
+    private final SafeTeleporter safeTeleporter = new DefaultSafeTeleporter(this);
+    private final BlockSafety blockSafety = new BukkitBlockSafety();
 
     private BukkitWorldManager worldManager;
 
@@ -105,5 +109,17 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     @NotNull
     public EventProcessor getEventProcessor() {
         return this.eventProcessor;
+    }
+
+    @NotNull
+    @Override
+    public SafeTeleporter getSafeTeleporter() {
+        return safeTeleporter;
+    }
+
+    @NotNull
+    @Override
+    public BlockSafety getBlockSafety() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }

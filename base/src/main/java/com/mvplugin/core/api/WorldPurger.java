@@ -1,7 +1,7 @@
 package com.mvplugin.core.api;
 
 import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
-import com.mvplugin.core.minecraft.Entity;
+import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

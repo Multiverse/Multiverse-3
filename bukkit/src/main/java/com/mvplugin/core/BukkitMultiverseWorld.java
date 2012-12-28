@@ -1,15 +1,21 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
+import com.dumptruckman.minecraft.pluginbase.util.BukkitTools;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.api.WorldProperties.Spawning.Animals;
-import com.mvplugin.core.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Convert;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
+import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.List;
 import java.util.UUID;
 
 /**
@@ -98,5 +104,16 @@ public class BukkitMultiverseWorld extends AbstractMultiverseWorld {
             throw new IllegalStateException("Multiverse lost track of Bukkit world '" + this.name + "'");
         }
         return world;
+    }
+
+    @Override
+    @NotNull
+    public Collection<BasePlayer> getPlayers() {
+        final List<Player> players = getBukkitWorld().getPlayers();
+        final List<BasePlayer> result = new ArrayList<BasePlayer>(players.size());
+        for (final Player player : players) {
+            result.add(BukkitTools.wrapPlayer(player));
+        }
+        return result;
     }
 }

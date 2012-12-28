@@ -1,9 +1,15 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.MultiverseWorld;
+import com.mvplugin.core.api.SafeTeleporter;
 import com.mvplugin.core.api.WorldManager;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -133,6 +139,12 @@ abstract class AbstractWorldManager implements WorldManager {
 
     @Override
     public boolean unloadWorld(@NotNull final MultiverseWorld world) {
+        try {
+            removePlayersFromWorld(world);
+        } catch (final TeleportException e) {
+            e.printStackTrace();
+            return false;
+        }
         if (unloadWorldFromServer(world)) {
             this.worldsMap.remove(world.getName());
             Logging.info("World '%s' was unloaded from memory.", world.getName());
@@ -140,6 +152,20 @@ abstract class AbstractWorldManager implements WorldManager {
         } else {
             Logging.warning("World '%s' could not be unloaded. Is it a default world?", world.getName());
             return false;
+        }
+    }
+
+    @Override
+    public void removePlayersFromWorld(@NotNull final MultiverseWorld world) throws TeleportException {
+        final MultiverseWorld safeWorld = getSafeWorld();
+        final SafeTeleporter teleporter = this.plugin.getSafeTeleporter();
+        final FacingCoordinates sLoc = safeWorld.getSpawnLocation();
+        final EntityCoordinates location = Locations.getEntityCoordinates(safeWorld.getName(),
+                sLoc.getX(), sLoc.getY(), sLoc.getZ(), sLoc.getPitch(), sLoc.getYaw());
+        for (final BasePlayer p : world.getPlayers()) {
+            if (p instanceof Entity) {
+                teleporter.safelyTeleport(null, (Entity) p, location);
+            }
         }
     }
 
@@ -173,4 +199,7 @@ abstract class AbstractWorldManager implements WorldManager {
     protected abstract WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
 
     protected abstract boolean unloadWorldFromServer(@NotNull final MultiverseWorld world);
+
+    @NotNull
+    protected abstract MultiverseWorld getSafeWorld();
 }

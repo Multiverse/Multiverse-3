@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.properties.Observer;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
@@ -7,7 +8,6 @@ import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.api.WorldProperties.Spawning;
 import com.mvplugin.core.minecraft.Difficulty;
-import com.mvplugin.core.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
