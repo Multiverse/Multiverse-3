@@ -202,11 +202,13 @@ public class BukkitWorldManager extends AbstractWorldManager {
         }
 
         final WorldCreator c = WorldCreator.name(settings.name());
-        if (settings.env() != null) {
-            c.environment(Convert.toBukkit(settings.env()));
+        final WorldEnvironment env = settings.env();
+        if (env != null) {
+            c.environment(Convert.toBukkit(env));
         }
-        if (settings.type() != null) {
-            c.type(Convert.toBukkit(settings.type()));
+        final WorldType type = settings.type();
+        if (type != null) {
+            c.type(Convert.toBukkit(type));
         }
         final Long seed = settings.seed();
         if (seed != null) {

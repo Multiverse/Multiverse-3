@@ -39,9 +39,6 @@ public interface WorldManager {
         private boolean adjustSpawn = true;
 
         public WorldCreationSettings(@NotNull final String name) {
-            if (name == null) {
-                throw new IllegalArgumentException("name cannot be null!");
-            }
             this.name = name;
         }
 
@@ -274,7 +271,6 @@ public interface WorldManager {
     /**
      * Removes all players from the specified world. // TODO better docs
      *
-     * @param name World to remove players from.
      * @param name World to remove players from.
      */
     // TODO make this accept MultiverseWorld only?

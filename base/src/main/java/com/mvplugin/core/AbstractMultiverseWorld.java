@@ -95,7 +95,7 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
     @NotNull
     @Override
     public String getAllPropertyNames() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return null;
     }
 
     @NotNull
