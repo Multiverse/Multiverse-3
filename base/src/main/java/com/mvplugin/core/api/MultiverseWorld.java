@@ -8,8 +8,8 @@
 package com.mvplugin.core.api;
 
 import com.mvplugin.core.minecraft.Difficulty;
+import com.mvplugin.core.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.GameMode;
-import com.mvplugin.core.minecraft.PlayerPosition;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
@@ -295,14 +295,14 @@ public interface MultiverseWorld {
      * @return The spawn location of this world.
      */
     @NotNull
-    PlayerPosition getSpawnLocation();
+    FacingCoordinates getSpawnLocation();
 
     /**
      * Sets the spawn location for a world.
      *
      * @param spawnLocation The spawn location for a world.
      */
-    void setSpawnLocation(@NotNull PlayerPosition spawnLocation);
+    void setSpawnLocation(@NotNull FacingCoordinates spawnLocation);
 
     /**
      * Gets whether or not the hunger level of players will go down in a world.

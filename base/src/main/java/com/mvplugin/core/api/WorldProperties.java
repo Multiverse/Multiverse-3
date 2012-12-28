@@ -10,9 +10,10 @@ import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
 import com.dumptruckman.minecraft.pluginbase.properties.SimpleProperty;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
-import com.mvplugin.core.minecraft.PlayerPosition;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
+import com.mvplugin.core.minecraft.location.FacingCoordinates;
+import com.mvplugin.core.minecraft.location.Locations;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.Nullable;
 
@@ -152,7 +153,7 @@ public interface WorldProperties extends Properties {
             .description(PropertyDescriptions.KEEP_SPAWN)
             .build();
 
-    SimpleProperty<PlayerPosition> SPAWN_LOCATION = PropertyFactory.newProperty(PlayerPosition.class, "spawnLocation", PlayerPosition.NULL_LOCATION)
+    SimpleProperty<FacingCoordinates> SPAWN_LOCATION = PropertyFactory.newProperty(FacingCoordinates.class, "spawnLocation", Locations.NULL_FACING)
             .comment("The spawnLocation property specifies where in the world players will spawn.")
             .comment("The world specified here has no effect.")
             .description(PropertyDescriptions.SPAWN_LOCATION)

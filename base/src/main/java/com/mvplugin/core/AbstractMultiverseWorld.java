@@ -7,8 +7,8 @@ import com.mvplugin.core.api.MultiverseWorld;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.api.WorldProperties.Spawning;
 import com.mvplugin.core.minecraft.Difficulty;
+import com.mvplugin.core.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.GameMode;
-import com.mvplugin.core.minecraft.PlayerPosition;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import org.jetbrains.annotations.NotNull;
@@ -205,12 +205,12 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
 
     @NotNull
     @Override
-    public PlayerPosition getSpawnLocation() {
+    public FacingCoordinates getSpawnLocation() {
         return getProperties().get(WorldProperties.SPAWN_LOCATION);
     }
 
     @Override
-    public void setSpawnLocation(@NotNull final PlayerPosition spawnLocation) {
+    public void setSpawnLocation(@NotNull final FacingCoordinates spawnLocation) {
         getProperties().set(WorldProperties.SPAWN_LOCATION, spawnLocation);
     }
 

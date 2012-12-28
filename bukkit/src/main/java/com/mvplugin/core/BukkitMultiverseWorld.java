@@ -3,7 +3,7 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
 import com.mvplugin.core.api.WorldProperties;
 import com.mvplugin.core.api.WorldProperties.Spawning.Animals;
-import com.mvplugin.core.minecraft.PlayerPosition;
+import com.mvplugin.core.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Convert;
 import org.bukkit.Bukkit;
@@ -49,7 +49,7 @@ public class BukkitMultiverseWorld extends AbstractMultiverseWorld {
         } else if (obj == WorldProperties.PVP) {
             getBukkitWorld().setPVP(isPVPEnabled());
         } else if (obj == WorldProperties.SPAWN_LOCATION) {
-            final PlayerPosition pos = getSpawnLocation();
+            final FacingCoordinates pos = getSpawnLocation();
             getBukkitWorld().setSpawnLocation((int) pos.getX(), (int) pos.getY(), (int) pos.getZ());
         } else if (obj == Animals.SPAWN_RATE) {
             //getBukkitWorld().set

@@ -1,6 +1,6 @@
 package com.mvplugin.core.util;
 
-import com.mvplugin.core.minecraft.PlayerPosition;
+import com.mvplugin.core.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -32,7 +32,7 @@ public final class Convert {
     }
 
     @NotNull
-    public static Location toBukkit(@NotNull final PlayerPosition position, final World world) {
+    public static Location toBukkit(@NotNull final FacingCoordinates position, final World world) {
         return new Location(world, position.getX(), position.getY(), position.getZ());
     }
 }
