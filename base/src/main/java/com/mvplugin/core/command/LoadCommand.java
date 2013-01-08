@@ -28,6 +28,10 @@ public class LoadCommand extends MultiverseCommand {
     public static final Message LOAD_SUCCESS = new Message("command.load.success",
             "Successfully loaded the world '&b%s&f'!");
 
+    protected LoadCommand(@NotNull final MultiverseCore plugin) {
+        super(plugin);
+    }
+
     @Override
     public Perm getPerm() {
         return Perms.CMD_LOAD;
@@ -40,14 +44,14 @@ public class LoadCommand extends MultiverseCommand {
     }
 
     @Override
-    public boolean runCommand(@NotNull MultiverseCore core, @NotNull BasePlayer sender, @NotNull CommandContext context) {
+    public boolean runCommand(@NotNull final BasePlayer sender, @NotNull final CommandContext context) {
         final String worldName = context.getString(0);
 
         try {
-            core.getWorldManager().loadWorld(worldName);
-            core.getMessager().message(sender, LOAD_SUCCESS, worldName);
+            getPlugin().getWorldManager().loadWorld(worldName);
+            getMessager().message(sender, LOAD_SUCCESS, worldName);
         } catch (final WorldCreationException e) {
-            core.getMessager().message(sender, e.getBundledMessage());
+            getMessager().message(sender, e.getBundledMessage());
         }
 
         return true;

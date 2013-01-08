@@ -31,6 +31,10 @@ public class UnloadCommand extends MultiverseCommand {
     public static final Message UNLOAD_FAILURE = new Message("command.unload.failure",
             "'&b%s&f' could not be unloaded!");
 
+    protected UnloadCommand(@NotNull final MultiverseCore plugin) {
+        super(plugin);
+    }
+
     @Override
     public Perm getPerm() {
         return Perms.CMD_UNLOAD;
@@ -43,12 +47,12 @@ public class UnloadCommand extends MultiverseCommand {
     }
 
     @Override
-    public boolean runCommand(@NotNull MultiverseCore core, @NotNull BasePlayer sender, @NotNull CommandContext context) {
+    public boolean runCommand(@NotNull final BasePlayer sender, @NotNull final CommandContext context) {
         final String worldName = context.getString(0);
-        if (core.getWorldManager().unloadWorld(worldName)) {
-            core.getMessager().message(sender, UNLOAD_SUCCESS, worldName);
+        if (getPlugin().getWorldManager().unloadWorld(worldName)) {
+            getMessager().message(sender, UNLOAD_SUCCESS, worldName);
         } else {
-            core.getMessager().message(sender, UNLOAD_FAILURE, worldName);
+            getMessager().message(sender, UNLOAD_FAILURE, worldName);
         }
         return true;
     }

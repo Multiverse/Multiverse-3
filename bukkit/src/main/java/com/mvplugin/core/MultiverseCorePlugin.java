@@ -7,6 +7,7 @@ import com.mvplugin.core.api.CoreConfig;
 import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.SafeTeleporter;
 import com.mvplugin.core.command.ImportCommand;
+import com.mvplugin.core.command.ListCommand;
 import com.mvplugin.core.command.LoadCommand;
 import com.mvplugin.core.command.UnloadCommand;
 import com.mvplugin.core.util.BukkitLanguage;
@@ -65,6 +66,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
         registerCommand(ImportCommand.class);
         registerCommand(LoadCommand.class);
         registerCommand(UnloadCommand.class);
+        registerCommand(ListCommand.class);
     }
 
     @NotNull

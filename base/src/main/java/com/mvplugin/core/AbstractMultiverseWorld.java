@@ -101,7 +101,8 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
     @NotNull
     @Override
     public String getAlias() {
-        return getProperties().get(WorldProperties.ALIAS);
+        final String alias = getProperties().get(WorldProperties.ALIAS);
+        return alias.isEmpty() ? getName() : alias;
     }
 
     @Override

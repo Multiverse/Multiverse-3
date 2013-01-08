@@ -73,6 +73,10 @@ public class ImportCommand extends MultiverseCommand {
 
     private static final String WORLD_FILE_NAME = "level.dat";
 
+    protected ImportCommand(@NotNull final MultiverseCore plugin) {
+        super(plugin);
+    }
+
     @Override
     public Perm getPerm() {
         return Perms.CMD_IMPORT;
@@ -85,15 +89,15 @@ public class ImportCommand extends MultiverseCommand {
     }
 
     @Override
-    public boolean runCommand(@NotNull MultiverseCore core, @NotNull BasePlayer sender, @NotNull CommandContext context) {
+    public boolean runCommand(@NotNull final BasePlayer sender, @NotNull final CommandContext context) {
         final String worldName = context.getString(0);
 
         if (worldName.toLowerCase().equals("--list") || worldName.toLowerCase().equals("-l")) {
-            final String worldList = this.getPotentialWorlds(core);
+            final String worldList = this.getPotentialWorlds();
             if (worldList.length() > 2) {
-                core.getMessager().message(sender, POTENTIAL_WORLD_LIST, worldList);
+                getMessager().message(sender, POTENTIAL_WORLD_LIST, worldList);
             } else {
-                core.getMessager().message(sender, NO_POTENTIAL_WORLDS);
+                getMessager().message(sender, NO_POTENTIAL_WORLDS);
             }
             return true;
         }
@@ -104,12 +108,12 @@ public class ImportCommand extends MultiverseCommand {
         }
 
         // Make sure we don't already know about this world.
-        if (core.getWorldManager().isManaged(worldName)) {
-            core.getMessager().message(sender, Language.WORLD_ALREADY_EXISTS, worldName);
+        if (getPlugin().getWorldManager().isManaged(worldName)) {
+            getMessager().message(sender, Language.WORLD_ALREADY_EXISTS, worldName);
             return true;
         }
 
-        File worldFile = new File(core.getServerInterface().getWorldContainer(), worldName);
+        File worldFile = new File(getPlugin().getServerInterface().getWorldContainer(), worldName);
 
         String generator = context.getFlag('g');
         boolean useSpawnAdjust = !context.hasFlag('n');
@@ -117,30 +121,30 @@ public class ImportCommand extends MultiverseCommand {
         String env = context.getString(1);
         WorldEnvironment environment = WorldEnvironment.getFromString(env);
         if (environment == null) {
-            core.getMessager().message(sender, INVALID_ENVIRONMENT);
+            getMessager().message(sender, INVALID_ENVIRONMENT);
             // TODO EnvironmentCommand.showEnvironments(sender);
             return true;
         }
 
         if (worldFile.exists() && env != null) {
-            core.getMessager().messageAndLog(sender, STARTING_IMPORT, worldName);
+            getMessager().messageAndLog(sender, STARTING_IMPORT, worldName);
             try {
-                core.getWorldManager().addWorld(worldName, environment, null, null, null, generator, useSpawnAdjust);
-                core.getMessager().messageAndLog(sender, IMPORT_COMPLETE);
+                getPlugin().getWorldManager().addWorld(worldName, environment, null, null, null, generator, useSpawnAdjust);
+                getMessager().messageAndLog(sender, IMPORT_COMPLETE);
             } catch (WorldCreationException e) {
-                core.getMessager().messageAndLog(sender, IMPORT_FAILED);
-                core.getMessager().messageAndLog(sender, e.getBundledMessage().getMessage(), e.getBundledMessage().getArgs());
+                getMessager().messageAndLog(sender, IMPORT_FAILED);
+                getMessager().messageAndLog(sender, e.getBundledMessage().getMessage(), e.getBundledMessage().getArgs());
                 if (e.getCause() != null) {
                     e.printStackTrace();
                 }
             }
         } else if (env == null) {
-            core.getMessager().message(sender, IMPORT_FAILED);
-            core.getMessager().message(sender, NON_EXISTENT_ENVIRONMENT);
+            getMessager().message(sender, IMPORT_FAILED);
+            getMessager().message(sender, NON_EXISTENT_ENVIRONMENT);
         } else {
-            core.getMessager().message(sender, IMPORT_FAILED);
-            String worldList = this.getPotentialWorlds(core);
-            core.getMessager().message(sender, NON_EXISTENT_FOLDER);
+            getMessager().message(sender, IMPORT_FAILED);
+            String worldList = this.getPotentialWorlds();
+            getMessager().message(sender, NON_EXISTENT_FOLDER);
             sender.sendMessage(worldList);
         }
         return true;
@@ -169,8 +173,8 @@ public class ImportCommand extends MultiverseCommand {
     }
 
     @NotNull
-    private String getPotentialWorlds(@NotNull final MultiverseCore core) {
-        final File worldFolder = core.getServerInterface().getWorldContainer();
+    private String getPotentialWorlds() {
+        final File worldFolder = getPlugin().getServerInterface().getWorldContainer();
         if (worldFolder == null) {
             return "";
         }
@@ -179,12 +183,12 @@ public class ImportCommand extends MultiverseCommand {
             files = new File[0];
         }
         StringBuilder worldList = new StringBuilder();
-        Collection<MultiverseWorld> worlds = core.getWorldManager().getWorlds();
+        Collection<MultiverseWorld> worlds = getPlugin().getWorldManager().getWorlds();
         List<String> worldStrings = new ArrayList<String>();
         for (MultiverseWorld world : worlds) {
             worldStrings.add(world.getName());
         }
-        for (String world : core.getWorldManager().getUnloadedWorlds()) {
+        for (String world : getPlugin().getWorldManager().getUnloadedWorlds()) {
             worldStrings.add(world);
         }
         ChatColor currColor = ChatColor.WHITE;
