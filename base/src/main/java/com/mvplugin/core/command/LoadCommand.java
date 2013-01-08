@@ -25,6 +25,9 @@ public class LoadCommand extends MultiverseCommand {
             + "\nExamples:"
             + "\n  /mv load &6gargamel&a");
 
+    public static final Message LOAD_SUCCESS = new Message("command.load.success",
+            "Successfully loaded the world '&b%s&f'!");
+
     @Override
     public Perm getPerm() {
         return Perms.CMD_LOAD;
@@ -42,6 +45,7 @@ public class LoadCommand extends MultiverseCommand {
 
         try {
             core.getWorldManager().loadWorld(worldName);
+            core.getMessager().message(sender, LOAD_SUCCESS, worldName);
         } catch (final WorldCreationException e) {
             core.getMessager().message(sender, e.getBundledMessage());
         }

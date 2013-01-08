@@ -29,11 +29,13 @@ public class PropertyDescriptions {
     public static final Message ENVIRONMENT = new Message("world_properties.descriptions.environment",
             "The Minecraft world environment such as NORMAL, NETHER, THE_END.");
 
+    /* TODO remove these when certain they won't matter.
     public static final Message TYPE = new Message("world_properties.descriptions.type",
             "The Minecraft world type such as NORMAL, FLAT, LARGE_BIOMES.  DO NOT CHANGE!");
 
     public static final Message GENERATE_STRUCTURES = new Message("world_properties.descriptions.generateStructures",
             "Whether or not the Minecraft world generates structures.  DO NOT CHANGE!");
+    */
 
     public static final Message PLAYER_LIMIT = new Message("world_properties.descriptions.playerLimit",
             "The player limit property limits the number of players in a world at a time."

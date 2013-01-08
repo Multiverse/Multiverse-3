@@ -14,7 +14,6 @@ import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
-import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.Nullable;
 
@@ -56,6 +55,7 @@ public interface WorldProperties extends Properties {
             .description(PropertyDescriptions.ENVIRONMENT)
             .build();
 
+    /* TODO remove these when certain they won't matter.
     SimpleProperty<WorldType> TYPE = PropertyFactory.newProperty(WorldType.class, "type", WorldType.NORMAL)
             .comment("The Minecraft world type such as NORMAL, FLAT, LARGE_BIOMES.  DO NOT CHANGE!")
             .description(PropertyDescriptions.TYPE)
@@ -65,6 +65,7 @@ public interface WorldProperties extends Properties {
             .comment("Whether or not the Minecraft world generates structures.  DO NOT CHANGE!")
             .description(PropertyDescriptions.GENERATE_STRUCTURES)
             .build();
+    */
 
     SimpleProperty<Integer> PLAYER_LIMIT = PropertyFactory.newProperty(Integer.class, "playerLimit", -1)
             .comment("The player limit property limits the number of players in a world at a time.")

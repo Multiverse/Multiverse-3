@@ -133,12 +133,12 @@ abstract class AbstractWorldManager implements WorldManager {
             // Transfer all the properties of the world ot a WorldCreationSettings object.
             final WorldProperties properties = getWorldProperties(name);
             final WorldCreationSettings settings = new WorldCreationSettings(name);
-            settings.type(properties.get(WorldProperties.TYPE));
+            //settings.type(properties.get(WorldProperties.TYPE));
             settings.generator(properties.get(WorldProperties.GENERATOR));
             settings.seed(properties.get(WorldProperties.SEED));
             settings.env(properties.get(WorldProperties.ENVIRONMENT));
             settings.adjustSpawn(properties.get(WorldProperties.ADJUST_SPAWN));
-            settings.generateStructures(properties.get(WorldProperties.GENERATE_STRUCTURES));
+            //settings.generateStructures(properties.get(WorldProperties.GENERATE_STRUCTURES));
 
             addWorld(settings);
         } catch (final IOException e) {
