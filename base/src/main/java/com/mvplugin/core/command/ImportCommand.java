@@ -130,6 +130,9 @@ public class ImportCommand extends MultiverseCommand {
             } catch (WorldCreationException e) {
                 core.getMessager().messageAndLog(sender, IMPORT_FAILED);
                 core.getMessager().messageAndLog(sender, e.getBundledMessage().getMessage(), e.getBundledMessage().getArgs());
+                if (e.getCause() != null) {
+                    e.printStackTrace();
+                }
             }
         } else if (env == null) {
             core.getMessager().message(sender, IMPORT_FAILED);

@@ -14,6 +14,7 @@ import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
+import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.Nullable;
 
@@ -51,8 +52,18 @@ public interface WorldProperties extends Properties {
             .build();
 
     SimpleProperty<WorldEnvironment> ENVIRONMENT = PropertyFactory.newProperty(WorldEnvironment.class, "environment", WorldEnvironment.NORMAL)
-            .comment("The environment property the Minecraft world environment such as NORMAL, NETHER, THE_END")
+            .comment("The Minecraft world environment such as NORMAL, NETHER, THE_END.")
             .description(PropertyDescriptions.ENVIRONMENT)
+            .build();
+
+    SimpleProperty<WorldType> TYPE = PropertyFactory.newProperty(WorldType.class, "environment", WorldType.NORMAL)
+            .comment("The Minecraft world type such as NORMAL, FLAT, LARGE_BIOMES.  DO NOT CHANGE!")
+            .description(PropertyDescriptions.TYPE)
+            .build();
+
+    SimpleProperty<Boolean> GENERATE_STRUCTURES = PropertyFactory.newProperty(Boolean.class, "generateStructures", true)
+            .comment("Whether or not the Minecraft world generates structures.  DO NOT CHANGE!")
+            .description(PropertyDescriptions.GENERATE_STRUCTURES)
             .build();
 
     SimpleProperty<Integer> PLAYER_LIMIT = PropertyFactory.newProperty(Integer.class, "playerLimit", -1)

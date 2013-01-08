@@ -123,7 +123,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
 
         for (File file : getPotentialWorldFiles()) {
             final String worldName = getWorldNameFromFile(file);
-            if (isManaged(worldName)) {
+            if (isLoaded(worldName)) {
                 continue;
             }
             try {

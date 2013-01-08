@@ -19,7 +19,7 @@ public class WorldListener implements Listener {
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
     public void worldUnload(@NotNull final WorldUnloadEvent event) {
-        if (!this.plugin.getWorldManager().isManaged(event.getWorld().getName())) {
+        if (!this.plugin.getWorldManager().isLoaded(event.getWorld().getName())) {
             return;
         }
 

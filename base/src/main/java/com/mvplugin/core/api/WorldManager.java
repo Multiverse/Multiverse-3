@@ -11,7 +11,6 @@ import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.List;
 
@@ -191,10 +190,20 @@ public interface WorldManager {
     /**
      * Checks if Multiverse is managing the given world by name.
      *
+     * This will check worlds loaded and unloaded.  Use {@link }
+     *
      * @param name The name of the world to check for.
-     * @return True if Multiverse is managing this world.
+     * @return True if Multiverse is managing this world whether loaded or not.
      */
     boolean isManaged(@NotNull final String name);
+
+    /**
+     * Checks if the given world is loaded by Multiverse.
+     *
+     * @param name The name of the world to check.
+     * @return True indicate this world is managed by Multiverse AND is loaded.
+     */
+    boolean isLoaded(@NotNull final String name);
 
     /**
      * Gets the managed world by the given name (or alias).
@@ -257,6 +266,18 @@ public interface WorldManager {
      * @return True if success, false if failure.
      */
     //TODO boolean deleteWorld(String name, boolean removeFromConfig, boolean deleteWorldFolder);
+
+    /**
+     * Loads the world with the given name.
+     *
+     * The world must have already been imported previously by Multiverse.
+     * This basically means this is only to be used if the world was previously unloaded by Multiverse.
+     *
+     * @param name The name of the world to load.
+     * @throws WorldCreationException if the world is already loaded or the world fails to load for some reason.
+     * The message of the exception will indicate the exact issue.
+     */
+    void loadWorld(@NotNull final String name) throws WorldCreationException;
 
     /**
      * Unload a world from Multiverse. TODO better docs
@@ -365,7 +386,7 @@ public interface WorldManager {
 
         @Override
         public boolean isValid(@Nullable final String s) {
-            return s != null && worldManager.isManaged(s);
+            return s != null && worldManager.isLoaded(s);
         }
 
         @NotNull

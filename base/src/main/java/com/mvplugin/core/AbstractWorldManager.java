@@ -91,8 +91,13 @@ abstract class AbstractWorldManager implements WorldManager {
     }
 
     @Override
-    public boolean isManaged(@NotNull final String name) {
+    public boolean isLoaded(@NotNull final String name) {
         return this.worldsMap.containsKey(name);
+    }
+
+    @Override
+    public boolean isManaged(@NotNull final String name) {
+        return this.worldsMap.containsKey(name) || this.getUnloadedWorlds().contains(name);
     }
 
     @Nullable
@@ -114,6 +119,31 @@ abstract class AbstractWorldManager implements WorldManager {
     @Override
     public Collection<MultiverseWorld> getWorlds() {
         return Collections.unmodifiableCollection(this.worldsMap.values());
+    }
+
+    @Override
+    public void loadWorld(@NotNull final String name) throws WorldCreationException {
+        if (isLoaded(name)) {
+            throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_LOADED, name));
+        }
+        if (!isManaged(name)) {
+            throw new WorldCreationException(new BundledMessage(Language.WORLD_NOT_MANAGED, name));
+        }
+        try {
+            // Transfer all the properties of the world ot a WorldCreationSettings object.
+            final WorldProperties properties = getWorldProperties(name);
+            final WorldCreationSettings settings = new WorldCreationSettings(name);
+            settings.type(properties.get(WorldProperties.TYPE));
+            settings.generator(properties.get(WorldProperties.GENERATOR));
+            settings.seed(properties.get(WorldProperties.SEED));
+            settings.env(properties.get(WorldProperties.ENVIRONMENT));
+            settings.adjustSpawn(properties.get(WorldProperties.ADJUST_SPAWN));
+            settings.generateStructures(properties.get(WorldProperties.GENERATE_STRUCTURES));
+
+            addWorld(settings);
+        } catch (final IOException e) {
+            throw new WorldCreationException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
+        }
     }
 
     @Override

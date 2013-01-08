@@ -27,7 +27,13 @@ public class PropertyDescriptions {
             "The generator property allows you to specify the generator used to generate this world.");
 
     public static final Message ENVIRONMENT = new Message("world_properties.descriptions.environment",
-            "The environment property the Minecraft world environment such as NORMAL, NETHER, THE_END");
+            "The Minecraft world environment such as NORMAL, NETHER, THE_END.");
+
+    public static final Message TYPE = new Message("world_properties.descriptions.type",
+            "The Minecraft world type such as NORMAL, FLAT, LARGE_BIOMES.  DO NOT CHANGE!");
+
+    public static final Message GENERATE_STRUCTURES = new Message("world_properties.descriptions.generateStructures",
+            "Whether or not the Minecraft world generates structures.  DO NOT CHANGE!");
 
     public static final Message PLAYER_LIMIT = new Message("world_properties.descriptions.playerLimit",
             "The player limit property limits the number of players in a world at a time."
