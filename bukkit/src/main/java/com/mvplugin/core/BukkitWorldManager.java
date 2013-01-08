@@ -218,7 +218,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
             c.generateStructures(generateStructures);
         }
         final String generator = settings.generator();
-        if (generator != null) {
+        if (generator != null && !generator.isEmpty()) {
             final String[] split = generator.split(":", 2);
             final String id = (split.length > 1) ? split[1] : null;
             final Plugin plugin = Bukkit.getPluginManager().getPlugin(split[0]);

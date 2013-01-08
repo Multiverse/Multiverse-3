@@ -56,7 +56,7 @@ public interface WorldProperties extends Properties {
             .description(PropertyDescriptions.ENVIRONMENT)
             .build();
 
-    SimpleProperty<WorldType> TYPE = PropertyFactory.newProperty(WorldType.class, "environment", WorldType.NORMAL)
+    SimpleProperty<WorldType> TYPE = PropertyFactory.newProperty(WorldType.class, "type", WorldType.NORMAL)
             .comment("The Minecraft world type such as NORMAL, FLAT, LARGE_BIOMES.  DO NOT CHANGE!")
             .description(PropertyDescriptions.TYPE)
             .build();
