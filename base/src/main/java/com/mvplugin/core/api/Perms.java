@@ -7,4 +7,5 @@ public interface Perms {
 
     Perm CMD_IMPORT = PermFactory.newPerm(MultiverseCore.class, "cmd.import").commandPermission().build();
     Perm CMD_LOAD = PermFactory.newPerm(MultiverseCore.class, "cmd.load").commandPermission().build();
+    Perm CMD_UNLOAD = PermFactory.newPerm(MultiverseCore.class, "cmd.unload").commandPermission().build();
 }

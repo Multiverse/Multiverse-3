@@ -280,9 +280,12 @@ public interface WorldManager {
     void loadWorld(@NotNull final String name) throws WorldCreationException;
 
     /**
-     * Unload a world from Multiverse. TODO better docs
+     * Unload a world from Multiverse.
      *
-     * @param name Name of the world to unload
+     * This will remove the world from memory but leave the world properties persistence object in tact.
+     * This means that the server implementation shall make the world unreachable.
+     *
+     * @param name Name of the world to unload.
      * @return True if the world was unloaded, false if not.
      */
     boolean unloadWorld(@NotNull final String name);

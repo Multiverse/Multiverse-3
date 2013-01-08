@@ -4,48 +4,42 @@ import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.dumptruckman.minecraft.pluginbase.plugin.command.CommandInfo;
-import com.mvplugin.core.WorldCreationException;
 import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.Perms;
 import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 
 @CommandInfo(
-        primaryAlias = "load",
-        desc = "Loads a Multiverse World that has been unloaded.",
+        primaryAlias = "unload",
+        desc = "Unloads a world managed by Multiverse.",
         usage = "{NAME}",
-        directlyPrefixedAliases = "load",
+        directlyPrefixedAliases = "unload",
         min = 1,
         max = 1
 )
-public class LoadCommand extends MultiverseCommand {
+public class UnloadCommand extends MultiverseCommand {
 
-    public static final Message LOAD_HELP = new Message("command.load.help",
-            "Loads a world that has previously been imported but is currently unloaded."
+    public static final Message UNLOAD_HELP = new Message("command.unload.help",
+            "Unloads a world that has previously been imported and is currently loaded."
+            + "\nThis will remove the world from memory but not delete anything."
             + "\nExamples:"
-            + "\n  /mv load &6gargamel&a");
+            + "\n  /mv unload &6gargamel&a");
 
     @Override
     public Perm getPerm() {
-        return Perms.CMD_LOAD;
+        return Perms.CMD_UNLOAD;
     }
 
     @NotNull
     @Override
     public Message getHelp() {
-        return LOAD_HELP;
+        return UNLOAD_HELP;
     }
 
     @Override
     public boolean runCommand(@NotNull MultiverseCore core, @NotNull BasePlayer sender, @NotNull CommandContext context) {
         final String worldName = context.getString(0);
-
-        try {
-            core.getWorldManager().loadWorld(worldName);
-        } catch (final WorldCreationException e) {
-            core.getMessager().message(sender, e.getBundledMessage());
-        }
-
+        core.getWorldManager().unloadWorld(worldName);
         return true;
     }
 }

@@ -7,6 +7,8 @@ import com.mvplugin.core.api.CoreConfig;
 import com.mvplugin.core.api.MultiverseCore;
 import com.mvplugin.core.api.SafeTeleporter;
 import com.mvplugin.core.command.ImportCommand;
+import com.mvplugin.core.command.LoadCommand;
+import com.mvplugin.core.command.UnloadCommand;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
 
@@ -57,6 +59,8 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     @Override
     protected void registerCommands() {
         registerCommand(ImportCommand.class);
+        registerCommand(LoadCommand.class);
+        registerCommand(UnloadCommand.class);
     }
 
     @NotNull
