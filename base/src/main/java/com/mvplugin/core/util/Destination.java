@@ -1,4 +1,4 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core.util;
 
 public interface Destination {
 }

@@ -1,4 +1,4 @@
-package com.mvplugin.core;
+package com.mvplugin.core.exceptions;
 
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
 import com.dumptruckman.minecraft.pluginbase.messaging.ChatColor;

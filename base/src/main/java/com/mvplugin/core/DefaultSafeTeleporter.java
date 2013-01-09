@@ -7,9 +7,9 @@ import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
-import com.mvplugin.core.api.Destination;
-import com.mvplugin.core.api.MultiverseCoreAPI;
-import com.mvplugin.core.api.SafeTeleporter;
+import com.mvplugin.core.exceptions.TeleportException;
+import com.mvplugin.core.util.Destination;
+import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

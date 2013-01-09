@@ -1,7 +1,7 @@
 package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.properties.YamlProperties;
-import com.mvplugin.core.api.CoreConfig;
+import com.mvplugin.core.util.CoreConfig;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;

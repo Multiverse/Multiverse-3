@@ -1,4 +1,4 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core.util;
 
 import com.dumptruckman.minecraft.pluginbase.config.BaseConfig;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;

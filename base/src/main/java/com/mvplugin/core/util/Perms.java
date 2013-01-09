@@ -1,8 +1,9 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core.util;
 
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.dumptruckman.minecraft.pluginbase.permission.PermDefault;
 import com.dumptruckman.minecraft.pluginbase.permission.PermFactory;
+import com.mvplugin.core.plugin.MultiverseCore;
 
 public class Perms {
 

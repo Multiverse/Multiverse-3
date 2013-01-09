@@ -1,4 +1,4 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core.world;
 
 import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
@@ -14,7 +14,7 @@ public interface WorldPurger {
     /**
      * Synchronizes the given worlds with their settings.
      *
-     * @param worlds A list of {@link com.mvplugin.core.api.MultiverseWorld}
+     * @param worlds A list of {@link MultiverseWorld}
      */
     void purgeWorlds(@NotNull final List<MultiverseWorld> worlds);
 

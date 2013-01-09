@@ -1,7 +1,6 @@
 package com.mvplugin.core;
 
-import com.mvplugin.core.api.MultiverseCoreAPI;
-import com.mvplugin.core.api.MultiverseWorld;
+import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
 /**

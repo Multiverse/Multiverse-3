@@ -1,9 +1,9 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core.world;
 
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
-import com.mvplugin.core.TeleportException;
-import com.mvplugin.core.WorldCreationException;
+import com.mvplugin.core.exceptions.TeleportException;
+import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.Generator;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;

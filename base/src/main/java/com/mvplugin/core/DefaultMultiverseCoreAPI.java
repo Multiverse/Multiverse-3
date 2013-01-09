@@ -1,9 +1,8 @@
 package com.mvplugin.core;
 
-import com.mvplugin.core.api.BlockSafety;
-import com.mvplugin.core.api.MultiverseCoreAPI;
-import com.mvplugin.core.api.SafeTeleporter;
-import com.mvplugin.core.api.WorldManager;
+import com.mvplugin.core.util.BlockSafety;
+import com.mvplugin.core.util.SafeTeleporter;
+import com.mvplugin.core.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
 
 class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {

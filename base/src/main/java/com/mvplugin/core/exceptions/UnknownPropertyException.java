@@ -5,7 +5,7 @@
  * with this project.                                                         *
  ******************************************************************************/
 
-package com.mvplugin.core;
+package com.mvplugin.core.exceptions;
 
 /**
  * Thrown when a world-property doesn't exist.

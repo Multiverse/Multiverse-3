@@ -4,9 +4,9 @@ import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.dumptruckman.minecraft.pluginbase.plugin.command.CommandInfo;
-import com.mvplugin.core.WorldCreationException;
-import com.mvplugin.core.api.MultiverseCore;
-import com.mvplugin.core.api.Perms;
+import com.mvplugin.core.exceptions.WorldCreationException;
+import com.mvplugin.core.plugin.MultiverseCore;
+import com.mvplugin.core.util.Perms;
 import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 

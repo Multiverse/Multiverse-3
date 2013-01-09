@@ -1,6 +1,8 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core;
 
-import com.mvplugin.core.EventProcessor;
+import com.mvplugin.core.util.BlockSafety;
+import com.mvplugin.core.util.SafeTeleporter;
+import com.mvplugin.core.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
 
 public interface MultiverseCoreAPI {
@@ -10,7 +12,7 @@ public interface MultiverseCoreAPI {
      *
      * The world manager allows you to perform various tasks related to Minecraft worlds.
      *
-     * @return {@link com.mvplugin.core.api.WorldManager}.
+     * @return {@link com.mvplugin.core.world.WorldManager}.
      */
     @NotNull
     public WorldManager getWorldManager();

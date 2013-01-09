@@ -2,8 +2,9 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
-import com.mvplugin.core.api.MultiverseWorld;
-import com.mvplugin.core.api.WorldProperties;
+import com.mvplugin.core.exceptions.WorldCreationException;
+import com.mvplugin.core.world.MultiverseWorld;
+import com.mvplugin.core.world.WorldProperties;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.BukkitLanguage;

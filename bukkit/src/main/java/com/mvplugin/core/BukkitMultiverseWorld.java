@@ -4,8 +4,8 @@ import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
 import com.dumptruckman.minecraft.pluginbase.util.BukkitTools;
-import com.mvplugin.core.api.WorldProperties;
-import com.mvplugin.core.api.WorldProperties.Spawning.Animals;
+import com.mvplugin.core.world.WorldProperties;
+import com.mvplugin.core.world.WorldProperties.Spawning.Animals;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Convert;
 import org.bukkit.Bukkit;
@@ -22,7 +22,7 @@ import java.util.UUID;
  * Bukkit implementation of MultiverseWorld which links to a {@link World}.
  *
  * This class may offer additional methods over the standard ones provided by
- * {@link com.mvplugin.core.api.MultiverseWorld} that relate specifically to Bukkit.
+ * {@link com.mvplugin.core.world.MultiverseWorld} that relate specifically to Bukkit.
  */
 public class BukkitMultiverseWorld extends AbstractMultiverseWorld {
 

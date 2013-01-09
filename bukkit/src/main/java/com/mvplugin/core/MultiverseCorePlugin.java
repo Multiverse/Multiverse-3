@@ -2,11 +2,10 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
-import com.mvplugin.core.api.BlockSafety;
-import com.mvplugin.core.api.CoreConfig;
-import com.mvplugin.core.api.MultiverseCore;
-import com.mvplugin.core.api.MultiverseCoreAPI;
-import com.mvplugin.core.api.SafeTeleporter;
+import com.mvplugin.core.plugin.MultiverseCore;
+import com.mvplugin.core.util.BlockSafety;
+import com.mvplugin.core.util.CoreConfig;
+import com.mvplugin.core.util.SafeTeleporter;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.command.ListCommand;
 import com.mvplugin.core.command.LoadCommand;
@@ -21,7 +20,7 @@ import java.io.IOException;
 /**
  * The primary Bukkit plugin implementation of Multiverse-Core.
  *
- * See {@link com.mvplugin.core.api.MultiverseCore} for a more detailed external api javadocs.
+ * See {@link com.mvplugin.core.plugin.MultiverseCore} for a more detailed external api javadocs.
  */
 public class MultiverseCorePlugin extends AbstractBukkitPlugin implements MultiverseCore {
 

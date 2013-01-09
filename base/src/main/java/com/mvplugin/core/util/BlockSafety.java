@@ -1,4 +1,4 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core.util;
 
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.BlockCoordinates;
 import org.jetbrains.annotations.NotNull;

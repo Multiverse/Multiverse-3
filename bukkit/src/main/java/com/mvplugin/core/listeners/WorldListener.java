@@ -1,7 +1,7 @@
 package com.mvplugin.core.listeners;
 
 import com.mvplugin.core.MultiverseCorePlugin;
-import com.mvplugin.core.api.MultiverseWorld;
+import com.mvplugin.core.world.MultiverseWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;

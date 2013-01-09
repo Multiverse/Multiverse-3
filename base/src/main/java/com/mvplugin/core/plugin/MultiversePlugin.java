@@ -1,4 +1,4 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core.plugin;
 
 import com.dumptruckman.minecraft.pluginbase.plugin.PluginBase;
 import org.jetbrains.annotations.NotNull;

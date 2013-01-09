@@ -3,7 +3,7 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.BlockCoordinates;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
-import com.mvplugin.core.api.BlockSafety;
+import com.mvplugin.core.util.BlockSafety;
 import org.jetbrains.annotations.NotNull;
 
 abstract class AbstractBlockSafety implements BlockSafety {

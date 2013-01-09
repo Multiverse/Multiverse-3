@@ -1,4 +1,4 @@
-package com.mvplugin.core.api;
+package com.mvplugin.core.world;
 
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
