@@ -13,7 +13,6 @@ import com.mvplugin.core.util.CoreConfig;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
-import com.mvplugin.core.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -29,7 +28,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     private static final String COMMAND_PREFIX = "mv";
     private static final String PERMISSION_PREFIX = "multiverse";
 
-    private MultiverseCoreAPI api;
+    private DefaultMultiverseCoreAPI<BukkitMultiverseWorld> api;
 
     @NotNull
     @Override
@@ -55,7 +54,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     }
 
     private void prepareAPI() {
-        this.api = new DefaultMultiverseCoreAPI(new BukkitWorldUtil(this), new BukkitBlockSafety());
+        this.api = new DefaultMultiverseCoreAPI<BukkitMultiverseWorld>(new BukkitWorldUtil(this), new BukkitBlockSafety());
     }
 
     @Override
@@ -75,7 +74,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     @NotNull
     @Override
     public WorldManager<BukkitMultiverseWorld> getWorldManager() {
-        return (WorldManager<BukkitMultiverseWorld>) this.api.getWorldManager();
+        return this.api.getWorldManager();
     }
 
     @NotNull

@@ -2,13 +2,13 @@ package com.mvplugin.core;
 
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
-import com.mvplugin.core.world.WorldManager;
+import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
-class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
+class DefaultMultiverseCoreAPI<W extends MultiverseWorld> implements MultiverseCoreAPI {
 
     @NotNull
-    private final WorldManager worldManager;
+    private final WorldManager<W> worldManager;
     @NotNull
     private final BlockSafety blockSafety;
     @NotNull
@@ -17,7 +17,7 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     private final SafeTeleporter safeTeleporter;
 
     DefaultMultiverseCoreAPI(@NotNull final WorldUtil worldUtil, @NotNull final BlockSafety blockSafety) {
-        this.worldManager = new DefaultWorldManager(this, worldUtil);
+        this.worldManager = new WorldManager<W>(this, worldUtil);
         this.blockSafety = blockSafety;
         this.eventProcessor = new EventProcessor(this);
         this.safeTeleporter = new DefaultSafeTeleporter(this);
@@ -28,10 +28,10 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
      *
      * The world manager allows you to perform various tasks related to Minecraft worlds.
      *
-     * @return {@link com.mvplugin.core.world.WorldManager}.
+     * @return {@link WorldManager}.
      */
     @NotNull
-    public WorldManager getWorldManager() {
+    public WorldManager<W> getWorldManager() {
         return worldManager;
     }
 

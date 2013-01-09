@@ -3,7 +3,6 @@ package com.mvplugin.core;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
 import com.mvplugin.core.world.MultiverseWorld;
-import com.mvplugin.core.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
 
 public interface MultiverseCoreAPI {
@@ -13,7 +12,7 @@ public interface MultiverseCoreAPI {
      *
      * The world manager allows you to perform various tasks related to Minecraft worlds.
      *
-     * @return {@link com.mvplugin.core.world.WorldManager}.
+     * @return {@link WorldManager}.
      */
     @NotNull
     public WorldManager<? extends MultiverseWorld> getWorldManager();
