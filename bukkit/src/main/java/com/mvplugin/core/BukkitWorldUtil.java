@@ -3,13 +3,14 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
 import com.mvplugin.core.exceptions.WorldCreationException;
-import com.mvplugin.core.world.MultiverseWorld;
-import com.mvplugin.core.world.WorldCreationSettings;
-import com.mvplugin.core.world.WorldProperties;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.BukkitLanguage;
 import com.mvplugin.core.util.Convert;
+import com.mvplugin.core.world.MultiverseWorld;
+import com.mvplugin.core.world.WorldCreationSettings;
+import com.mvplugin.core.world.WorldProperties;
+import com.mvplugin.core.world.validators.RespawnWorldValidator;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -17,7 +18,6 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -30,11 +30,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-public class BukkitWorldManager extends AbstractWorldManager {
+class BukkitWorldUtil implements WorldUtil<BukkitMultiverseWorld> {
 
     @NotNull
     private final MultiverseCorePlugin plugin;
-
     @NotNull
     private final File worldsFolder;
 
@@ -43,49 +42,12 @@ public class BukkitWorldManager extends AbstractWorldManager {
     @NotNull
     private final Map<String, String> defaultGens;
 
-    BukkitWorldManager(@NotNull MultiverseCorePlugin plugin) {
-        super(plugin);
+    BukkitWorldUtil(@NotNull final MultiverseCorePlugin plugin) {
         this.plugin = plugin;
         this.worldsFolder = new File(plugin.getDataFolder(), "worlds");
         this.worldPropertiesMap = new HashMap<String, WorldProperties>();
         this.defaultGens = new HashMap<String, String>();
         initializeDefaultWorldGenerators();
-        initializeWorlds();
-    }
-
-    @NotNull
-    @Override
-    public BukkitMultiverseWorld addWorld(@NotNull final String name, @Nullable final WorldEnvironment env, @Nullable final String seedString, @Nullable final WorldType type, @Nullable final Boolean generateStructures, @Nullable final String generator) throws WorldCreationException {
-        return (BukkitMultiverseWorld) super.addWorld(name, env, seedString, type, generateStructures, generator);
-    }
-
-    @NotNull
-    @Override
-    public BukkitMultiverseWorld addWorld(@NotNull final String name, @Nullable final WorldEnvironment env, @Nullable final String seedString, @Nullable final WorldType type, @Nullable final Boolean generateStructures, @Nullable final String generator, final boolean useSpawnAdjust) throws WorldCreationException {
-        return (BukkitMultiverseWorld) super.addWorld(name, env, seedString, type, generateStructures, generator, useSpawnAdjust);
-    }
-
-    @NotNull
-    @Override
-    public BukkitMultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
-        return (BukkitMultiverseWorld) super.addWorld(settings);
-    }
-
-    @Override
-    @Nullable
-    public BukkitMultiverseWorld getWorld(@NotNull final String name) {
-        return (BukkitMultiverseWorld) super.getWorld(name);
-    }
-
-    /**
-     * Convenience method for retrieving a Multiverse world from a given Bukkit world.
-     *
-     * @param world The Bukkit world to get the Multiverse world for.
-     * @return The Multiverse world associated with the given Bukkit world or null if no match is found.
-     */
-    @Nullable
-    public BukkitMultiverseWorld getWorld(@NotNull final World world) {
-        return getWorld(world.getName());
     }
 
     private void initializeDefaultWorldGenerators() {
@@ -108,12 +70,15 @@ public class BukkitWorldManager extends AbstractWorldManager {
         }
     }
 
-    private void initializeWorlds() {
+    @NotNull
+    @Override
+    public Map<String, BukkitMultiverseWorld> getInitialWorlds() {
+        Map<String, BukkitMultiverseWorld> initialWorlds = new HashMap<String, BukkitMultiverseWorld>(Bukkit.getWorlds().size());
         StringBuilder builder = new StringBuilder();
         for (final World w : Bukkit.getWorlds()) {
             try {
                 final BukkitMultiverseWorld world = getBukkitWorld(w);
-                this.worldsMap.put(world.getName(), world);
+                initialWorlds.put(world.getName(), world);
                 if (builder.length() != 0) {
                     builder.append(", ");
                 }
@@ -125,15 +90,19 @@ public class BukkitWorldManager extends AbstractWorldManager {
 
         for (File file : getPotentialWorldFiles()) {
             final String worldName = getWorldNameFromFile(file);
-            if (isLoaded(worldName)) {
+            if (initialWorlds.containsKey(worldName)) {
                 continue;
             }
             try {
                 final WorldProperties worldProperties = getWorldProperties(file);
                 if (worldProperties.get(WorldProperties.AUTO_LOAD)) {
-                    addWorld(worldName, worldProperties.get(WorldProperties.ENVIRONMENT), null, null,
-                            null, worldProperties.get(WorldProperties.GENERATOR),
-                            worldProperties.get(WorldProperties.ADJUST_SPAWN));
+                    final WorldCreationSettings settings = new WorldCreationSettings(worldName);
+                    settings.env(worldProperties.get(WorldProperties.ENVIRONMENT));
+                    settings.generator(worldProperties.get(WorldProperties.GENERATOR));
+                    settings.adjustSpawn(worldProperties.get(WorldProperties.ADJUST_SPAWN));
+                    final BukkitMultiverseWorld mvWorld = createWorld(settings);
+                    mvWorld.setAdjustSpawn(settings.adjustSpawn());
+                    initialWorlds.put(mvWorld.getName(), mvWorld);
                     if (builder.length() != 0) {
                         builder.append(", ");
                     }
@@ -150,6 +119,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
 
         // Simple Output to the Console to show how many Worlds were loaded.
         Logging.config("Multiverse is now managing: %s", builder.toString());
+        return initialWorlds;
     }
 
     private String getWorldNameFromFile(@NotNull final File file) {
@@ -172,7 +142,7 @@ public class BukkitWorldManager extends AbstractWorldManager {
     @NotNull
     private WorldProperties getWorldProperties(@NotNull final File file) throws IOException {
         final YamlWorldProperties worldProperties = new YamlWorldProperties(file);
-        worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(this));
+        worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(plugin));
         return worldProperties;
     }
 
@@ -253,27 +223,13 @@ public class BukkitWorldManager extends AbstractWorldManager {
     }
 
     @Override
-    protected boolean unloadWorldFromServer(@NotNull final MultiverseWorld world) {
+    public boolean unloadWorldFromServer(@NotNull final MultiverseWorld world) {
         return this.plugin.getServer().unloadWorld(world.getName(), true);
     }
 
     @NotNull
     @Override
-    protected MultiverseWorld getSafeWorld() {
-        final World world = Bukkit.getWorlds().get(0);
-        MultiverseWorld mvWorld = getWorld(world);
-        if (mvWorld == null) {
-            Logging.warning("Safe world not locatable.  Loading default world into Multiverse!  This may be bad.");
-            final WorldCreationSettings settings = new WorldCreationSettings(world.getName());
-            settings.env(Convert.fromBukkit(world.getEnvironment()));
-            settings.seed(world.getSeed());
-            settings.type(Convert.fromBukkit(world.getWorldType()));
-            try {
-                mvWorld = addWorld(settings);
-            } catch (final WorldCreationException e) {
-                throw new RuntimeException(e);
-            }
-        }
-        return mvWorld;
+    public String getSafeWorldName() {
+        return Bukkit.getWorlds().get(0).getName();
     }
 }

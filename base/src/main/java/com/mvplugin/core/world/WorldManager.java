@@ -2,6 +2,7 @@ package com.mvplugin.core.world;
 
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
+import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.Generator;
@@ -20,7 +21,7 @@ import java.util.List;
  * This API contains all of the world managing
  * functions that your heart desires!
  */
-public interface WorldManager {
+public interface WorldManager<W extends MultiverseWorld> {
 
     /**
      * Add a new World to the Multiverse Setup.
@@ -37,7 +38,7 @@ public interface WorldManager {
      * @throws WorldCreationException If world creation fails.
      */
     @NotNull
-    MultiverseWorld addWorld(@NotNull final String name,
+    W addWorld(@NotNull final String name,
                              @Nullable final WorldEnvironment env,
                              @Nullable final String seedString,
                              @Nullable final WorldType type,
@@ -60,7 +61,7 @@ public interface WorldManager {
      * @throws WorldCreationException If world creation fails.
      */
     @NotNull
-    MultiverseWorld addWorld(@NotNull final String name,
+    W addWorld(@NotNull final String name,
                              @Nullable final WorldEnvironment env,
                              @Nullable final String seedString,
                              @Nullable final WorldType type,
@@ -75,7 +76,7 @@ public interface WorldManager {
      * @throws WorldCreationException If world creation fails.
      */
     @NotNull
-    MultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;
+    W addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;
 
     /**
      * Creates a world with the given properties.
@@ -125,7 +126,7 @@ public interface WorldManager {
      * or alias.
      */
     @Nullable
-    MultiverseWorld getWorld(@NotNull final String name);
+    W getWorld(@NotNull final String name);
 
     /**
      * Returns a collection of all the loaded worlds managed by Multiverse.
@@ -133,7 +134,7 @@ public interface WorldManager {
      * @return A collection of all the loaded worlds managed by Multiverse.
      */
     @NotNull
-    Collection<MultiverseWorld> getWorlds();
+    Collection<W> getWorlds();
 
     /**
      * Make a copy of a world.
@@ -287,24 +288,4 @@ public interface WorldManager {
     @NotNull
     List<String> getUnloadedWorlds();
 
-    class RespawnWorldValidator implements PropertyValidator<String> {
-
-        @NotNull
-        private final WorldManager worldManager;
-
-        public RespawnWorldValidator(@NotNull final WorldManager worldManager) {
-            this.worldManager = worldManager;
-        }
-
-        @Override
-        public boolean isValid(@Nullable final String s) {
-            return s != null && worldManager.isLoaded(s);
-        }
-
-        @NotNull
-        @Override
-        public Message getInvalidMessage() {
-            return PropertyDescriptions.INVALID_RESPAWN_WORLD;
-        }
-    }
 }

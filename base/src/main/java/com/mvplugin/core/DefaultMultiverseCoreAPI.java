@@ -16,8 +16,8 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     @NotNull
     private final SafeTeleporter safeTeleporter;
 
-    DefaultMultiverseCoreAPI(@NotNull final WorldManager worldManager, @NotNull final BlockSafety blockSafety) {
-        this.worldManager = worldManager;
+    DefaultMultiverseCoreAPI(@NotNull final WorldUtil worldUtil, @NotNull final BlockSafety blockSafety) {
+        this.worldManager = new DefaultWorldManager(this, worldUtil);
         this.blockSafety = blockSafety;
         this.eventProcessor = new EventProcessor(this);
         this.safeTeleporter = new DefaultSafeTeleporter(this);

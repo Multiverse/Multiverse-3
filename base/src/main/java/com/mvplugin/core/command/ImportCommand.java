@@ -183,9 +183,9 @@ public class ImportCommand extends MultiverseCommand {
             files = new File[0];
         }
         StringBuilder worldList = new StringBuilder();
-        Collection<MultiverseWorld> worlds = getPlugin().getWorldManager().getWorlds();
+        Collection<? extends MultiverseWorld> worlds = getPlugin().getWorldManager().getWorlds();
         List<String> worldStrings = new ArrayList<String>();
-        for (MultiverseWorld world : worlds) {
+        for (final MultiverseWorld world : worlds) {
             worldStrings.add(world.getName());
         }
         for (String world : getPlugin().getWorldManager().getUnloadedWorlds()) {

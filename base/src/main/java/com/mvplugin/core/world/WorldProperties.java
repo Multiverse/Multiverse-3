@@ -81,6 +81,7 @@ public interface WorldProperties extends Properties {
 
     SimpleProperty<Boolean> AUTO_LOAD = PropertyFactory.newProperty(Boolean.class, "autoLoad", true)
             .comment("The autoLoad dictates whether this world is loaded automatically on startup or not.")
+            .comment("This has no effect on default worlds!")
             .description(PropertyDescriptions.AUTO_LOAD)
             .build();
 

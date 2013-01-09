@@ -2,6 +2,7 @@ package com.mvplugin.core;
 
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
+import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
 
@@ -15,7 +16,7 @@ public interface MultiverseCoreAPI {
      * @return {@link com.mvplugin.core.world.WorldManager}.
      */
     @NotNull
-    public WorldManager getWorldManager();
+    public WorldManager<? extends MultiverseWorld> getWorldManager();
 
     /**
      * Gets the event processor for Multiverse-Core.

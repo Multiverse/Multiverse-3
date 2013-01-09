@@ -9,15 +9,14 @@ import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinate
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.exceptions.WorldCreationException;
-import com.mvplugin.core.plugin.MultiverseCore;
-import com.mvplugin.core.world.MultiverseWorld;
-import com.mvplugin.core.util.SafeTeleporter;
-import com.mvplugin.core.world.WorldCreationSettings;
-import com.mvplugin.core.world.WorldManager;
-import com.mvplugin.core.world.WorldProperties;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Language;
+import com.mvplugin.core.util.SafeTeleporter;
+import com.mvplugin.core.world.MultiverseWorld;
+import com.mvplugin.core.world.WorldCreationSettings;
+import com.mvplugin.core.world.WorldManager;
+import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -25,23 +24,28 @@ import java.io.IOException;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
-abstract class AbstractWorldManager implements WorldManager {
+class DefaultWorldManager<W extends MultiverseWorld> implements WorldManager<W> {
 
     @NotNull
-    protected final MultiverseCore plugin;
+    private final MultiverseCoreAPI api;
     @NotNull
-    protected final Map<String, MultiverseWorld> worldsMap;
+    private final Map<String, W> worldsMap;
+    @NotNull
+    private final WorldUtil<W> worldUtil;
 
-    AbstractWorldManager(@NotNull final MultiverseCore plugin) {
-        this.plugin = plugin;
-        this.worldsMap = new HashMap<String, MultiverseWorld>();
+    DefaultWorldManager(@NotNull final MultiverseCoreAPI api, @NotNull final WorldUtil<W> worldUtil) {
+        this.api = api;
+        this.worldUtil = worldUtil;
+        this.worldsMap = new HashMap<String, W>();
+        this.worldsMap.putAll(worldUtil.getInitialWorlds());
     }
 
     @NotNull
     @Override
-    public MultiverseWorld addWorld(@NotNull final String name,
+    public W addWorld(@NotNull final String name,
                                     @Nullable final WorldEnvironment env,
                                     @Nullable final String seedString,
                                     @Nullable final WorldType type,
@@ -52,7 +56,7 @@ abstract class AbstractWorldManager implements WorldManager {
 
     @NotNull
     @Override
-    public MultiverseWorld addWorld(@NotNull final String name,
+    public W addWorld(@NotNull final String name,
                                     @Nullable final WorldEnvironment env,
                                     @Nullable final String seedString,
                                     @Nullable final WorldType type,
@@ -83,11 +87,11 @@ abstract class AbstractWorldManager implements WorldManager {
 
     @NotNull
     @Override
-    public MultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
+    public W addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
         if (this.worldsMap.containsKey(settings.name())) {
             throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
         }
-        MultiverseWorld mvWorld = createWorld(settings);
+        W mvWorld = this.worldUtil.createWorld(settings);
         mvWorld.setAdjustSpawn(settings.adjustSpawn());
         this.worldsMap.put(settings.name(), mvWorld);
         return mvWorld;
@@ -105,12 +109,12 @@ abstract class AbstractWorldManager implements WorldManager {
 
     @Nullable
     @Override
-    public MultiverseWorld getWorld(@NotNull final String name) {
-        final MultiverseWorld world = this.worldsMap.get(name);
+    public W getWorld(@NotNull final String name) {
+        final W world = this.worldsMap.get(name);
         if (world != null) {
             return world;
         }
-        for (final MultiverseWorld w : this.worldsMap.values()) {
+        for (final W w : this.worldsMap.values()) {
             if (w.getAlias().equals(name)) {
                 return w;
             }
@@ -120,7 +124,7 @@ abstract class AbstractWorldManager implements WorldManager {
 
     @NotNull
     @Override
-    public Collection<MultiverseWorld> getWorlds() {
+    public Collection<W> getWorlds() {
         return Collections.unmodifiableCollection(this.worldsMap.values());
     }
 
@@ -134,7 +138,7 @@ abstract class AbstractWorldManager implements WorldManager {
         }
         try {
             // Transfer all the properties of the world ot a WorldCreationSettings object.
-            final WorldProperties properties = getWorldProperties(name);
+            final WorldProperties properties = this.worldUtil.getWorldProperties(name);
             final WorldCreationSettings settings = new WorldCreationSettings(name);
             //settings.type(properties.get(WorldProperties.TYPE));
             settings.generator(properties.get(WorldProperties.GENERATOR));
@@ -151,7 +155,7 @@ abstract class AbstractWorldManager implements WorldManager {
 
     @Override
     public boolean unloadWorld(@NotNull final String name) {
-        final MultiverseWorld world = getWorld(name);
+        final W world = getWorld(name);
         if (world != null) {
             return unloadWorld(world);
         }
@@ -178,7 +182,7 @@ abstract class AbstractWorldManager implements WorldManager {
             e.printStackTrace();
             return false;
         }
-        if (unloadWorldFromServer(world)) {
+        if (this.worldUtil.unloadWorldFromServer(world)) {
             this.worldsMap.remove(world.getName());
             Logging.info("World '%s' was unloaded from memory.", world.getName());
             return true;
@@ -190,8 +194,8 @@ abstract class AbstractWorldManager implements WorldManager {
 
     @Override
     public void removePlayersFromWorld(@NotNull final MultiverseWorld world) throws TeleportException {
-        final MultiverseWorld safeWorld = getSafeWorld();
-        final SafeTeleporter teleporter = this.plugin.getSafeTeleporter();
+        final W safeWorld = getSafeWorld();
+        final SafeTeleporter teleporter = this.api.getSafeTeleporter();
         final FacingCoordinates sLoc = safeWorld.getSpawnLocation();
         final EntityCoordinates location = Locations.getEntityCoordinates(safeWorld.getName(),
                 sLoc.getX(), sLoc.getY(), sLoc.getZ(), sLoc.getPitch(), sLoc.getYaw());
@@ -202,37 +206,13 @@ abstract class AbstractWorldManager implements WorldManager {
         }
     }
 
-    /**
-     * Creates a world with the given properties.
-     * </p>
-     * If a Minecraft world is already loaded with this name, a WorldCreationException will be thrown with a message
-     * stating such.
-     * </p>
-     * If a Minecraft world already exists but it not loaded, it will be loaded and a Multiverse world will be created
-     * to represent it.
-     * </p>
-     * If no previous Minecraft world exists it will be created and loaded and a Multiverse world will be created to
-     * represent it.
-     *
-     * @param settings The settings to set up the world with.
-     * @return The new Multiverse world created to represent the given world.
-     * @throws WorldCreationException thrown if anything goes wrong during world creation.
-     */
     @NotNull
-    protected abstract MultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;
+    @Override
+    public List<String> getUnloadedWorlds() {
+        return this.worldUtil.getUnloadedWorlds();
+    }
 
-    /**
-     * Gets an existing WorldProperties object or creates a new one based on the name.
-     *
-     * @param worldName The name of the world to get properties for.
-     * @return The world properties for the given world name.
-     * @throws java.io.IOException In case there are any issues accessing the persistence for the world properties.
-     */
-    @NotNull
-    protected abstract WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
-
-    protected abstract boolean unloadWorldFromServer(@NotNull final MultiverseWorld world);
-
-    @NotNull
-    protected abstract MultiverseWorld getSafeWorld();
+    private W getSafeWorld() {
+        return getWorld(this.worldUtil.getSafeWorldName());
+    }
 }

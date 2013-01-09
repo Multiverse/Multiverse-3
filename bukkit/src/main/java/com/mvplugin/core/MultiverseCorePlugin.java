@@ -2,17 +2,18 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
-import com.mvplugin.core.plugin.MultiverseCore;
-import com.mvplugin.core.util.BlockSafety;
-import com.mvplugin.core.util.CoreConfig;
-import com.mvplugin.core.util.SafeTeleporter;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.command.ListCommand;
 import com.mvplugin.core.command.LoadCommand;
 import com.mvplugin.core.command.UnloadCommand;
+import com.mvplugin.core.plugin.MultiverseCore;
+import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.BukkitLanguage;
+import com.mvplugin.core.util.CoreConfig;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
+import com.mvplugin.core.util.SafeTeleporter;
+import com.mvplugin.core.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -54,7 +55,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     }
 
     private void prepareAPI() {
-        this.api = new DefaultMultiverseCoreAPI(new BukkitWorldManager(this), new BukkitBlockSafety());
+        this.api = new DefaultMultiverseCoreAPI(new BukkitWorldUtil(this), new BukkitBlockSafety());
     }
 
     @Override
@@ -73,8 +74,8 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
 
     @NotNull
     @Override
-    public BukkitWorldManager getWorldManager() {
-        return (BukkitWorldManager) this.api.getWorldManager();
+    public WorldManager<BukkitMultiverseWorld> getWorldManager() {
+        return (WorldManager<BukkitMultiverseWorld>) this.api.getWorldManager();
     }
 
     @NotNull

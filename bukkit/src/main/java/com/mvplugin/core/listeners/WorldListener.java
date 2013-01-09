@@ -23,7 +23,7 @@ public class WorldListener implements Listener {
             return;
         }
 
-        MultiverseWorld world = this.plugin.getWorldManager().getWorld(event.getWorld());
+        final MultiverseWorld world = this.plugin.getWorldManager().getWorld(event.getWorld().getName());
         if (world != null) {
             this.plugin.getEventProcessor().worldUnload(world);
         }
