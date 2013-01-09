@@ -8,6 +8,7 @@ import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import static org.mockito.Mockito.*;
@@ -18,16 +19,11 @@ public class WorldManagerUtilFactory {
         WorldManagerUtil worldManagerUtil = PowerMockito.mock(WorldManagerUtil.class);
 
         // Mock getInitialWorlds
-        Map<String, MultiverseWorld> initialWorlds = new HashMap<String, MultiverseWorld>(3);
-        MultiverseWorld mockWorld = PowerMockito.mock(MultiverseWorld.class);
-        when(mockWorld.getName()).thenReturn("world");
-        initialWorlds.put(mockWorld.getName(), mockWorld);
-        mockWorld = PowerMockito.mock(MultiverseWorld.class);
-        when(mockWorld.getName()).thenReturn("world_nether");
-        initialWorlds.put(mockWorld.getName(), mockWorld);
-        mockWorld = PowerMockito.mock(MultiverseWorld.class);
-        when(mockWorld.getName()).thenReturn("world_the_end");
-        initialWorlds.put(mockWorld.getName(), mockWorld);
+        List<MultiverseWorld> defaultWorlds = MultiverseWorldFactory.getDefaultWorlds();
+        Map<String, MultiverseWorld> initialWorlds = new HashMap<String, MultiverseWorld>(defaultWorlds.size());
+        for (final MultiverseWorld world : defaultWorlds) {
+            initialWorlds.put(world.getName(), world);
+        }
         when(worldManagerUtil.getInitialWorlds()).thenReturn(initialWorlds);
 
         // Mock getSafeWorldName
