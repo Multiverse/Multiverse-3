@@ -12,9 +12,9 @@ import java.util.Map;
 
 import static org.mockito.Mockito.*;
 
-public class MockWorldManagerUtil {
+public class WorldManagerUtilFactory {
 
-    public static WorldManagerUtil getMockedWorldUtil() throws WorldCreationException {
+    public static WorldManagerUtil getMockedWorldManagerUtil() throws WorldCreationException {
         WorldManagerUtil worldManagerUtil = PowerMockito.mock(WorldManagerUtil.class);
 
         // Mock getInitialWorlds

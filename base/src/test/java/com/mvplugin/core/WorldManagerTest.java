@@ -34,7 +34,7 @@ public class WorldManagerTest {
     @Before
     public void setUp() throws Exception {
         coreApi = PowerMockito.mock(MultiverseCoreAPI.class);
-        worldManagerUtil = MockWorldManagerUtil.getMockedWorldUtil();
+        worldManagerUtil = WorldManagerUtilFactory.getMockedWorldManagerUtil();
         worldManager = new WorldManager(coreApi, worldManagerUtil);
         if (testSeed == null) {
             throw new NullPointerException();
