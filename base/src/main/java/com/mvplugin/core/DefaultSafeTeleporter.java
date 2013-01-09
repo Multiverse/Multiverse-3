@@ -8,7 +8,7 @@ import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.mvplugin.core.api.Destination;
-import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.api.MultiverseCoreAPI;
 import com.mvplugin.core.api.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -21,10 +21,10 @@ class DefaultSafeTeleporter implements SafeTeleporter {
             "Multiverse could not teleport '%s' to safe location '%s'.");
 
     @NotNull
-    protected final MultiverseCore plugin;
+    protected final MultiverseCoreAPI api;
 
-    protected DefaultSafeTeleporter(@NotNull final MultiverseCore plugin) {
-        this.plugin = plugin;
+    protected DefaultSafeTeleporter(@NotNull final MultiverseCoreAPI api) {
+        this.api = api;
     }
 
     @Nullable
@@ -95,7 +95,7 @@ class DefaultSafeTeleporter implements SafeTeleporter {
         EntityCoordinates locToCheck = Locations.copyOf(location);
 
         // Let's check the center of the 'circle' first...
-        if (plugin.getBlockSafety().isSafeLocation(locToCheck)) {
+        if (api.getBlockSafety().isSafeLocation(locToCheck)) {
             return locToCheck;
         }
         // Now we're going to search in expanding concentric circles...
@@ -118,14 +118,14 @@ class DefaultSafeTeleporter implements SafeTeleporter {
     private boolean checkAroundSpecificDiameter(@NotNull final EntityCoordinates checkLoc, final int radius) {
         // Check out at the radius provided.
         checkLoc.add(radius, 0, 0);
-        if (plugin.getBlockSafety().isSafeLocation(checkLoc)) {
+        if (api.getBlockSafety().isSafeLocation(checkLoc)) {
             return true;
         }
 
         // Move up to the first corner..
         for (int i = 0; i < radius; i++) {
             checkLoc.add(0, 0, 1);
-            if (plugin.getBlockSafety().isSafeLocation(checkLoc)) {
+            if (api.getBlockSafety().isSafeLocation(checkLoc)) {
                 return true;
             }
         }
@@ -133,7 +133,7 @@ class DefaultSafeTeleporter implements SafeTeleporter {
         // Move to the second corner..
         for (int i = 0; i < radius * 2; i++) {
             checkLoc.add(-1, 0, 0);
-            if (plugin.getBlockSafety().isSafeLocation(checkLoc)) {
+            if (api.getBlockSafety().isSafeLocation(checkLoc)) {
                 return true;
             }
         }
@@ -141,7 +141,7 @@ class DefaultSafeTeleporter implements SafeTeleporter {
         // Move to the third corner..
         for (int i = 0; i < radius * 2; i++) {
             checkLoc.add(0, 0, -1);
-            if (plugin.getBlockSafety().isSafeLocation(checkLoc)) {
+            if (api.getBlockSafety().isSafeLocation(checkLoc)) {
                 return true;
             }
         }
@@ -149,7 +149,7 @@ class DefaultSafeTeleporter implements SafeTeleporter {
         // Move to the last corner..
         for (int i = 0; i < radius * 2; i++) {
             checkLoc.add(1, 0, 0);
-            if (plugin.getBlockSafety().isSafeLocation(checkLoc)) {
+            if (api.getBlockSafety().isSafeLocation(checkLoc)) {
                 return true;
             }
         }
@@ -157,7 +157,7 @@ class DefaultSafeTeleporter implements SafeTeleporter {
         // Move back to just before the starting point.
         for (int i = 0; i < radius - 1; i++) {
             checkLoc.add(0, 0, 1);
-            if (plugin.getBlockSafety().isSafeLocation(checkLoc)) {
+            if (api.getBlockSafety().isSafeLocation(checkLoc)) {
                 return true;
             }
         }

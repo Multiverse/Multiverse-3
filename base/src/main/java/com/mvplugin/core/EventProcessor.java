@@ -1,6 +1,6 @@
 package com.mvplugin.core;
 
-import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.api.MultiverseCoreAPI;
 import com.mvplugin.core.api.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
@@ -12,10 +12,10 @@ import org.jetbrains.annotations.NotNull;
 public class EventProcessor {
 
     @NotNull
-    private final MultiverseCore plugin;
+    private final MultiverseCoreAPI api;
 
-    EventProcessor(@NotNull final MultiverseCore plugin) {
-        this.plugin = plugin;
+    EventProcessor(@NotNull final MultiverseCoreAPI api) {
+        this.api = api;
     }
 
     /**
@@ -27,6 +27,6 @@ public class EventProcessor {
      * @param world The world being unloaded.
      */
     public void worldUnload(@NotNull final MultiverseWorld world) {
-        plugin.getWorldManager().unloadWorld(world);
+        this.api.getWorldManager().unloadWorld(world);
     }
 }

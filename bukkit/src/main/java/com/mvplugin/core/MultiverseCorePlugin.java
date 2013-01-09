@@ -5,6 +5,7 @@ import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.api.BlockSafety;
 import com.mvplugin.core.api.CoreConfig;
 import com.mvplugin.core.api.MultiverseCore;
+import com.mvplugin.core.api.MultiverseCoreAPI;
 import com.mvplugin.core.api.SafeTeleporter;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.command.ListCommand;
@@ -28,11 +29,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     private static final String COMMAND_PREFIX = "mv";
     private static final String PERMISSION_PREFIX = "multiverse";
 
-    private final EventProcessor eventProcessor = new EventProcessor(this);
-    private final SafeTeleporter safeTeleporter = new DefaultSafeTeleporter(this);
-    private final BlockSafety blockSafety = new BukkitBlockSafety();
-
-    private BukkitWorldManager worldManager;
+    private MultiverseCoreAPI api;
 
     @NotNull
     @Override
@@ -49,16 +46,16 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
 
     @Override
     public void onPluginEnable() {
-        prepareWorldManager();
+        prepareAPI();
     }
 
     @Override
     protected void onReloadConfig() {
-        prepareWorldManager();
+        prepareAPI();
     }
 
-    private void prepareWorldManager() {
-        this.worldManager = new BukkitWorldManager(this);
+    private void prepareAPI() {
+        this.api = new DefaultMultiverseCoreAPI(new BukkitWorldManager(this), new BukkitBlockSafety());
     }
 
     @Override
@@ -78,7 +75,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     @NotNull
     @Override
     public BukkitWorldManager getWorldManager() {
-        return this.worldManager;
+        return (BukkitWorldManager) this.api.getWorldManager();
     }
 
     @NotNull
@@ -120,18 +117,18 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     @Override
     @NotNull
     public EventProcessor getEventProcessor() {
-        return this.eventProcessor;
+        return this.api.getEventProcessor();
     }
 
     @NotNull
     @Override
     public SafeTeleporter getSafeTeleporter() {
-        return safeTeleporter;
+        return this.api.getSafeTeleporter();
     }
 
     @NotNull
     @Override
     public BlockSafety getBlockSafety() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return this.api.getBlockSafety();
     }
 }
