@@ -100,6 +100,7 @@ public class WorldManager<W extends MultiverseWorld> {
         settings.seed(seedString);
         settings.type(type);
         settings.generateStructures(generateStructures);
+        settings.env(env);
 
         // TODO: Use the fancy kind with the commandSender | dumptruckman has no idea what this means..
         if (generator != null && !generator.isEmpty()) {
