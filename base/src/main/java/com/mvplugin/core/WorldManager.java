@@ -35,7 +35,6 @@ import java.util.Map;
  */
 public class WorldManager<W extends MultiverseWorld> {
 
-
     @NotNull
     private final MultiverseCoreAPI api;
     @NotNull
@@ -98,14 +97,7 @@ public class WorldManager<W extends MultiverseWorld> {
                       @Nullable final String generator,
                       boolean useSpawnAdjust) throws WorldCreationException {
         final WorldCreationSettings settings = new WorldCreationSettings(name);
-        if (seedString != null && !seedString.isEmpty()) {
-            try {
-                settings.seed(Long.parseLong(seedString));
-            } catch (NumberFormatException numberformatexception) {
-                settings.seed((long) seedString.hashCode());
-            }
-        }
-
+        settings.seed(seedString);
         settings.type(type);
         settings.generateStructures(generateStructures);
 

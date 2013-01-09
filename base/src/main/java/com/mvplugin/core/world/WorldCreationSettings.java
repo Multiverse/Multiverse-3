@@ -66,8 +66,20 @@ public class WorldCreationSettings {
     }
 
     @NotNull
-    public WorldCreationSettings seed(@Nullable final Long l) {
+    public WorldCreationSettings seed(final Long l) {
         this.seed = l;
+        return this;
+    }
+
+    @NotNull
+    public WorldCreationSettings seed(@Nullable final String seedString) {
+        if (seedString != null && !seedString.isEmpty()) {
+            try {
+                return seed(Long.parseLong(seedString));
+            } catch (NumberFormatException numberformatexception) {
+                return seed((long) seedString.hashCode());
+            }
+        }
         return this;
     }
 
@@ -78,7 +90,7 @@ public class WorldCreationSettings {
     }
 
     @NotNull
-    public WorldCreationSettings generateStructures(@Nullable final Boolean b) {
+    public WorldCreationSettings generateStructures(final Boolean b) {
         this.generateStructures = b;
         return this;
     }
