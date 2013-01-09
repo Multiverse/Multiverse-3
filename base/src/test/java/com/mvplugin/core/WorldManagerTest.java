@@ -35,7 +35,7 @@ public class WorldManagerTest {
     public void setUp() throws Exception {
         coreApi = PowerMockito.mock(MultiverseCoreAPI.class);
         worldUtil = MockWorldUtil.getMockedWorldUtil();
-        worldManager = new WorldManager<MultiverseWorld>(coreApi, worldUtil);
+        worldManager = new WorldManager(coreApi, worldUtil);
         if (testSeed == null) {
             throw new NullPointerException();
         }
@@ -50,7 +50,7 @@ public class WorldManagerTest {
     public void testAddWorld() throws Exception {
         // Create a mock WorldManager to test the addWorld methods that take several parameters and ensure
         // that they are creating a proper WorldCreationSettings object.
-        WorldManager mockWorldManager = PowerMockito.spy(new WorldManager<MultiverseWorld>(coreApi, worldUtil));
+        WorldManager mockWorldManager = PowerMockito.spy(new WorldManager(coreApi, worldUtil));
         doAnswer(new Answer<Object>() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {

@@ -5,10 +5,10 @@ import com.mvplugin.core.util.SafeTeleporter;
 import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
-class DefaultMultiverseCoreAPI<W extends MultiverseWorld> implements MultiverseCoreAPI {
+class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
 
     @NotNull
-    private final WorldManager<W> worldManager;
+    private final WorldManager worldManager;
     @NotNull
     private final BlockSafety blockSafety;
     @NotNull
@@ -17,7 +17,7 @@ class DefaultMultiverseCoreAPI<W extends MultiverseWorld> implements MultiverseC
     private final SafeTeleporter safeTeleporter;
 
     DefaultMultiverseCoreAPI(@NotNull final WorldUtil worldUtil, @NotNull final BlockSafety blockSafety) {
-        this.worldManager = new WorldManager<W>(this, worldUtil);
+        this.worldManager = new WorldManager(this, worldUtil);
         this.blockSafety = blockSafety;
         this.eventProcessor = new EventProcessor(this);
         this.safeTeleporter = new DefaultSafeTeleporter(this);
@@ -31,7 +31,7 @@ class DefaultMultiverseCoreAPI<W extends MultiverseWorld> implements MultiverseC
      * @return {@link WorldManager}.
      */
     @NotNull
-    public WorldManager<W> getWorldManager() {
+    public WorldManager getWorldManager() {
         return worldManager;
     }
 

@@ -33,19 +33,19 @@ import java.util.Map;
  * This API contains all of the world managing
  * functions that your heart desires!
  */
-public class WorldManager<W extends MultiverseWorld> {
+public class WorldManager {
 
     @NotNull
     private final MultiverseCoreAPI api;
     @NotNull
-    private final Map<String, W> worldsMap;
+    private final Map<String, MultiverseWorld> worldsMap;
     @NotNull
-    private final WorldUtil<W> worldUtil;
+    private final WorldUtil worldUtil;
 
-    WorldManager(@NotNull final MultiverseCoreAPI api, @NotNull final WorldUtil<W> worldUtil) {
+    WorldManager(@NotNull final MultiverseCoreAPI api, @NotNull final WorldUtil worldUtil) {
         this.api = api;
         this.worldUtil = worldUtil;
-        this.worldsMap = new HashMap<String, W>();
+        this.worldsMap = new HashMap<String, MultiverseWorld>();
         this.worldsMap.putAll(worldUtil.getInitialWorlds());
     }
 
@@ -64,7 +64,7 @@ public class WorldManager<W extends MultiverseWorld> {
      * @throws WorldCreationException If world creation fails.
      */
     @NotNull
-    public W addWorld(@NotNull final String name,
+    public MultiverseWorld addWorld(@NotNull final String name,
                       @Nullable final WorldEnvironment env,
                       @Nullable final String seedString,
                       @Nullable final WorldType type,
@@ -89,7 +89,7 @@ public class WorldManager<W extends MultiverseWorld> {
      * @throws WorldCreationException If world creation fails.
      */
     @NotNull
-    public W addWorld(@NotNull final String name,
+    public MultiverseWorld addWorld(@NotNull final String name,
                       @Nullable final WorldEnvironment env,
                       @Nullable final String seedString,
                       @Nullable final WorldType type,
@@ -119,11 +119,11 @@ public class WorldManager<W extends MultiverseWorld> {
      * @throws WorldCreationException If world creation fails.
      */
     @NotNull
-    public W addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
+    public MultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
         if (this.worldsMap.containsKey(settings.name())) {
             throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
         }
-        W mvWorld = this.worldUtil.createWorld(settings);
+        MultiverseWorld mvWorld = this.worldUtil.createWorld(settings);
         mvWorld.setAdjustSpawn(settings.adjustSpawn());
         this.worldsMap.put(settings.name(), mvWorld);
         return mvWorld;
@@ -162,12 +162,12 @@ public class WorldManager<W extends MultiverseWorld> {
      * or alias.
      */
     @Nullable
-    public W getWorld(@NotNull final String name) {
-        final W world = this.worldsMap.get(name);
+    public MultiverseWorld getWorld(@NotNull final String name) {
+        final MultiverseWorld world = this.worldsMap.get(name);
         if (world != null) {
             return world;
         }
-        for (final W w : this.worldsMap.values()) {
+        for (final MultiverseWorld w : this.worldsMap.values()) {
             if (w.getAlias().equals(name)) {
                 return w;
             }
@@ -181,7 +181,7 @@ public class WorldManager<W extends MultiverseWorld> {
      * @return A collection of all the loaded worlds managed by Multiverse.
      */
     @NotNull
-    public Collection<W> getWorlds() {
+    public Collection<MultiverseWorld> getWorlds() {
         return Collections.unmodifiableCollection(this.worldsMap.values());
     }
 
@@ -229,7 +229,7 @@ public class WorldManager<W extends MultiverseWorld> {
      * @return True if the world was unloaded, false if not.
      */
     public boolean unloadWorld(@NotNull final String name) {
-        final W world = getWorld(name);
+        final MultiverseWorld world = getWorld(name);
         if (world != null) {
             return unloadWorld(world);
         }
@@ -272,7 +272,7 @@ public class WorldManager<W extends MultiverseWorld> {
      * @param world World to remove players from.
      */
     public void removePlayersFromWorld(@NotNull final MultiverseWorld world) throws TeleportException {
-        final W safeWorld = getSafeWorld();
+        final MultiverseWorld safeWorld = getSafeWorld();
         final SafeTeleporter teleporter = this.api.getSafeTeleporter();
         final FacingCoordinates sLoc = safeWorld.getSpawnLocation();
         final EntityCoordinates location = Locations.getEntityCoordinates(safeWorld.getName(),
@@ -290,7 +290,7 @@ public class WorldManager<W extends MultiverseWorld> {
         return this.worldUtil.getUnloadedWorlds();
     }
 
-    private W getSafeWorld() {
+    private MultiverseWorld getSafeWorld() {
         return getWorld(this.worldUtil.getSafeWorldName());
     }
 

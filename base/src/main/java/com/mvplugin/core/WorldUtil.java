@@ -10,10 +10,10 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-interface WorldUtil<W extends MultiverseWorld> {
+interface WorldUtil {
 
     @NotNull
-    Map<String, W> getInitialWorlds();
+    Map<String, MultiverseWorld> getInitialWorlds();
 
     /**
      * Gets an existing WorldProperties object or creates a new one based on the name.
@@ -42,7 +42,7 @@ interface WorldUtil<W extends MultiverseWorld> {
      * @throws com.mvplugin.core.exceptions.WorldCreationException thrown if anything goes wrong during world creation.
      */
     @NotNull
-    W createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;
+    MultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException;
 
     boolean unloadWorldFromServer(@NotNull final MultiverseWorld world);
 

@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-class BukkitWorldUtil implements WorldUtil<BukkitMultiverseWorld> {
+class BukkitWorldUtil implements WorldUtil {
 
     @NotNull
     private final MultiverseCorePlugin plugin;
@@ -72,12 +72,12 @@ class BukkitWorldUtil implements WorldUtil<BukkitMultiverseWorld> {
 
     @NotNull
     @Override
-    public Map<String, BukkitMultiverseWorld> getInitialWorlds() {
-        Map<String, BukkitMultiverseWorld> initialWorlds = new HashMap<String, BukkitMultiverseWorld>(Bukkit.getWorlds().size());
+    public Map<String, MultiverseWorld> getInitialWorlds() {
+        Map<String, MultiverseWorld> initialWorlds = new HashMap<String, MultiverseWorld>(Bukkit.getWorlds().size());
         StringBuilder builder = new StringBuilder();
         for (final World w : Bukkit.getWorlds()) {
             try {
-                final BukkitMultiverseWorld world = getBukkitWorld(w);
+                final MultiverseWorld world = getBukkitWorld(w);
                 initialWorlds.put(world.getName(), world);
                 if (builder.length() != 0) {
                     builder.append(", ");
@@ -100,7 +100,7 @@ class BukkitWorldUtil implements WorldUtil<BukkitMultiverseWorld> {
                     settings.env(worldProperties.get(WorldProperties.ENVIRONMENT));
                     settings.generator(worldProperties.get(WorldProperties.GENERATOR));
                     settings.adjustSpawn(worldProperties.get(WorldProperties.ADJUST_SPAWN));
-                    final BukkitMultiverseWorld mvWorld = createWorld(settings);
+                    final MultiverseWorld mvWorld = createWorld(settings);
                     mvWorld.setAdjustSpawn(settings.adjustSpawn());
                     initialWorlds.put(mvWorld.getName(), mvWorld);
                     if (builder.length() != 0) {
@@ -167,7 +167,7 @@ class BukkitWorldUtil implements WorldUtil<BukkitMultiverseWorld> {
      */
     @NotNull
     @Override
-    public BukkitMultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
+    public MultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
         if (Bukkit.getWorld(settings.name()) != null) {
             throw new WorldCreationException(new BundledMessage(BukkitLanguage.ALREADY_BUKKIT_WORLD, settings.name()));
         }
@@ -213,8 +213,9 @@ class BukkitWorldUtil implements WorldUtil<BukkitMultiverseWorld> {
     }
 
     @NotNull
-    private BukkitMultiverseWorld getBukkitWorld(@NotNull final World world) throws IOException {
-        return new BukkitMultiverseWorld(world, getWorldProperties(world.getName()));
+    private MultiverseWorld getBukkitWorld(@NotNull final World world) throws IOException {
+        final WorldProperties properties = getWorldProperties(world.getName());
+        return new DefaultMultiverseWorld(properties, new BukkitWorldLink(world, properties));
     }
 
     @NotNull

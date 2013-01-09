@@ -14,8 +14,8 @@ import static org.mockito.Mockito.*;
 
 public class MockWorldUtil {
 
-    public static WorldUtil<MultiverseWorld> getMockedWorldUtil() throws WorldCreationException {
-        WorldUtil<MultiverseWorld> worldUtil = PowerMockito.mock(WorldUtil.class);
+    public static WorldUtil getMockedWorldUtil() throws WorldCreationException {
+        WorldUtil worldUtil = PowerMockito.mock(WorldUtil.class);
 
         // Mock getInitialWorlds
         Map<String, MultiverseWorld> initialWorlds = new HashMap<String, MultiverseWorld>(3);

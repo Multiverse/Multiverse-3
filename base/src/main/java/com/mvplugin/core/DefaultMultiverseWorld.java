@@ -1,9 +1,11 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.properties.Observer;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
+import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldProperties;
 import com.mvplugin.core.world.WorldProperties.Spawning;
@@ -11,10 +13,13 @@ import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
+import com.sk89q.worldedit.foundation.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import java.util.Collection;
 import java.util.List;
+import java.util.UUID;
 
 /**
  * Our base implementation of MultiverseWorld.
@@ -22,26 +27,52 @@ import java.util.List;
  * This class shall implement as much as possible, leaving only server specific operations to the server
  * specific implementation.
  */
-abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
+class DefaultMultiverseWorld implements MultiverseWorld {
 
     @NotNull
     private final WorldProperties worldProperties;
+    @NotNull
+    private final WorldLink worldLink;
 
-    AbstractMultiverseWorld(@NotNull final WorldProperties worldProperties) {
+    DefaultMultiverseWorld(@NotNull final WorldProperties worldProperties, @NotNull final WorldLink worldLink) {
         this.worldProperties = worldProperties;
-        worldProperties.addObserver(this);
-        worldProperties.get(WorldProperties.SPAWNING).get(Spawning.ANIMALS).addObserver(this);
-        worldProperties.get(WorldProperties.SPAWNING).get(Spawning.MONSTERS).addObserver(this);
+        this.worldLink = worldLink;
+    }
+
+    @NotNull
+    @Override
+    public String getName() {
+        return this.worldLink.getName();
+    }
+
+    @NotNull
+    @Override
+    public UUID getWorldUID() {
+        return this.worldLink.getUID();
+    }
+
+    @NotNull
+    @Override
+    public WorldType getWorldType() {
+        return this.worldLink.getType();
+    }
+
+    @NotNull
+    @Override
+    public String getTime() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
     @Override
-    public final void update(@NotNull final Properties properties, @NotNull final ValueProperty property) {
-        if (properties == worldProperties) {
-            update(property);
-        }
+    public boolean setTime(@NotNull final String timeAsString) {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
     }
 
-    protected abstract void update(@NotNull ValueProperty property);
+    @NotNull
+    @Override
+    public Collection<BasePlayer> getPlayers() {
+        return this.worldLink.getPlayers();
+    }
 
     @NotNull
     @Override
@@ -63,6 +94,7 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
     @Override
     public boolean setDifficulty(@NotNull final Difficulty difficulty) {
         // TODO Validate?
+        this.worldLink.setDifficulty(difficulty);
         return getProperties().set(WorldProperties.DIFFICULTY, difficulty);
     }
 
@@ -191,6 +223,7 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
 
     @Override
     public void setEnableWeather(final boolean enableWeather) {
+        this.worldLink.setEnableWeather(enableWeather);
         getProperties().set(WorldProperties.ALLOW_WEATHER, enableWeather);
     }
 
@@ -212,6 +245,7 @@ abstract class AbstractMultiverseWorld implements MultiverseWorld, Observer {
 
     @Override
     public void setSpawnLocation(@NotNull final FacingCoordinates spawnLocation) {
+        this.worldLink.setSpawnLocation(spawnLocation);
         getProperties().set(WorldProperties.SPAWN_LOCATION, spawnLocation);
     }
 
