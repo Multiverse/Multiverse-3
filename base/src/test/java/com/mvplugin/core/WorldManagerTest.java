@@ -13,7 +13,6 @@ import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 
 import static org.junit.Assert.*;
-import static org.junit.Assert.assertEquals;
 import static org.mockito.Mockito.*;
 
 public class WorldManagerTest {
@@ -22,11 +21,24 @@ public class WorldManagerTest {
     private MultiverseCoreAPI coreApi;
     private WorldUtil worldUtil;
 
+    // Set up some test values...
+    final String testName = "test";
+    final WorldEnvironment testWorldEnvironment = WorldEnvironment.NETHER;
+    final String testSeedString = "testseed";
+    final Long testSeed = new WorldCreationSettings(testName).seed(testSeedString).seed();
+    final WorldType testWorldType = WorldType.FLAT;
+    final boolean testGenerateStructures = false;
+    final String testGenerator = "testgenerator";
+    final boolean testAdjustSpawn = false;
+
     @Before
     public void setUp() throws Exception {
         coreApi = PowerMockito.mock(MultiverseCoreAPI.class);
         worldUtil = MockWorldUtil.getMockedWorldUtil();
         worldManager = new WorldManager<MultiverseWorld>(coreApi, worldUtil);
+        if (testSeed == null) {
+            throw new NullPointerException();
+        }
     }
 
     @After
@@ -36,18 +48,6 @@ public class WorldManagerTest {
 
     @Test
     public void testAddWorld() throws Exception {
-        // Set up some test values...
-        final String testName = "test";
-        final WorldEnvironment testWorldEnvironment = WorldEnvironment.NETHER;
-        final String testSeedString = "testseed";
-        final Long testSeed = new WorldCreationSettings(testName).seed(testSeedString).seed();
-        if (testSeed == null) {
-            throw new NullPointerException();
-        }
-        final WorldType testWorldType = WorldType.FLAT;
-        final boolean testGenerateStructures = false;
-        final String testGenerator = "testgenerator";
-        final boolean testAdjustSpawn = false;
         // Create a mock WorldManager to test the addWorld methods that take several parameters and ensure
         // that they are creating a proper WorldCreationSettings object.
         WorldManager mockWorldManager = PowerMockito.spy(new WorldManager<MultiverseWorld>(coreApi, worldUtil));
@@ -67,6 +67,7 @@ public class WorldManagerTest {
         }).when(mockWorldManager).addWorld(any(WorldCreationSettings.class));
         mockWorldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
 
+        // Now test the real WorldManager to ensure the returned mock world contains the correct values
         MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
         assertEquals(testName, w.getName());
         assertEquals(testWorldEnvironment, w.getEnvironment());
@@ -78,7 +79,13 @@ public class WorldManagerTest {
 
     @Test
     public void testIsLoaded() throws Exception {
-
+        assertTrue(worldManager.isLoaded("world"));
+        assertTrue(worldManager.isLoaded("world_nether"));
+        assertTrue(worldManager.isLoaded("world_the_end"));
+        MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
+        assertTrue(worldManager.isLoaded(w.getName()));
+        //worldManager.unloadWorld(w);
+        //assertFalse(worldManager.isLoaded(w.getName()));
     }
 
     @Test
