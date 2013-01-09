@@ -12,6 +12,7 @@ import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.util.SafeTeleporter;
+import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldManager;
 import com.mvplugin.core.world.WorldProperties;
 import com.mvplugin.core.minecraft.WorldEnvironment;
