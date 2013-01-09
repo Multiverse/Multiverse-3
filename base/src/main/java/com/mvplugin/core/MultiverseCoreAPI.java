@@ -5,23 +5,7 @@ import com.mvplugin.core.util.SafeTeleporter;
 import com.mvplugin.core.world.WorldManager;
 import org.jetbrains.annotations.NotNull;
 
-public class MultiverseCoreAPI {
-
-    @NotNull
-    private final WorldManager worldManager;
-    @NotNull
-    private final BlockSafety blockSafety;
-    @NotNull
-    private final EventProcessor eventProcessor;
-    @NotNull
-    private final SafeTeleporter safeTeleporter;
-
-    MultiverseCoreAPI(@NotNull final WorldManager worldManager, @NotNull final BlockSafety blockSafety) {
-        this.worldManager = worldManager;
-        this.blockSafety = blockSafety;
-        this.eventProcessor = new EventProcessor(this);
-        this.safeTeleporter = new DefaultSafeTeleporter(this);
-    }
+public interface MultiverseCoreAPI {
 
     /**
      * Gets the Multiverse world manager.
@@ -31,9 +15,7 @@ public class MultiverseCoreAPI {
      * @return {@link com.mvplugin.core.world.WorldManager}.
      */
     @NotNull
-    public WorldManager getWorldManager() {
-        return worldManager;
-    }
+    public WorldManager getWorldManager();
 
     /**
      * Gets the event processor for Multiverse-Core.
@@ -45,17 +27,11 @@ public class MultiverseCoreAPI {
      * @return the Multiverse-Core event processor.
      */
     @NotNull
-    public EventProcessor getEventProcessor() {
-        return eventProcessor;
-    }
+    public EventProcessor getEventProcessor();
 
     @NotNull
-    public SafeTeleporter getSafeTeleporter() {
-        return safeTeleporter;
-    }
+    public SafeTeleporter getSafeTeleporter();
 
     @NotNull
-    public BlockSafety getBlockSafety() {
-        return blockSafety;
-    }
+    public BlockSafety getBlockSafety();
 }
