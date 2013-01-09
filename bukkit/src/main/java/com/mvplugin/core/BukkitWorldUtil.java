@@ -214,8 +214,7 @@ class BukkitWorldUtil implements WorldUtil {
 
     @NotNull
     private MultiverseWorld getBukkitWorld(@NotNull final World world) throws IOException {
-        final WorldProperties properties = getWorldProperties(world.getName());
-        return new DefaultMultiverseWorld(properties, new BukkitWorldLink(world, properties));
+        return new DefaultMultiverseWorld(getWorldProperties(world.getName()), new BukkitWorldLink(world));
     }
 
     @NotNull

@@ -24,7 +24,7 @@ class BukkitWorldLink implements WorldLink {
     @NotNull
     private final WorldType worldType;
 
-    BukkitWorldLink(@NotNull final World world, @NotNull final WorldProperties worldProperties) {
+    BukkitWorldLink(@NotNull final World world) {
         this.worldRef = new WeakReference<World>(world);
         this.worldType = Convert.fromBukkit(world.getWorldType());
     }
