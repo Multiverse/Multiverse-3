@@ -13,7 +13,6 @@ import com.mvplugin.core.util.CoreConfig;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
-import org.bukkit.World;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
@@ -55,7 +54,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     }
 
     private void prepareAPI() {
-        this.api = new DefaultMultiverseCoreAPI(new BukkitWorldUtil(this), new BukkitBlockSafety());
+        this.api = new DefaultMultiverseCoreAPI(new BukkitWorldManagerUtil(this), new BukkitBlockSafety());
     }
 
     @Override

@@ -10,7 +10,7 @@ import java.io.IOException;
 import java.util.List;
 import java.util.Map;
 
-interface WorldUtil {
+interface WorldManagerUtil {
 
     @NotNull
     Map<String, MultiverseWorld> getInitialWorlds();

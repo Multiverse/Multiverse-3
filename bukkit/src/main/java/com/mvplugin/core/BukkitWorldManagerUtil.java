@@ -30,7 +30,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-class BukkitWorldUtil implements WorldUtil {
+class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @NotNull
     private final MultiverseCorePlugin plugin;
@@ -42,7 +42,7 @@ class BukkitWorldUtil implements WorldUtil {
     @NotNull
     private final Map<String, String> defaultGens;
 
-    BukkitWorldUtil(@NotNull final MultiverseCorePlugin plugin) {
+    BukkitWorldManagerUtil(@NotNull final MultiverseCorePlugin plugin) {
         this.plugin = plugin;
         this.worldsFolder = new File(plugin.getDataFolder(), "worlds");
         this.worldPropertiesMap = new HashMap<String, WorldProperties>();

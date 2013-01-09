@@ -12,10 +12,10 @@ import java.util.Map;
 
 import static org.mockito.Mockito.*;
 
-public class MockWorldUtil {
+public class MockWorldManagerUtil {
 
-    public static WorldUtil getMockedWorldUtil() throws WorldCreationException {
-        WorldUtil worldUtil = PowerMockito.mock(WorldUtil.class);
+    public static WorldManagerUtil getMockedWorldUtil() throws WorldCreationException {
+        WorldManagerUtil worldManagerUtil = PowerMockito.mock(WorldManagerUtil.class);
 
         // Mock getInitialWorlds
         Map<String, MultiverseWorld> initialWorlds = new HashMap<String, MultiverseWorld>(3);
@@ -28,10 +28,10 @@ public class MockWorldUtil {
         mockWorld = PowerMockito.mock(MultiverseWorld.class);
         when(mockWorld.getName()).thenReturn("world_the_end");
         initialWorlds.put(mockWorld.getName(), mockWorld);
-        when(worldUtil.getInitialWorlds()).thenReturn(initialWorlds);
+        when(worldManagerUtil.getInitialWorlds()).thenReturn(initialWorlds);
 
         // Mock getSafeWorldName
-        when(worldUtil.getSafeWorldName()).thenReturn("world");
+        when(worldManagerUtil.getSafeWorldName()).thenReturn("world");
 
         // Mock createWorld
         doAnswer(new Answer<MultiverseWorld>() {
@@ -47,9 +47,9 @@ public class MockWorldUtil {
                 when(world.getAdjustSpawn()).thenReturn(s.adjustSpawn());
                 return world;
             }
-        }).when(worldUtil).createWorld(any(WorldCreationSettings.class));
+        }).when(worldManagerUtil).createWorld(any(WorldCreationSettings.class));
 
-        return worldUtil;
+        return worldManagerUtil;
     }
 
 

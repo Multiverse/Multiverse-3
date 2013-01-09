@@ -19,7 +19,7 @@ public class WorldManagerTest {
 
     private WorldManager worldManager;
     private MultiverseCoreAPI coreApi;
-    private WorldUtil worldUtil;
+    private WorldManagerUtil worldManagerUtil;
 
     // Set up some test values...
     final String testName = "test";
@@ -34,8 +34,8 @@ public class WorldManagerTest {
     @Before
     public void setUp() throws Exception {
         coreApi = PowerMockito.mock(MultiverseCoreAPI.class);
-        worldUtil = MockWorldUtil.getMockedWorldUtil();
-        worldManager = new WorldManager(coreApi, worldUtil);
+        worldManagerUtil = MockWorldManagerUtil.getMockedWorldUtil();
+        worldManager = new WorldManager(coreApi, worldManagerUtil);
         if (testSeed == null) {
             throw new NullPointerException();
         }
@@ -50,7 +50,7 @@ public class WorldManagerTest {
     public void testAddWorld() throws Exception {
         // Create a mock WorldManager to test the addWorld methods that take several parameters and ensure
         // that they are creating a proper WorldCreationSettings object.
-        WorldManager mockWorldManager = PowerMockito.spy(new WorldManager(coreApi, worldUtil));
+        WorldManager mockWorldManager = PowerMockito.spy(new WorldManager(coreApi, worldManagerUtil));
         doAnswer(new Answer<Object>() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
@@ -62,7 +62,7 @@ public class WorldManagerTest {
                 assertEquals(testGenerateStructures, s.generateStructures());
                 assertEquals(testGenerator, s.generator());
                 assertEquals(testAdjustSpawn, s.adjustSpawn());
-                return worldUtil.createWorld(s);
+                return worldManagerUtil.createWorld(s);
             }
         }).when(mockWorldManager).addWorld(any(WorldCreationSettings.class));
         mockWorldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);

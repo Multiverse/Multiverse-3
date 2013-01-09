@@ -40,13 +40,13 @@ public class WorldManager {
     @NotNull
     private final Map<String, MultiverseWorld> worldsMap;
     @NotNull
-    private final WorldUtil worldUtil;
+    private final WorldManagerUtil worldManagerUtil;
 
-    WorldManager(@NotNull final MultiverseCoreAPI api, @NotNull final WorldUtil worldUtil) {
+    WorldManager(@NotNull final MultiverseCoreAPI api, @NotNull final WorldManagerUtil worldManagerUtil) {
         this.api = api;
-        this.worldUtil = worldUtil;
+        this.worldManagerUtil = worldManagerUtil;
         this.worldsMap = new HashMap<String, MultiverseWorld>();
-        this.worldsMap.putAll(worldUtil.getInitialWorlds());
+        this.worldsMap.putAll(worldManagerUtil.getInitialWorlds());
     }
 
     /**
@@ -123,7 +123,7 @@ public class WorldManager {
         if (this.worldsMap.containsKey(settings.name())) {
             throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
         }
-        MultiverseWorld mvWorld = this.worldUtil.createWorld(settings);
+        MultiverseWorld mvWorld = this.worldManagerUtil.createWorld(settings);
         mvWorld.setAdjustSpawn(settings.adjustSpawn());
         this.worldsMap.put(settings.name(), mvWorld);
         return mvWorld;
@@ -204,7 +204,7 @@ public class WorldManager {
         }
         try {
             // Transfer all the properties of the world ot a WorldCreationSettings object.
-            final WorldProperties properties = this.worldUtil.getWorldProperties(name);
+            final WorldProperties properties = this.worldManagerUtil.getWorldProperties(name);
             final WorldCreationSettings settings = new WorldCreationSettings(name);
             //settings.type(properties.get(WorldProperties.TYPE));
             settings.generator(properties.get(WorldProperties.GENERATOR));
@@ -256,7 +256,7 @@ public class WorldManager {
             e.printStackTrace();
             return false;
         }
-        if (this.worldUtil.unloadWorldFromServer(world)) {
+        if (this.worldManagerUtil.unloadWorldFromServer(world)) {
             this.worldsMap.remove(world.getName());
             Logging.info("World '%s' was unloaded from memory.", world.getName());
             return true;
@@ -287,11 +287,11 @@ public class WorldManager {
     // TODO docs
     @NotNull
     public List<String> getUnloadedWorlds() {
-        return this.worldUtil.getUnloadedWorlds();
+        return this.worldManagerUtil.getUnloadedWorlds();
     }
 
     private MultiverseWorld getSafeWorld() {
-        return getWorld(this.worldUtil.getSafeWorldName());
+        return getWorld(this.worldManagerUtil.getSafeWorldName());
     }
 
 

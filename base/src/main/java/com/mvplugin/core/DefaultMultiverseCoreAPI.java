@@ -2,7 +2,6 @@ package com.mvplugin.core;
 
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
-import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
 class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
@@ -16,8 +15,8 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     @NotNull
     private final SafeTeleporter safeTeleporter;
 
-    DefaultMultiverseCoreAPI(@NotNull final WorldUtil worldUtil, @NotNull final BlockSafety blockSafety) {
-        this.worldManager = new WorldManager(this, worldUtil);
+    DefaultMultiverseCoreAPI(@NotNull final WorldManagerUtil worldManagerUtil, @NotNull final BlockSafety blockSafety) {
+        this.worldManager = new WorldManager(this, worldManagerUtil);
         this.blockSafety = blockSafety;
         this.eventProcessor = new EventProcessor(this);
         this.safeTeleporter = new DefaultSafeTeleporter(this);
