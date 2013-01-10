@@ -9,7 +9,7 @@ import org.jetbrains.annotations.NotNull;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class FlatFileFacingCoordinatesSerializer implements PropertySerializer<FacingCoordinates> {
+public class BukkitFacingCoordinatesSerializer implements PropertySerializer<FacingCoordinates> {
     @NotNull
     @Override
     public FacingCoordinates deserialize(Object o) {

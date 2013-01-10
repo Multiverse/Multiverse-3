@@ -12,7 +12,7 @@ import com.mvplugin.core.util.Convert;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldProperties;
-import com.mvplugin.core.world.serializers.FlatFileFacingCoordinatesSerializer;
+import com.mvplugin.core.world.serializers.BukkitFacingCoordinatesSerializer;
 import com.mvplugin.core.world.validators.RespawnWorldValidator;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -143,7 +143,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             @Override
             protected void registerSerializers() {
                 super.registerSerializers();
-                setPropertySerializer(FacingCoordinates.class, new FlatFileFacingCoordinatesSerializer());
+                setPropertySerializer(FacingCoordinates.class, new BukkitFacingCoordinatesSerializer());
             }
         });
         worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(plugin));
