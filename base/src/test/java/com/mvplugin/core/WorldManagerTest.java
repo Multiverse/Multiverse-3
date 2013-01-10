@@ -7,13 +7,13 @@ import com.mvplugin.core.world.WorldCreationSettings;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
-
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 
 import static org.junit.Assert.*;
-import static org.mockito.Mockito.*;
+import static org.mockito.Mockito.any;
+import static org.mockito.Mockito.doAnswer;
 
 public class WorldManagerTest {
 
@@ -84,8 +84,8 @@ public class WorldManagerTest {
         assertTrue(worldManager.isLoaded("world_the_end"));
         MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
         assertTrue(worldManager.isLoaded(w.getName()));
-        //worldManager.unloadWorld(w);
-        //assertFalse(worldManager.isLoaded(w.getName()));
+        worldManager.unloadWorld(w);
+        assertFalse(worldManager.isLoaded(w.getName()));
     }
 
     @Test

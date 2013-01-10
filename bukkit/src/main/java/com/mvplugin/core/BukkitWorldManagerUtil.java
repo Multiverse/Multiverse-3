@@ -2,6 +2,8 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
+import com.dumptruckman.minecraft.pluginbase.properties.YamlProperties;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
@@ -10,6 +12,7 @@ import com.mvplugin.core.util.Convert;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldProperties;
+import com.mvplugin.core.world.serializers.FlatFileFacingCoordinatesSerializer;
 import com.mvplugin.core.world.validators.RespawnWorldValidator;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
@@ -22,12 +25,7 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 class BukkitWorldManagerUtil implements WorldManagerUtil {
@@ -141,7 +139,13 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @NotNull
     private WorldProperties getWorldProperties(@NotNull final File file) throws IOException {
-        final YamlWorldProperties worldProperties = new YamlWorldProperties(file);
+        final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(false, true, file, WorldProperties.class) {
+            @Override
+            protected void registerSerializers() {
+                super.registerSerializers();
+                setPropertySerializer(FacingCoordinates.class, new FlatFileFacingCoordinatesSerializer());
+            }
+        });
         worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(plugin));
         return worldProperties;
     }
