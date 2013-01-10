@@ -22,6 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
@@ -34,7 +35,7 @@ import java.util.Map;
  * This API contains all of the world managing
  * functions that your heart desires!
  */
-public final class WorldManager {
+public class WorldManager {
 
     @NotNull
     private final MultiverseCoreAPI api;
@@ -291,13 +292,45 @@ public final class WorldManager {
     // TODO docs
     @NotNull
     public List<String> getUnloadedWorlds() {
-        return this.worldManagerUtil.getUnloadedWorlds();
+        final List<String> unloadedWorlds = new ArrayList<String>(this.worldManagerUtil.getManagedWorldNames());
+        unloadedWorlds.removeAll(this.worldsMap.keySet());
+        return Collections.unmodifiableList(unloadedWorlds);
     }
 
     private MultiverseWorld getSafeWorld() {
         return getWorld(this.worldManagerUtil.getSafeWorldName());
     }
 
+    /**
+     * Removes a world from Multiverse's management.
+     *
+     * This will unload the world from the server and delete the properties of the world.
+     * It will not delete the Minecraft world however.
+     *
+     * @param name The world to remove.
+     * @return True if removed.  False if the world is not managed by Multiverse.
+     * @throws WorldManagementException If anything goes wrong while attempting to remove the world.
+     * The message of the exception will indicate the exact issue.
+     */
+    public boolean removeWorld(@NotNull final String name) throws WorldManagementException {
+        try {
+            if (isLoaded(name) && !unloadWorld(name)) {
+                // This should be impossible.
+                throw new WorldManagementException(new BundledMessage(Language.WORLD_NOT_MANAGED, name));
+            }
+        } catch (final WorldManagementException e) {
+            throw new WorldManagementException(new BundledMessage(Language.WORLD_REMOVE_ERROR, name), e);
+        }
+        if (isManaged(name)) {
+            try {
+                this.worldManagerUtil.removeWorldProperties(name);
+            } catch (final IOException e) {
+                throw new WorldManagementException(new BundledMessage(Language.WORLD_REMOVE_ERROR, name), e);
+            }
+            return true;
+        }
+        return false;
+    }
 
     /**
      * Creates a world with the given properties.

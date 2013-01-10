@@ -25,6 +25,8 @@ interface WorldManagerUtil {
     @NotNull
     WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
 
+    void removeWorldProperties(@NotNull final String worldName) throws IOException;
+
     /**
      * Creates a world with the given properties.
      * </p>
@@ -50,5 +52,5 @@ interface WorldManagerUtil {
     String getSafeWorldName();
 
     @NotNull
-    List<String> getUnloadedWorlds();
+    List<String> getManagedWorldNames();
 }
