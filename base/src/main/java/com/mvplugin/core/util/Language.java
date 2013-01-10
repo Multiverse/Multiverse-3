@@ -25,4 +25,7 @@ public class Language {
 
     public static final Message WORLD_COULD_NOT_UNLOAD_FROM_SERVER = new Message("world.could_not_unload_from_server",
             ChatColor.WHITE + "World '" + ChatColor.AQUA + "%s" + ChatColor.WHITE + "' could not be unloaded.  Is it a default world?");
+
+    public static final Message WORLD_REMOVE_ERROR = new Message("world.remove_error",
+            ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " experienced a problem while attempting to remove '" + ChatColor.AQUA + "%s" + ChatColor.WHITE + "'.");
 }
