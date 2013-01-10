@@ -47,7 +47,7 @@ public class MultiverseException extends Exception {
     public void sendException(@NotNull Messager messager, @NotNull final BasePlayer player) {
         messager.message(player, getBundledMessage().getMessage(), getBundledMessage().getArgs());
         if (getCauseException() != null) {
-            messager.message(player, getCauseException().getBundledMessage().getMessage(), getCauseException().getBundledMessage().getArgs());
+            getCauseException().sendException(messager, player);
         } else if (getCause() != null) {
             messager.message(player, getCause().getMessage());
         }
