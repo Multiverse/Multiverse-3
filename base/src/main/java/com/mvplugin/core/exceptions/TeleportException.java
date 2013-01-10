@@ -13,6 +13,10 @@ public class TeleportException extends MultiverseException {
         super(languageMessage, throwable);
     }
 
+    public TeleportException(@NotNull final BundledMessage languageMessage, @NotNull final MultiverseException mvException) {
+        super(languageMessage, mvException);
+    }
+
     public TeleportException(@NotNull final MultiverseException e) {
         super(e);
     }

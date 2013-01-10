@@ -13,6 +13,10 @@ public class WorldManagementException extends MultiverseException {
         super(languageMessage, throwable);
     }
 
+    public WorldManagementException(@NotNull final BundledMessage languageMessage, @NotNull final MultiverseException mvException) {
+        super(languageMessage, mvException);
+    }
+
     public WorldManagementException(@NotNull final MultiverseException e) {
         super(e);
     }
