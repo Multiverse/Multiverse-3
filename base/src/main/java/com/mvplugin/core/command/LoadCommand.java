@@ -5,6 +5,7 @@ import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.dumptruckman.minecraft.pluginbase.plugin.command.CommandInfo;
 import com.mvplugin.core.exceptions.WorldCreationException;
+import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;
 import com.sk89q.minecraft.util.commands.CommandContext;
@@ -50,8 +51,8 @@ public class LoadCommand extends MultiverseCommand {
         try {
             getPlugin().getWorldManager().loadWorld(worldName);
             getMessager().message(sender, LOAD_SUCCESS, worldName);
-        } catch (final WorldCreationException e) {
-            getMessager().message(sender, e.getBundledMessage());
+        } catch (final WorldManagementException e) {
+            e.sendException(getMessager(), sender);
         }
 
         return true;

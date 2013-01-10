@@ -4,7 +4,9 @@ import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.dumptruckman.minecraft.pluginbase.plugin.command.CommandInfo;
+import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.plugin.MultiverseCore;
+import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.Perms;
 import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
@@ -49,10 +51,19 @@ public class UnloadCommand extends MultiverseCommand {
     @Override
     public boolean runCommand(@NotNull final BasePlayer sender, @NotNull final CommandContext context) {
         final String worldName = context.getString(0);
-        if (getPlugin().getWorldManager().unloadWorld(worldName)) {
-            getMessager().message(sender, UNLOAD_SUCCESS, worldName);
-        } else {
+        if (!getPlugin().getWorldManager().isLoaded(worldName)) {
+            getMessager().message(sender, Language.WORLD_ALREADY_UNLOADED);
+        }
+        try {
+            if (getPlugin().getWorldManager().unloadWorld(worldName)) {
+                getMessager().message(sender, UNLOAD_SUCCESS, worldName);
+            } else {
+                getMessager().message(sender, Language.WORLD_NOT_MANAGED, worldName);
+
+            }
+        } catch (final WorldManagementException e) {
             getMessager().message(sender, UNLOAD_FAILURE, worldName);
+            e.sendException(getMessager(), sender);
         }
         return true;
     }
