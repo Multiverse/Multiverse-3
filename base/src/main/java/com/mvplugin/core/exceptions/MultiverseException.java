@@ -19,6 +19,10 @@ public class MultiverseException extends Exception {
         this.languageMessage = b;
     }
 
+    public MultiverseException(@NotNull final MultiverseException e) {
+        this(e.getBundledMessage(), e.getCause());
+    }
+
     @NotNull
     public BundledMessage getBundledMessage() {
         return this.languageMessage;

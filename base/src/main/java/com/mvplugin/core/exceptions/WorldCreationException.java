@@ -12,4 +12,8 @@ public class WorldCreationException extends MultiverseException {
     public WorldCreationException(@NotNull final BundledMessage languageMessage, @NotNull final Throwable throwable) {
         super(languageMessage, throwable);
     }
+
+    public WorldCreationException(@NotNull final MultiverseException e) {
+        super(e);
+    }
 }
