@@ -84,7 +84,7 @@ public class WorldManagerTest {
         assertTrue(worldManager.isLoaded("world_the_end"));
         MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
         assertTrue(worldManager.isLoaded(w.getName()));
-        worldManager.unloadWorld(w);
+        assertTrue(worldManager.unloadWorld(w));
         assertFalse(worldManager.isLoaded(w.getName()));
     }
 

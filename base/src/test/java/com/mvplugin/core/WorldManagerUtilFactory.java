@@ -29,6 +29,9 @@ public class WorldManagerUtilFactory {
         // Mock getSafeWorldName
         when(worldManagerUtil.getSafeWorldName()).thenReturn("world");
 
+        // Mock unloadWorldFromServer
+        doReturn(true).when(worldManagerUtil).unloadWorldFromServer(any(MultiverseWorld.class));
+
         // Mock createWorld
         doAnswer(new Answer<MultiverseWorld>() {
             @Override
