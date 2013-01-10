@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
@@ -26,6 +27,10 @@ public class EventProcessor {
      * @param world The world being unloaded.
      */
     public void worldUnload(@NotNull final MultiverseWorld world) {
-        this.api.getWorldManager().unloadWorld(world);
+        try {
+            this.api.getWorldManager().unloadWorld(world);
+        } catch (WorldManagementException ignore) {
+            ignore.printStackTrace(); // temporary... need to watch for recursion here.
+        }
     }
 }

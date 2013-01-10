@@ -73,8 +73,7 @@ public class ListCommand extends MultiverseCommand {
 
         }
         for (@NotNull final String name : getPlugin().getWorldManager().getUnloadedWorlds()) {
-            if (!getPlugin().getWorldManager().isLoaded(name)
-                    && Perms.ACCESS.hasPermission(sender, name)
+            if (Perms.ACCESS.hasPermission(sender, name)
                     && Perms.CMD_LOAD.hasPermission(sender)) {
                 if (builder.length() != 0) {
                     builder.append("\n");

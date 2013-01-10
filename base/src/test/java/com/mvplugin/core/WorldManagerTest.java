@@ -79,23 +79,38 @@ public class WorldManagerTest {
 
     @Test
     public void testIsLoaded() throws Exception {
+        // Not a whole lot testable with this method.
         assertTrue(worldManager.isLoaded("world"));
         assertTrue(worldManager.isLoaded("world_nether"));
         assertTrue(worldManager.isLoaded("world_the_end"));
         MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
         assertTrue(worldManager.isLoaded(w.getName()));
-        assertTrue(worldManager.unloadWorld(w));
+        worldManager.unloadWorld(w);
         assertFalse(worldManager.isLoaded(w.getName()));
     }
 
     @Test
     public void testIsManaged() throws Exception {
-
+        assertTrue(worldManager.isManaged("world"));
+        assertTrue(worldManager.isManaged("world_nether"));
+        assertTrue(worldManager.isManaged("world_the_end"));
+        MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
+        assertTrue(worldManager.isManaged(w.getName()));
+        worldManager.unloadWorld(w);
+        assertTrue(worldManager.isManaged(w.getName()));
+        worldManager.removeWorld(w.getName());
+        assertFalse(worldManager.isManaged(w.getName()));
+        w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
+        assertTrue(worldManager.isManaged(w.getName()));
     }
 
     @Test
     public void testGetWorld() throws Exception {
-
+        assertNotNull(worldManager.getWorld("world"));
+        assertNull(worldManager.getWorld(testName));
+        MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
+        assertNotNull(worldManager.getWorld(testName));
+        assertEquals(w, worldManager.getWorld(testName));
     }
 
     @Test

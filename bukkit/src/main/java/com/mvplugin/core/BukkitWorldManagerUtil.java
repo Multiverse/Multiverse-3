@@ -166,6 +166,18 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         }
     }
 
+    @Override
+    public void removeWorldProperties(@NotNull final String worldName) throws IOException {
+        final File file = new File(worldsFolder, worldName + ".yml");
+        if (!file.exists()) {
+            throw new IOException("The world file was not found: " + file);
+        }
+        if (!file.delete()) {
+            throw new IOException("The world file could not be deleted: " + file);
+        }
+        this.worldPropertiesMap.remove(worldName);
+    }
+
     /**
      * {@inheritDoc}
      */
@@ -222,7 +234,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @NotNull
-    public List<String> getUnloadedWorlds() {
+    public List<String> getManagedWorldNames() {
         return Collections.unmodifiableList(new ArrayList<String>(worldPropertiesMap.keySet()));
     }
 
