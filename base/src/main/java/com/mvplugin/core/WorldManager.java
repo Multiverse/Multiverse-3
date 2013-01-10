@@ -9,6 +9,7 @@ import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinate
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.exceptions.WorldCreationException;
+import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.minecraft.Generator;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
@@ -33,7 +34,7 @@ import java.util.Map;
  * This API contains all of the world managing
  * functions that your heart desires!
  */
-public class WorldManager {
+public final class WorldManager {
 
     @NotNull
     private final MultiverseCoreAPI api;
@@ -192,77 +193,80 @@ public class WorldManager {
      * This basically means this is only to be used if the world was previously unloaded by Multiverse.
      *
      * @param name The name of the world to load.
-     * @throws WorldCreationException if the world is already loaded or the world fails to load for some reason.
+     * @throws WorldManagementException if the world is already loaded or the world fails to load for some reason.
      * The message of the exception will indicate the exact issue.
      */
-    public void loadWorld(@NotNull final String name) throws WorldCreationException {
+    public void loadWorld(@NotNull final String name) throws WorldManagementException {
         if (isLoaded(name)) {
-            throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_LOADED, name));
+            throw new WorldManagementException(new BundledMessage(Language.WORLD_ALREADY_LOADED, name));
         }
         if (!isManaged(name)) {
-            throw new WorldCreationException(new BundledMessage(Language.WORLD_NOT_MANAGED, name));
+            throw new WorldManagementException(new BundledMessage(Language.WORLD_NOT_MANAGED, name));
         }
         try {
             // Transfer all the properties of the world ot a WorldCreationSettings object.
             final WorldProperties properties = this.worldManagerUtil.getWorldProperties(name);
             final WorldCreationSettings settings = new WorldCreationSettings(name);
-            //settings.type(properties.get(WorldProperties.TYPE));
             settings.generator(properties.get(WorldProperties.GENERATOR));
             settings.seed(properties.get(WorldProperties.SEED));
             settings.env(properties.get(WorldProperties.ENVIRONMENT));
             settings.adjustSpawn(properties.get(WorldProperties.ADJUST_SPAWN));
-            //settings.generateStructures(properties.get(WorldProperties.GENERATE_STRUCTURES));
 
-            addWorld(settings);
+            try {
+                addWorld(settings);
+            } catch (final WorldCreationException e) {
+                throw new WorldManagementException(e);
+            }
         } catch (final IOException e) {
-            throw new WorldCreationException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
+            throw new WorldManagementException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
         }
     }
 
     /**
-     * Unload a world from Multiverse.
+     * Unload a Multiverse managed world from the server.
      *
      * This will remove the world from memory but leave the world properties persistence object in tact.
      * This means that the server implementation shall make the world unreachable.
      *
      * @param name Name of the world to unload.
-     * @return True if the world was unloaded, false if not.
+     * @return true if the world was unloaded or is already unloaded.
+     * false if the specified world is not managed by Multiverse.
+     * @throws WorldManagementException if there are any problems while attempting to unload the world.
+     * The message of the exception will indicate the exact issue.
      */
-    public boolean unloadWorld(@NotNull final String name) {
+    public boolean unloadWorld(@NotNull final String name) throws WorldManagementException {
         final MultiverseWorld world = getWorld(name);
         if (world != null) {
-            return unloadWorld(world);
+            unloadWorld(world);
+            return true;
         }
-        // TODO finish... needs to be implemented by bukkit side somehow
-        /*
-        else if (this.plugin.getServer().getWorld(name) != null) {
-            Logging.warning("Hmm Multiverse does not know about this world but it's loaded in memory.");
-            Logging.warning("To let Multiverse know about it, use:");
-            Logging.warning("/mv import %s %s", name, this.plugin.getServer().getWorld(name).getEnvironment().toString());
-        } else if (this.worldsFromTheConfig.containsKey(name)) {
-            return true; // it's already unloaded
-        } else {
-            Logging.info("Multiverse does not know about '%s' and it's not loaded by Bukkit.", name);
-        }
-        */
         return false;
     }
 
-    //TODO docs
-    public boolean unloadWorld(@NotNull final MultiverseWorld world) {
-        try {
-            removePlayersFromWorld(world);
-        } catch (final TeleportException e) {
-            e.printStackTrace();
-            return false;
-        }
-        if (this.worldManagerUtil.unloadWorldFromServer(world)) {
-            this.worldsMap.remove(world.getName());
-            Logging.info("World '%s' was unloaded from memory.", world.getName());
-            return true;
-        } else {
-            Logging.warning("World '%s' could not be unloaded. Is it a default world?", world.getName());
-            return false;
+    /**
+     * Unload a Multiverse managed world from the server.
+     *
+     * This will remove the world from memory but leave the world properties persistence object in tact.
+     * This means that the server implementation shall make the world unreachable.
+     * This does nothing if the world is already unloaded.
+     *
+     * @param world The world to unload.
+     * @throws WorldManagementException if there are any problems while attempting to unload the world.
+     * The message of the exception will indicate the exact issue.
+     */
+    public void unloadWorld(@NotNull final MultiverseWorld world) throws WorldManagementException {
+        if (isLoaded(world.getName())) {
+            try {
+                removePlayersFromWorld(world);
+            } catch (final TeleportException e) {
+                throw new WorldManagementException(new BundledMessage(Language.WORLD_UNLOAD_ERROR, world.getName()), e);
+            }
+            if (this.worldManagerUtil.unloadWorldFromServer(world)) {
+                this.worldsMap.remove(world.getName());
+                Logging.fine("World '%s' was unloaded from memory.", world.getName());
+            } else {
+                throw new WorldManagementException(new BundledMessage(Language.WORLD_COULD_NOT_UNLOAD_FROM_SERVER, world.getName()));
+            }
         }
     }
 
@@ -396,14 +400,6 @@ public class WorldManager {
      * @return True if success, false if fail.
      */
     //TODO boolean saveWorldsConfig();
-
-    /**
-     * Remove the world from the Multiverse list and from the config.
-     *
-     * @param name The name of the world to remove
-     * @return True if success, false if failure.
-     */
-    //TODO boolean removeWorldFromConfig(String name);
 
     /**
      * Sets the initial spawn world for new players.
