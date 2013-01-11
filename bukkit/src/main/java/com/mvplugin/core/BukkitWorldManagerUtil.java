@@ -139,7 +139,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @NotNull
     private WorldProperties getWorldProperties(@NotNull final File file) throws IOException {
-        final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(false, true, file, WorldProperties.class) {
+        final DefaultworldProperties worldProperties = new DefaultworldProperties(new YamlProperties(false, true, file, WorldProperties.class) {
             @Override
             protected void registerSerializers() {
                 super.registerSerializers();

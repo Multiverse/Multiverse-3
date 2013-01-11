@@ -7,12 +7,12 @@ import org.jetbrains.annotations.NotNull;
 import java.util.List;
 import java.util.Map;
 
-class DefaultWorldProperties implements WorldProperties {
+class DefaultworldProperties implements WorldProperties {
 
     @NotNull
     private final Properties properties;
 
-    DefaultWorldProperties(@NotNull Properties properties) {
+    DefaultworldProperties(@NotNull Properties properties) {
         this.properties = properties;
     }
 
