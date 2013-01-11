@@ -25,7 +25,8 @@ public class WorldManagerUtilFactory {
         List<MultiverseWorld> defaultWorlds = MultiverseWorldFactory.getDefaultWorlds();
         Map<String, MultiverseWorld> initialWorlds = new HashMap<String, MultiverseWorld>(defaultWorlds.size());
         for (final MultiverseWorld world : defaultWorlds) {
-            initialWorlds.put(world.getName(), world);
+            initialWorlds.put(world.getName().toLowerCase(), world);
+            managedWorlds.add(world.getName().toLowerCase());
         }
         when(worldManagerUtil.getInitialWorlds()).thenReturn(initialWorlds);
 
@@ -41,7 +42,14 @@ public class WorldManagerUtilFactory {
         doAnswer(new Answer() {
             @Override
             public Object answer(final InvocationOnMock invocation) throws Throwable {
-                managedWorlds.remove(invocation.getArguments()[0].toString());
+                String name = invocation.getArguments()[0].toString();
+                for (final String managedWorld : managedWorlds) {
+                    if (name.equalsIgnoreCase(managedWorld)) {
+                        name = managedWorld;
+                        break;
+                    }
+                }
+                managedWorlds.remove(name);
                 return null;
             }
         }).when(worldManagerUtil).removeWorldProperties(anyString());

@@ -12,6 +12,7 @@ import java.util.Map;
 
 interface WorldManagerUtil {
 
+    // Names should be lower case
     @NotNull
     Map<String, MultiverseWorld> getInitialWorlds();
 
@@ -51,6 +52,7 @@ interface WorldManagerUtil {
     @NotNull
     String getSafeWorldName();
 
+    // Names should be lowercase
     @NotNull
     List<String> getManagedWorldNames();
 }

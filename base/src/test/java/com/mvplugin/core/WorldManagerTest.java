@@ -70,6 +70,7 @@ public class WorldManagerTest {
         // Now test the real WorldManager to ensure the returned mock world contains the correct values
         MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
         assertEquals(testName, w.getName());
+        assertNotEquals(testName.toUpperCase(), w.getName());
         assertEquals(testWorldEnvironment, w.getEnvironment());
         assertEquals(testSeed.longValue(), w.getSeed());
         assertEquals(testWorldType, w.getWorldType());
@@ -81,17 +82,24 @@ public class WorldManagerTest {
     public void testIsLoaded() throws Exception {
         // Not a whole lot testable with this method.
         assertTrue(worldManager.isLoaded("world"));
+        assertFalse(worldManager.isLoaded("world1"));
+        assertTrue(worldManager.isLoaded("WORLD"));
+        assertTrue(worldManager.isLoaded("WOrLd"));
         assertTrue(worldManager.isLoaded("world_nether"));
         assertTrue(worldManager.isLoaded("world_the_end"));
         MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
         assertTrue(worldManager.isLoaded(w.getName()));
         worldManager.unloadWorld(w);
         assertFalse(worldManager.isLoaded(w.getName()));
+        assertFalse(worldManager.isLoaded(w.getName().toUpperCase()));
     }
 
     @Test
     public void testIsManaged() throws Exception {
         assertTrue(worldManager.isManaged("world"));
+        assertFalse(worldManager.isManaged("world1"));
+        assertTrue(worldManager.isManaged("WORLD"));
+        assertTrue(worldManager.isManaged("WOrLd"));
         assertTrue(worldManager.isManaged("world_nether"));
         assertTrue(worldManager.isManaged("world_the_end"));
         MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
@@ -107,6 +115,9 @@ public class WorldManagerTest {
     @Test
     public void testGetWorld() throws Exception {
         assertNotNull(worldManager.getWorld("world"));
+        assertNotNull(worldManager.getWorld("WORLD"));
+        assertNotNull(worldManager.getWorld("woRlD"));
+        assertNull(worldManager.getWorld("world1"));
         assertNull(worldManager.getWorld(testName));
         MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
         assertNotNull(worldManager.getWorld(testName));
@@ -135,6 +146,12 @@ public class WorldManagerTest {
 
     @Test
     public void testGetUnloadedWorlds() throws Exception {
+
+    }
+
+    @Test
+    public void testRemoveWorld() throws Exception {
+
 
     }
 }

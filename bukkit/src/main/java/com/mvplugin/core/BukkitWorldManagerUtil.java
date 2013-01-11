@@ -76,7 +76,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         for (final World w : Bukkit.getWorlds()) {
             try {
                 final MultiverseWorld world = getBukkitWorld(w);
-                initialWorlds.put(world.getName(), world);
+                initialWorlds.put(world.getName().toLowerCase(), world);
                 if (builder.length() != 0) {
                     builder.append(", ");
                 }
@@ -88,7 +88,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
         for (File file : getPotentialWorldFiles()) {
             final String worldName = getWorldNameFromFile(file);
-            if (initialWorlds.containsKey(worldName)) {
+            if (initialWorlds.containsKey(worldName.toLowerCase())) {
                 continue;
             }
             try {
@@ -100,7 +100,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                     settings.adjustSpawn(worldProperties.get(WorldProperties.ADJUST_SPAWN));
                     final MultiverseWorld mvWorld = createWorld(settings);
                     mvWorld.setAdjustSpawn(settings.adjustSpawn());
-                    initialWorlds.put(mvWorld.getName(), mvWorld);
+                    initialWorlds.put(mvWorld.getName().toLowerCase(), mvWorld);
                     if (builder.length() != 0) {
                         builder.append(", ");
                     }
@@ -156,9 +156,16 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         final World world = Bukkit.getWorld(worldName);
         if (world != null) {
             worldName = world.getName();
+        } else {
+            for (final String propsName : this.worldPropertiesMap.keySet()) {
+                if (worldName.equalsIgnoreCase(propsName)) {
+                    worldName = propsName;
+                    break;
+                }
+            }
         }
-        if (worldPropertiesMap.containsKey(worldName)) {
-            return worldPropertiesMap.get(worldName);
+        if (this.worldPropertiesMap.containsKey(worldName)) {
+            return this.worldPropertiesMap.get(worldName);
         } else {
             final WorldProperties worldProperties = getWorldProperties(new File(worldsFolder, worldName + ".yml"));
             worldPropertiesMap.put(worldName, worldProperties);
@@ -167,7 +174,13 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @Override
-    public void removeWorldProperties(@NotNull final String worldName) throws IOException {
+    public void removeWorldProperties(@NotNull String worldName) throws IOException {
+        for (final String propsName : this.worldPropertiesMap.keySet()) {
+            if (worldName.equalsIgnoreCase(propsName)) {
+                worldName = propsName;
+                break;
+            }
+        }
         final File file = new File(worldsFolder, worldName + ".yml");
         if (!file.exists()) {
             throw new IOException("The world file was not found: " + file);

@@ -22,12 +22,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Multiverse 2 World Manager API
@@ -122,12 +117,12 @@ public class WorldManager {
      */
     @NotNull
     public MultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
-        if (this.worldsMap.containsKey(settings.name())) {
+        if (this.worldsMap.containsKey(settings.name().toLowerCase())) {
             throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
         }
         MultiverseWorld mvWorld = this.worldManagerUtil.createWorld(settings);
         mvWorld.setAdjustSpawn(settings.adjustSpawn());
-        this.worldsMap.put(settings.name(), mvWorld);
+        this.worldsMap.put(settings.name().toLowerCase(), mvWorld);
         return mvWorld;
     }
 
@@ -138,7 +133,7 @@ public class WorldManager {
      * @return True indicate this world is managed by Multiverse AND is loaded.
      */
     public boolean isLoaded(@NotNull final String name) {
-        return this.worldsMap.containsKey(name);
+        return this.worldsMap.containsKey(name.toLowerCase());
     }
 
     /**
@@ -150,7 +145,8 @@ public class WorldManager {
      * @return True if Multiverse is managing this world whether loaded or not.
      */
     public boolean isManaged(@NotNull final String name) {
-        return this.worldsMap.containsKey(name) || this.getUnloadedWorlds().contains(name);
+        final String lowerName = name.toLowerCase();
+        return this.worldsMap.containsKey(lowerName) || this.getUnloadedWorlds().contains(lowerName);
     }
 
     /**
@@ -165,12 +161,12 @@ public class WorldManager {
      */
     @Nullable
     public MultiverseWorld getWorld(@NotNull final String name) {
-        final MultiverseWorld world = this.worldsMap.get(name);
+        final MultiverseWorld world = this.worldsMap.get(name.toLowerCase());
         if (world != null) {
             return world;
         }
         for (final MultiverseWorld w : this.worldsMap.values()) {
-            if (w.getAlias().equals(name)) {
+            if (name.equalsIgnoreCase(w.getAlias())) {
                 return w;
             }
         }
@@ -263,7 +259,7 @@ public class WorldManager {
                 throw new WorldManagementException(new BundledMessage(Language.WORLD_UNLOAD_ERROR, world.getName()), e);
             }
             if (this.worldManagerUtil.unloadWorldFromServer(world)) {
-                this.worldsMap.remove(world.getName());
+                this.worldsMap.remove(world.getName().toLowerCase());
                 Logging.fine("World '%s' was unloaded from memory.", world.getName());
             } else {
                 throw new WorldManagementException(new BundledMessage(Language.WORLD_COULD_NOT_UNLOAD_FROM_SERVER, world.getName()));
@@ -292,8 +288,13 @@ public class WorldManager {
     // TODO docs
     @NotNull
     public List<String> getUnloadedWorlds() {
-        final List<String> unloadedWorlds = new ArrayList<String>(this.worldManagerUtil.getManagedWorldNames());
-        unloadedWorlds.removeAll(this.worldsMap.keySet());
+        final List<String> managedWorlds = this.worldManagerUtil.getManagedWorldNames();
+        final List<String> unloadedWorlds = new ArrayList<String>(managedWorlds.size() - getWorlds().size());
+        for (final String name : managedWorlds) {
+            if (!isLoaded(name)) {
+                unloadedWorlds.add(name);
+            }
+        }
         return Collections.unmodifiableList(unloadedWorlds);
     }
 
