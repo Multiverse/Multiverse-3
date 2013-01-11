@@ -17,7 +17,7 @@ public class MultiverseWorldFactory {
     }
 
     public static MultiverseWorld newMultiverseWorld(@NotNull final String name) {
-        final WorldProperties properties = new DefaultworldProperties(new MemoryProperties(true, WorldProperties.class));
+        final WorldProperties properties = new DefaultwworldProperties(new MemoryProperties(true, WorldProperties.class));
         final WorldLink worldLink = WorldLinkFactory.getWorldLink(name);
         return new DefaultMultiverseWorld(properties, worldLink);
     }
