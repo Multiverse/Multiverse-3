@@ -1,6 +1,6 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
+import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;

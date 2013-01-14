@@ -1,19 +1,14 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
+import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
-import com.dumptruckman.minecraft.pluginbase.properties.Observer;
-import com.dumptruckman.minecraft.pluginbase.properties.Properties;
-import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldProperties;
-import com.mvplugin.core.world.WorldProperties.Spawning;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
-import com.sk89q.worldedit.foundation.World;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

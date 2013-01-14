@@ -1,10 +1,9 @@
 package com.mvplugin.core.command;
 
-import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
+import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
-import com.dumptruckman.minecraft.pluginbase.plugin.command.CommandInfo;
-import com.mvplugin.core.exceptions.WorldCreationException;
+import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;

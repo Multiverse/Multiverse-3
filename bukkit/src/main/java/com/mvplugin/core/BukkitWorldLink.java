@@ -1,12 +1,11 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
+import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.util.BukkitTools;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Convert;
-import com.mvplugin.core.world.WorldProperties;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;

@@ -1,6 +1,6 @@
 package com.mvplugin.core.command;
 
-import com.dumptruckman.minecraft.pluginbase.plugin.command.Command;
+import com.dumptruckman.minecraft.pluginbase.command.Command;
 import com.mvplugin.core.plugin.MultiverseCore;
 import org.jetbrains.annotations.NotNull;
 

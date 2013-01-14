@@ -1,6 +1,6 @@
 package com.mvplugin.core.util;
 
-import com.dumptruckman.minecraft.pluginbase.entity.BasePlayer;
+import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
 import com.mvplugin.core.exceptions.TeleportException;
