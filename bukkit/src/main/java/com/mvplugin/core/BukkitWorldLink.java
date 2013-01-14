@@ -56,7 +56,11 @@ class BukkitWorldLink implements WorldLink {
 
     @NotNull
     private World getWorld() {
-        return this.worldRef.get();
+        final World world = this.worldRef.get();
+        if (world == null) {
+            throw new IllegalStateException("Lost reference to bukkit world.");
+        }
+        return world;
     }
 
     @Override
