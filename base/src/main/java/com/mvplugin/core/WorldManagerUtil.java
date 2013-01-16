@@ -7,6 +7,7 @@ import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
+import java.util.Collection;
 import java.util.List;
 import java.util.Map;
 
@@ -55,4 +56,22 @@ interface WorldManagerUtil {
     // Names should be lowercase
     @NotNull
     List<String> getManagedWorldNames();
+
+    /**
+     * A very basic check to see if a world with the given name exists on the server.
+     *
+     * To clarify, this does not mean the world is loaded, just that persistence for the minecraft world exists.
+     *
+     * @param name The name that may be a world.
+     * @return True if it looks like a world, false if not.
+     */
+    boolean isThisAWorld(@NotNull final String name);
+
+    @NotNull
+    Collection<String> getPotentialWorlds();
+
+    boolean deleteWorld(@NotNull final String name);
+
+    @NotNull
+    String getCorrectlyCasedWorldName(@NotNull final String name);
 }

@@ -24,6 +24,9 @@ public class Perms {
     public static final Perm CMD_MODIFY = PermFactory.newPerm(MultiverseCore.class, "cmd.modify")
             .commandPermission().usePluginName().build();
 
+    public static final Perm CMD_DELETE = PermFactory.newPerm(MultiverseCore.class, "cmd.delete")
+            .commandPermission().usePluginName().build();
+
     // ============ Multiverse Bypass Permissions ============
 
     private static final Perm MV = PermFactory.newPerm(MultiverseCore.class, "mv.*")

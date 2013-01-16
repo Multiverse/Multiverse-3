@@ -2,8 +2,10 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messaging.ChatColor;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.properties.YamlProperties;
+import com.dumptruckman.minecraft.pluginbase.util.FileUtils;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
@@ -92,7 +94,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                 continue;
             }
             try {
-                final WorldProperties worldProperties = getWorldProperties(file);
+                final WorldProperties worldProperties = newWorldProperties(file);
                 if (worldProperties.get(WorldProperties.AUTO_LOAD)) {
                     final WorldCreationSettings settings = new WorldCreationSettings(worldName);
                     settings.env(worldProperties.get(WorldProperties.ENVIRONMENT));
@@ -138,7 +140,49 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @NotNull
-    private WorldProperties getWorldProperties(@NotNull final File file) throws IOException {
+    @Override
+    public Collection<String> getPotentialWorlds() {
+        final Collection<String> potentialWorlds = new ArrayList<String>();
+        final File worldFolder = Bukkit.getWorldContainer();
+        if (worldFolder == null) {
+            return potentialWorlds;
+        }
+        File[] files = worldFolder.listFiles();
+        if (files == null) {
+            files = new File[0];
+        }
+        for (final File file : files) {
+            if (isThisAWorld(file)) {
+                potentialWorlds.add(file.getName());
+            }
+        }
+        return potentialWorlds;
+    }
+
+    @Override
+    public boolean isThisAWorld(@NotNull final String name) {
+        return isThisAWorld(new File(this.plugin.getServerInterface().getWorldContainer(), name));
+    }
+
+    private static final String WORLD_FILE_NAME = "level.dat";
+
+    private boolean isThisAWorld(@NotNull final File worldFolder) {
+        if (worldFolder.isDirectory()) {
+            File[] files = worldFolder.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(File file, @NotNull String name) {
+                    return name.equalsIgnoreCase(WORLD_FILE_NAME);
+                }
+            });
+            if (files != null && files.length > 0) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    @NotNull
+    private WorldProperties newWorldProperties(@NotNull final File file) throws IOException {
         final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(false, true, file, WorldProperties.class) {
             @Override
             protected void registerSerializers() {
@@ -153,24 +197,35 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @NotNull
     @Override
     public WorldProperties getWorldProperties(@NotNull String worldName) throws IOException {
-        final World world = Bukkit.getWorld(worldName);
-        if (world != null) {
-            worldName = world.getName();
-        } else {
-            for (final String propsName : this.worldPropertiesMap.keySet()) {
-                if (worldName.equalsIgnoreCase(propsName)) {
-                    worldName = propsName;
-                    break;
-                }
-            }
-        }
+        worldName = getCorrectlyCasedWorldName(worldName);
         if (this.worldPropertiesMap.containsKey(worldName)) {
             return this.worldPropertiesMap.get(worldName);
         } else {
-            final WorldProperties worldProperties = getWorldProperties(new File(worldsFolder, worldName + ".yml"));
+            final WorldProperties worldProperties = newWorldProperties(new File(worldsFolder, worldName + ".yml"));
             worldPropertiesMap.put(worldName, worldProperties);
             return worldProperties;
         }
+    }
+
+    @NotNull
+    @Override
+    public String getCorrectlyCasedWorldName(@NotNull final String name) {
+        final World world = Bukkit.getWorld(name);
+        if (world != null) {
+            return world.getName();
+        } else {
+            for (final String propsName : this.worldPropertiesMap.keySet()) {
+                if (name.equalsIgnoreCase(propsName)) {
+                    return propsName;
+                }
+            }
+        }
+        for (final File file : Bukkit.getWorldContainer().listFiles()) {
+            if (isThisAWorld(file) && file.getName().equalsIgnoreCase(name)) {
+                return file.getName();
+            }
+        }
+        return name;
     }
 
     @Override
@@ -260,5 +315,12 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @Override
     public String getSafeWorldName() {
         return Bukkit.getWorlds().get(0).getName();
+    }
+
+    @Override
+    public boolean deleteWorld(@NotNull final String name) {
+        final File worldFile = new File(Bukkit.getWorldContainer(), name);
+        FileUtils.deleteFolder(worldFile);
+        return !worldFile.exists();
     }
 }

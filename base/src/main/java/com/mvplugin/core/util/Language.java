@@ -15,17 +15,30 @@ public class Language {
             ChatColor.RED + "The world '" + ChatColor.AQUA + "%s" + ChatColor.RED + "' is already unloaded!");
 
     public static final Message WORLD_NOT_MANAGED = new Message("world.not_managed",
-            "&aMultiverse&f is unaware of the world '&b%s&f'.  Has it been imported? (/mv import)");
+            ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " is unaware of the world '&b%s&f'.  Has it been imported? (/mv import)");
 
-    public static final Message WORLD_LOAD_ERROR = new Message("world.load_error",
-            "&aMultiverse&f experienced a problem while attempting to load '&b%s&f'!");
+    public static final Message WORLD_LOAD_ERROR = new Message("world.load.error",
+            ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " experienced a problem while attempting to load '&b%s&f'!");
 
-    public static final Message WORLD_UNLOAD_ERROR = new Message("world.unload_error",
+    public static final Message WORLD_UNLOAD_ERROR = new Message("world.unload.error",
             ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " experienced a problem while attempting to unload '" + ChatColor.AQUA + "%s" + ChatColor.WHITE + "'.");
 
-    public static final Message WORLD_COULD_NOT_UNLOAD_FROM_SERVER = new Message("world.could_not_unload_from_server",
+    public static final Message WORLD_COULD_NOT_UNLOAD_FROM_SERVER = new Message("world.unload.could_not_unload_from_server",
             ChatColor.WHITE + "World '" + ChatColor.AQUA + "%s" + ChatColor.WHITE + "' could not be unloaded.  Is it a default world?");
 
-    public static final Message WORLD_REMOVE_ERROR = new Message("world.remove_error",
+    public static final Message WORLD_REMOVE_ERROR = new Message("world.remove.error",
             ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " experienced a problem while attempting to remove '" + ChatColor.AQUA + "%s" + ChatColor.WHITE + "'.");
+
+    public static final Message CANNOT_DELETE_UNMANAGED = new Message("world.delete.must_be_managed",
+            ChatColor.RED + "You may only delete worlds that Multiverse manages.");
+
+    public static final Message CANNOT_DELETE_NONWORLD = new Message("world.delete.not_a_world",
+            ChatColor.DARK_GRAY + "Sorry, %s does not appear to be a world.");
+
+    public static final Message WORLD_DELETE_ERROR = new Message("world.delete.error",
+            ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " experienced a problem while attempting to delete '&b%s&f'!");
+
+    public static final Message WORLD_DELETE_FAILED = new Message("world.delete.failed",
+            ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " was unable to fully delete world '&b%s&f'."
+            + "\n" + ChatColor.GRAY + ChatColor.ITALIC + "This probably means the files are in use somewhere else.");
 }

@@ -333,6 +333,50 @@ public class WorldManager {
         return false;
     }
 
+    public void deleteWorld(@NotNull final String worldName, final boolean removeMVWorld) throws WorldManagementException {
+        if (!isManaged(worldName)) {
+            throw new WorldManagementException(new BundledMessage(Language.CANNOT_DELETE_UNMANAGED));
+        }
+        final String name = this.worldManagerUtil.getCorrectlyCasedWorldName(worldName);
+        if (!isThisAWorld(name)) {
+            throw new WorldManagementException(new BundledMessage(Language.CANNOT_DELETE_NONWORLD, name));
+        }
+        if (isLoaded(name)) {
+            try {
+                unloadWorld(name);
+            } catch (final WorldManagementException e) {
+                throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_ERROR, name), e);
+            }
+        }
+        if (removeMVWorld) {
+            try {
+                removeWorld(name);
+            } catch (final WorldManagementException e) {
+                throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_ERROR, name), e);
+            }
+        }
+        if (!this.worldManagerUtil.deleteWorld(name)) {
+            throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_FAILED));
+        }
+    }
+
+    /**
+     * A very basic check to see if a world with the given name exists on the server.
+     *
+     * To clarify, this does not mean the world is loaded, just that persistence for the minecraft world exists.
+     *
+     * @param name The name that may be a world.
+     * @return True if it looks like a world, false if not.
+     */
+    public boolean isThisAWorld(@NotNull final String name) {
+        return this.worldManagerUtil.isThisAWorld(name);
+    }
+
+    @NotNull
+    public Collection<String> getPotentialWorlds() {
+        return this.worldManagerUtil.getPotentialWorlds();
+    }
+
     /**
      * Creates a world with the given properties.
      *

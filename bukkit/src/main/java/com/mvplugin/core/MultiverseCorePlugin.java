@@ -2,6 +2,7 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
+import com.mvplugin.core.command.DeleteCommand;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.command.ListCommand;
 import com.mvplugin.core.command.LoadCommand;
@@ -63,6 +64,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
         registerCommand(LoadCommand.class);
         registerCommand(UnloadCommand.class);
         registerCommand(ListCommand.class);
+        registerCommand(DeleteCommand.class);
     }
 
     @NotNull

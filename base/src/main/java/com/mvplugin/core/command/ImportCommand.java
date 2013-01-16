@@ -71,8 +71,6 @@ public class ImportCommand extends MultiverseCommand {
     public static final Message NON_EXISTENT_FOLDER = new Message("command.import.non_existent_folder",
             "&cThat world folder does not exist. &bThese look like worlds to me:");
 
-    private static final String WORLD_FILE_NAME = "level.dat";
-
     protected ImportCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
     }
@@ -147,51 +145,13 @@ public class ImportCommand extends MultiverseCommand {
         return true;
     }
 
-    /**
-     * A very basic check to see if a folder has a level.dat file.
-     * If it does, we can safely assume it's a world folder.
-     *
-     * @param worldFolder The File that may be a world.
-     * @return True if it looks like a world, false if not.
-     */
-    private static boolean checkIfIsWorld(@NotNull final File worldFolder) {
-        if (worldFolder.isDirectory()) {
-            File[] files = worldFolder.listFiles(new FilenameFilter() {
-                @Override
-                public boolean accept(File file, @NotNull String name) {
-                    return name.equalsIgnoreCase(WORLD_FILE_NAME);
-                }
-            });
-            if (files != null && files.length > 0) {
-                return true;
-            }
-        }
-        return false;
-    }
-
     @NotNull
     private String getPotentialWorlds() {
-        final File worldFolder = getPlugin().getServerInterface().getWorldContainer();
-        if (worldFolder == null) {
-            return "";
-        }
-        File[] files = worldFolder.listFiles();
-        if (files == null) {
-            files = new File[0];
-        }
-        StringBuilder worldList = new StringBuilder();
-        Collection<? extends MultiverseWorld> worlds = getPlugin().getWorldManager().getWorlds();
-        List<String> worldStrings = new ArrayList<String>();
-        for (final MultiverseWorld world : worlds) {
-            worldStrings.add(world.getName());
-        }
-        for (String world : getPlugin().getWorldManager().getUnloadedWorlds()) {
-            worldStrings.add(world);
-        }
+        final StringBuilder worldList = new StringBuilder();
         ChatColor currColor = ChatColor.WHITE;
-        for (File file : files) {
-            if (file.isDirectory() && checkIfIsWorld(file) && !worldStrings.contains(file.getName())) {
-                worldList.append(currColor).append(file.getName()).append(" ");
+        for (final String potentialWorld : getPlugin().getWorldManager().getPotentialWorlds()) {
+            if (!getPlugin().getWorldManager().isManaged(potentialWorld)) {
+                worldList.append(currColor).append(potentialWorld).append(" ");
                 if (currColor == ChatColor.WHITE) {
                     currColor = ChatColor.YELLOW;
                 } else {
