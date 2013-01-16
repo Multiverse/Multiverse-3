@@ -123,6 +123,7 @@ public class WorldManager {
         MultiverseWorld mvWorld = this.worldManagerUtil.createWorld(settings);
         mvWorld.setAdjustSpawn(settings.adjustSpawn());
         this.worldsMap.put(settings.name().toLowerCase(), mvWorld);
+        Logging.fine("World '%s' has been added to multiverse management", settings.name());
         return mvWorld;
     }
 
@@ -201,6 +202,7 @@ public class WorldManager {
             throw new WorldManagementException(new BundledMessage(Language.WORLD_NOT_MANAGED, name));
         }
         try {
+            Logging.fine("Loading world '%s'...", name);
             // Transfer all the properties of the world ot a WorldCreationSettings object.
             final WorldProperties properties = this.worldManagerUtil.getWorldProperties(name);
             final WorldCreationSettings settings = new WorldCreationSettings(name);
@@ -278,6 +280,7 @@ public class WorldManager {
         final FacingCoordinates sLoc = safeWorld.getSpawnLocation();
         final EntityCoordinates location = Locations.getEntityCoordinates(safeWorld.getName(),
                 sLoc.getX(), sLoc.getY(), sLoc.getZ(), sLoc.getPitch(), sLoc.getYaw());
+        Logging.fine("Removing players from world '%s'...", world.getName());
         for (final BasePlayer p : world.getPlayers()) {
             if (p instanceof Entity) {
                 teleporter.safelyTeleport(null, (Entity) p, location);
@@ -356,7 +359,7 @@ public class WorldManager {
             }
         }
         if (!this.worldManagerUtil.deleteWorld(name)) {
-            throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_FAILED));
+            throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_FAILED, name));
         }
     }
 

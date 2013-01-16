@@ -232,6 +232,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     public void removeWorldProperties(@NotNull String worldName) throws IOException {
         for (final String propsName : this.worldPropertiesMap.keySet()) {
             if (worldName.equalsIgnoreCase(propsName)) {
+                Logging.finest("Found appropriately cased world name '%s'=>'%s'", worldName, propsName);
                 worldName = propsName;
                 break;
             }
@@ -243,6 +244,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         if (!file.delete()) {
             throw new IOException("The world file could not be deleted: " + file);
         }
+        Logging.fine("Removed world properties for world '%s'", worldName);
         this.worldPropertiesMap.remove(worldName);
     }
 
@@ -289,6 +291,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         }
 
         try {
+            Logging.fine("Creating bukkit world '%s'...", settings.name());
             final World w = c.createWorld();
             return getBukkitWorld(w);
         } catch (Exception e) {
@@ -320,6 +323,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @Override
     public boolean deleteWorld(@NotNull final String name) {
         final File worldFile = new File(Bukkit.getWorldContainer(), name);
+        Logging.fine("Attempting to delete %s", worldFile);
         FileUtils.deleteFolder(worldFile);
         return !worldFile.exists();
     }
