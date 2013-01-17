@@ -290,8 +290,8 @@ public class WorldManager {
 
     // TODO docs
     @NotNull
-    public List<String> getUnloadedWorlds() {
-        final List<String> managedWorlds = this.worldManagerUtil.getManagedWorldNames();
+    public Collection<String> getUnloadedWorlds() {
+        final Collection<String> managedWorlds = this.worldManagerUtil.getManagedWorldNames();
         final List<String> unloadedWorlds = new ArrayList<String>(managedWorlds.size() - getWorlds().size());
         for (final String name : managedWorlds) {
             if (!isLoaded(name)) {

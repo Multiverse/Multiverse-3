@@ -55,7 +55,7 @@ interface WorldManagerUtil {
 
     // Names should be lowercase
     @NotNull
-    List<String> getManagedWorldNames();
+    Collection<String> getManagedWorldNames();
 
     /**
      * A very basic check to see if a world with the given name exists on the server.
