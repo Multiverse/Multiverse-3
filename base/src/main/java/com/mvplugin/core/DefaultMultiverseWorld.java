@@ -2,13 +2,9 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
-import com.mvplugin.core.minecraft.WorldType;
+import com.mvplugin.core.minecraft.*;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldProperties;
-import com.mvplugin.core.minecraft.Difficulty;
-import com.mvplugin.core.minecraft.GameMode;
-import com.mvplugin.core.minecraft.PortalType;
-import com.mvplugin.core.minecraft.WorldEnvironment;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -32,6 +28,16 @@ class DefaultMultiverseWorld implements MultiverseWorld {
     DefaultMultiverseWorld(@NotNull final WorldProperties worldProperties, @NotNull final WorldLink worldLink) {
         this.worldProperties = worldProperties;
         this.worldLink = worldLink;
+    }
+
+    @Override
+    public int hashCode() {
+        return getName().hashCode();
+    }
+
+    @Override
+    public boolean equals(final Object obj) {
+        return obj instanceof MultiverseWorld && ((MultiverseWorld) obj).getName().equals(getName());
     }
 
     @NotNull
