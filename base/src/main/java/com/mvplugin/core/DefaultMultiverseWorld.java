@@ -78,7 +78,7 @@ class DefaultMultiverseWorld implements MultiverseWorld {
     @NotNull
     @Override
     public WorldEnvironment getEnvironment() {
-        return getProperties().get(WorldProperties.ENVIRONMENT);
+        return this.worldLink.getEnvironment();
     }
 
     @Override

@@ -4,6 +4,7 @@ import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.util.BukkitTools;
 import com.mvplugin.core.minecraft.Difficulty;
+import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Convert;
 import org.bukkit.World;
@@ -79,6 +80,12 @@ class BukkitWorldLink implements WorldLink {
     @NotNull
     public WorldType getType() {
         return this.worldType;
+    }
+
+    @NotNull
+    @Override
+    public WorldEnvironment getEnvironment() {
+        return Convert.fromBukkit(getWorld().getEnvironment());
     }
 
     @Override
