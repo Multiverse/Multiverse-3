@@ -1,8 +1,8 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
@@ -214,7 +214,7 @@ public class WorldManager {
             try {
                 addWorld(settings);
             } catch (final WorldCreationException e) {
-                throw new WorldManagementException(e);
+                throw new WorldManagementException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
             }
         } catch (final IOException e) {
             throw new WorldManagementException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
