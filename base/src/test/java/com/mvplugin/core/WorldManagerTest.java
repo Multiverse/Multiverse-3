@@ -1,7 +1,9 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
+import com.mvplugin.core.util.Language;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
 import org.junit.After;
@@ -76,6 +78,25 @@ public class WorldManagerTest {
         assertEquals(testWorldType, w.getWorldType());
         assertEquals(testGenerator, w.getGenerator());
         assertEquals(testAdjustSpawn, w.getAdjustSpawn());
+
+        boolean thrown = false;
+        try {
+            worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
+        } catch (WorldCreationException e) {
+            thrown = true;
+            assertEquals(Language.WORLD_ALREADY_EXISTS, e.getBundledMessage().getMessage());
+            assertEquals(testName, e.getBundledMessage().getArgs()[0]);
+        }
+        assertTrue(thrown);
+        thrown = false;
+        try {
+            worldManager.addWorld(testName.toUpperCase(), testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
+        } catch (WorldCreationException e) {
+            thrown = true;
+            assertEquals(Language.WORLD_ALREADY_EXISTS, e.getBundledMessage().getMessage());
+            assertEquals(testName.toUpperCase(), e.getBundledMessage().getArgs()[0]);
+        }
+        assertTrue(thrown);
     }
 
     @Test
@@ -126,7 +147,14 @@ public class WorldManagerTest {
 
     @Test
     public void testGetWorlds() throws Exception {
-
+        assertEquals(3, worldManager.getWorlds().size());
+        MultiverseWorld w = worldManager.addWorld(testName, testWorldEnvironment, testSeedString, testWorldType, testGenerateStructures, testGenerator, testAdjustSpawn);
+        assertTrue(worldManager.getWorlds().contains(w));
+        worldManager.unloadWorld(w);
+        assertFalse(worldManager.getWorlds().contains(w));
+        worldManager.loadWorld(w.getName());
+        assertTrue(worldManager.getWorlds().contains(w));
+        assertEquals(4, worldManager.getWorlds().size());
     }
 
     @Test
@@ -152,6 +180,10 @@ public class WorldManagerTest {
     @Test
     public void testRemoveWorld() throws Exception {
 
+    }
+
+    @Test
+    public void testDeleteWorld() throws Exception {
 
     }
 }
