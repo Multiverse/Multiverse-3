@@ -40,5 +40,7 @@ public class Language {
 
     public static final Message WORLD_DELETE_FAILED = new Message("world.delete.failed",
             ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " was unable to fully delete world '&b%s&f'."
-            + "\n" + ChatColor.GRAY + ChatColor.ITALIC + "This probably means the files are in use somewhere else.");
+            + "\n" + ChatColor.GRAY + ChatColor.ITALIC + "This probably means the files are in use somewhere else."
+            + "\n" + ChatColor.RESET + ChatColor.GRAY + "The Multiverse world files " + ChatColor.UNDERLINE + "have" + ChatColor.RESET + ChatColor.GRAY + " been removed."
+            + "\n" + ChatColor.DARK_GRAY + ChatColor.UNDERLINE + "You will need to import the world to attempt delete again.");
 }
