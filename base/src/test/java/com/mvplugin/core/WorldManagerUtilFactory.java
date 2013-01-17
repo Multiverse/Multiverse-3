@@ -27,7 +27,15 @@ public class WorldManagerUtilFactory {
         when(worldManagerUtil.getSafeWorldName()).thenReturn("world");
 
         // Mock unloadWorldFromServer
-        doReturn(true).when(worldManagerUtil).unloadWorldFromServer(any(MultiverseWorld.class));
+        doAnswer(new Answer<Boolean>() {
+            @Override
+            public Boolean answer(final InvocationOnMock invocation) throws Throwable {
+                String name = ((MultiverseWorld) invocation.getArguments()[0]).getName();
+                return !name.equalsIgnoreCase("world")
+                        && !name.equalsIgnoreCase("world_nether")
+                        && !name.equalsIgnoreCase("world_the_end");
+            }
+        }).when(worldManagerUtil).unloadWorldFromServer(any(MultiverseWorld.class));
 
         // Mock getManagedWorldNames
         doReturn(managedWorlds).when(worldManagerUtil).getManagedWorldNames();
