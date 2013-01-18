@@ -58,6 +58,7 @@ public class DeleteCommand extends QueuedMultiverseCommand {
 
     @Override
     protected boolean preConfirm(@NotNull final BasePlayer basePlayer, @NotNull final CommandContext commandContext) {
+        getMessager().message(basePlayer, getPlugin().getWorldManager().whatWillThisDelete(commandContext.getString(0)));
         return true;
     }
 

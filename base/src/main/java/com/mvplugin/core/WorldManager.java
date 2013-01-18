@@ -376,6 +376,11 @@ public class WorldManager {
     }
 
     @NotNull
+    public BundledMessage whatWillThisDelete(@NotNull final String name) {
+        return this.worldManagerUtil.whatWillThisDelete(name);
+    }
+
+    @NotNull
     public Collection<String> getPotentialWorlds() {
         return this.worldManagerUtil.getPotentialWorlds();
     }

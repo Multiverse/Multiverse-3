@@ -1,5 +1,6 @@
 package com.mvplugin.core.util;
 
+import com.dumptruckman.minecraft.pluginbase.messaging.ChatColor;
 import com.dumptruckman.minecraft.pluginbase.messaging.Message;
 
 public class BukkitLanguage {
@@ -11,4 +12,7 @@ public class BukkitLanguage {
             "I can't create a &bBukkit&f world that uses the generator &c%s&f because it doesn't exist!");
     public static final Message WGEN_DISABLED_GENERATOR = new Message("worlds.create.unknown_generator",
             "I can't create a &bBukkit&f world that uses the generator &c%s&f because it is not enabled!");
+
+    public static final Message THIS_WILL_DELETE_THE_FOLLOWING = new Message("worlds.delete.this_will_delete_the_following",
+            ChatColor.RED + "The following will be deleted: %s");
 }

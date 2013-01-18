@@ -2,7 +2,6 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
-import com.dumptruckman.minecraft.pluginbase.messaging.ChatColor;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.properties.YamlProperties;
 import com.dumptruckman.minecraft.pluginbase.util.FileUtils;
@@ -162,6 +161,19 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @Override
     public boolean isThisAWorld(@NotNull final String name) {
         return isThisAWorld(new File(this.plugin.getServerInterface().getWorldContainer(), name));
+    }
+
+    @NotNull
+    @Override
+    public BundledMessage whatWillThisDelete(@NotNull final String name) {
+        final File worldFolder = new File(this.plugin.getServerInterface().getWorldContainer(), name);
+        StringBuilder toDelete = new StringBuilder();
+        if (isThisAWorld(worldFolder)) {
+            toDelete.append("\n  File: ").append(worldFolder);
+        }
+        final File persistenceFile = new File(worldsFolder, name + ".yml");
+        toDelete.append("\n  File: ").append(persistenceFile);
+        return new BundledMessage(BukkitLanguage.THIS_WILL_DELETE_THE_FOLLOWING, toDelete.toString());
     }
 
     private static final String WORLD_FILE_NAME = "level.dat";

@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
@@ -8,7 +9,6 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Map;
 
 interface WorldManagerUtil {
@@ -66,6 +66,9 @@ interface WorldManagerUtil {
      * @return True if it looks like a world, false if not.
      */
     boolean isThisAWorld(@NotNull final String name);
+
+    @NotNull
+    BundledMessage whatWillThisDelete(@NotNull final String name);
 
     @NotNull
     Collection<String> getPotentialWorlds();
