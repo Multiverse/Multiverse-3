@@ -351,15 +351,15 @@ public class WorldManager {
                 throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_ERROR, name), e);
             }
         }
+        if (!this.worldManagerUtil.deleteWorld(name)) {
+            throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_FAILED, name));
+        }
         if (removeMVWorld) {
             try {
                 removeWorld(name);
             } catch (final WorldManagementException e) {
-                throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_ERROR, name), e);
+                throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_PERSISTENCE_ERROR, name), e);
             }
-        }
-        if (!this.worldManagerUtil.deleteWorld(name)) {
-            throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_FAILED, name));
         }
     }
 

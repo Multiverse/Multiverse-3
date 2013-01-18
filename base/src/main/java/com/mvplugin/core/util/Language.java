@@ -38,9 +38,12 @@ public class Language {
     public static final Message WORLD_DELETE_ERROR = new Message("world.delete.error",
             ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " experienced a problem while attempting to delete '&b%s&f'!");
 
+    public static final Message WORLD_DELETE_PERSISTENCE_ERROR = new Message("world.delete.persistence_error",
+            ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " experienced a problem while attempting to delete the Multiverse information for '&b%s&f'!"
+            + "\n" + ChatColor.GRAY + "You may attempt to remove this with " + ChatColor.BOLD + "/mv remove");
+
     public static final Message WORLD_DELETE_FAILED = new Message("world.delete.failed",
             ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " was unable to fully delete world '&b%s&f'."
             + "\n" + ChatColor.GRAY + ChatColor.ITALIC + "This probably means the files are in use somewhere else."
-            + "\n" + ChatColor.RESET + ChatColor.GRAY + "The Multiverse world files " + ChatColor.UNDERLINE + "have" + ChatColor.RESET + ChatColor.GRAY + " been removed."
-            + "\n" + ChatColor.DARK_GRAY + ChatColor.UNDERLINE + "You will need to import the world to attempt delete again.");
+            + "\n" + ChatColor.RESET + ChatColor.GRAY + "You may attempt to delete it again with Multiverse but you will probably need to delete it manually.");
 }
