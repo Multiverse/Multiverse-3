@@ -1,8 +1,13 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
-import com.mvplugin.core.minecraft.*;
+import com.mvplugin.core.minecraft.Difficulty;
+import com.mvplugin.core.minecraft.GameMode;
+import com.mvplugin.core.minecraft.PortalType;
+import com.mvplugin.core.minecraft.WorldEnvironment;
+import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
@@ -383,7 +388,7 @@ class DefaultMultiverseWorld implements MultiverseWorld {
     }
 
     @Override
-    public void save() {
+    public void save() throws PluginBaseException {
         getProperties().flush();
     }
 }

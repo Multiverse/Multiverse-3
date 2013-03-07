@@ -1,6 +1,6 @@
 package com.mvplugin.core.exceptions;
 
-import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
 import org.jetbrains.annotations.NotNull;
 
 public class WorldCreationException extends MultiverseException {

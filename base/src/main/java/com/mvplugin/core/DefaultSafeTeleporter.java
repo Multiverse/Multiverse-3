@@ -1,9 +1,9 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
-import com.dumptruckman.minecraft.pluginbase.messaging.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.Message;
+import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;

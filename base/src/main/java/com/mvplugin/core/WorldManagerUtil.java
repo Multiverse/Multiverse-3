@@ -1,13 +1,13 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 
-import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -22,12 +22,12 @@ interface WorldManagerUtil {
      *
      * @param worldName The name of the world to get properties for.
      * @return The world properties for the given world name.
-     * @throws java.io.IOException In case there are any issues accessing the persistence for the world properties.
+     * @throws PluginBaseException In case there are any issues accessing the persistence for the world properties.
      */
     @NotNull
-    WorldProperties getWorldProperties(@NotNull final String worldName) throws IOException;
+    WorldProperties getWorldProperties(@NotNull final String worldName) throws PluginBaseException;
 
-    void removeWorldProperties(@NotNull final String worldName) throws IOException;
+    void removeWorldProperties(@NotNull final String worldName) throws PluginBaseException;
 
     /**
      * Creates a world with the given properties.

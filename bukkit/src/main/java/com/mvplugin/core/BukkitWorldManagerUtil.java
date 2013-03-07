@@ -1,9 +1,10 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.bukkit.properties.YamlProperties;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
-import com.dumptruckman.minecraft.pluginbase.properties.YamlProperties;
 import com.dumptruckman.minecraft.pluginbase.util.FileUtils;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -26,7 +27,13 @@ import org.jetbrains.annotations.NotNull;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 class BukkitWorldManagerUtil implements WorldManagerUtil {
@@ -82,7 +89,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                     builder.append(", ");
                 }
                 builder.append(w.getName());
-            } catch (IOException e) {
+            } catch (PluginBaseException e) {
                 Logging.severe("Multiverse could not initialize loaded Bukkit world '%s'", w.getName());
             }
         }
@@ -109,7 +116,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                 } else {
                     Logging.fine("Not loading '%s' because it is set to autoLoad: false", worldName);
                 }
-            } catch (IOException e) {
+            } catch (PluginBaseException e) {
                 Logging.getLogger().log(Level.WARNING, String.format("Could not load world from file '%s'", file), e);
             } catch (WorldCreationException e) {
                 Logging.getLogger().log(Level.WARNING, String.format("Error while attempting to load world '%s'", worldName), e);
@@ -194,7 +201,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @NotNull
-    private WorldProperties newWorldProperties(@NotNull final File file) throws IOException {
+    private WorldProperties newWorldProperties(@NotNull final File file) throws PluginBaseException {
         final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(false, true, file, WorldProperties.class) {
             @Override
             protected void registerSerializers() {
@@ -208,7 +215,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @NotNull
     @Override
-    public WorldProperties getWorldProperties(@NotNull String worldName) throws IOException {
+    public WorldProperties getWorldProperties(@NotNull String worldName) throws PluginBaseException {
         worldName = getCorrectlyCasedWorldName(worldName);
         if (this.worldPropertiesMap.containsKey(worldName)) {
             return this.worldPropertiesMap.get(worldName);
@@ -241,7 +248,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @Override
-    public void removeWorldProperties(@NotNull String worldName) throws IOException {
+    public void removeWorldProperties(@NotNull String worldName) throws PluginBaseException {
         for (final String propsName : this.worldPropertiesMap.keySet()) {
             if (worldName.equalsIgnoreCase(propsName)) {
                 Logging.finest("Found appropriately cased world name '%s'=>'%s'", worldName, propsName);
@@ -312,7 +319,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @NotNull
-    private MultiverseWorld getBukkitWorld(@NotNull final World world) throws IOException {
+    private MultiverseWorld getBukkitWorld(@NotNull final World world) throws PluginBaseException {
         return new DefaultMultiverseWorld(getWorldProperties(world.getName()), new BukkitWorldLink(world));
     }
 

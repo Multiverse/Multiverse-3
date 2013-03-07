@@ -235,7 +235,7 @@
         </dependency>
         <!-- PluginBase Dependency -->
         <dependency>
-            <groupId>com.dumptruckman.minecraft</groupId>
+            <groupId>com.dumptruckman.minecraft.pluginbase</groupId>
             <artifactId>BukkitPlugin</artifactId>
             <version>1.5-SNAPSHOT</version>
             <type>jar</type>

@@ -1,7 +1,7 @@
 package com.mvplugin.core.util;
 
-import com.dumptruckman.minecraft.pluginbase.messaging.ChatColor;
-import com.dumptruckman.minecraft.pluginbase.messaging.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.ChatColor;
+import com.dumptruckman.minecraft.pluginbase.messages.Message;
 
 public class BukkitLanguage {
     public static final Message CREATE_WORLD_ERROR = new Message("worlds.create_world_error",

@@ -2,7 +2,7 @@ package com.mvplugin.core.world.serializers;
 
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
-import com.dumptruckman.minecraft.pluginbase.properties.PropertySerializer;
+import com.dumptruckman.minecraft.pluginbase.properties.serializers.PropertySerializer;
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
 

@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.properties.MemoryProperties;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.world.MultiverseWorld;
@@ -9,7 +10,6 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -19,7 +19,7 @@ import static org.mockito.Mockito.*;
 
 public class WorldManagerUtilFactory {
 
-    public static WorldManagerUtil getMockedWorldManagerUtil() throws WorldCreationException, IOException {
+    public static WorldManagerUtil getMockedWorldManagerUtil() throws WorldCreationException, PluginBaseException {
         final WorldManagerUtil worldManagerUtil = PowerMockito.mock(WorldManagerUtil.class);
         final List<String> managedWorlds = new ArrayList<String>();
 
@@ -45,7 +45,7 @@ public class WorldManagerUtilFactory {
             @Override
             public WorldProperties answer(final InvocationOnMock invocation) throws Throwable {
                 String name = invocation.getArguments()[0].toString();
-                return new DefaultWorldProperties(new MemoryProperties(true, WorldProperties.class));
+                return new DefaultWorldProperties(MemoryProperties.newMemoryProperties(WorldProperties.class));
             }
         }).when(worldManagerUtil).getWorldProperties(anyString());
 

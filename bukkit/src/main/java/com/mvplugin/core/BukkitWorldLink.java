@@ -1,8 +1,8 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.bukkit.BukkitTools;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
-import com.dumptruckman.minecraft.pluginbase.util.BukkitTools;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;

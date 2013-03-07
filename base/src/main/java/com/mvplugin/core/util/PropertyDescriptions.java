@@ -1,6 +1,6 @@
 package com.mvplugin.core.util;
 
-import com.dumptruckman.minecraft.pluginbase.messaging.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.Message;
 
 /**
  * Houses localized (english) descriptions of the Multiverse world properties.

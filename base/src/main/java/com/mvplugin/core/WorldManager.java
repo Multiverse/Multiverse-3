@@ -1,7 +1,8 @@
 package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
@@ -22,7 +23,12 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Multiverse 2 World Manager API
@@ -216,7 +222,7 @@ public class WorldManager {
             } catch (final WorldCreationException e) {
                 throw new WorldManagementException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
             }
-        } catch (final IOException e) {
+        } catch (final PluginBaseException e) {
             throw new WorldManagementException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
         }
     }

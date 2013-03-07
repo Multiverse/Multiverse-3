@@ -7,6 +7,7 @@
 
 package com.mvplugin.core.world;
 
+import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.Difficulty;
@@ -525,7 +526,7 @@ public interface MultiverseWorld {
     @NotNull
     List<String> getWorldBlacklist();
 
-    void save();
+    void save() throws PluginBaseException;
 
     /**
      * Returns a collection containing the players logged in and in this world at the time of calling.

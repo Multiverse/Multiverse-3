@@ -1,9 +1,9 @@
 package com.mvplugin.core.exceptions;
 
+import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.ChatColor;
+import com.dumptruckman.minecraft.pluginbase.messages.messaging.Messager;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.messaging.BundledMessage;
-import com.dumptruckman.minecraft.pluginbase.messaging.ChatColor;
-import com.dumptruckman.minecraft.pluginbase.messaging.Messager;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 

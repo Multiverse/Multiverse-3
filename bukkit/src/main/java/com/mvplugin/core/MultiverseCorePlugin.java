@@ -1,6 +1,7 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.plugin.AbstractBukkitPlugin;
+import com.dumptruckman.minecraft.pluginbase.bukkit.AbstractBukkitPlugin;
+import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.command.DeleteCommand;
 import com.mvplugin.core.command.ImportCommand;
@@ -15,8 +16,6 @@ import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
-
-import java.io.IOException;
 
 /**
  * The primary Bukkit plugin implementation of Multiverse-Core.
@@ -81,7 +80,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
 
     @NotNull
     @Override
-    protected Properties getNewConfig() throws IOException {
+    protected Properties getNewConfig() throws PluginBaseException {
         return new YamlCoreConfig(this);
     }
 

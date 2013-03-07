@@ -116,7 +116,7 @@
     <dependencies>
         <!-- Start of PluginBase Dependency -->
         <dependency>
-            <groupId>com.dumptruckman.minecraft</groupId>
+            <groupId>com.dumptruckman.minecraft.pluginbase</groupId>
             <artifactId>Plugin</artifactId>
             <version>1.5-SNAPSHOT</version>
             <type>jar</type>

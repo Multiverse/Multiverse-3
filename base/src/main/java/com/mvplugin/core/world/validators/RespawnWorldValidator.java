@@ -1,6 +1,6 @@
 package com.mvplugin.core.world.validators;
 
-import com.dumptruckman.minecraft.pluginbase.messaging.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.Message;
 import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.util.PropertyDescriptions;

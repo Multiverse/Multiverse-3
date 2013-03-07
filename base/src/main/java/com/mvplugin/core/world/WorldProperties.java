@@ -1,6 +1,6 @@
 package com.mvplugin.core.world;
 
-import com.dumptruckman.minecraft.pluginbase.messaging.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.Message;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.dumptruckman.minecraft.pluginbase.properties.ListProperty;

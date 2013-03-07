@@ -1,14 +1,14 @@
 package com.mvplugin.core.command;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.messaging.ChatColor;
-import com.dumptruckman.minecraft.pluginbase.messaging.Message;
-import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
-import com.mvplugin.core.plugin.MultiverseCore;
-import com.mvplugin.core.world.MultiverseWorld;
-import com.mvplugin.core.util.Perms;
+import com.dumptruckman.minecraft.pluginbase.messages.ChatColor;
+import com.dumptruckman.minecraft.pluginbase.messages.Message;
+import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
+import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.minecraft.WorldEnvironment;
+import com.mvplugin.core.plugin.MultiverseCore;
+import com.mvplugin.core.util.Perms;
+import com.mvplugin.core.world.MultiverseWorld;
 import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 

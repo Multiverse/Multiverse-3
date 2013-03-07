@@ -1,6 +1,15 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.properties.*;
+import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
+import com.dumptruckman.minecraft.pluginbase.properties.ListProperty;
+import com.dumptruckman.minecraft.pluginbase.properties.MappedProperty;
+import com.dumptruckman.minecraft.pluginbase.properties.NestedProperties;
+import com.dumptruckman.minecraft.pluginbase.properties.NestedProperty;
+import com.dumptruckman.minecraft.pluginbase.properties.Observer;
+import com.dumptruckman.minecraft.pluginbase.properties.Properties;
+import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
+import com.dumptruckman.minecraft.pluginbase.properties.SimpleProperty;
+import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
 import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 
@@ -17,12 +26,12 @@ class DefaultWorldProperties implements WorldProperties {
     }
 
     @Override
-    public void flush() {
+    public void flush() throws PluginBaseException {
         properties.flush();
     }
 
     @Override
-    public void reload() throws Exception {
+    public void reload() throws PluginBaseException {
         properties.reload();
     }
 
