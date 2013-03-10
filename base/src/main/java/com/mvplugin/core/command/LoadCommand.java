@@ -1,5 +1,6 @@
 package com.mvplugin.core.command;
 
+import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
@@ -7,7 +8,6 @@ import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;
-import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 
 @CommandInfo(
@@ -20,12 +20,12 @@ import org.jetbrains.annotations.NotNull;
 )
 public class LoadCommand extends MultiverseCommand {
 
-    public static final Message LOAD_HELP = new Message("command.load.help",
+    public static final Message LOAD_HELP = Message.createMessage("command.load.help",
             "Loads a world that has previously been imported but is currently unloaded."
             + "\nExamples:"
             + "\n  /mv load &6gargamel&a");
 
-    public static final Message LOAD_SUCCESS = new Message("command.load.success",
+    public static final Message LOAD_SUCCESS = Message.createMessage("command.load.success",
             "Successfully loaded the world '&b%s&f'!");
 
     protected LoadCommand(@NotNull final MultiverseCore plugin) {

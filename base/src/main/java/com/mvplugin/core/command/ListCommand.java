@@ -1,5 +1,6 @@
 package com.mvplugin.core.command;
 
+import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.ChatColor;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
@@ -9,7 +10,6 @@ import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;
 import com.mvplugin.core.world.MultiverseWorld;
-import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 
 @CommandInfo(
@@ -21,11 +21,11 @@ import org.jetbrains.annotations.NotNull;
 )
 public class ListCommand extends MultiverseCommand {
 
-    public static final Message LIST_HELP = new Message("command.list.help",
+    public static final Message LIST_HELP = Message.createMessage("command.list.help",
             "Lists all worlds managed by multiverse."
             + "\nOnly the worlds you may access will be shown.");
 
-    public static final Message LIST_WORLDS = new Message("command.list.list",
+    public static final Message LIST_WORLDS = Message.createMessage("command.list.list",
             ChatColor.LIGHT_PURPLE + "====[ Multiverse World List ]===="
             + "\n%s");
 

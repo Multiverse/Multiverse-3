@@ -1,5 +1,6 @@
 package com.mvplugin.core.command;
 
+import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
@@ -8,7 +9,6 @@ import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;
-import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
@@ -24,7 +24,7 @@ public class DeleteCommand extends QueuedMultiverseCommand {
 
     private static final long CONFIRMATION_TIME = 10000L;
 
-    public static final Message DELETE_HELP = new Message("command.delete.help",
+    public static final Message DELETE_HELP = Message.createMessage("command.delete.help",
             "Deletes a world from the server, removing it from Multiverse's management."
                     + "\nThe world must be managed by Multiverse to use this command."
                     + "\nExamples:"

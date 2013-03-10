@@ -1,7 +1,6 @@
 package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
@@ -15,9 +14,9 @@ import org.jetbrains.annotations.Nullable;
 
 class DefaultSafeTeleporter implements SafeTeleporter {
 
-    private static final Message NO_SAFE_LOCATION = new Message("teleporter.no_safe_location",
+    private static final Message NO_SAFE_LOCATION = Message.createMessage("teleporter.no_safe_location",
             "Multiverse could not find a safe location near '%s' for teleporting '%s'.");
-    private static final Message TELEPORT_FAILED = new Message("teleporter.failed",
+    private static final Message TELEPORT_FAILED = Message.createMessage("teleporter.failed",
             "Multiverse could not teleport '%s' to safe location '%s'.");
 
     @NotNull
@@ -174,10 +173,10 @@ class DefaultSafeTeleporter implements SafeTeleporter {
         final EntityCoordinates safeLocation = getSafeLocation(location);
         if (safeLocation != null) {
             if (!target.teleport(location)) {
-                throw new TeleportException(new BundledMessage(TELEPORT_FAILED, target, safeLocation));
+                throw new TeleportException(Message.bundleMessage(TELEPORT_FAILED, target, safeLocation));
             }
         }
-        throw new TeleportException(new BundledMessage(NO_SAFE_LOCATION, location, target));
+        throw new TeleportException(Message.bundleMessage(NO_SAFE_LOCATION, location, target));
     }
 
     @NotNull

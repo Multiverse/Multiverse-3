@@ -3,9 +3,11 @@ package com.mvplugin.core;
 import com.dumptruckman.minecraft.pluginbase.bukkit.properties.YamlProperties;
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.Message;
 import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.dumptruckman.minecraft.pluginbase.util.FileUtils;
+import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
@@ -26,14 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 import java.util.logging.Level;
 
 class BukkitWorldManagerUtil implements WorldManagerUtil {
@@ -57,7 +52,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     private void initializeDefaultWorldGenerators() {
-        File[] files = this.plugin.getServerFolder().listFiles(new FilenameFilter() {
+        File[] files = this.plugin.getServerInterface().getServerFolder().listFiles(new FilenameFilter() {
             @Override
             public boolean accept(final File file, @NotNull final String s) {
                 return s.equalsIgnoreCase("bukkit.yml");
@@ -116,10 +111,12 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                 } else {
                     Logging.fine("Not loading '%s' because it is set to autoLoad: false", worldName);
                 }
-            } catch (PluginBaseException e) {
-                Logging.getLogger().log(Level.WARNING, String.format("Could not load world from file '%s'", file), e);
-            } catch (WorldCreationException e) {
-                Logging.getLogger().log(Level.WARNING, String.format("Error while attempting to load world '%s'", worldName), e);
+            } catch (MultiverseException e) {
+                if (e instanceof WorldCreationException) {
+                    Logging.getLogger().log(Level.WARNING, String.format("Error while attempting to load world '%s'", worldName), e);
+                } else {
+                    Logging.getLogger().log(Level.WARNING, String.format("Could not load world from file '%s'", file), e);
+                }
             }
         }
 
@@ -180,7 +177,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         }
         final File persistenceFile = new File(worldsFolder, name + ".yml");
         toDelete.append("\n  File: ").append(persistenceFile);
-        return new BundledMessage(BukkitLanguage.THIS_WILL_DELETE_THE_FOLLOWING, toDelete.toString());
+        return Message.bundleMessage(BukkitLanguage.THIS_WILL_DELETE_THE_FOLLOWING, toDelete.toString());
     }
 
     private static final String WORLD_FILE_NAME = "level.dat";
@@ -201,21 +198,25 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @NotNull
-    private WorldProperties newWorldProperties(@NotNull final File file) throws PluginBaseException {
-        final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(false, true, file, WorldProperties.class) {
-            @Override
-            protected void registerSerializers() {
-                super.registerSerializers();
-                setPropertySerializer(FacingCoordinates.class, new BukkitFacingCoordinatesSerializer());
-            }
-        });
-        worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(plugin));
-        return worldProperties;
+    private WorldProperties newWorldProperties(@NotNull final File file) throws MultiverseException {
+        try {
+            final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(false, true, file, WorldProperties.class) {
+                @Override
+                protected void registerSerializers() {
+                    super.registerSerializers();
+                    setPropertySerializer(FacingCoordinates.class, new BukkitFacingCoordinatesSerializer());
+                }
+            });
+            worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(plugin));
+            return worldProperties;
+        } catch (PluginBaseException e) {
+            throw new MultiverseException(e);
+        }
     }
 
     @NotNull
     @Override
-    public WorldProperties getWorldProperties(@NotNull String worldName) throws PluginBaseException {
+    public WorldProperties getWorldProperties(@NotNull String worldName) throws MultiverseException {
         worldName = getCorrectlyCasedWorldName(worldName);
         if (this.worldPropertiesMap.containsKey(worldName)) {
             return this.worldPropertiesMap.get(worldName);
@@ -248,7 +249,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @Override
-    public void removeWorldProperties(@NotNull String worldName) throws PluginBaseException {
+    public void removeWorldProperties(@NotNull String worldName) throws MultiverseException {
         for (final String propsName : this.worldPropertiesMap.keySet()) {
             if (worldName.equalsIgnoreCase(propsName)) {
                 Logging.finest("Found appropriately cased world name '%s'=>'%s'", worldName, propsName);
@@ -258,10 +259,10 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         }
         final File file = new File(worldsFolder, worldName + ".yml");
         if (!file.exists()) {
-            throw new IOException("The world file was not found: " + file);
+            throw new MultiverseException(Message.bundleMessage(BukkitLanguage.WORLD_FILE_NOT_FOUND, file));
         }
         if (!file.delete()) {
-            throw new IOException("The world file could not be deleted: " + file);
+            throw new MultiverseException(Message.bundleMessage(BukkitLanguage.WORLD_COULD_NOT_DELETE_FILE, file));
         }
         Logging.fine("Removed world properties for world '%s'", worldName);
         this.worldPropertiesMap.remove(worldName);
@@ -274,7 +275,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @Override
     public MultiverseWorld createWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
         if (Bukkit.getWorld(settings.name()) != null) {
-            throw new WorldCreationException(new BundledMessage(BukkitLanguage.ALREADY_BUKKIT_WORLD, settings.name()));
+            throw new WorldCreationException(Message.bundleMessage(BukkitLanguage.ALREADY_BUKKIT_WORLD, settings.name()));
         }
 
         final WorldCreator c = WorldCreator.name(settings.name());
@@ -301,9 +302,9 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             final Plugin plugin = Bukkit.getPluginManager().getPlugin(split[0]);
 
             if (plugin == null) {
-                throw new WorldCreationException(new BundledMessage(BukkitLanguage.WGEN_UNKNOWN_GENERATOR, settings.generator()));
+                throw new WorldCreationException(Message.bundleMessage(BukkitLanguage.WGEN_UNKNOWN_GENERATOR, settings.generator()));
             } else if (!plugin.isEnabled()) {
-                throw new WorldCreationException(new BundledMessage(BukkitLanguage.WGEN_DISABLED_GENERATOR, settings.generator()));
+                throw new WorldCreationException(Message.bundleMessage(BukkitLanguage.WGEN_DISABLED_GENERATOR, settings.generator()));
             } else {
                 c.generator(plugin.getDefaultWorldGenerator(settings.name(), id));
             }
@@ -314,12 +315,12 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             final World w = c.createWorld();
             return getBukkitWorld(w);
         } catch (Exception e) {
-            throw new WorldCreationException(new BundledMessage(BukkitLanguage.CREATE_WORLD_ERROR, settings.name()), e);
+            throw new WorldCreationException(Message.bundleMessage(BukkitLanguage.CREATE_WORLD_ERROR, settings.name()), e);
         }
     }
 
     @NotNull
-    private MultiverseWorld getBukkitWorld(@NotNull final World world) throws PluginBaseException {
+    private MultiverseWorld getBukkitWorld(@NotNull final World world) throws MultiverseException {
         return new DefaultMultiverseWorld(getWorldProperties(world.getName()), new BukkitWorldLink(world));
     }
 

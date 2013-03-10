@@ -1,5 +1,6 @@
 package com.mvplugin.core.command;
 
+import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.ChatColor;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
@@ -10,7 +11,6 @@ import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.Perms;
-import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
@@ -27,7 +27,7 @@ import java.io.File;
 )
 public class ImportCommand extends MultiverseCommand {
 
-    public static final Message IMPORT_HELP = new Message("command.import.help",
+    public static final Message IMPORT_HELP = Message.createMessage("command.import.help",
             "Imports a world into the server from a folder with the given name."
             + "\nThe folder must exist in the location where worlds are normally located and must contain Minecraft world data."
             + "\nYou must specify a world environment such as NORMAL or NETHER."
@@ -41,29 +41,29 @@ public class ImportCommand extends MultiverseCommand {
             + "\n  /mv import &6hell_world&a nether"
             + "\n  /mv import &6Cleanroom&a normal -g &3CleanroomGenerator");
 
-    public static final Message POTENTIAL_WORLD_LIST = new Message("command.import.potential_world_list",
+    public static final Message POTENTIAL_WORLD_LIST = Message.createMessage("command.import.potential_world_list",
             "&b====[ These look like worlds ]====\n%s");
 
-    public static final Message NO_POTENTIAL_WORLDS = new Message("command.import.no_potential_worlds",
+    public static final Message NO_POTENTIAL_WORLDS = Message.createMessage("command.import.no_potential_worlds",
             "&cNo potential worlds found. Sorry!");
 
-    public static final Message INVALID_ENVIRONMENT = new Message("command.import.invalid_environment",
+    public static final Message INVALID_ENVIRONMENT = Message.createMessage("command.import.invalid_environment",
             "&cThat is not a valid environment.");
 
-    public static final Message STARTING_IMPORT = new Message("command.import.starting_import",
+    public static final Message STARTING_IMPORT = Message.createMessage("command.import.starting_import",
             "Starting import of world '%s'...");
 
-    public static final Message IMPORT_COMPLETE = new Message("command.import.import_complete",
+    public static final Message IMPORT_COMPLETE = Message.createMessage("command.import.import_complete",
             "&aImport complete!");
 
-    public static final Message IMPORT_FAILED = new Message("command.import.import_failed",
+    public static final Message IMPORT_FAILED = Message.createMessage("command.import.import_failed",
             "&cImport failed!");
 
-    public static final Message NON_EXISTENT_ENVIRONMENT = new Message("command.import.non_existent_environment",
+    public static final Message NON_EXISTENT_ENVIRONMENT = Message.createMessage("command.import.non_existent_environment",
             "&cThat world environment does not exist."
             + "\nFor a list of available world types, type: &b/mvenv");
 
-    public static final Message NON_EXISTENT_FOLDER = new Message("command.import.non_existent_folder",
+    public static final Message NON_EXISTENT_FOLDER = Message.createMessage("command.import.non_existent_folder",
             "&cThat world folder does not exist. &bThese look like worlds to me:");
 
     protected ImportCommand(@NotNull final MultiverseCore plugin) {

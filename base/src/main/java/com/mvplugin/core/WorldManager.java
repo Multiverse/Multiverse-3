@@ -2,6 +2,7 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
+import com.dumptruckman.minecraft.pluginbase.messages.Message;
 import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
@@ -22,13 +23,7 @@ import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.io.IOException;
-import java.util.ArrayList;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Multiverse 2 World Manager API
@@ -124,7 +119,7 @@ public class WorldManager {
     @NotNull
     public MultiverseWorld addWorld(@NotNull final WorldCreationSettings settings) throws WorldCreationException {
         if (this.worldsMap.containsKey(settings.name().toLowerCase())) {
-            throw new WorldCreationException(new BundledMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
+            throw new WorldCreationException(Message.bundleMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
         }
         MultiverseWorld mvWorld = this.worldManagerUtil.createWorld(settings);
         mvWorld.setAdjustSpawn(settings.adjustSpawn());
@@ -202,10 +197,10 @@ public class WorldManager {
      */
     public void loadWorld(@NotNull final String name) throws WorldManagementException {
         if (isLoaded(name)) {
-            throw new WorldManagementException(new BundledMessage(Language.WORLD_ALREADY_LOADED, name));
+            throw new WorldManagementException(Message.bundleMessage(Language.WORLD_ALREADY_LOADED, name));
         }
         if (!isManaged(name)) {
-            throw new WorldManagementException(new BundledMessage(Language.WORLD_NOT_MANAGED, name));
+            throw new WorldManagementException(Message.bundleMessage(Language.WORLD_NOT_MANAGED, name));
         }
         try {
             Logging.fine("Loading world '%s'...", name);
@@ -220,10 +215,10 @@ public class WorldManager {
             try {
                 addWorld(settings);
             } catch (final WorldCreationException e) {
-                throw new WorldManagementException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
+                throw new WorldManagementException(Message.bundleMessage(Language.WORLD_LOAD_ERROR, name), e);
             }
         } catch (final PluginBaseException e) {
-            throw new WorldManagementException(new BundledMessage(Language.WORLD_LOAD_ERROR, name), e);
+            throw new WorldManagementException(Message.bundleMessage(Language.WORLD_LOAD_ERROR, name), e);
         }
     }
 
@@ -264,13 +259,13 @@ public class WorldManager {
             try {
                 removePlayersFromWorld(world);
             } catch (final TeleportException e) {
-                throw new WorldManagementException(new BundledMessage(Language.WORLD_UNLOAD_ERROR, world.getName()), e);
+                throw new WorldManagementException(Message.bundleMessage(Language.WORLD_UNLOAD_ERROR, world.getName()), e);
             }
             if (this.worldManagerUtil.unloadWorldFromServer(world)) {
                 this.worldsMap.remove(world.getName().toLowerCase());
                 Logging.fine("World '%s' was unloaded from memory.", world.getName());
             } else {
-                throw new WorldManagementException(new BundledMessage(Language.WORLD_COULD_NOT_UNLOAD_FROM_SERVER, world.getName()));
+                throw new WorldManagementException(Message.bundleMessage(Language.WORLD_COULD_NOT_UNLOAD_FROM_SERVER, world.getName()));
             }
         }
     }
@@ -326,16 +321,16 @@ public class WorldManager {
         try {
             if (isLoaded(name) && !unloadWorld(name)) {
                 // This should be impossible.
-                throw new WorldManagementException(new BundledMessage(Language.WORLD_NOT_MANAGED, name));
+                throw new WorldManagementException(Message.bundleMessage(Language.WORLD_NOT_MANAGED, name));
             }
         } catch (final WorldManagementException e) {
-            throw new WorldManagementException(new BundledMessage(Language.WORLD_REMOVE_ERROR, name), e);
+            throw new WorldManagementException(Message.bundleMessage(Language.WORLD_REMOVE_ERROR, name), e);
         }
         if (isManaged(name)) {
             try {
                 this.worldManagerUtil.removeWorldProperties(name);
-            } catch (final IOException e) {
-                throw new WorldManagementException(new BundledMessage(Language.WORLD_REMOVE_ERROR, name), e);
+            } catch (final PluginBaseException e) {
+                throw new WorldManagementException(Message.bundleMessage(Language.WORLD_REMOVE_ERROR, name), e);
             }
             return true;
         }
@@ -344,27 +339,27 @@ public class WorldManager {
 
     public void deleteWorld(@NotNull final String worldName, final boolean removeMVWorld) throws WorldManagementException {
         if (!isManaged(worldName)) {
-            throw new WorldManagementException(new BundledMessage(Language.CANNOT_DELETE_UNMANAGED));
+            throw new WorldManagementException(Message.bundleMessage(Language.CANNOT_DELETE_UNMANAGED));
         }
         final String name = this.worldManagerUtil.getCorrectlyCasedWorldName(worldName);
         if (!isThisAWorld(name)) {
-            throw new WorldManagementException(new BundledMessage(Language.CANNOT_DELETE_NONWORLD, name));
+            throw new WorldManagementException(Message.bundleMessage(Language.CANNOT_DELETE_NONWORLD, name));
         }
         if (isLoaded(name)) {
             try {
                 unloadWorld(name);
             } catch (final WorldManagementException e) {
-                throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_ERROR, name), e);
+                throw new WorldManagementException(Message.bundleMessage(Language.WORLD_DELETE_ERROR, name), e);
             }
         }
         if (!this.worldManagerUtil.deleteWorld(name)) {
-            throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_FAILED, name));
+            throw new WorldManagementException(Message.bundleMessage(Language.WORLD_DELETE_FAILED, name));
         }
         if (removeMVWorld) {
             try {
                 removeWorld(name);
             } catch (final WorldManagementException e) {
-                throw new WorldManagementException(new BundledMessage(Language.WORLD_DELETE_PERSISTENCE_ERROR, name), e);
+                throw new WorldManagementException(Message.bundleMessage(Language.WORLD_DELETE_PERSISTENCE_ERROR, name), e);
             }
         }
     }

@@ -1,5 +1,6 @@
 package com.mvplugin.core.command;
 
+import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
@@ -8,7 +9,6 @@ import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.Perms;
-import com.sk89q.minecraft.util.commands.CommandContext;
 import org.jetbrains.annotations.NotNull;
 
 @CommandInfo(
@@ -21,16 +21,16 @@ import org.jetbrains.annotations.NotNull;
 )
 public class UnloadCommand extends MultiverseCommand {
 
-    public static final Message UNLOAD_HELP = new Message("command.unload.help",
+    public static final Message UNLOAD_HELP = Message.createMessage("command.unload.help",
             "Unloads a world that has previously been imported and is currently loaded."
             + "\nThis will remove the world from memory but not delete anything."
             + "\nExamples:"
             + "\n  /mv unload &6gargamel&a");
 
-    public static final Message UNLOAD_SUCCESS = new Message("command.unload.success",
+    public static final Message UNLOAD_SUCCESS = Message.createMessage("command.unload.success",
             "'&b%s&f' has been unloaded successfully!");
 
-    public static final Message UNLOAD_FAILURE = new Message("command.unload.failure",
+    public static final Message UNLOAD_FAILURE = Message.createMessage("command.unload.failure",
             "'&b%s&f' could not be unloaded!");
 
     protected UnloadCommand(@NotNull final MultiverseCore plugin) {

@@ -165,7 +165,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>com.mvplugin:MultiverseCore-Base</include>
-                                    <include>com.dumptruckman.minecraft:BukkitPlugin</include>
+                                    <include>com.dumptruckman.minecraft.pluginbase:BukkitPlugin</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
