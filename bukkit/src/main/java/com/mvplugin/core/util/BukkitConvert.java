@@ -9,9 +9,9 @@ import org.bukkit.World.Environment;
 import org.bukkit.WorldType;
 import org.jetbrains.annotations.NotNull;
 
-public final class Convert {
+public final class BukkitConvert {
 
-    private Convert() {
+    private BukkitConvert() {
         throw new AssertionError();
     }
 

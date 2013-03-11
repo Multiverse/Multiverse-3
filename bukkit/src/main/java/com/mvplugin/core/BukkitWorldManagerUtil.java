@@ -11,8 +11,8 @@ import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
+import com.mvplugin.core.util.BukkitConvert;
 import com.mvplugin.core.util.BukkitLanguage;
-import com.mvplugin.core.util.Convert;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldProperties;
@@ -28,13 +28,19 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FilenameFilter;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @NotNull
-    private final MultiverseCorePlugin plugin;
+    private final MultiverseCoreBukkitPlugin plugin;
     @NotNull
     private final File worldsFolder;
 
@@ -43,7 +49,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @NotNull
     private final Map<String, String> defaultGens;
 
-    BukkitWorldManagerUtil(@NotNull final MultiverseCorePlugin plugin) {
+    BukkitWorldManagerUtil(@NotNull final MultiverseCoreBukkitPlugin plugin) {
         this.plugin = plugin;
         this.worldsFolder = new File(plugin.getDataFolder(), "worlds");
         this.worldPropertiesMap = new HashMap<String, WorldProperties>();
@@ -281,11 +287,11 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         final WorldCreator c = WorldCreator.name(settings.name());
         final WorldEnvironment env = settings.env();
         if (env != null) {
-            c.environment(Convert.toBukkit(env));
+            c.environment(BukkitConvert.toBukkit(env));
         }
         final WorldType type = settings.type();
         if (type != null) {
-            c.type(Convert.toBukkit(type));
+            c.type(BukkitConvert.toBukkit(type));
         }
         final Long seed = settings.seed();
         if (seed != null) {

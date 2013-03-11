@@ -6,7 +6,7 @@ import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinate
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
-import com.mvplugin.core.util.Convert;
+import com.mvplugin.core.util.BukkitConvert;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
@@ -26,7 +26,7 @@ class BukkitWorldLink implements WorldLink {
 
     BukkitWorldLink(@NotNull final World world) {
         this.worldRef = new WeakReference<World>(world);
-        this.worldType = Convert.fromBukkit(world.getWorldType());
+        this.worldType = BukkitConvert.fromBukkit(world.getWorldType());
     }
 
     @Override
@@ -41,7 +41,7 @@ class BukkitWorldLink implements WorldLink {
 
     @Override
     public void setDifficulty(@NotNull final Difficulty difficulty) {
-        getWorld().setDifficulty(Convert.toBukkit(difficulty));
+        getWorld().setDifficulty(BukkitConvert.toBukkit(difficulty));
     }
 
     @Override
@@ -85,7 +85,7 @@ class BukkitWorldLink implements WorldLink {
     @NotNull
     @Override
     public WorldEnvironment getEnvironment() {
-        return Convert.fromBukkit(getWorld().getEnvironment());
+        return BukkitConvert.fromBukkit(getWorld().getEnvironment());
     }
 
     @Override

@@ -1,6 +1,6 @@
 package com.mvplugin.core.listeners;
 
-import com.mvplugin.core.MultiverseCorePlugin;
+import com.mvplugin.core.MultiverseCoreBukkitPlugin;
 import com.mvplugin.core.world.MultiverseWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
@@ -8,12 +8,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class WorldListener implements Listener {
+public class BukkitWorldListener implements Listener {
 
     @NotNull
-    private final MultiverseCorePlugin plugin;
+    private final MultiverseCoreBukkitPlugin plugin;
 
-    public WorldListener(@NotNull final MultiverseCorePlugin plugin) {
+    public BukkitWorldListener(@NotNull final MultiverseCoreBukkitPlugin plugin) {
         this.plugin = plugin;
     }
 

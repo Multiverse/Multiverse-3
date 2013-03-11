@@ -10,9 +10,9 @@ import java.io.File;
 /**
  * A yaml implementation of Multiverse-Core's primary configuration file.
  */
-class YamlCoreConfig extends YamlProperties implements CoreConfig {
+class BukkitCoreConfig extends YamlProperties implements CoreConfig {
 
-    public YamlCoreConfig(@NotNull final MultiverseCorePlugin plugin) throws PluginBaseException {
+    BukkitCoreConfig(@NotNull final MultiverseCoreBukkitPlugin plugin) throws PluginBaseException {
         super(true, true, new File(plugin.getDataFolder(), "config.yml"), CoreConfig.class);
     }
 }

@@ -8,6 +8,7 @@ import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.command.ListCommand;
 import com.mvplugin.core.command.LoadCommand;
 import com.mvplugin.core.command.UnloadCommand;
+import com.mvplugin.core.listeners.BukkitWorldListener;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.BukkitLanguage;
@@ -22,7 +23,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * See {@link com.mvplugin.core.plugin.MultiverseCore} for a more detailed external api javadocs.
  */
-public class MultiverseCorePlugin extends AbstractBukkitPlugin implements MultiverseCore {
+public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements MultiverseCore {
 
     private static final int PROTOCOL = 19;
     private static final String COMMAND_PREFIX = "mv";
@@ -46,6 +47,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     @Override
     public void onPluginEnable() {
         prepareAPI();
+        getServer().getPluginManager().registerEvents(new BukkitWorldListener(this), this);
     }
 
     @Override
@@ -81,7 +83,7 @@ public class MultiverseCorePlugin extends AbstractBukkitPlugin implements Multiv
     @NotNull
     @Override
     protected Properties getNewConfig() throws PluginBaseException {
-        return new YamlCoreConfig(this);
+        return new BukkitCoreConfig(this);
     }
 
     @NotNull
