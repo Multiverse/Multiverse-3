@@ -6,7 +6,6 @@ import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
 import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
-import com.dumptruckman.minecraft.pluginbase.util.FileUtils;
 import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -18,6 +17,7 @@ import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldProperties;
 import com.mvplugin.core.world.serializers.BukkitFacingCoordinatesSerializer;
 import com.mvplugin.core.world.validators.RespawnWorldValidator;
+import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
@@ -28,6 +28,7 @@ import org.jetbrains.annotations.NotNull;
 
 import java.io.File;
 import java.io.FilenameFilter;
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
@@ -347,10 +348,9 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @Override
-    public boolean deleteWorld(@NotNull final String name) {
+    public void deleteWorld(@NotNull final String name) throws IOException {
         final File worldFile = new File(Bukkit.getWorldContainer(), name);
         Logging.fine("Attempting to delete %s", worldFile);
-        FileUtils.deleteFolder(worldFile);
-        return !worldFile.exists();
+        FileUtils.deleteDirectory(worldFile);
     }
 }

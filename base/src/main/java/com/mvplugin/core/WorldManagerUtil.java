@@ -8,6 +8,7 @@ import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 
+import java.io.IOException;
 import java.util.Collection;
 import java.util.Map;
 
@@ -73,7 +74,7 @@ interface WorldManagerUtil {
     @NotNull
     Collection<String> getPotentialWorlds();
 
-    boolean deleteWorld(@NotNull final String name);
+    void deleteWorld(@NotNull final String name) throws IOException;
 
     @NotNull
     String getCorrectlyCasedWorldName(@NotNull final String name);

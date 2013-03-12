@@ -23,7 +23,13 @@ import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.*;
+import java.io.IOException;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  * Multiverse 2 World Manager API
@@ -352,8 +358,10 @@ public class WorldManager {
                 throw new WorldManagementException(Message.bundleMessage(Language.WORLD_DELETE_ERROR, name), e);
             }
         }
-        if (!this.worldManagerUtil.deleteWorld(name)) {
-            throw new WorldManagementException(Message.bundleMessage(Language.WORLD_DELETE_FAILED, name));
+        try {
+            this.worldManagerUtil.deleteWorld(name);
+        } catch (IOException e) {
+            throw new WorldManagementException(Message.bundleMessage(Language.WORLD_DELETE_FAILED, name), e);
         }
         if (removeMVWorld) {
             try {
