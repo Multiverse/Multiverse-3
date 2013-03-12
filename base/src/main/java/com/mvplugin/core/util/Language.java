@@ -46,4 +46,11 @@ public class Language {
             ChatColor.GREEN + "Multiverse" + ChatColor.WHITE + " was unable to fully delete world '&b%s&f'."
             + "\n" + ChatColor.GRAY + ChatColor.ITALIC + "This probably means the files are in use somewhere else."
             + "\n" + ChatColor.RESET + ChatColor.GRAY + "You may attempt to delete it again with Multiverse but you will probably need to delete it manually.");
+
+    public static final Message INVALID_ENVIRONMENT = Message.createMessage("worlds.invalid_environment",
+            "%s &cis not a valid world environment."
+            + "\nFor a list of available world environments, type: &b/mvenv");
+    public static final Message INVALID_WORLD_TYPE = Message.createMessage("worlds.invalid_type",
+            "%s &cis not a valid world type."
+            + "\nFor a list of available world types, type: &b/mvtype");
 }

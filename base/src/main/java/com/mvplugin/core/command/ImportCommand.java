@@ -47,10 +47,6 @@ public class ImportCommand extends MultiverseCommand {
     public static final Message NO_POTENTIAL_WORLDS = Message.createMessage("command.import.no_potential_worlds",
             "&cNo potential worlds found. Sorry!");
 
-    public static final Message INVALID_ENVIRONMENT = Message.createMessage("command.import.invalid_environment",
-            "&cThat world environment does not exist."
-            + "\nFor a list of available world types, type: &b/mvenv");
-
     public static final Message STARTING_IMPORT = Message.createMessage("command.import.starting_import",
             "Starting import of world '%s'...");
 
@@ -112,7 +108,7 @@ public class ImportCommand extends MultiverseCommand {
         WorldEnvironment environment = WorldEnvironment.getFromString(env);
         if (environment == null) {
             getMessager().message(sender, IMPORT_FAILED);
-            getMessager().message(sender, INVALID_ENVIRONMENT);
+            getMessager().message(sender, Language.INVALID_ENVIRONMENT, env);
             // TODO EnvironmentCommand.showEnvironments(sender);
             return true;
         }
@@ -123,7 +119,7 @@ public class ImportCommand extends MultiverseCommand {
                 getPlugin().getWorldManager().addWorld(worldName, environment, null, null, null, generator, useSpawnAdjust);
                 getMessager().messageAndLog(sender, IMPORT_COMPLETE);
             } catch (WorldCreationException e) {
-                getMessager().messageAndLog(sender, IMPORT_FAILED);
+                getMessager().message(sender, IMPORT_FAILED);
                 e.sendException(getMessager(), sender);
             }
         } else {
