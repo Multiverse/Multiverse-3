@@ -17,7 +17,7 @@ import java.io.File;
 
 @CommandInfo(
         primaryAlias = "import",
-        desc = "Import a world.",
+        desc = "Imports an existing world.",
         usage = "{NAME} {ENVIRONMENT}",
         prefixedAliases = "im",
         directlyPrefixedAliases = "import",
