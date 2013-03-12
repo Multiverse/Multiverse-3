@@ -48,7 +48,8 @@ public class ImportCommand extends MultiverseCommand {
             "&cNo potential worlds found. Sorry!");
 
     public static final Message INVALID_ENVIRONMENT = Message.createMessage("command.import.invalid_environment",
-            "&cThat is not a valid environment.");
+            "&cThat world environment does not exist."
+            + "\nFor a list of available world types, type: &b/mvenv");
 
     public static final Message STARTING_IMPORT = Message.createMessage("command.import.starting_import",
             "Starting import of world '%s'...");
@@ -58,10 +59,6 @@ public class ImportCommand extends MultiverseCommand {
 
     public static final Message IMPORT_FAILED = Message.createMessage("command.import.import_failed",
             "&cImport failed!");
-
-    public static final Message NON_EXISTENT_ENVIRONMENT = Message.createMessage("command.import.non_existent_environment",
-            "&cThat world environment does not exist."
-            + "\nFor a list of available world types, type: &b/mvenv");
 
     public static final Message NON_EXISTENT_FOLDER = Message.createMessage("command.import.non_existent_folder",
             "&cThat world folder does not exist. &bThese look like worlds to me:");
@@ -114,6 +111,7 @@ public class ImportCommand extends MultiverseCommand {
         String env = context.getString(1);
         WorldEnvironment environment = WorldEnvironment.getFromString(env);
         if (environment == null) {
+            getMessager().message(sender, IMPORT_FAILED);
             getMessager().message(sender, INVALID_ENVIRONMENT);
             // TODO EnvironmentCommand.showEnvironments(sender);
             return true;
@@ -128,9 +126,6 @@ public class ImportCommand extends MultiverseCommand {
                 getMessager().messageAndLog(sender, IMPORT_FAILED);
                 e.sendException(getMessager(), sender);
             }
-        } else if (env == null) {
-            getMessager().message(sender, IMPORT_FAILED);
-            getMessager().message(sender, NON_EXISTENT_ENVIRONMENT);
         } else {
             getMessager().message(sender, IMPORT_FAILED);
             String worldList = this.getPotentialWorlds();
