@@ -18,8 +18,7 @@ import org.jetbrains.annotations.NotNull;
         primaryAlias = "create",
         desc = "Creates a new world.",
         usage = "{NAME} {ENVIRONMENT}",
-        prefixedAliases = "c",
-        directlyPrefixedAliases = "create",
+        directlyPrefixedAliases = {"c", "create"},
         flags = "s:g:t:a",
         min = 2,
         max = 2
