@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.properties.MemoryProperties;
 import com.mvplugin.core.exceptions.WorldCreationException;
@@ -45,7 +46,7 @@ public class WorldManagerUtilFactory {
             @Override
             public WorldProperties answer(final InvocationOnMock invocation) throws Throwable {
                 String name = invocation.getArguments()[0].toString();
-                return new DefaultWorldProperties(MemoryProperties.newMemoryProperties(WorldProperties.class));
+                return new DefaultWorldProperties(MemoryProperties.newMemoryProperties(Logging.getLogger(), WorldProperties.class));
             }
         }).when(worldManagerUtil).getWorldProperties(anyString());
 

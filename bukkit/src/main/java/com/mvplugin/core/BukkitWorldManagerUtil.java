@@ -207,7 +207,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @NotNull
     private WorldProperties newWorldProperties(@NotNull final File file) throws MultiverseException {
         try {
-            final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(false, true, file, WorldProperties.class) {
+            final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(Logging.getLogger(), false, true, file, WorldProperties.class) {
                 @Override
                 protected void registerSerializers() {
                     super.registerSerializers();
