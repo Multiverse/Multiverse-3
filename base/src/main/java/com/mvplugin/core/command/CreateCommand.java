@@ -4,6 +4,7 @@ import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.ChatColor;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.Theme;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.exceptions.WorldCreationException;
@@ -26,7 +27,7 @@ import org.jetbrains.annotations.NotNull;
 public class CreateCommand extends MultiverseCommand {
 
     public static final Message CREATE_HELP = Message.createMessage("command.create.help",
-            "Creates a new world on your server with the given name."
+            Theme.HELP + "Creates a new world on your server with the given name."
             + "\nYou must specify a world environment such as NORMAL or NETHER."
             + "\nYou may specify a world seed."
             + "\nYou may also specify a generator to use along with an optional generator ID."
@@ -34,14 +35,14 @@ public class CreateCommand extends MultiverseCommand {
             + "\nYou may specify a world type such as FLAT or LARGE_BIOMES"
             + "\nYou may specify if Multiverse should declare to generate structures or not."
             + "\nFlags:"
-            + "\n  -s {SEED} Specify a world seed to use."
-            + "\n  -g {GENERATOR[:ID]} Specify a generator."
-            + "\n  -t {TYPE} Specify a world type."
-            + "\n  -a {true|false} Specify whether or not to generate structures."
+            + "\n" + Theme.CMD_FLAG + "  -s " + Theme.REQ_ARG + "{SEED}" + Theme.HELP + " Specify a world seed to use."
+            + "\n" + Theme.CMD_FLAG + "  -g " + Theme.REQ_ARG + "{GENERATOR" + Theme.OPT_ARG + "[:ID]" + Theme.REQ_ARG + "}" + Theme.HELP + " Specify a generator."
+            + "\n" + Theme.CMD_FLAG + "  -t " + Theme.REQ_ARG + "{TYPE}" + Theme.HELP + " Specify a world type."
+            + "\n" + Theme.CMD_FLAG + "  -a " + Theme.REQ_ARG + "{true|false}" + Theme.HELP + " Specify whether or not to generate structures."
             + "\nExamples:"
-            + "\n  /mv create &6gargamel&a normal"
-            + "\n  /mv create &6hell_world&a nether"
-            + "\n  /mv create &6Cleanroom&a normal -g &3CleanroomGenerator");
+            + "\n  " + Theme.CMD_USAGE + "/mv create &6gargamel&a normal"
+            + "\n  " + Theme.CMD_USAGE + "/mv create &6hell_world&a nether"
+            + "\n  " + Theme.CMD_USAGE + "/mv create &6Cleanroom&a normal -g &3CleanroomGenerator");
 
     public static final Message CREATE_FAILED = Message.createMessage("command.create.failed",
             "&cCreate failed!");
