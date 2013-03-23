@@ -8,29 +8,6 @@
     </parent>
     <artifactId>MultiverseCore-javadoc</artifactId>
 
-    <repositories>
-        <repository>
-            <id>onarandombox</id>
-            <url>http://repo.onarandombox.com/content/groups/public</url>
-        </repository>
-    </repositories>
-
-    <pluginRepositories>
-        <pluginRepository>
-            <id>doodleproject-repo</id>
-            <name>DoodleProject Maven 2 Repository</name>
-            <url>http://doodleproject.sourceforge.net/maven2/release</url>
-            <releases>
-                <enabled>true</enabled>
-            </releases>
-        </pluginRepository>
-    </pluginRepositories>
-
-    <ciManagement>
-        <system>jenkins</system>
-        <url>http://ci.onarandombox.com</url>
-    </ciManagement>
-
     <build>
         <defaultGoal>clean package</defaultGoal>
         <plugins>
@@ -83,7 +60,6 @@
                     <artifactId>metrics</artifactId>
                 </exclusion>
             </exclusions>
-
         </dependency>
         <dependency>
             <groupId>com.mvplugin</groupId>
@@ -111,15 +87,4 @@
             </exclusions>
         </dependency>
     </dependencies>
-
-    <distributionManagement>
-        <repository>
-            <id>OnARandomBox</id>
-            <url>http://repo.onarandombox.com/content/repositories/multiverse/</url>
-        </repository>
-        <snapshotRepository>
-            <id>OnARandomBox</id>
-            <url>http://repo.onarandombox.com/content/repositories/multiverse-snapshots/</url>
-        </snapshotRepository>
-    </distributionManagement>
 </project>

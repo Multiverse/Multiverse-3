@@ -17,13 +17,13 @@
         <powermock.version>1.4.11</powermock.version>
         <easymock.version>3.1</easymock.version>
         <annotations.version>9.0.4</annotations.version>
+        <pluginbase.version>1.5-SNAPSHOT</pluginbase.version>
     </properties>
 
     <!-- Modules -->
     <modules>
         <module>base</module>
         <module>bukkit</module>
-        <module>javadoc</module>
     </modules>
 
     <ciManagement>
@@ -47,6 +47,32 @@
         <url>https://github.com/multiverse/Multiverse-Core</url>
         <developerConnection>scm:git:git@github.com:multiverse/Multiverse-Core.git</developerConnection>
     </scm>
+
+    <!-- Profiles are used to detect whether this is a local or Jenkins build
+         and adjust the build number accordingly -->
+    <profiles>
+        <profile>
+            <id>jenkins</id>
+            <activation>
+                <property>
+                    <name>env.BUILD_NUMBER</name>
+                </property>
+            </activation>
+            <properties>
+                <project.build.number>${env.BUILD_NUMBER}</project.build.number>
+            </properties>
+            <modules>
+                <module>javadoc</module>
+            </modules>
+        </profile>
+    </profiles>
+
+    <repositories>
+        <repository>
+            <id>onarandombox</id>
+            <url>http://repo.onarandombox.com/content/groups/public</url>
+        </repository>
+    </repositories>
 
     <dependencies>
         <dependency>
@@ -91,5 +117,99 @@
         </dependency>
         <!-- End of Test Dependencies -->
     </dependencies>
+
+    <build>
+        <pluginManagement>
+            <plugins>
+                <!-- Compiler -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-compiler-plugin</artifactId>
+                    <version>2.3.2</version>
+                    <configuration>
+                        <source>1.6</source>
+                        <target>1.6</target>
+                    </configuration>
+                </plugin>
+                <!-- Jar Plugin -->
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-jar-plugin</artifactId>
+                    <version>2.3.1</version>
+                    <configuration>
+                        <archive>
+                            <manifestEntries>
+                            </manifestEntries>
+                        </archive>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-surefire-plugin</artifactId>
+                    <version>2.11</version>
+                    <configuration>
+                        <parallel>methods</parallel>
+                        <threadCount>10</threadCount>
+                        <excludes>
+                            <exclude>**/TestCommandSender.java</exclude>
+                            <exclude>**/TestInstanceCreator.java</exclude>
+                        </excludes>
+                    </configuration>
+                    <dependencies>
+                        <dependency>
+                            <groupId>org.apache.maven.surefire</groupId>
+                            <artifactId>surefire-junit47</artifactId>
+                            <version>2.11</version>
+                        </dependency>
+                    </dependencies>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-checkstyle-plugin</artifactId>
+                    <version>2.8</version>
+                    <configuration>
+                        <enableRulesSummary>true</enableRulesSummary>
+                        <configLocation>${project.basedir}/config/mv_checks.xml</configLocation>
+                    </configuration>
+                </plugin>
+                <plugin>
+                    <groupId>org.apache.maven.plugins</groupId>
+                    <artifactId>maven-source-plugin</artifactId>
+                    <version>2.1.2</version>
+                    <executions>
+                        <execution>
+                            <id>attach-sources</id>
+                            <phase>package</phase>
+                            <goals>
+                                <goal>jar-no-fork</goal>
+                            </goals>
+                        </execution>
+                    </executions>
+                </plugin>
+                <!-- IntelliJ Annotation Instrumenter -->
+                <plugin>
+                    <groupId>com.electriccloud</groupId>
+                    <artifactId>javac2-maven-plugin</artifactId>
+                    <version>1.0.2</version>
+                    <executions>
+                        <execution>
+                            <id>@NotNull Instrumentation</id>
+                            <goals>
+                                <goal>instrument</goal>
+                            </goals>
+                            <phase>process-classes</phase>
+                        </execution>
+                        <execution>
+                            <id>@NotNull Test Instrumentation</id>
+                            <goals>
+                                <goal>testInstrument</goal>
+                            </goals>
+                            <phase>process-test-classes</phase>
+                        </execution>
+                    </executions>
+                </plugin>
+            </plugins>
+        </pluginManagement>
+    </build>
 
 </project>
