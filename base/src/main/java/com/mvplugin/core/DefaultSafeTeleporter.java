@@ -2,6 +2,7 @@ package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.Theme;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
@@ -15,7 +16,7 @@ import org.jetbrains.annotations.Nullable;
 class DefaultSafeTeleporter implements SafeTeleporter {
 
     private static final Message NO_SAFE_LOCATION = Message.createMessage("teleporter.no_safe_location",
-            "Multiverse could not find a safe location near '%s' for teleporting '%s'.");
+            Theme.INFO.toString() + Theme.IMPORTANT2 + "Multiverse could not find a safe location near '" + Theme.VALUE + "%s" + Theme.FAILURE + "' for teleporting '%s'.");
     private static final Message TELEPORT_FAILED = Message.createMessage("teleporter.failed",
             "Multiverse could not teleport '%s' to safe location '%s'.");
 

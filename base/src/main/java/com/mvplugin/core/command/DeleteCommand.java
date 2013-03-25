@@ -4,6 +4,7 @@ import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.Theme;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.exceptions.WorldManagementException;
@@ -25,10 +26,10 @@ public class DeleteCommand extends QueuedMultiverseCommand {
     private static final long CONFIRMATION_TIME = 10000L;
 
     public static final Message DELETE_HELP = Message.createMessage("command.delete.help",
-            "Deletes a world from the server, removing it from Multiverse's management."
-                    + "\nThe world must be managed by Multiverse to use this command."
-                    + "\nExamples:"
-                    + "\n  /mv delete &6gargamel");
+            Theme.HELP + "Deletes a world from the server, removing it from Multiverse's management."
+                    + "\n" + Theme.HELP + "The world must be managed by Multiverse to use this command."
+                    + "\n" + Theme.HELP + "Examples:"
+                    + "\n" + Theme.CMD_USAGE + "  /mv delete " + Theme.REQ_ARG + "gargamel");
 
     protected DeleteCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);

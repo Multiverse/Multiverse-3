@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<theme>
+    <WORLD_NORMAL>
+        <tag>0</tag>
+        <color>DARK_GREEN</color>
+    </WORLD_NORMAL>
+    <WORLD_NETHER>
+        <tag>1</tag>
+        <color>RED</color>
+    </WORLD_NETHER>
+    <WORLD_THE_END>
+        <tag>2</tag>
+        <color>BLACK</color>
+    </WORLD_THE_END>
+</theme>

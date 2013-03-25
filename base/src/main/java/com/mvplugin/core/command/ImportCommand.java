@@ -2,14 +2,15 @@ package com.mvplugin.core.command;
 
 import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
-import com.dumptruckman.minecraft.pluginbase.messages.ChatColor;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
+import com.dumptruckman.minecraft.pluginbase.messages.Theme;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Language;
+import com.mvplugin.core.util.MVTheme;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 
@@ -28,36 +29,37 @@ import java.io.File;
 public class ImportCommand extends MultiverseCommand {
 
     public static final Message IMPORT_HELP = Message.createMessage("command.import.help",
-            "Imports a world into the server from a folder with the given name."
-            + "\nThe folder must exist in the location where worlds are normally located and must contain Minecraft world data."
-            + "\nYou must specify a world environment such as NORMAL or NETHER."
-            + "\nYou may also specify a generator to use along with an optional generator ID."
-            + "\nThe generator name is case sensitive!"
-            + "\nFlags:"
-            + "\n  -g {GENERATOR[:ID]} Specify a generator."
-            + "\n  -n Do not adjust spawn"
-            + "\nExamples:"
-            + "\n  /mv import &6gargamel&a normal"
-            + "\n  /mv import &6hell_world&a nether"
-            + "\n  /mv import &6Cleanroom&a normal -g &3CleanroomGenerator");
+            Theme.HELP + "Imports a world into the server from a folder with the given name."
+            + "\n" + Theme.HELP + "The folder must exist in the location where worlds are normally located and must contain Minecraft world data."
+            + "\n" + Theme.HELP + "You must specify a world environment such as " + MVTheme.WORLD_NORMAL + "NORMAL " + Theme.HELP + "or " + MVTheme.WORLD_NORMAL + "NETHER" + Theme.HELP + "."
+            + "\n" + Theme.HELP + "You may also specify a generator to use along with an optional generator ID."
+            + "\n" + Theme.HELP + "The generator name is case sensitive!"
+            + "\n" + Theme.HELP + "Flags:"
+            + "\n" + Theme.CMD_FLAG + "  -g " + Theme.REQ_ARG + "{GENERATOR" + Theme.OPT_ARG + "[:ID]" + Theme.REQ_ARG + "}" + Theme.HELP + " Specify a generator."
+            + "\n" + Theme.CMD_FLAG + "  -n " + Theme.HELP + "Do not adjust spawn"
+            + "\n" + Theme.HELP + "Examples:"
+                    + "\n  " + Theme.CMD_USAGE + "/mv import " + Theme.REQ_ARG + "gargamel " + MVTheme.WORLD_NORMAL + "normal"
+                    + "\n  " + Theme.CMD_USAGE + "/mv import " + Theme.REQ_ARG + "\"hell world\" " + MVTheme.WORLD_NETHER + "nether"
+                    + "\n  " + Theme.CMD_USAGE + "/mv import " + Theme.REQ_ARG + "space " + MVTheme.WORLD_NORMAL + "normal " + Theme.CMD_FLAG + "-g " + Theme.REQ_ARG + "CleanroomGenerator" + Theme.OPT_ARG + ":.");
 
     public static final Message POTENTIAL_WORLD_LIST = Message.createMessage("command.import.potential_world_list",
-            "&b====[ These look like worlds ]====\n%s");
+            Theme.INFO + "====[ These look like worlds ]====\n%s");
 
     public static final Message NO_POTENTIAL_WORLDS = Message.createMessage("command.import.no_potential_worlds",
-            "&cNo potential worlds found. Sorry!");
+            Theme.SORRY + "No potential worlds found. Sorry!");
 
     public static final Message STARTING_IMPORT = Message.createMessage("command.import.starting_import",
-            "Starting import of world '%s'...");
+            Theme.PLEASE_WAIT + "Starting import of world '%s'...");
 
     public static final Message IMPORT_COMPLETE = Message.createMessage("command.import.import_complete",
-            "&aImport complete!");
+            Theme.SUCCESS + "Import complete!");
 
     public static final Message IMPORT_FAILED = Message.createMessage("command.import.import_failed",
-            "&cImport failed!");
+            Theme.FAILURE + "Import failed!");
 
     public static final Message NON_EXISTENT_FOLDER = Message.createMessage("command.import.non_existent_folder",
-            "&cThat world folder does not exist. &bThese look like worlds to me:");
+            Theme.FAILURE + "That world folder does not exist."
+            + Theme.INFO + "These look like worlds to me: \n%s");
 
     protected ImportCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
@@ -125,8 +127,7 @@ public class ImportCommand extends MultiverseCommand {
         } else {
             getMessager().message(sender, IMPORT_FAILED);
             String worldList = this.getPotentialWorlds();
-            getMessager().message(sender, NON_EXISTENT_FOLDER);
-            sender.sendMessage(worldList);
+            getMessager().message(sender, NON_EXISTENT_FOLDER, worldList);
         }
         return true;
     }
@@ -134,15 +135,16 @@ public class ImportCommand extends MultiverseCommand {
     @NotNull
     private String getPotentialWorlds() {
         final StringBuilder worldList = new StringBuilder();
-        ChatColor currColor = ChatColor.WHITE;
+        int i = 1;
         for (final String potentialWorld : getPlugin().getWorldManager().getPotentialWorlds()) {
             if (!getPlugin().getWorldManager().isManaged(potentialWorld)) {
-                worldList.append(currColor).append(potentialWorld).append(" ");
-                if (currColor == ChatColor.WHITE) {
-                    currColor = ChatColor.YELLOW;
+                if (i % 2 == 0) {
+                    worldList.append(Theme.LIST_EVEN);
                 } else {
-                    currColor = ChatColor.WHITE;
+                    worldList.append(Theme.LIST_ODD);
                 }
+                worldList.append(potentialWorld).append(" ");
+                i++;
             }
         }
         return worldList.toString();
