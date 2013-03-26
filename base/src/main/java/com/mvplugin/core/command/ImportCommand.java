@@ -38,9 +38,9 @@ public class ImportCommand extends MultiverseCommand {
             + "\n" + Theme.CMD_FLAG + "  -g " + Theme.REQ_ARG + "{GENERATOR" + Theme.OPT_ARG + "[:ID]" + Theme.REQ_ARG + "}" + Theme.HELP + " Specify a generator."
             + "\n" + Theme.CMD_FLAG + "  -n " + Theme.HELP + "Do not adjust spawn"
             + "\n" + Theme.HELP + "Examples:"
-                    + "\n  " + Theme.CMD_USAGE + "/mv import " + Theme.REQ_ARG + "gargamel " + MVTheme.WORLD_NORMAL + "normal"
-                    + "\n  " + Theme.CMD_USAGE + "/mv import " + Theme.REQ_ARG + "\"hell world\" " + MVTheme.WORLD_NETHER + "nether"
-                    + "\n  " + Theme.CMD_USAGE + "/mv import " + Theme.REQ_ARG + "space " + MVTheme.WORLD_NORMAL + "normal " + Theme.CMD_FLAG + "-g " + Theme.REQ_ARG + "CleanroomGenerator" + Theme.OPT_ARG + ":.");
+            + "\n" + Theme.CMD_USAGE + "  /mv import " + Theme.REQ_ARG + "gargamel " + MVTheme.WORLD_NORMAL + "normal"
+            + "\n" + Theme.CMD_USAGE + "  /mv import " + Theme.REQ_ARG + "\"hell world\" " + MVTheme.WORLD_NETHER + "nether"
+            + "\n" + Theme.CMD_USAGE + "  /mv import " + Theme.REQ_ARG + "space " + MVTheme.WORLD_NORMAL + "normal " + Theme.CMD_FLAG + "-g " + Theme.REQ_ARG + "CleanroomGenerator" + Theme.OPT_ARG + ":.");
 
     public static final Message POTENTIAL_WORLD_LIST = Message.createMessage("command.import.potential_world_list",
             Theme.INFO + "====[ These look like worlds ]====\n%s");

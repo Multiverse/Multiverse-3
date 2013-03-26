@@ -40,9 +40,9 @@ public class CreateCommand extends MultiverseCommand {
             + "\n" + Theme.CMD_FLAG + "  -t " + Theme.REQ_ARG + "{TYPE}" + Theme.HELP + " Specify a world type."
             + "\n" + Theme.CMD_FLAG + "  -a " + Theme.REQ_ARG + "{true|false}" + Theme.HELP + " Specify whether or not to generate structures."
             + "\n" + Theme.HELP + "Examples:"
-            + "\n  " + Theme.CMD_USAGE + "/mv create " + Theme.REQ_ARG + "gargamel " + MVTheme.WORLD_NORMAL + "normal"
-            + "\n  " + Theme.CMD_USAGE + "/mv create " + Theme.REQ_ARG + "\"hell world\" " + MVTheme.WORLD_NETHER + "nether"
-            + "\n  " + Theme.CMD_USAGE + "/mv create " + Theme.REQ_ARG + "space " + MVTheme.WORLD_NORMAL + "normal " + Theme.CMD_FLAG + "-g " + Theme.REQ_ARG + "CleanroomGenerator" + Theme.OPT_ARG + ":.");
+            + "\n" + Theme.CMD_USAGE + "  /mv create " + Theme.REQ_ARG + "gargamel " + MVTheme.WORLD_NORMAL + "normal"
+            + "\n" + Theme.CMD_USAGE + "  /mv create " + Theme.REQ_ARG + "\"hell world\" " + MVTheme.WORLD_NETHER + "nether"
+            + "\n" + Theme.CMD_USAGE + "  /mv create " + Theme.REQ_ARG + "space " + MVTheme.WORLD_NORMAL + "normal " + Theme.CMD_FLAG + "-g " + Theme.REQ_ARG + "CleanroomGenerator" + Theme.OPT_ARG + ":.");
 
     public static final Message CREATE_FAILED = Message.createMessage("command.create.failed",
             Theme.FAILURE + "Create failed!");
