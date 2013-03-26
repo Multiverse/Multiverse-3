@@ -12,4 +12,8 @@
         <tag>2</tag>
         <color>BLACK</color>
     </WORLD_THE_END>
+    <IMPL_NAME>
+        <tag>T</tag>
+        <color>DARK_RED</color>
+    </IMPL_NAME>
 </theme>
