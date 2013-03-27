@@ -10,7 +10,7 @@
     </WORLD_NETHER>
     <WORLD_THE_END>
         <tag>2</tag>
-        <color>BLACK</color>
+        <color>DARK_GRAY</color>
     </WORLD_THE_END>
     <IMPL_NAME>
         <tag>T</tag>

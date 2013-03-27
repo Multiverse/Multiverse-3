@@ -1,6 +1,7 @@
 package com.mvplugin.core;
 
 import com.dumptruckman.minecraft.pluginbase.bukkit.AbstractBukkitPlugin;
+import com.dumptruckman.minecraft.pluginbase.messages.Messages;
 import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.command.CreateCommand;
@@ -40,9 +41,14 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
 
     @Override
     protected void onPluginLoad() {
-        PropertyDescriptions.init();
-        Language.class.getName();
-        BukkitLanguage.class.getName();
+
+    }
+
+    @Override
+    protected void registerMessages() {
+        Messages.registerMessages(this, PropertyDescriptions.class);
+        Messages.registerMessages(this, Language.class);
+        Messages.registerMessages(this, BukkitLanguage.class);
     }
 
     @Override

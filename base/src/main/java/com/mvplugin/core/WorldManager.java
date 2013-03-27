@@ -268,12 +268,21 @@ public class WorldManager {
                 throw new WorldManagementException(Message.bundleMessage(Language.WORLD_UNLOAD_ERROR, world.getName()), e);
             }
             if (this.worldManagerUtil.unloadWorldFromServer(world)) {
-                this.worldsMap.remove(world.getName().toLowerCase());
+                removeWorldFromMemory(world);
                 Logging.fine("World '%s' was unloaded from memory.", world.getName());
             } else {
                 throw new WorldManagementException(Message.bundleMessage(Language.WORLD_COULD_NOT_UNLOAD_FROM_SERVER, world.getName()));
             }
         }
+    }
+
+    /**
+     * Should be called only when the world was unloaded from the server itself.
+     *
+     * @param world the world to remove from memory.
+     */
+    void removeWorldFromMemory(@NotNull final MultiverseWorld world) {
+        this.worldsMap.remove(world.getName().toLowerCase());
     }
 
     /**

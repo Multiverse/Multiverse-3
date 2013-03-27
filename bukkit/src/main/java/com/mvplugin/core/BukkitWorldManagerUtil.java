@@ -187,7 +187,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         return Message.bundleMessage(BukkitLanguage.THIS_WILL_DELETE_THE_FOLLOWING, toDelete.toString());
     }
 
-    private static final String WORLD_FILE_NAME = "level.dat";
+    private static final String WORLD_FILE_NAME = "uid.dat";
 
     private boolean isThisAWorld(@NotNull final File worldFolder) {
         if (worldFolder.isDirectory()) {
@@ -207,6 +207,9 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @NotNull
     private WorldProperties newWorldProperties(@NotNull final File file) throws MultiverseException {
         try {
+            if (!file.exists()) {
+                file.createNewFile();
+            }
             final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(Logging.getLogger(), false, true, file, WorldProperties.class) {
                 @Override
                 protected void registerSerializers() {
@@ -216,6 +219,8 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             });
             worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(plugin));
             return worldProperties;
+        } catch (IOException e) {
+            throw new MultiverseException(Message.bundleMessage(BukkitLanguage.CREATE_WORLD_FILE_ERROR, file), e);
         } catch (PluginBaseException e) {
             throw new MultiverseException(e);
         }
@@ -322,6 +327,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             final World w = c.createWorld();
             return getBukkitWorld(w);
         } catch (Exception e) {
+            e.printStackTrace();
             throw new WorldCreationException(Message.bundleMessage(BukkitLanguage.CREATE_WORLD_ERROR, settings.name()), e);
         }
     }
