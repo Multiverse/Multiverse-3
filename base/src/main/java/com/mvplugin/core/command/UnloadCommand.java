@@ -3,7 +3,6 @@ package com.mvplugin.core.command;
 import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.messages.Theme;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.exceptions.WorldManagementException;
@@ -23,16 +22,16 @@ import org.jetbrains.annotations.NotNull;
 public class UnloadCommand extends MultiverseCommand {
 
     public static final Message UNLOAD_HELP = Message.createMessage("command.unload.help",
-            Theme.HELP + "Unloads a world that has previously been imported and is currently loaded."
-            + "\n" + Theme.HELP + "This will remove the world from memory but not delete anything."
-            + "\n" + Theme.HELP + "Examples:"
-            + "\n" + Theme.CMD_USAGE + "  /mv unload " + Theme.REQ_ARG + "gargamel");
+            "$hUnloads a world that has previously been imported and is currently loaded."
+            + "\n$hThis will remove the world from memory but not delete anything."
+            + "\n$hExamples:"
+            + "\n$c  /mv unload $rgargamel");
 
     public static final Message UNLOAD_SUCCESS = Message.createMessage("command.unload.success",
-            Theme.SUCCESS + "'" + Theme.VALUE + "%s" + Theme.SUCCESS + "' has been unloaded successfully!");
+            "$+'$v%s$+' has been unloaded successfully!");
 
     public static final Message UNLOAD_FAILURE = Message.createMessage("command.unload.failure",
-            Theme.FAILURE + "'" + Theme.VALUE + "%s" + Theme.FAILURE + "' could not be unloaded!");
+            "$-'$v%s$-' could not be unloaded!");
 
     protected UnloadCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);

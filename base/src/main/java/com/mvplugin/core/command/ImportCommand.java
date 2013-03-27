@@ -10,7 +10,6 @@ import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Language;
-import com.mvplugin.core.util.MVTheme;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 
@@ -29,37 +28,37 @@ import java.io.File;
 public class ImportCommand extends MultiverseCommand {
 
     public static final Message IMPORT_HELP = Message.createMessage("command.import.help",
-            Theme.HELP + "Imports a world into the server from a folder with the given name."
-            + "\n" + Theme.HELP + "The folder must exist in the location where worlds are normally located and must contain Minecraft world data."
-            + "\n" + Theme.HELP + "You must specify a world environment such as " + MVTheme.WORLD_NORMAL + "NORMAL " + Theme.HELP + "or " + MVTheme.WORLD_NORMAL + "NETHER" + Theme.HELP + "."
-            + "\n" + Theme.HELP + "You may also specify a generator to use along with an optional generator ID."
-            + "\n" + Theme.HELP + "The generator name is case sensitive!"
-            + "\n" + Theme.HELP + "Flags:"
-            + "\n" + Theme.CMD_FLAG + "  -g " + Theme.REQ_ARG + "{GENERATOR" + Theme.OPT_ARG + "[:ID]" + Theme.REQ_ARG + "}" + Theme.HELP + " Specify a generator."
-            + "\n" + Theme.CMD_FLAG + "  -n " + Theme.HELP + "Do not adjust spawn"
-            + "\n" + Theme.HELP + "Examples:"
-            + "\n" + Theme.CMD_USAGE + "  /mv import " + Theme.REQ_ARG + "gargamel " + MVTheme.WORLD_NORMAL + "normal"
-            + "\n" + Theme.CMD_USAGE + "  /mv import " + Theme.REQ_ARG + "\"hell world\" " + MVTheme.WORLD_NETHER + "nether"
-            + "\n" + Theme.CMD_USAGE + "  /mv import " + Theme.REQ_ARG + "space " + MVTheme.WORLD_NORMAL + "normal " + Theme.CMD_FLAG + "-g " + Theme.REQ_ARG + "CleanroomGenerator" + Theme.OPT_ARG + ":.");
+            "$hImports a world into the server from a folder with the given name."
+            + "\n$hThe folder must exist in the location where worlds are normally located and must contain Minecraft world data."
+            + "\n$hYou must specify a world environment such as $0NORMAL $hor $1NETHER$h."
+            + "\n$hYou may also specify a generator to use along with an optional generator ID."
+            + "\n$hThe generator name is case sensitive!"
+            + "\n$hFlags:"
+            + "\n$f  -g $r{GENERATOR$o[:ID]$r} $hSpecify a generator."
+            + "\n$f  -n $hDo not adjust spawn"
+            + "\n$hExamples:"
+            + "\n$c  /mv import $rgargamel $0normal"
+            + "\n$c  /mv import $r\"hell world\" $1nether"
+            + "\n$c  /mv import $rspace $0normal $f-g $rCleanroomGenerator$o:.");
 
     public static final Message POTENTIAL_WORLD_LIST = Message.createMessage("command.import.potential_world_list",
-            Theme.INFO + "====[ These look like worlds ]====\n%s");
+            "$=====[ These look like worlds ]====\n%s");
 
     public static final Message NO_POTENTIAL_WORLDS = Message.createMessage("command.import.no_potential_worlds",
-            Theme.SORRY + "No potential worlds found. Sorry!");
+            "$$No potential worlds found. Sorry!");
 
     public static final Message STARTING_IMPORT = Message.createMessage("command.import.starting_import",
-            Theme.PLEASE_WAIT + "Starting import of world '%s'...");
+            "$wStarting import of world '%s'...");
 
     public static final Message IMPORT_COMPLETE = Message.createMessage("command.import.import_complete",
-            Theme.SUCCESS + "Import complete!");
+            "$+Import complete!");
 
     public static final Message IMPORT_FAILED = Message.createMessage("command.import.import_failed",
-            Theme.FAILURE + "Import failed!");
+            "$-Import failed!");
 
     public static final Message NON_EXISTENT_FOLDER = Message.createMessage("command.import.non_existent_folder",
-            Theme.FAILURE + "That world folder does not exist."
-            + Theme.INFO + "These look like worlds to me: \n%s");
+            "$^That world folder does not exist."
+            + "\n$iThese look like worlds to me: \n%s");
 
     protected ImportCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);

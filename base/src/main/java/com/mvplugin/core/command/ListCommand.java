@@ -4,7 +4,6 @@ import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.ChatColor;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.messages.Theme;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -23,11 +22,11 @@ import org.jetbrains.annotations.NotNull;
 public class ListCommand extends MultiverseCommand {
 
     public static final Message LIST_HELP = Message.createMessage("command.list.help",
-            Theme.HELP + "Lists all worlds managed by multiverse."
-            + "\n" + Theme.HELP + "Only the worlds you may access will be shown.");
+            "$hLists all worlds managed by $tMultiverse$h."
+            + "\n$hOnly the worlds you may access will be shown.");
 
     public static final Message LIST_WORLDS = Message.createMessage("command.list.list",
-            Theme.HEADER + "====[ Multiverse World List ]====\n%s");
+            "$=====[ Multiverse World List ]====\n%s");
 
     protected ListCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);

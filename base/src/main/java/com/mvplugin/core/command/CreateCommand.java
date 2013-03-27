@@ -3,7 +3,6 @@ package com.mvplugin.core.command;
 import com.dumptruckman.minecraft.pluginbase.command.CommandContext;
 import com.dumptruckman.minecraft.pluginbase.command.CommandInfo;
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.messages.Theme;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.permission.Perm;
 import com.mvplugin.core.exceptions.WorldCreationException;
@@ -11,7 +10,6 @@ import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Language;
-import com.mvplugin.core.util.MVTheme;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 
@@ -27,31 +25,31 @@ import org.jetbrains.annotations.NotNull;
 public class CreateCommand extends MultiverseCommand {
 
     public static final Message CREATE_HELP = Message.createMessage("command.create.help",
-            Theme.HELP + "Creates a new world on your server with the given name."
-            + "\n" + Theme.HELP + "You must specify a world environment such as " + MVTheme.WORLD_NORMAL + "NORMAL " + Theme.HELP + "or " + MVTheme.WORLD_NORMAL + "NETHER" + Theme.HELP + "."
-            + "\n" + Theme.HELP + "You may specify a world seed."
-            + "\n" + Theme.HELP + "You may also specify a generator to use along with an optional generator ID."
-            + "\n" + Theme.HELP + "The generator name is case sensitive!"
-            + "\n" + Theme.HELP + "You may specify a world type such as FLAT or LARGE_BIOMES"
-            + "\n" + Theme.HELP + "You may specify if Multiverse should declare to generate structures or not."
-            + "\n" + Theme.HELP + "Flags:"
-            + "\n" + Theme.CMD_FLAG + "  -s " + Theme.REQ_ARG + "{SEED}" + Theme.HELP + " Specify a world seed to use."
-            + "\n" + Theme.CMD_FLAG + "  -g " + Theme.REQ_ARG + "{GENERATOR" + Theme.OPT_ARG + "[:ID]" + Theme.REQ_ARG + "}" + Theme.HELP + " Specify a generator."
-            + "\n" + Theme.CMD_FLAG + "  -t " + Theme.REQ_ARG + "{TYPE}" + Theme.HELP + " Specify a world type."
-            + "\n" + Theme.CMD_FLAG + "  -a " + Theme.REQ_ARG + "{true|false}" + Theme.HELP + " Specify whether or not to generate structures."
-            + "\n" + Theme.HELP + "Examples:"
-            + "\n" + Theme.CMD_USAGE + "  /mv create " + Theme.REQ_ARG + "gargamel " + MVTheme.WORLD_NORMAL + "normal"
-            + "\n" + Theme.CMD_USAGE + "  /mv create " + Theme.REQ_ARG + "\"hell world\" " + MVTheme.WORLD_NETHER + "nether"
-            + "\n" + Theme.CMD_USAGE + "  /mv create " + Theme.REQ_ARG + "space " + MVTheme.WORLD_NORMAL + "normal " + Theme.CMD_FLAG + "-g " + Theme.REQ_ARG + "CleanroomGenerator" + Theme.OPT_ARG + ":.");
+            "$hCreates a new world on your server with the given name."
+            + "\n$hYou must specify a world environment such as $0NORMAL $hor $1NETHER$h."
+            + "\n$hYou may specify a world seed."
+            + "\n$hYou may also specify a generator to use along with an optional generator ID."
+            + "\n$hThe generator name is case sensitive!"
+            + "\n$hYou may specify a world type such as FLAT or LARGE_BIOMES"
+            + "\n$hYou may specify if $tMultiverse $hshould declare to generate structures or not."
+            + "\n$hFlags:"
+            + "\n$f  -s $r{SEED} $hSpecify a world seed to use."
+            + "\n$f  -g $r{GENERATOR$o[:ID]$r} $hSpecify a generator."
+            + "\n$f  -t $r{TYPE} $hSpecify a world type."
+            + "\n$f  -a $r{true|false} $hSpecify whether or not to generate structures."
+            + "\n$hExamples:"
+            + "\n$c  /mv create $rgargamel $0normal"
+            + "\n$c  /mv create $r\"hell world\" $1nether"
+            + "\n$c  /mv create $rspace $0normal $f-g $rCleanroomGenerator$o:.");
 
     public static final Message CREATE_FAILED = Message.createMessage("command.create.failed",
-            Theme.FAILURE + "Create failed!");
+            "$-Create failed!");
 
     public static final Message CREATING_WORLD = Message.createMessage("command.create.creating",
-            Theme.PLEASE_WAIT + "Creating new world, please wait...");
+            "$wCreating new world, please wait...");
 
     public static final Message CREATE_SUCCESS = Message.createMessage("command.create.success",
-            Theme.SUCCESS + "Successfully created world " + Theme.IMPORTANT + "%s" + Theme.SUCCESS + "!");
+            "$+Successfully created world $!%s$+!");
 
     protected CreateCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
