@@ -167,8 +167,8 @@ class BukkitBlockSafety extends AbstractBlockSafety {
         if (block.getType() != Material.AIR) {
             return false;
         }
-        BlockCoordinates oneBelow = Locations.copyOf(l);
-        oneBelow.subtract(0, 1, 0);
-        return hasTwoBlocksOfWaterBelow(oneBelow);
+
+        return hasTwoBlocksOfWaterBelow(Locations.getBlockCoordinates(l.getWorld(),
+                l.getBlockX(), l.getBlockY() - 1, l.getBlockZ()));
     }
 }
