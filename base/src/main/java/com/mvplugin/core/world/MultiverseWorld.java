@@ -10,6 +10,7 @@ package com.mvplugin.core.world;
 import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
+import com.mvplugin.core.SpawnException;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
@@ -20,6 +21,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -161,56 +163,6 @@ public interface MultiverseWorld {
      * @param alias A string that is the new alias.
      */
     void setAlias(@Nullable String alias);
-
-    // animals&monster stuff
-    /**
-     * Gets whether or not animals are allowed to spawn in this world.
-     *
-     * @return True if ANY animal can, false if no animals can spawn.
-     */
-    boolean canAnimalsSpawn();
-
-    /**
-     * Sets whether or not animals can spawn.
-     * If there are values in {@link #getAnimalList()} and this is false,
-     * those animals become the exceptions, and will spawn
-     *
-     * @param allowAnimalSpawn True to allow spawning of monsters, false to prevent.
-     */
-    void setAllowAnimalSpawn(boolean allowAnimalSpawn);
-
-    /**
-     * Returns a list of animals. This list always negates the {@link #canAnimalsSpawn()} result.
-     *
-     * @return A list of animals that will spawn if {@link #canAnimalsSpawn()} is false.
-     */
-    @NotNull
-    List<String> getAnimalList();
-
-    /**
-     * Gets whether or not monsters are allowed to spawn in this world.
-     *
-     * @return True if ANY monster can, false if no monsters can spawn.
-     */
-    boolean canMonstersSpawn();
-
-    /**
-     * Sets whether or not monsters can spawn.
-     * If there are values in {@link #getMonsterList()} and this is false,
-     * those monsters become the exceptions, and will spawn
-     *
-     * @param allowMonsterSpawn True to allow spawning of monsters, false to prevent.
-     */
-    void setAllowMonsterSpawn(boolean allowMonsterSpawn);
-
-    /**
-     * Returns a list of monsters. This list always negates the {@link #canMonstersSpawn()} result.
-     *
-     * @return A list of monsters that will spawn if {@link #canMonstersSpawn()} is false.
-     */
-    @NotNull
-    List<String> getMonsterList();
-    // end of animal&monster stuff
 
     /**
      * Gets whether or not PVP is enabled in this world in some form (fake or not).
@@ -535,4 +487,40 @@ public interface MultiverseWorld {
      */
     @NotNull
     Collection<BasePlayer> getPlayers();
+
+    // animals&monster stuff
+    long getTicksPerAnimalSpawn();
+
+    void setTicksPerAnimalSpawn(final long ticks);
+
+    long getTicksPerMonsterSpawn();
+
+    void setTicksPerMonsterSpawn(final long ticks);
+
+    int getAnimalSpawnLimit();
+
+    void setAnimalSpawnLimit(final int limit);
+
+    int getMonsterSpawnLimit();
+
+    void setMonsterSpawnLimit(final int limit);
+
+    int getAmbientSpawnLimit();
+
+    void setAmbientSpawnLimit(final int limit);
+
+    int getWaterAnimalSpawnLimit();
+
+    void setWaterAnimalSpawnLimit(final int limit);
+
+    boolean isPreventingSpawnsList();
+
+    void setPreventingSpawnsList(final boolean prevent);
+
+    Map<String, SpawnException> getSpawnExceptions();
+
+    void addOrUpdateSpawnException(@NotNull final SpawnException spawnException);
+
+    void removeSpawnException(@NotNull final String creatureType);
+    // end of animal&monster stuff
 }

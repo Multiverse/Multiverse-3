@@ -4,6 +4,7 @@ import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.Difficulty;
+import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -14,7 +15,9 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 /**
@@ -29,10 +32,19 @@ class DefaultMultiverseWorld implements MultiverseWorld {
     private final WorldProperties worldProperties;
     @NotNull
     private final WorldLink worldLink;
+    @NotNull
+    private final Map<EntityType, SpawnException> worldSpawnExceptions = new HashMap<EntityType, SpawnException>();
 
     DefaultMultiverseWorld(@NotNull final WorldProperties worldProperties, @NotNull final WorldLink worldLink) {
         this.worldProperties = worldProperties;
         this.worldLink = worldLink;
+
+        final List<SpawnException> spawnExceptions = this.worldProperties.get(WorldProperties.SPAWNING)
+                .get(WorldProperties.Spawning.ALLOWED_SPAWNS)
+                .get(WorldProperties.Spawning.AllowedSpawns.SPAWN_EXCEPTIONS);
+        for (final SpawnException exception : spawnExceptions) {
+            this.worldSpawnExceptions.put(exception.getEntityType(), exception);
+        }
     }
 
     @Override
@@ -149,50 +161,6 @@ class DefaultMultiverseWorld implements MultiverseWorld {
     }
 
     @Override
-    public boolean canAnimalsSpawn() {
-        return getProperties().get(WorldProperties.SPAWNING)
-                .get(WorldProperties.Spawning.ANIMALS)
-                .get(WorldProperties.Spawning.Animals.SPAWN);
-    }
-
-    @Override
-    public void setAllowAnimalSpawn(final boolean allowAnimalSpawn) {
-        getProperties().get(WorldProperties.SPAWNING)
-                .get(WorldProperties.Spawning.ANIMALS)
-                .set(WorldProperties.Spawning.Animals.SPAWN, allowAnimalSpawn);
-    }
-
-    @NotNull
-    @Override
-    public List<String> getAnimalList() {
-        return getProperties().get(WorldProperties.SPAWNING)
-                .get(WorldProperties.Spawning.ANIMALS)
-                .get(WorldProperties.Spawning.Animals.EXCEPTIONS);
-    }
-
-    @Override
-    public boolean canMonstersSpawn() {
-        return getProperties().get(WorldProperties.SPAWNING)
-                .get(WorldProperties.Spawning.MONSTERS)
-                .get(WorldProperties.Spawning.Monsters.SPAWN);
-    }
-
-    @Override
-    public void setAllowMonsterSpawn(final boolean allowMonsterSpawn) {
-        getProperties().get(WorldProperties.SPAWNING)
-                .get(WorldProperties.Spawning.MONSTERS)
-                .set(WorldProperties.Spawning.Monsters.SPAWN, allowMonsterSpawn);
-    }
-
-    @NotNull
-    @Override
-    public List<String> getMonsterList() {
-        return getProperties().get(WorldProperties.SPAWNING)
-                .get(WorldProperties.Spawning.ANIMALS)
-                .get(WorldProperties.Spawning.Monsters.EXCEPTIONS);
-    }
-
-    @Override
     public boolean isPVPEnabled() {
         return getProperties().get(WorldProperties.PVP);
     }
@@ -273,6 +241,7 @@ class DefaultMultiverseWorld implements MultiverseWorld {
 
     @Override
     public boolean setGameMode(@NotNull final GameMode gameMode) {
+
         // Todo validate?
         return getProperties().set(WorldProperties.GAME_MODE, gameMode);
     }
@@ -390,5 +359,90 @@ class DefaultMultiverseWorld implements MultiverseWorld {
     @Override
     public void save() throws PluginBaseException {
         getProperties().flush();
+    }
+
+    @Override
+    public long getTicksPerAnimalSpawn() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setTicksPerAnimalSpawn(final long ticks) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public long getTicksPerMonsterSpawn() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setTicksPerMonsterSpawn(final long ticks) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getAnimalSpawnLimit() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setAnimalSpawnLimit(final int limit) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getMonsterSpawnLimit() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setMonsterSpawnLimit(final int limit) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getAmbientSpawnLimit() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setAmbientSpawnLimit(final int limit) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int getWaterAnimalSpawnLimit() {
+        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setWaterAnimalSpawnLimit(final int limit) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public boolean isPreventingSpawnsList() {
+        return false;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void setPreventingSpawnsList(final boolean prevent) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Map<String, SpawnException> getSpawnExceptions() {
+        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void addOrUpdateSpawnException(@NotNull final SpawnException spawnException) {
+        //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public void removeSpawnException(@NotNull final String creatureType) {
+        //To change body of implemented methods use File | Settings | File Templates.
     }
 }

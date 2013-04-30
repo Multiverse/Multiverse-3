@@ -10,6 +10,7 @@ import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.dumptruckman.minecraft.pluginbase.properties.PropertyFactory;
 import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
 import com.dumptruckman.minecraft.pluginbase.properties.SimpleProperty;
+import com.mvplugin.core.SpawnException;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
@@ -195,47 +196,62 @@ public interface WorldProperties extends Properties {
 
     public static interface Spawning extends NestedProperties {
 
-        NestedProperty<Animals> ANIMALS = PropertyFactory.newNestedProperty(Animals.class, "animals")
+        SimpleProperty<Long> ANIMAL_TICKS = PropertyFactory.newProperty(Long.class, "animalTicks", -1L)
+                .comment("The animalTicks property specifies the rate in ticks at which animals are spawned.")
+                .comment("A negative value will indicate the default will be used.")
+                .description(PropertyDescriptions.ANIMAL_TICKS)
+                .alias("animalRate")
                 .build();
 
-        NestedProperty<Monsters> MONSTERS = PropertyFactory.newNestedProperty(Monsters.class, "monsters")
+        SimpleProperty<Long> MONSTER_TICKS = PropertyFactory.newProperty(Long.class, "monstersTicks", -1L)
+                .comment("The monsterTicks property specifies the rate in ticks at which monsters are spawned.")
+                .comment("A negative value will indicate the default will be used.")
+                .description(PropertyDescriptions.MONSTER_TICKS)
+                .alias("monsterRate")
                 .build();
 
-        public static interface Animals extends NestedProperties {
+        SimpleProperty<Integer> ANIMAL_LIMIT = PropertyFactory.newProperty(Integer.class, "animalLimit", -1)
+                .comment("The animalLimit property specifies how many animal entities are allowed to be spawned per chunk.")
+                .comment("A negative value will indicate the default will be used.")
+                .description(PropertyDescriptions.ANIMAL_LIMIT)
+                .build();
 
-            SimpleProperty<Boolean> SPAWN = PropertyFactory.newProperty(Boolean.class, "spawn", true)
-                    .comment("The animals spawn property specifies whether or not to spawn animals in this world.")
-                    .description(PropertyDescriptions.ANIMALS_SPAWN)
+        SimpleProperty<Integer> MONSTER_LIMIT = PropertyFactory.newProperty(Integer.class, "monsterLimit", -1)
+                .comment("The monsterLimit property specifies how many monster entities are allowed to be spawned per chunk.")
+                .comment("A negative value will indicate the default will be used.")
+                .description(PropertyDescriptions.MONSTER_LIMIT)
+                .build();
+
+        SimpleProperty<Integer> AMBIENT_LIMIT = PropertyFactory.newProperty(Integer.class, "ambientLimit", -1)
+                .comment("The ambientLimit property specifies how many ambient entities are allowed to be spawned per chunk.")
+                .comment("A negative value will indicate the default will be used.")
+                .description(PropertyDescriptions.AMBIENT_LIMIT)
+                .build();
+
+        SimpleProperty<Integer> WATER_LIMIT = PropertyFactory.newProperty(Integer.class, "waterLimit", -1)
+                .comment("The waterLimit property specifies how many water entities are allowed to be spawned per chunk.")
+                .comment("A negative value will indicate the default will be used.")
+                .description(PropertyDescriptions.WATER_LIMIT)
+                .build();
+
+        NestedProperty<AllowedSpawns> ALLOWED_SPAWNS = PropertyFactory.newNestedProperty(AllowedSpawns.class, "allowedSpawns")
+                .build();
+
+        public static interface AllowedSpawns extends NestedProperties {
+
+            SimpleProperty<Boolean> PREVENT_SPAWNS = PropertyFactory.newProperty(Boolean.class, "preventSpawnsList", true)
+                    .comment("The preventSpawnsList property determines whether the spawnExceptions list is a blacklist or a whitelist.")
+                    .comment("Setting this to false will indicate the creatures listed in spawnExceptions will be the ONLY creatures allowed to spawn.")
+                    .comment("Setting this to true will indicate the creatures listed in spawnExceptions will be creatures NOT allowed to spawn.")
+                    .description(PropertyDescriptions.PREVENT_SPAWNS)
+                    .alias("preventSpawns")
                     .build();
 
-            SimpleProperty<Integer> SPAWN_RATE = PropertyFactory.newProperty(Integer.class, "spawnRate", -1)
-                    .comment("The animals spawnRate property defines how many ticks in between attempting to spawn animals.")
-                    .comment("A value of -1 indicates the default should be used and is recommended unless you know what you are doing.")
-                    .description(PropertyDescriptions.ANIMALS_SPAWN_RATE)
-                    .build();
-
-            ListProperty<String> EXCEPTIONS = PropertyFactory.newListProperty(String.class, "exceptions")
-                    .comment("The animals exceptions property defines what animals are exempt from the animals spawn property.")
-                    .description(PropertyDescriptions.ANIMALS_SPAWN_EXCEPTIONS)
-                    .build();
-        }
-
-        public static interface Monsters extends NestedProperties {
-
-            SimpleProperty<Boolean> SPAWN = PropertyFactory.newProperty(Boolean.class, "spawn", true)
-                    .comment("The monsters spawn property specifies whether or not to spawn monsters in this world.")
-                    .description(PropertyDescriptions.MONSTERS_SPAWN)
-                    .build();
-
-            SimpleProperty<Integer> SPAWN_RATE = PropertyFactory.newProperty(Integer.class, "spawnRate", -1)
-                    .comment("The monsters spawnRate property defines how many ticks in between attempting to spawn monsters.")
-                    .comment("A value of -1 indicates the default should be used and is recommended unless you know what you are doing.")
-                    .description(PropertyDescriptions.MONSTERS_SPAWN_RATE)
-                    .build();
-
-            ListProperty<String> EXCEPTIONS = PropertyFactory.newListProperty(String.class, "exceptions")
-                    .comment("The monsters exceptions property defines what monsters are exempt from the monsters spawn property.")
-                    .description(PropertyDescriptions.MONSTERS_SPAWN_EXCEPTIONS)
+            ListProperty<SpawnException> SPAWN_EXCEPTIONS = PropertyFactory.newListProperty(SpawnException.class, "spawnExceptions")
+                    .comment("The spawnExceptions property defines what creatures are allowed/disallowed in this world.")
+                    .comment("Whether or not they are allowed or disallowed is based on the value of preventSpawnsList.")
+                    .description(PropertyDescriptions.SPAWN_EXCEPTIONS)
+                    .alias("exceptions")
                     .build();
         }
     }

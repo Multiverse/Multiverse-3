@@ -100,26 +100,38 @@ public class PropertyDescriptions {
             "The currency property specifies what type of currency the player must pay (if any) to enter this world."
             + "\nCurrency can be an economy money by specifying -1 or a block type by specifying the block id.");
 
-    public static final Message ANIMALS_SPAWN = Message.createMessage("world_properties.descriptions.animals.spawn",
-            "The animals spawn property specifies whether or not to spawn animals in this world.");
+    public static final Message ANIMAL_TICKS = Message.createMessage("world_properties.descriptions.spawning.animalTicks",
+            "The animalTicks property specifies the rate in ticks at which animals are spawned."
+            + "\nA negative value will indicate the default will be used.");
 
-    public static final Message ANIMALS_SPAWN_RATE = Message.createMessage("world_properties.descriptions.animals.spawnRate",
-            "The animals spawnRate property defines how many ticks in between attempting to spawn animals."
-            + "\nA value of -1 indicates the default should be used and is recommended unless you know what you are doing.");
+    public static final Message MONSTER_TICKS = Message.createMessage("world_properties.descriptions.spawning.monsterTicks",
+            "The monsterTicks property specifies the rate in ticks at which monsters are spawned."
+            + "\nA negative value will indicate the default will be used.");
 
-    public static final Message ANIMALS_SPAWN_EXCEPTIONS = Message.createMessage("world_properties.descriptions.animals.exceptions",
-            "The animals exceptions property defines what animals are exempt from the animals spawn property.");
+    public static final Message ANIMAL_LIMIT = Message.createMessage("world_properties.descriptions.spawning.animalLimit",
+            "The animalLimit property specifies how many animal entities are allowed to be spawned per chunk."
+            + "\nA negative value will indicate the default will be used.");
 
-    public static final Message MONSTERS_SPAWN = Message.createMessage("world_properties.descriptions.monsters.spawn",
-            "The monsters spawn property specifies whether or not to spawn monsters in this world.");
+    public static final Message MONSTER_LIMIT = Message.createMessage("world_properties.descriptions.spawning.monsterLimit",
+            "The monsterLimit property specifies how many monster entities are allowed to be spawned per chunk."
+            + "\nA negative value will indicate the default will be used.");
 
-    public static final Message MONSTERS_SPAWN_RATE = Message.createMessage("world_properties.descriptions.monsters.spawnRate",
-            "The monsters spawnRate property defines how many ticks in between attempting to spawn monsters."
-            + "\nA value of -1 indicates the default should be used and is recommended unless you know what you are doing.");
+    public static final Message AMBIENT_LIMIT = Message.createMessage("world_properties.descriptions.spawning.ambientLimit",
+            "The ambientLimit property specifies how many ambient entities are allowed to be spawned per chunk."
+            + "\nA negative value will indicate the default will be used.");
 
-    public static final Message MONSTERS_SPAWN_EXCEPTIONS = Message.createMessage("world_properties.descriptions.monsters.exceptions",
-            "The monsters exceptions property defines what monsters are exempt from the monsters spawn property.");
+    public static final Message WATER_LIMIT = Message.createMessage("world_properties.descriptions.spawning.waterLimit",
+            "The waterLimit property specifies how many water entities are allowed to be spawned per chunk."
+            + "\nA negative value will indicate the default will be used.");
 
+    public static final Message PREVENT_SPAWNS = Message.createMessage("world_properties.descriptions.spawning.allowedSpawns.preventSpawnsList",
+            "The preventSpawnsList property determines whether the spawnExceptions list is a blacklist or a whitelist."
+            + "\nSetting this to false will indicate the creatures listed in spawnExceptions will be the ONLY creatures allowed to spawn."
+            + "\nSetting this to true will indicate the creatures listed in spawnExceptions will be creatures NOT allowed to spawn.");
+
+    public static final Message SPAWN_EXCEPTIONS = Message.createMessage("world_properties.descriptions.spawning.allowedSpawns.spawnExceptions",
+            "The spawnExceptions property defines what creatures are allowed/disallowed in this world."
+            + "\nWhether or not they are allowed or disallowed is based on the value of preventSpawnsList.");
 
     public static final Message INVALID_SCALE = Message.createMessage("world_properties.validation.scale",
             "Scale must be a number higher than 0!");
