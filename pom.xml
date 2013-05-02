@@ -73,6 +73,12 @@
             <url>http://repo.onarandombox.com/content/groups/public</url>
         </repository>
     </repositories>
+    <pluginRepositories>
+        <pluginRepository>
+	    <id>onarandombox</id>
+	    <url>http://repo.onarandombox.com/content/groups/public</url>
+	</pluginRepository>
+    </pluginRepositories>
 
     <dependencies>
         <dependency>
