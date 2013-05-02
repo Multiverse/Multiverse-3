@@ -10,10 +10,10 @@ abstract class AbstractBlockSafety implements BlockSafety {
 
     @Override
     public boolean isSafeLocation(@NotNull final BlockCoordinates actual) {
-        BlockCoordinates upOne = Locations.copyOf(actual);
-        BlockCoordinates downOne = Locations.copyOf(actual);
-        upOne.add(0, 1, 0);
-        downOne.subtract(0, 1, 0);
+        BlockCoordinates upOne = Locations.getBlockCoordinates(actual.getWorld(), actual.getBlockX(),
+                actual.getBlockY() + 1, actual.getBlockZ());
+        BlockCoordinates downOne = Locations.getBlockCoordinates(actual.getWorld(), actual.getBlockX(),
+                actual.getBlockY() - 1, actual.getBlockZ());
 
         if (isSolidBlock(actual) || isSolidBlock(upOne)
                 || !isBlockSafe(actual) || !isBlockSafe(upOne) || !isBlockSafe(downOne)) {

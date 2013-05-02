@@ -6,6 +6,7 @@ import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
 import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
+import com.dumptruckman.minecraft.pluginbase.minecraft.location.MutableEntityCoordinates;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.util.Destination;
 import com.mvplugin.core.util.SafeTeleporter;
@@ -57,64 +58,50 @@ class DefaultSafeTeleporter implements SafeTeleporter {
 
     @Nullable
     private EntityCoordinates checkAboveAndBelowLocation(@NotNull final EntityCoordinates location, final int height, final int width) {
-        Logging.finer("Given Location of: %s", location);// TODO plugin.getLocationManipulation().strCoordsRaw(l));
+        Logging.finer("Given Location of: %s", location); // TODO plugin.getLocationManipulation().strCoordsRaw(l));
         Logging.finer("Checking +-%s with a radius of %s", height, width);
         // For now this will just do a straight up block.
-        EntityCoordinates locToCheck = Locations.copyOf(location);
         // Check the main level
-        EntityCoordinates safe = checkAroundLocation(locToCheck, width);
-        if (safe != null) {
+        EntityCoordinates safe = checkAroundLocation(location, width);
+        if (safe != null)
             return safe;
-        }
+
         // We've already checked zero right above this.
-        int currentLevel = 1;
-        while (currentLevel <= height) {
+        for (int currentLevel = 1; currentLevel <= height; currentLevel++) {
             // Check above
-            locToCheck = Locations.copyOf(location);
-            locToCheck.add(0, currentLevel, 0);
-            safe = checkAroundLocation(locToCheck, width);
-            if (safe != null) {
+            if ((safe = checkAroundLocation(Locations.getEntityCoordinates(location.getWorld(), location.getX(),
+                    location.getY() + currentLevel, location.getZ(), location.getPitch(), location.getYaw()), width)) != null)
                 return safe;
-            }
 
             // Check below
-            locToCheck = Locations.copyOf(location);
-            locToCheck.subtract(0, currentLevel, 0);
-            safe = checkAroundLocation(locToCheck, width);
-            if (safe != null) {
+            if ((safe = checkAroundLocation(Locations.getEntityCoordinates(location.getWorld(), location.getX(),
+                    location.getY() - currentLevel, location.getZ(), location.getPitch(), location.getYaw()), width)) != null)
                 return safe;
-            }
-            currentLevel++;
         }
+
         return null;
     }
 
     @Nullable
     private EntityCoordinates checkAroundLocation(@NotNull final EntityCoordinates location, final int radius) {
-        EntityCoordinates locToCheck = Locations.copyOf(location);
-
         // Let's check the center of the 'circle' first...
-        if (api.getBlockSafety().isSafeLocation(locToCheck)) {
-            return locToCheck;
+        if (api.getBlockSafety().isSafeLocation(location)) {
+            return location;
         }
+
         // Now we're going to search in expanding concentric circles...
-        int currentRadius = 1;
-        while (currentRadius <= radius) {
-            boolean foundSafeArea = checkAroundSpecificDiameter(locToCheck, currentRadius);
-            // If a safe area was found:
-            if (foundSafeArea) {
-                // Return the checkLoc, it is the safe location.
+        for (int currentRadius = 0; currentRadius <= radius; currentRadius++) {
+            MutableEntityCoordinates locToCheck = location.mutableCopy();
+            if (checkAroundSpecificDiameter(locToCheck, currentRadius)) {
+                // If a safe area was found: Return the checkLoc, it is the safe location.
                 return locToCheck;
             }
-            // Otherwise, let's reset our location
-            locToCheck = Locations.copyOf(location);
-            // And increment the radius
-            currentRadius++;
         }
+
         return null;
     }
 
-    private boolean checkAroundSpecificDiameter(@NotNull final EntityCoordinates checkLoc, final int radius) {
+    private boolean checkAroundSpecificDiameter(@NotNull final MutableEntityCoordinates checkLoc, final int radius) {
         // Check out at the radius provided.
         checkLoc.add(radius, 0, 0);
         if (api.getBlockSafety().isSafeLocation(checkLoc)) {
