@@ -159,7 +159,7 @@ class DefaultSafeTeleporter implements SafeTeleporter {
     public void safelyTeleport(@Nullable final BasePlayer sender, @NotNull final Entity target, @NotNull final EntityCoordinates location) throws TeleportException {
         final EntityCoordinates safeLocation = getSafeLocation(location);
         if (safeLocation != null) {
-            if (!target.teleport(location)) {
+            if (!target.teleport(safeLocation)) {
                 throw new TeleportException(Message.bundleMessage(TELEPORT_FAILED, target, safeLocation));
             }
         }
