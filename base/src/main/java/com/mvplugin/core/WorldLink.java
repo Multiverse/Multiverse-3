@@ -24,6 +24,10 @@ interface WorldLink {
     @NotNull
     WorldEnvironment getEnvironment();
 
+    long getTime();
+
+    void setTime(final long time);
+
     @NotNull
     Collection<BasePlayer> getPlayers();
 

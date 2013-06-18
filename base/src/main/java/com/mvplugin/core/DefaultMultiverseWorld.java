@@ -15,10 +15,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 /**
  * Our base implementation of MultiverseWorld.
@@ -78,12 +81,94 @@ class DefaultMultiverseWorld implements MultiverseWorld {
     @NotNull
     @Override
     public String getTime() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return TimeHelper.asString(this.worldLink.getTime());
     }
 
     @Override
     public boolean setTime(@NotNull final String timeAsString) {
-        return false;  //To change body of implemented methods use File | Settings | File Templates.
+        this.worldLink.setTime(TimeHelper.asLong(timeAsString));
+        return true;
+    }
+
+    private static class TimeHelper {
+        private static final String TIME_REGEX = "(\\d\\d?):?(\\d\\d)(a|p)?m?";
+        private static final  Map<String, String> TIME_ALIASES;
+        static {
+            Map<String, String> staticTimes = new HashMap<String, String>();
+            staticTimes.put("morning", "8:00");
+            staticTimes.put("day", "12:00");
+            staticTimes.put("noon", "12:00");
+            staticTimes.put("midnight", "0:00");
+            staticTimes.put("night", "20:00");
+
+            // now set TIME_ALIASES to a "frozen" map
+            TIME_ALIASES = Collections.unmodifiableMap(staticTimes);
+        }
+
+        public static String asString(final long from) {
+            // I'm tired, so they get time in 24 hour for now.
+            // Someone else can add 12 hr format if they want :P
+
+            int hours = (int) ((from / 1000 + 8) % 24);
+            int minutes = (int) (60 * (from % 1000) / 1000);
+
+            return String.format("%d:%02d", hours, minutes);
+        }
+
+        public static long asLong(@NotNull String serialized) {
+            if (TIME_ALIASES.containsKey(serialized.toLowerCase())) {
+                serialized = TIME_ALIASES.get(serialized.toLowerCase());
+            }
+            // Regex that extracts a time in the following formats:
+            // 11:11pm, 11:11, 23:11, 1111, 1111p, and the aliases at the top of this file.
+            Pattern pattern = Pattern.compile(TIME_REGEX, Pattern.CASE_INSENSITIVE);
+            Matcher matcher = pattern.matcher(serialized);
+            matcher.find();
+            int hour = 0;
+            double minute = 0;
+            int count = matcher.groupCount();
+            if (count >= 2) {
+                hour = Integer.parseInt(matcher.group(1));
+                minute = Integer.parseInt(matcher.group(2));
+            }
+            // If there were 4 matches (all, hour, min, am/pm)
+            if (count == 4) {
+                // We want 24 hour time for calcs, but if they
+                // added a p[m], turn it into a 24 hr one.
+                if (matcher.group(3).equals("p")) {
+                    hour += 12;
+                }
+            }
+            // Translate 24th hour to 0th hour.
+            if (hour == 24) {
+                hour = 0;
+            }
+
+            // The hour should be between 0-23.
+            while (hour > 23) {
+                hour -= 24;
+            }
+            while (hour < 0) {
+                hour += 24;
+            }
+            // The minute should be between 0-59
+            while (minute > 59) {
+                minute -= 60;
+            }
+            while (minute < 0) {
+                minute += 60;
+            }
+            // 60 seconds in a minute, time needs to be in hrs * 1000, per
+            // the bukkit docs.
+            double totaltime = (hour + (minute / 60.0)) * 1000;
+            // Somehow there's an 8 hour offset...
+            totaltime -= 8000;
+            if (totaltime < 0) {
+                totaltime = 24000 + totaltime;
+            }
+
+            return (long) totaltime;
+        }
     }
 
     @NotNull
@@ -167,6 +252,7 @@ class DefaultMultiverseWorld implements MultiverseWorld {
 
     @Override
     public void setPVPMode(final boolean pvpMode) {
+        this.worldLink.setPVP(pvpMode);
         getProperties().set(WorldProperties.PVP, pvpMode);
     }
 

@@ -89,6 +89,16 @@ class BukkitWorldLink implements WorldLink {
     }
 
     @Override
+    public long getTime() {
+        return getWorld().getTime();
+    }
+
+    @Override
+    public void setTime(final long time) {
+        getWorld().setTime(time);
+    }
+
+    @Override
     @NotNull
     public Collection<BasePlayer> getPlayers() {
         final List<Player> players = getWorld().getPlayers();
