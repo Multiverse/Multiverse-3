@@ -13,8 +13,9 @@ public abstract class SimpleDestination extends Destination {
      * Gets the {@link EntityCoordinates} the teleportee should be teleported to.
      *
      * @return The {@link EntityCoordinates} the teleportee should be teleported to.
+     * @throws TeleportException Thrown if an error occurs while trying to determine the teleport destination.
      */
-    protected abstract EntityCoordinates getDestination();
+    protected abstract EntityCoordinates getDestination() throws TeleportException;
     /* TODO: Figure out how to handle Bukkit's "broken" permission inheritance
     public Perm getPermission(PermissionNode node) {
         return node.getSpecific(<myDestinationName>);
