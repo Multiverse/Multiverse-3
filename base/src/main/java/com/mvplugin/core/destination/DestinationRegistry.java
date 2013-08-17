@@ -77,6 +77,7 @@ public final class DestinationRegistry {
             this.registerDestination(EntityCoordinatesDestination.class);
             this.registerDestination(CannonDestination.class);
             this.registerDestination(WorldDestination.class);
+            this.registerDestination(PlayerDestination.class);
         } catch (IllegalAccessException e) {
             throw new Error(e); // should never happen
         } catch (InstantiationException e) {

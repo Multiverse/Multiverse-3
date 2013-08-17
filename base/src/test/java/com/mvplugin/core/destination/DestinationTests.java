@@ -24,6 +24,7 @@ public class DestinationTests {
             { new EntityCoordinatesDestination(TEST_LOCATION), new EntityCoordinatesDestination() },
             { new CannonDestination(TEST_LOCATION, TEST_VECTOR), new CannonDestination() },
             { new WorldDestination(TEST_WORLD, false), new WorldDestination() },
+            { new PlayerDestination("multiverse-team"), new PlayerDestination() },
     };
 
     @Parameterized.Parameters
