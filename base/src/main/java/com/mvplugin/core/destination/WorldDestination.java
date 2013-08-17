@@ -25,6 +25,12 @@ public final class WorldDestination extends SimpleDestination {
     private String world;
     private boolean load;
 
+    public WorldDestination() { }
+    public WorldDestination(@NotNull final String world, final boolean load) {
+        this.world = world;
+        this.load = load;
+    }
+
     @Override
     protected EntityCoordinates getDestination() throws TeleportException {
         MultiverseWorld mvWorld = this.getApi().getWorldManager().getWorld(world);
@@ -63,5 +69,19 @@ public final class WorldDestination extends SimpleDestination {
     @Override
     public String serialize() {
         return Util.colonJoin("world", world, load);
+    }
+
+    @Override
+    public boolean equals(final Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+
+        final WorldDestination that = (WorldDestination) o;
+        return load == that.load && world.equals(that.world);
+    }
+
+    @Override
+    public int hashCode() {
+        return  31 * world.hashCode() + (load ? 1 : 0);
     }
 }
