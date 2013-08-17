@@ -14,7 +14,7 @@ import java.util.Collection;
 import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
-public class DestinationTests {
+public class DestinationsTest {
     private static final String TEST_WORLD = "world";
     private static final EntityCoordinates TEST_LOCATION =
             Locations.getEntityCoordinates(TEST_WORLD, -1.0, -10, 3.1415926536, 1.337f, 0f);
@@ -35,7 +35,7 @@ public class DestinationTests {
     private Destination valid;
     private Destination parsed;
 
-    public DestinationTests(Destination valid, Destination parsed) {
+    public DestinationsTest(Destination valid, Destination parsed) {
         this.valid = valid;
         this.parsed = parsed;
     }
