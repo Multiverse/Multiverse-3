@@ -15,13 +15,15 @@ import static org.junit.Assert.*;
 
 @RunWith(Parameterized.class)
 public class DestinationTests {
+    private static final String TEST_WORLD = "world";
     private static final EntityCoordinates TEST_LOCATION =
-            Locations.getEntityCoordinates("world", -1.0, -10, 3.1415926536, 1.337f, 0f);
+            Locations.getEntityCoordinates(TEST_WORLD, -1.0, -10, 3.1415926536, 1.337f, 0f);
     private static final Vector TEST_VECTOR = new Vector(1.001, 1.002, 1.003);
 
     private static final Object[][] params = {
             { new EntityCoordinatesDestination(TEST_LOCATION), new EntityCoordinatesDestination() },
             { new CannonDestination(TEST_LOCATION, TEST_VECTOR), new CannonDestination() },
+            { new WorldDestination(TEST_WORLD, false), new WorldDestination() },
     };
 
     @Parameterized.Parameters
