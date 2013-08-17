@@ -3,7 +3,7 @@ package com.mvplugin.core.destination;
 /**
  * Contains some utility methods for {@link Destination} implementations.
  */
-public final class Util {
+final class Util {
     private Util() { }
 
     /**
