@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.plugin.ServerInterface;
 import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
@@ -37,4 +38,7 @@ public interface MultiverseCoreAPI {
 
     @NotNull
     DestinationRegistry getDestinationRegistry();
+
+    @NotNull
+    ServerInterface getServerInterface();
 }

@@ -1,12 +1,14 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.plugin.ServerInterface;
 import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 
 class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
-
+    @NotNull
+    private final ServerInterface serverInterface;
     @NotNull
     private final WorldManager worldManager;
     @NotNull
@@ -18,7 +20,9 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     @NotNull
     private final DestinationRegistry destinationRegistry;
 
-    DefaultMultiverseCoreAPI(@NotNull final WorldManagerUtil worldManagerUtil, @NotNull final BlockSafety blockSafety) {
+    DefaultMultiverseCoreAPI(@NotNull ServerInterface serverInterface,
+                             @NotNull final WorldManagerUtil worldManagerUtil, @NotNull final BlockSafety blockSafety) {
+        this.serverInterface = serverInterface;
         this.worldManager = new WorldManager(this, worldManagerUtil);
         this.blockSafety = blockSafety;
         this.eventProcessor = new EventProcessor(this);
@@ -70,5 +74,11 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     @Override
     public DestinationRegistry getDestinationRegistry() {
         return destinationRegistry;
+    }
+
+    @NotNull
+    @Override
+    public ServerInterface getServerInterface() {
+        return serverInterface;
     }
 }
