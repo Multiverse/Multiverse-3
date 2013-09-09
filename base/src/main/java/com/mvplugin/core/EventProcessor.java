@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 

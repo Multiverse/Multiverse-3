@@ -9,7 +9,9 @@ import com.mvplugin.core.command.DeleteCommand;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.command.ListCommand;
 import com.mvplugin.core.command.LoadCommand;
+import com.mvplugin.core.command.TeleportCommand;
 import com.mvplugin.core.command.UnloadCommand;
+import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.listeners.BukkitWorldListener;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
@@ -63,7 +65,8 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
     }
 
     private void prepareAPI() {
-        this.api = new DefaultMultiverseCoreAPI(new BukkitWorldManagerUtil(this), new BukkitBlockSafety());
+        this.api = new DefaultMultiverseCoreAPI(this.getServerInterface(),
+                new BukkitWorldManagerUtil(this), new BukkitBlockSafety());
     }
 
     @Override
@@ -74,6 +77,7 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         registerCommand(ListCommand.class);
         registerCommand(DeleteCommand.class);
         registerCommand(CreateCommand.class);
+        registerCommand(TeleportCommand.class);
     }
 
     @NotNull
@@ -140,5 +144,11 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
     @Override
     public BlockSafety getBlockSafety() {
         return this.api.getBlockSafety();
+    }
+
+    @NotNull
+    @Override
+    public DestinationRegistry getDestinationRegistry() {
+        return this.api.getDestinationRegistry();
     }
 }

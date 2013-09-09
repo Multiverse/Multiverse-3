@@ -8,7 +8,6 @@ import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinate
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.dumptruckman.minecraft.pluginbase.minecraft.location.MutableEntityCoordinates;
 import com.mvplugin.core.exceptions.TeleportException;
-import com.mvplugin.core.util.Destination;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -151,11 +150,6 @@ class DefaultSafeTeleporter implements SafeTeleporter {
     }
 
     @Override
-    public void safelyTeleport(@Nullable final BasePlayer sender, @NotNull final Entity target, @NotNull final Destination destination) throws TeleportException {
-        //To change body of implemented methods use File | Settings | File Templates.
-    }
-
-    @Override
     public void safelyTeleport(@Nullable final BasePlayer sender, @NotNull final Entity target, @NotNull final EntityCoordinates location) throws TeleportException {
         final EntityCoordinates safeLocation = getSafeLocation(location);
         if (safeLocation != null) {
@@ -164,11 +158,5 @@ class DefaultSafeTeleporter implements SafeTeleporter {
             }
         }
         throw new TeleportException(Message.bundleMessage(NO_SAFE_LOCATION, location, target));
-    }
-
-    @NotNull
-    @Override
-    public EntityCoordinates getSafeLocation(@NotNull final Entity entity, @NotNull final Destination destination) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
     }
 }
