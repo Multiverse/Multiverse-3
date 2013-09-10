@@ -197,11 +197,13 @@ public class WorldManager {
      * The world must have already been imported previously by Multiverse.
      * This basically means this is only to be used if the world was previously unloaded by Multiverse.
      *
+     *
      * @param name The name of the world to load.
      * @throws WorldManagementException if the world is already loaded or the world fails to load for some reason.
      * The message of the exception will indicate the exact issue.
      */
-    public void loadWorld(@NotNull final String name) throws WorldManagementException {
+    @NotNull
+    public MultiverseWorld loadWorld(@NotNull final String name) throws WorldManagementException {
         if (isLoaded(name)) {
             throw new WorldManagementException(Message.bundleMessage(Language.WORLD_ALREADY_LOADED, name));
         }
@@ -219,7 +221,7 @@ public class WorldManager {
             settings.adjustSpawn(properties.get(WorldProperties.ADJUST_SPAWN));
 
             try {
-                addWorld(settings);
+                return addWorld(settings);
             } catch (final WorldCreationException e) {
                 throw new WorldManagementException(Message.bundleMessage(Language.WORLD_LOAD_ERROR, name), e);
             }

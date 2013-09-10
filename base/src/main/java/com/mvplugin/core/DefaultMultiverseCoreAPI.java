@@ -1,11 +1,14 @@
 package com.mvplugin.core;
 
+import com.dumptruckman.minecraft.pluginbase.plugin.ServerInterface;
+import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 
 class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
-
+    @NotNull
+    private final ServerInterface serverInterface;
     @NotNull
     private final WorldManager worldManager;
     @NotNull
@@ -14,12 +17,17 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     private final EventProcessor eventProcessor;
     @NotNull
     private final SafeTeleporter safeTeleporter;
+    @NotNull
+    private final DestinationRegistry destinationRegistry;
 
-    DefaultMultiverseCoreAPI(@NotNull final WorldManagerUtil worldManagerUtil, @NotNull final BlockSafety blockSafety) {
+    DefaultMultiverseCoreAPI(@NotNull ServerInterface serverInterface,
+                             @NotNull final WorldManagerUtil worldManagerUtil, @NotNull final BlockSafety blockSafety) {
+        this.serverInterface = serverInterface;
         this.worldManager = new WorldManager(this, worldManagerUtil);
         this.blockSafety = blockSafety;
         this.eventProcessor = new EventProcessor(this);
         this.safeTeleporter = new DefaultSafeTeleporter(this);
+        this.destinationRegistry = new DestinationRegistry(this);
     }
 
     /**
@@ -30,6 +38,7 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
      * @return {@link WorldManager}.
      */
     @NotNull
+    @Override
     public WorldManager getWorldManager() {
         return worldManager;
     }
@@ -44,17 +53,32 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
      * @return the Multiverse-Core event processor.
      */
     @NotNull
+    @Override
     public EventProcessor getEventProcessor() {
         return eventProcessor;
     }
 
     @NotNull
+    @Override
     public SafeTeleporter getSafeTeleporter() {
         return safeTeleporter;
     }
 
     @NotNull
+    @Override
     public BlockSafety getBlockSafety() {
         return blockSafety;
+    }
+
+    @NotNull
+    @Override
+    public DestinationRegistry getDestinationRegistry() {
+        return destinationRegistry;
+    }
+
+    @NotNull
+    @Override
+    public ServerInterface getServerInterface() {
+        return serverInterface;
     }
 }
