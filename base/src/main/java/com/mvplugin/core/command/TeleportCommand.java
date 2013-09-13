@@ -13,6 +13,8 @@ import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 
+import static com.mvplugin.core.util.Language.Command.Teleport.*;
+
 @CommandInfo(
         primaryAlias = "teleport",
         prefixedAliases = { "tp" },
@@ -23,20 +25,6 @@ import org.jetbrains.annotations.NotNull;
         max = 2
 )
 public class TeleportCommand extends MultiverseCommand {
-
-    private static final Message HELP = Message.createMessage("command.teleport.help",
-            "$hTeleports a player to a specified destination."
-            + "\n$hIf no player is given, the user will be teleported.");
-
-    private static final Message NEED_PLAYER = Message.createMessage("command.teleport.needplayer",
-            "$-$*You must specify a player to teleport!");
-
-    private static final Message NO_SUCH_PLAYER = Message.createMessage("command.teleport.nosuch.player",
-            "$-$*The player '$v%s$-$*' was not found!");
-
-    private static final Message NO_SUCH_DESTINATION = Message.createMessage("command.teleport.nosuch.destination",
-            "$-$*The destination '$v%s$-$*' was not found!");
-
     protected TeleportCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
     }

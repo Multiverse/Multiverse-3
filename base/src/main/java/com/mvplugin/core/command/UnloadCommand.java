@@ -11,6 +11,8 @@ import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 
+import static com.mvplugin.core.util.Language.Command.Unload.*;
+
 @CommandInfo(
         primaryAlias = "unload",
         desc = "Unloads a world managed by Multiverse.",
@@ -20,19 +22,6 @@ import org.jetbrains.annotations.NotNull;
         max = 1
 )
 public class UnloadCommand extends MultiverseCommand {
-
-    public static final Message UNLOAD_HELP = Message.createMessage("command.unload.help",
-            "$hUnloads a world that has previously been imported and is currently loaded."
-            + "\n$hThis will remove the world from memory but not delete anything."
-            + "\n$hExamples:"
-            + "\n$c  /mv unload $rgargamel");
-
-    public static final Message UNLOAD_SUCCESS = Message.createMessage("command.unload.success",
-            "$+'$v%s$+' has been unloaded successfully!");
-
-    public static final Message UNLOAD_FAILURE = Message.createMessage("command.unload.failure",
-            "$-'$v%s$-' could not be unloaded!");
-
     protected UnloadCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
     }
@@ -45,7 +34,7 @@ public class UnloadCommand extends MultiverseCommand {
     @NotNull
     @Override
     public Message getHelp() {
-        return UNLOAD_HELP;
+        return HELP;
     }
 
     @Override
@@ -56,13 +45,13 @@ public class UnloadCommand extends MultiverseCommand {
         }
         try {
             if (getPlugin().getWorldManager().unloadWorld(worldName)) {
-                getMessager().message(sender, UNLOAD_SUCCESS, worldName);
+                getMessager().message(sender, SUCCESS, worldName);
             } else {
                 getMessager().message(sender, Language.WORLD_NOT_MANAGED, worldName);
 
             }
         } catch (final WorldManagementException e) {
-            getMessager().message(sender, UNLOAD_FAILURE, worldName);
+            getMessager().message(sender, FAILURE, worldName);
             e.sendException(getMessager(), sender);
         }
         return true;

@@ -13,6 +13,8 @@ import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static com.mvplugin.core.util.Language.Command.Delete.*;
+
 @CommandInfo(
         primaryAlias = "delete",
         desc = "Deletes a world.",
@@ -24,18 +26,6 @@ import org.jetbrains.annotations.Nullable;
 public class DeleteCommand extends QueuedMultiverseCommand {
 
     private static final long CONFIRMATION_TIME = 10000L;
-
-    public static final Message DELETE_HELP = Message.createMessage("command.delete.help",
-            "$hDeletes a world from the server, removing it from $tMultiverse's $hmanagement."
-                    + "\n$hThe world must be managed by Multiverse to use this command."
-                    + "\n$hExamples:"
-                    + "\n$c  /mv delete $rgargamel");
-
-    public static final Message DELETING_WORLD = Message.createMessage("command.delete.deleting_world",
-            "$wDeleting world '$v%s$w', please wait...");
-
-    public static final Message DELETED_WORLD = Message.createMessage("command.delete.deleted_world",
-            "$+Successfully deleted world '$v%s$+'!");
 
     protected DeleteCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
@@ -49,7 +39,7 @@ public class DeleteCommand extends QueuedMultiverseCommand {
     @NotNull
     @Override
     public Message getHelp() {
-        return DELETE_HELP;
+        return HELP;
     }
 
     @Nullable

@@ -12,6 +12,8 @@ import com.mvplugin.core.util.Perms;
 import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
+import static com.mvplugin.core.util.Language.Command.List.*;
+
 @CommandInfo(
         primaryAlias = "list",
         desc = "Lists all worlds managed by multiverse.",
@@ -20,14 +22,6 @@ import org.jetbrains.annotations.NotNull;
         max = 0
 )
 public class ListCommand extends MultiverseCommand {
-
-    public static final Message LIST_HELP = Message.createMessage("command.list.help",
-            "$hLists all worlds managed by $tMultiverse$h."
-            + "\n$hOnly the worlds you may access will be shown.");
-
-    public static final Message LIST_WORLDS = Message.createMessage("command.list.list",
-            "$=====[ Multiverse World List ]====\n%s");
-
     protected ListCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
     }
@@ -40,7 +34,7 @@ public class ListCommand extends MultiverseCommand {
     @NotNull
     @Override
     public Message getHelp() {
-        return LIST_HELP;
+        return HELP;
     }
 
     @Override

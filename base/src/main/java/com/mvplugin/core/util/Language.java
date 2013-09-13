@@ -2,7 +2,173 @@ package com.mvplugin.core.util;
 
 import com.dumptruckman.minecraft.pluginbase.messages.Message;
 
-public class Language {
+public final class Language {
+    private Language() { }
+
+    public static final class Command {
+        private Command() { }
+
+        public static final class Create {
+            private Create() { }
+
+            public static final Message HELP = Message.createMessage("command.create.help",
+                    "$hCreates a new world on your server with the given name."
+                    + "\n$hYou must specify a world environment such as $0NORMAL $hor $1NETHER$h."
+                    + "\n$hYou may specify a world seed."
+                    + "\n$hYou may also specify a generator to use along with an optional generator ID."
+                    + "\n$hThe generator name is case sensitive!"
+                    + "\n$hYou may specify a world type such as FLAT or LARGE_BIOMES"
+                    + "\n$hYou may specify if $tMultiverse $hshould declare to generate structures or not."
+                    + "\n$hFlags:"
+                    + "\n$f  -s $r{SEED} $hSpecify a world seed to use."
+                    + "\n$f  -g $r{GENERATOR$o[:ID]$r} $hSpecify a generator."
+                    + "\n$f  -t $r{TYPE} $hSpecify a world type."
+                    + "\n$f  -a $r{true|false} $hSpecify whether or not to generate structures."
+                    + "\n$hExamples:"
+                    + "\n$c  /mv create $rgargamel $0normal"
+                    + "\n$c  /mv create $r\"hell world\" $1nether"
+                    + "\n$c  /mv create $rspace $0normal $f-g $rCleanroomGenerator$o:.");
+            public static final Message FAILED = Message.createMessage("command.create.failed",
+                    "$-Create failed!");
+            public static final Message CREATING_WORLD = Message.createMessage("command.create.creating",
+                    "$wCreating new world, please wait...");
+            public static final Message SUCCESS = Message.createMessage("command.create.success",
+                    "$+Successfully created world $!%s$+!");
+        }
+
+        public static final class Delete {
+            private Delete() { }
+
+            public static final Message HELP = Message.createMessage("command.delete.help",
+                    "$hDeletes a world from the server, removing it from $tMultiverse's $hmanagement."
+                            + "\n$hThe world must be managed by Multiverse to use this command."
+                            + "\n$hExamples:"
+                            + "\n$c  /mv delete $rgargamel");
+            public static final Message DELETING_WORLD = Message.createMessage("command.delete.deleting_world",
+                    "$wDeleting world '$v%s$w', please wait...");
+            public static final Message DELETED_WORLD = Message.createMessage("command.delete.deleted_world",
+                    "$+Successfully deleted world '$v%s$+'!");
+        }
+
+        public static final class Import {
+            private Import() { }
+
+            public static final Message HELP = Message.createMessage("command.import.help",
+                    "$hImports a world into the server from a folder with the given name."
+                    + "\n$hThe folder must exist in the location where worlds are normally located and must contain Minecraft world data."
+                    + "\n$hYou must specify a world environment such as $0NORMAL $hor $1NETHER$h."
+                    + "\n$hYou may also specify a generator to use along with an optional generator ID."
+                    + "\n$hThe generator name is case sensitive!"
+                    + "\n$hFlags:"
+                    + "\n$f  -g $r{GENERATOR$o[:ID]$r} $hSpecify a generator."
+                    + "\n$f  -n $hDo not adjust spawn"
+                    + "\n$hExamples:"
+                    + "\n$c  /mv import $rgargamel $0normal"
+                    + "\n$c  /mv import $r\"hell world\" $1nether"
+                    + "\n$c  /mv import $rspace $0normal $f-g $rCleanroomGenerator$o:.");
+            public static final Message POTENTIAL_WORLD_LIST = Message.createMessage("command.import.potential_world_list",
+                    "$=====[ These look like worlds ]====\n%s");
+            public static final Message NO_POTENTIAL_WORLDS = Message.createMessage("command.import.no_potential_worlds",
+                    "$$No potential worlds found. Sorry!");
+            public static final Message STARTING_IMPORT = Message.createMessage("command.import.starting_import",
+                    "$wStarting import of world '%s'...");
+            public static final Message IMPORT_COMPLETE = Message.createMessage("command.import.import_complete",
+                    "$+Import complete!");
+            public static final Message IMPORT_FAILED = Message.createMessage("command.import.import_failed",
+                    "$-Import failed!");
+            public static final Message NON_EXISTENT_FOLDER = Message.createMessage("command.import.non_existent_folder",
+                    "$^That world folder does not exist."
+                    + "\n$iThese look like worlds to me: \n%s");
+        }
+
+        public static final class List {
+            private List() { }
+
+            public static final Message HELP = Message.createMessage("command.list.help",
+                    "$hLists all worlds managed by $tMultiverse$h."
+                    + "\n$hOnly the worlds you may access will be shown.");
+            public static final Message LIST_WORLDS = Message.createMessage("command.list.list",
+                    "$=====[ Multiverse World List ]====\n%s");
+        }
+
+        public static final class Load {
+            private Load() { }
+
+            public static final Message HELP = Message.createMessage("command.load.help",
+                    "$hLoads a world that has previously been imported but is currently unloaded."
+                    + "\n$hExamples:"
+                    + "\n$c  /mv load $rgargamel");
+            public static final Message SUCCESS = Message.createMessage("command.load.success",
+                    "$+Successfully loaded the world '$v%s$+'!");
+        }
+
+        public static class Teleport {
+            private Teleport() { }
+
+            public static final Message HELP = Message.createMessage("command.teleport.help",
+                    "$hTeleports a player to a specified destination."
+                    + "\n$hIf no player is given, the user will be teleported.");
+            public static final Message NEED_PLAYER = Message.createMessage("command.teleport.needplayer",
+                            "$-$*You must specify a player to teleport!");
+            public static final Message NO_SUCH_PLAYER = Message.createMessage("command.teleport.nosuch.player",
+                                    "$-$*The player '$v%s$-$*' was not found!");
+            public static final Message NO_SUCH_DESTINATION = Message.createMessage("command.teleport.nosuch.destination",
+                                            "$-$*The destination '$v%s$-$*' was not found!");
+        }
+
+        public static class Unload {
+            private Unload() { }
+
+            public static final Message HELP = Message.createMessage("command.unload.help",
+                    "$hUnloads a world that has previously been imported and is currently loaded."
+                    + "\n$hThis will remove the world from memory but not delete anything."
+                    + "\n$hExamples:"
+                    + "\n$c  /mv unload $rgargamel");
+            public static final Message SUCCESS = Message.createMessage("command.unload.success",
+                    "$+'$v%s$+' has been unloaded successfully!");
+            public static final Message FAILURE = Message.createMessage("command.unload.failure",
+                    "$-'$v%s$-' could not be unloaded!");
+        }
+    }
+
+    public static final class Destination {
+        private Destination() { }
+
+        public static final class Player {
+            private Player() { }
+
+            public static final Message NOT_FOUND = Message.createMessage("destination.player.notfound",
+                    "$-$*Multiverse could not find the destination player '$v%s$-$*'!");
+            public static final Message OFFLINE = Message.createMessage("destination.player.offline",
+                            "$-$*The destination player '$v%s$-$*' is offline right now!");
+        }
+
+        public static final class Unknown {
+            private Unknown() { }
+
+            public static final Message UNKNOWN_DESTINATION = Message.createMessage("destination.unknown",
+                    "$-$*Multiverse could not teleport '$v%s$-$*' to the destination '$v%s$-$*' because it could" +
+                            "not be resolved. Did you recently remove a plugin?");
+        }
+
+        public static final class World {
+            private World() { }
+
+            public static final Message CANT_LOAD = Message.createMessage("destination.world.cantload",
+                    "$-$*Multiverse could not load the destination world '$v%s$-$*'!");
+            public static final Message NOT_LOADED = Message.createMessage("destination.world.notloaded",
+                            "$-$*The destination world '$v%s$-$*' is not loaded!");
+        }
+    }
+
+    public static final class DefaultSafeTeleporter {
+        private DefaultSafeTeleporter() { }
+
+        public static final Message NO_SAFE_LOCATION = Message.createMessage("teleporter.no_safe_location",
+                "$-$*Multiverse could not find a safe location near '$v%s$-$*' for teleporting '$v%s$-$*'.");
+        public static final Message TELEPORT_FAILED = Message.createMessage("teleporter.failed",
+                        "$-$*Multiverse could not teleport '$v%s$-$*' to safe location '$v%s$-$*'.");
+    }
 
     public static final Message WORLD_ALREADY_EXISTS = Message.createMessage("worlds.world_exists",
             "$tMultiverse $-already knows about '$v%s$-'.  $?Perhaps it needs to be loaded? ($~$C/mv load$?)");

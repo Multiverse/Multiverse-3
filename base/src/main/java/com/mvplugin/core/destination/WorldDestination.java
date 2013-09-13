@@ -11,16 +11,13 @@ import org.jetbrains.annotations.NotNull;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import static com.mvplugin.core.util.Language.Destination.World.*;
+
 /**
  * This destination type teleports to a world's spawnpoint.
  * It can also load the destination world.
  */
 public final class WorldDestination extends SimpleDestination {
-    private static final Message CANT_LOAD = Message.createMessage("destination.world.cantload",
-            "$-$*Multiverse could not load the destination world '$v%s$-$*'!");
-    private static final Message NOT_LOADED = Message.createMessage("destination.world.notloaded",
-            "$-$*The destination world '$v%s$-$*' is not loaded!");
-
     @NotNull
     private String world;
     private boolean load;

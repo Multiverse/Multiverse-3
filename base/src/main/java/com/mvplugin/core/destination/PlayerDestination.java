@@ -7,15 +7,12 @@ import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinate
 import com.mvplugin.core.exceptions.TeleportException;
 import org.jetbrains.annotations.NotNull;
 
+import static com.mvplugin.core.util.Language.Destination.Player.*;
+
 /**
  * This destination type teleports to a player.
  */
 public final class PlayerDestination extends SimpleDestination {
-    private static final Message NOT_FOUND = Message.createMessage("destination.player.notfound",
-            "$-$*Multiverse could not find the destination player '$v%s$-$*'!");
-    private static final Message OFFLINE = Message.createMessage("destination.player.offline",
-            "$-$*The destination player '$v%s$-$*' is offline right now!");
-
     private static final String PREFIX = "player:";
 
     @NotNull

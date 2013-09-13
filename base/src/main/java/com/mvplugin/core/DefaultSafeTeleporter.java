@@ -12,13 +12,9 @@ import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static com.mvplugin.core.util.Language.DefaultSafeTeleporter.*;
+
 class DefaultSafeTeleporter implements SafeTeleporter {
-
-    private static final Message NO_SAFE_LOCATION = Message.createMessage("teleporter.no_safe_location",
-            "$-$*Multiverse could not find a safe location near '$v%s$-$*' for teleporting '$v%s$-$*'.");
-    private static final Message TELEPORT_FAILED = Message.createMessage("teleporter.failed",
-            "$-$*Multiverse could not teleport '$v%s$-$*' to safe location '$v%s$-$*'.");
-
     @NotNull
     protected final MultiverseCoreAPI api;
 

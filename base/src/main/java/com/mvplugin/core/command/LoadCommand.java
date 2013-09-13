@@ -10,6 +10,8 @@ import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 
+import static com.mvplugin.core.util.Language.Command.Load.*;
+
 @CommandInfo(
         primaryAlias = "load",
         desc = "Loads a Multiverse World that has been unloaded.",
@@ -19,15 +21,6 @@ import org.jetbrains.annotations.NotNull;
         max = 1
 )
 public class LoadCommand extends MultiverseCommand {
-
-    public static final Message LOAD_HELP = Message.createMessage("command.load.help",
-            "$hLoads a world that has previously been imported but is currently unloaded."
-            + "\n$hExamples:"
-            + "\n$c  /mv load $rgargamel");
-
-    public static final Message LOAD_SUCCESS = Message.createMessage("command.load.success",
-            "$+Successfully loaded the world '$v%s$+'!");
-
     protected LoadCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
     }
@@ -40,7 +33,7 @@ public class LoadCommand extends MultiverseCommand {
     @NotNull
     @Override
     public Message getHelp() {
-        return LOAD_HELP;
+        return HELP;
     }
 
     @Override
@@ -49,7 +42,7 @@ public class LoadCommand extends MultiverseCommand {
 
         try {
             getPlugin().getWorldManager().loadWorld(worldName);
-            getMessager().message(sender, LOAD_SUCCESS, worldName);
+            getMessager().message(sender, SUCCESS, worldName);
         } catch (final WorldManagementException e) {
             e.sendException(getMessager(), sender);
         }

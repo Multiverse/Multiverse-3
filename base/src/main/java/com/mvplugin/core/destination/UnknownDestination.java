@@ -7,6 +7,8 @@ import com.mvplugin.core.exceptions.TeleportException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
+import static com.mvplugin.core.util.Language.Destination.Unknown.*;
+
 /**
  * The unknown destination. When the {@link DestinationRegistry} can't resolve a
  * destination string, it will use this type.
@@ -22,10 +24,6 @@ import org.jetbrains.annotations.Nullable;
  * the entire purpose of this class.
  */
 public final class UnknownDestination extends Destination {
-    private static final Message UNKNOWN_DESTINATION = Message.createMessage("destination.unknown",
-            "$-$*Multiverse could not teleport '$v%s$-$*' to the destination '$v%s$-$*' because it could" +
-                    "not be resolved. Did you recently remove a plugin?");
-
     @NotNull
     private final DestinationRegistry registry;
     private int oldRegistrationCount;

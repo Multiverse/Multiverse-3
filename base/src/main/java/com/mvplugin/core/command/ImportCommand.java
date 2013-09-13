@@ -13,6 +13,8 @@ import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 
+import static com.mvplugin.core.util.Language.Command.Import.*;
+
 import java.io.File;
 
 @CommandInfo(
@@ -26,40 +28,6 @@ import java.io.File;
         max = 2
 )
 public class ImportCommand extends MultiverseCommand {
-
-    public static final Message IMPORT_HELP = Message.createMessage("command.import.help",
-            "$hImports a world into the server from a folder with the given name."
-            + "\n$hThe folder must exist in the location where worlds are normally located and must contain Minecraft world data."
-            + "\n$hYou must specify a world environment such as $0NORMAL $hor $1NETHER$h."
-            + "\n$hYou may also specify a generator to use along with an optional generator ID."
-            + "\n$hThe generator name is case sensitive!"
-            + "\n$hFlags:"
-            + "\n$f  -g $r{GENERATOR$o[:ID]$r} $hSpecify a generator."
-            + "\n$f  -n $hDo not adjust spawn"
-            + "\n$hExamples:"
-            + "\n$c  /mv import $rgargamel $0normal"
-            + "\n$c  /mv import $r\"hell world\" $1nether"
-            + "\n$c  /mv import $rspace $0normal $f-g $rCleanroomGenerator$o:.");
-
-    public static final Message POTENTIAL_WORLD_LIST = Message.createMessage("command.import.potential_world_list",
-            "$=====[ These look like worlds ]====\n%s");
-
-    public static final Message NO_POTENTIAL_WORLDS = Message.createMessage("command.import.no_potential_worlds",
-            "$$No potential worlds found. Sorry!");
-
-    public static final Message STARTING_IMPORT = Message.createMessage("command.import.starting_import",
-            "$wStarting import of world '%s'...");
-
-    public static final Message IMPORT_COMPLETE = Message.createMessage("command.import.import_complete",
-            "$+Import complete!");
-
-    public static final Message IMPORT_FAILED = Message.createMessage("command.import.import_failed",
-            "$-Import failed!");
-
-    public static final Message NON_EXISTENT_FOLDER = Message.createMessage("command.import.non_existent_folder",
-            "$^That world folder does not exist."
-            + "\n$iThese look like worlds to me: \n%s");
-
     protected ImportCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
     }
@@ -72,7 +40,7 @@ public class ImportCommand extends MultiverseCommand {
     @NotNull
     @Override
     public Message getHelp() {
-        return IMPORT_HELP;
+        return HELP;
     }
 
     @Override

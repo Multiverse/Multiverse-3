@@ -13,6 +13,8 @@ import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 
+import static com.mvplugin.core.util.Language.Command.Create.*;
+
 @CommandInfo(
         primaryAlias = "create",
         desc = "Creates a new world.",
@@ -23,34 +25,6 @@ import org.jetbrains.annotations.NotNull;
         max = 2
 )
 public class CreateCommand extends MultiverseCommand {
-
-    public static final Message CREATE_HELP = Message.createMessage("command.create.help",
-            "$hCreates a new world on your server with the given name."
-            + "\n$hYou must specify a world environment such as $0NORMAL $hor $1NETHER$h."
-            + "\n$hYou may specify a world seed."
-            + "\n$hYou may also specify a generator to use along with an optional generator ID."
-            + "\n$hThe generator name is case sensitive!"
-            + "\n$hYou may specify a world type such as FLAT or LARGE_BIOMES"
-            + "\n$hYou may specify if $tMultiverse $hshould declare to generate structures or not."
-            + "\n$hFlags:"
-            + "\n$f  -s $r{SEED} $hSpecify a world seed to use."
-            + "\n$f  -g $r{GENERATOR$o[:ID]$r} $hSpecify a generator."
-            + "\n$f  -t $r{TYPE} $hSpecify a world type."
-            + "\n$f  -a $r{true|false} $hSpecify whether or not to generate structures."
-            + "\n$hExamples:"
-            + "\n$c  /mv create $rgargamel $0normal"
-            + "\n$c  /mv create $r\"hell world\" $1nether"
-            + "\n$c  /mv create $rspace $0normal $f-g $rCleanroomGenerator$o:.");
-
-    public static final Message CREATE_FAILED = Message.createMessage("command.create.failed",
-            "$-Create failed!");
-
-    public static final Message CREATING_WORLD = Message.createMessage("command.create.creating",
-            "$wCreating new world, please wait...");
-
-    public static final Message CREATE_SUCCESS = Message.createMessage("command.create.success",
-            "$+Successfully created world $!%s$+!");
-
     protected CreateCommand(@NotNull final MultiverseCore plugin) {
         super(plugin);
     }
@@ -63,7 +37,7 @@ public class CreateCommand extends MultiverseCommand {
     @NotNull
     @Override
     public Message getHelp() {
-        return CREATE_HELP;
+        return HELP;
     }
 
     @Override
@@ -83,13 +57,13 @@ public class CreateCommand extends MultiverseCommand {
 
         final WorldEnvironment environment = WorldEnvironment.getFromString(context.getString(1));
         if (environment == null) {
-            getMessager().message(sender, CREATE_FAILED);
+            getMessager().message(sender, FAILED);
             getMessager().message(sender, Language.INVALID_ENVIRONMENT, context.getString(1));
             // TODO EnvironmentCommand.showEnvironments(sender);
             return true;
         }
         if (context.hasFlag('t') && worldType == null) {
-            getMessager().message(sender, CREATE_FAILED);
+            getMessager().message(sender, FAILED);
             getMessager().message(sender, Language.INVALID_WORLD_TYPE, context.getFlag('t'));
             // TODO TypeCommand.showTypes(sender);
             return true;
@@ -98,9 +72,9 @@ public class CreateCommand extends MultiverseCommand {
         try {
             getMessager().message(sender, CREATING_WORLD);
             getPlugin().getWorldManager().addWorld(worldName, environment, seed, worldType, generateStructures, generator);
-            getMessager().messageAndLog(sender, CREATE_SUCCESS, worldName);
+            getMessager().messageAndLog(sender, SUCCESS, worldName);
         } catch (WorldCreationException e) {
-            getMessager().message(sender, CREATE_FAILED);
+            getMessager().message(sender, FAILED);
             e.sendException(getMessager(), sender);
         }
 
