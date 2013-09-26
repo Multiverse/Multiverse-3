@@ -88,7 +88,7 @@
                             <artifactSet>
                                 <includes>
                                     <include>com.mvplugin:MultiverseCore-Base</include>
-                                    <include>com.dumptruckman.minecraft.pluginbase:BukkitPlugin</include>
+                                    <include>com.dumptruckman.minecraft.pluginbase:Plugin-Bukkit</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
@@ -159,7 +159,7 @@
         <!-- PluginBase Dependency -->
         <dependency>
             <groupId>com.dumptruckman.minecraft.pluginbase</groupId>
-            <artifactId>BukkitPlugin</artifactId>
+            <artifactId>Plugin-Bukkit</artifactId>
             <version>${pluginbase.version}</version>
             <type>jar</type>
             <scope>compile</scope>
