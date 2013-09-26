@@ -1,12 +1,12 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
-import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.messages.BundledMessage;
+import pluginbase.messages.PluginBaseException;
 
 import java.io.IOException;
 import java.util.Collection;

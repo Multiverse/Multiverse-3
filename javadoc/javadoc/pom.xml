@@ -183,7 +183,7 @@
                             </artifactSet>
                             <relocations>
                                 <relocation>
-                                    <pattern>com.dumptruckman.minecraft.pluginbase</pattern>
+                                    <pattern>pluginbase</pattern>
                                     <shadedPattern>com.mvplugin.pluginbase</shadedPattern>
                                 </relocation>
                             </relocations>

@@ -1,7 +1,7 @@
 package com.mvplugin.core.plugin;
 
-import com.dumptruckman.minecraft.pluginbase.plugin.PluginBase;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.plugin.PluginBase;
 
 /**
  * Implement this if you would

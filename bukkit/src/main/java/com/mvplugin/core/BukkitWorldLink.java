@@ -1,8 +1,5 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.bukkit.BukkitTools;
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
@@ -10,6 +7,9 @@ import com.mvplugin.core.util.BukkitConvert;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.bukkit.BukkitTools;
+import pluginbase.minecraft.BasePlayer;
+import pluginbase.minecraft.location.FacingCoordinates;
 
 import java.lang.ref.WeakReference;
 import java.util.ArrayList;

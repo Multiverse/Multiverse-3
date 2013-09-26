@@ -1,7 +1,5 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.WorldManager;
 import com.mvplugin.core.exceptions.TeleportException;
@@ -14,9 +12,10 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 import org.powermock.modules.junit4.PowerMockRunner;
+import pluginbase.minecraft.location.FacingCoordinates;
+import pluginbase.minecraft.location.Locations;
 
-import static org.junit.Assert.assertEquals;
-import static org.junit.Assert.assertTrue;
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;

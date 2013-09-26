@@ -1,8 +1,8 @@
 package com.mvplugin.core.command;
 
-import com.dumptruckman.minecraft.pluginbase.command.Command;
 import com.mvplugin.core.plugin.MultiverseCore;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.command.Command;
 
 abstract class MultiverseCommand extends Command<MultiverseCore> {
 

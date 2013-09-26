@@ -1,17 +1,17 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Vector;
-import com.dumptruckman.minecraft.pluginbase.permission.Permissible;
 import com.mvplugin.core.exceptions.TeleportException;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.minecraft.Entity;
+import pluginbase.minecraft.location.EntityCoordinates;
+import pluginbase.minecraft.location.Locations;
+import pluginbase.minecraft.location.Vector;
+import pluginbase.permission.Permissible;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mvplugin.core.destination.Util.numberRegex;
+import static com.mvplugin.core.destination.Util.*;
 
 /**
  * A destination that accelerates the player after he was teleported.

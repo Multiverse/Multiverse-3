@@ -1,9 +1,5 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.bukkit.AbstractBukkitPlugin;
-import com.dumptruckman.minecraft.pluginbase.messages.Messages;
-import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
-import com.dumptruckman.minecraft.pluginbase.properties.Properties;
 import com.mvplugin.core.command.CreateCommand;
 import com.mvplugin.core.command.DeleteCommand;
 import com.mvplugin.core.command.ImportCommand;
@@ -21,6 +17,10 @@ import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.bukkit.AbstractBukkitPlugin;
+import pluginbase.messages.Messages;
+import pluginbase.messages.PluginBaseException;
+import pluginbase.properties.Properties;
 
 /**
  * The primary Bukkit plugin implementation of Multiverse-Core.

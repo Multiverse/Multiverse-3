@@ -1,7 +1,7 @@
 package com.mvplugin.core.exceptions;
 
-import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.messages.BundledMessage;
 
 public class WorldManagementException extends MultiverseException {
 

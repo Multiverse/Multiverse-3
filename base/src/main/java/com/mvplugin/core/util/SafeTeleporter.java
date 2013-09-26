@@ -1,11 +1,11 @@
 package com.mvplugin.core.util;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
 import com.mvplugin.core.exceptions.TeleportException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.minecraft.BasePlayer;
+import pluginbase.minecraft.Entity;
+import pluginbase.minecraft.location.EntityCoordinates;
 
 /**
  * Used to safely teleport people.

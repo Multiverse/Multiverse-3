@@ -1,6 +1,6 @@
 package com.mvplugin.core.util;
 
-import com.dumptruckman.minecraft.pluginbase.messages.Message;
+import pluginbase.messages.Message;
 
 public class BukkitLanguage {
     public static final Message CREATE_WORLD_ERROR = Message.createMessage("worlds.create_world_error",

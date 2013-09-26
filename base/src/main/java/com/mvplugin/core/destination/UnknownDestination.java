@@ -1,11 +1,11 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
-import com.dumptruckman.minecraft.pluginbase.permission.Permissible;
 import com.mvplugin.core.exceptions.TeleportException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.messages.Message;
+import pluginbase.minecraft.Entity;
+import pluginbase.permission.Permissible;
 
 import static com.mvplugin.core.util.Language.Destination.Unknown.*;
 

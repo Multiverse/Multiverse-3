@@ -1,16 +1,16 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.MutableEntityCoordinates;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.logging.Logging;
+import pluginbase.messages.Message;
+import pluginbase.minecraft.BasePlayer;
+import pluginbase.minecraft.Entity;
+import pluginbase.minecraft.location.EntityCoordinates;
+import pluginbase.minecraft.location.Locations;
+import pluginbase.minecraft.location.MutableEntityCoordinates;
 
 import static com.mvplugin.core.util.Language.DefaultSafeTeleporter.*;
 

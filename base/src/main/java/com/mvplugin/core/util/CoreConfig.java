@@ -1,7 +1,7 @@
 package com.mvplugin.core.util;
 
-import com.dumptruckman.minecraft.pluginbase.plugin.BaseConfig;
-import com.dumptruckman.minecraft.pluginbase.properties.Properties;
+import pluginbase.plugin.BaseConfig;
+import pluginbase.properties.Properties;
 
 /**
  * This is where you will find all of the configuration options for the Multiverse-Core plugin and potentially some

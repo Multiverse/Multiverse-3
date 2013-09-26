@@ -1,10 +1,10 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.BlockCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.mvplugin.core.util.BlockSafety;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.logging.Logging;
+import pluginbase.minecraft.location.BlockCoordinates;
+import pluginbase.minecraft.location.Locations;
 
 abstract class AbstractBlockSafety implements BlockSafety {
 

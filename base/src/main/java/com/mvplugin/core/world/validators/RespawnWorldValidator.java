@@ -1,11 +1,11 @@
 package com.mvplugin.core.world.validators;
 
-import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.messages.Message;
+import pluginbase.properties.PropertyValidator;
 
 public class RespawnWorldValidator implements PropertyValidator<String> {
 

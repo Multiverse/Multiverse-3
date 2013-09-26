@@ -1,9 +1,9 @@
 package com.mvplugin.core.exceptions;
 
-import com.dumptruckman.minecraft.pluginbase.messages.BundledMessage;
-import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
-import com.dumptruckman.minecraft.pluginbase.messages.messaging.SendablePluginBaseException;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.messages.BundledMessage;
+import pluginbase.messages.PluginBaseException;
+import pluginbase.messages.messaging.SendablePluginBaseException;
 
 public class MultiverseException extends SendablePluginBaseException {
 

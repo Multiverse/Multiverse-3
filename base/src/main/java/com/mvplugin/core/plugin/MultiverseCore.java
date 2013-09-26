@@ -1,9 +1,9 @@
 package com.mvplugin.core.plugin;
 
-import com.dumptruckman.minecraft.pluginbase.plugin.PluginBase;
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.util.CoreConfig;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.plugin.PluginBase;
 
 /**
  * Multiverse 3 Core API

@@ -1,12 +1,12 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
 import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.messages.PluginBaseException;
 
 import java.util.Arrays;
 import java.util.List;

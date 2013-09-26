@@ -1,9 +1,9 @@
 package com.mvplugin.core.world;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.minecraft.BasePlayer;
+import pluginbase.minecraft.Entity;
 
 import java.util.List;
 

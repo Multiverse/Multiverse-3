@@ -1,6 +1,6 @@
 package com.mvplugin.core.util;
 
-import com.dumptruckman.minecraft.pluginbase.messages.Message;
+import pluginbase.messages.Message;
 
 public final class Language {
     private Language() { }

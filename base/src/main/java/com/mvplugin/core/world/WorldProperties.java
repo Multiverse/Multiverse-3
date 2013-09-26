@@ -1,15 +1,5 @@
 package com.mvplugin.core.world;
 
-import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
-import com.dumptruckman.minecraft.pluginbase.properties.ListProperty;
-import com.dumptruckman.minecraft.pluginbase.properties.NestedProperties;
-import com.dumptruckman.minecraft.pluginbase.properties.NestedProperty;
-import com.dumptruckman.minecraft.pluginbase.properties.Properties;
-import com.dumptruckman.minecraft.pluginbase.properties.PropertyFactory;
-import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
-import com.dumptruckman.minecraft.pluginbase.properties.SimpleProperty;
 import com.mvplugin.core.SpawnException;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
@@ -17,6 +7,16 @@ import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.messages.Message;
+import pluginbase.minecraft.location.FacingCoordinates;
+import pluginbase.minecraft.location.Locations;
+import pluginbase.properties.ListProperty;
+import pluginbase.properties.NestedProperties;
+import pluginbase.properties.NestedProperty;
+import pluginbase.properties.Properties;
+import pluginbase.properties.PropertyFactory;
+import pluginbase.properties.PropertyValidator;
+import pluginbase.properties.SimpleProperty;
 
 /**
  * Houses all of the properties for a Multiverse world.

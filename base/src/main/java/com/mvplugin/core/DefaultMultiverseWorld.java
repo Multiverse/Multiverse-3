@@ -1,8 +1,5 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.minecraft.GameMode;
@@ -13,6 +10,9 @@ import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.messages.PluginBaseException;
+import pluginbase.minecraft.BasePlayer;
+import pluginbase.minecraft.location.FacingCoordinates;
 
 import java.util.Collection;
 import java.util.Collections;

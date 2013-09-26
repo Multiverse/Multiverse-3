@@ -1,11 +1,11 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
 import com.mvplugin.core.exceptions.TeleportException;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.messages.Message;
+import pluginbase.minecraft.BasePlayer;
+import pluginbase.minecraft.Entity;
+import pluginbase.minecraft.location.EntityCoordinates;
 
 import static com.mvplugin.core.util.Language.Destination.Player.*;
 

@@ -1,8 +1,5 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
-import com.dumptruckman.minecraft.pluginbase.properties.MemoryProperties;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
@@ -10,6 +7,9 @@ import com.mvplugin.core.world.WorldProperties;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
+import pluginbase.logging.Logging;
+import pluginbase.messages.PluginBaseException;
+import pluginbase.properties.MemoryProperties;
 
 import java.util.ArrayList;
 import java.util.HashMap;

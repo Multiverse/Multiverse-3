@@ -1,13 +1,13 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.minecraft.location.EntityCoordinates;
+import pluginbase.minecraft.location.Locations;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mvplugin.core.destination.Util.numberRegex;
+import static com.mvplugin.core.destination.Util.*;
 
 /**
  * A destination that simply teleports to fixed {@link EntityCoordinates}.

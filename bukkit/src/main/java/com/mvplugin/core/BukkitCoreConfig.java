@@ -1,10 +1,10 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.bukkit.properties.YamlProperties;
-import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
 import com.mvplugin.core.util.CoreConfig;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.bukkit.properties.YamlProperties;
+import pluginbase.logging.Logging;
+import pluginbase.messages.PluginBaseException;
 
 import java.io.File;
 

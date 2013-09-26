@@ -1,12 +1,12 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.messages.Message;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.messages.Message;
+import pluginbase.minecraft.location.EntityCoordinates;
+import pluginbase.minecraft.location.Locations;
 
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;

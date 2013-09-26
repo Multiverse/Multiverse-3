@@ -1,13 +1,11 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.logging.Logging;
 import com.mvplugin.core.MultiverseCoreAPI;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.logging.Logging;
 
-import java.lang.ref.WeakReference;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.concurrent.CopyOnWriteArrayList;

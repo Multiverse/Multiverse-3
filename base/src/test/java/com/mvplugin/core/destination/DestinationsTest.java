@@ -1,12 +1,11 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Vector;
-import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.junit.runners.Parameterized;
+import pluginbase.minecraft.location.EntityCoordinates;
+import pluginbase.minecraft.location.Locations;
+import pluginbase.minecraft.location.Vector;
 
 import java.util.Arrays;
 import java.util.Collection;

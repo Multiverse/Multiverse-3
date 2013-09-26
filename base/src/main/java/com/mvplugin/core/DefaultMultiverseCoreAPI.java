@@ -1,10 +1,10 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.plugin.ServerInterface;
 import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.plugin.ServerInterface;
 
 class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     @NotNull

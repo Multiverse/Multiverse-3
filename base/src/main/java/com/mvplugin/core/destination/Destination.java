@@ -1,13 +1,13 @@
 package com.mvplugin.core.destination;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.Entity;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.EntityCoordinates;
-import com.dumptruckman.minecraft.pluginbase.permission.Permissible;
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.minecraft.Entity;
+import pluginbase.minecraft.location.EntityCoordinates;
+import pluginbase.permission.Permissible;
 
 /**
  * A destination for teleportations.

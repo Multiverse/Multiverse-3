@@ -1,6 +1,5 @@
 package com.mvplugin.core.util;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
@@ -8,6 +7,7 @@ import org.bukkit.World;
 import org.bukkit.World.Environment;
 import org.bukkit.WorldType;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.minecraft.location.FacingCoordinates;
 
 public final class BukkitConvert {
 

@@ -1,17 +1,17 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.messages.PluginBaseException;
-import com.dumptruckman.minecraft.pluginbase.properties.ListProperty;
-import com.dumptruckman.minecraft.pluginbase.properties.MappedProperty;
-import com.dumptruckman.minecraft.pluginbase.properties.NestedProperties;
-import com.dumptruckman.minecraft.pluginbase.properties.NestedProperty;
-import com.dumptruckman.minecraft.pluginbase.properties.Observer;
-import com.dumptruckman.minecraft.pluginbase.properties.Properties;
-import com.dumptruckman.minecraft.pluginbase.properties.PropertyValidator;
-import com.dumptruckman.minecraft.pluginbase.properties.SimpleProperty;
-import com.dumptruckman.minecraft.pluginbase.properties.ValueProperty;
 import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.messages.PluginBaseException;
+import pluginbase.properties.ListProperty;
+import pluginbase.properties.MappedProperty;
+import pluginbase.properties.NestedProperties;
+import pluginbase.properties.NestedProperty;
+import pluginbase.properties.Observer;
+import pluginbase.properties.Properties;
+import pluginbase.properties.PropertyValidator;
+import pluginbase.properties.SimpleProperty;
+import pluginbase.properties.ValueProperty;
 
 import java.util.List;
 import java.util.Map;

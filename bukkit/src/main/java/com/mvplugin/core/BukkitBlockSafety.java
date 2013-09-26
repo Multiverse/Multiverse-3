@@ -1,13 +1,13 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.logging.Logging;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.BlockCoordinates;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.Locations;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.logging.Logging;
+import pluginbase.minecraft.location.BlockCoordinates;
+import pluginbase.minecraft.location.Locations;
 
 class BukkitBlockSafety extends AbstractBlockSafety {
 

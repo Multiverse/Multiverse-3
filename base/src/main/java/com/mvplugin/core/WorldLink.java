@@ -1,11 +1,11 @@
 package com.mvplugin.core;
 
-import com.dumptruckman.minecraft.pluginbase.minecraft.BasePlayer;
-import com.dumptruckman.minecraft.pluginbase.minecraft.location.FacingCoordinates;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.minecraft.BasePlayer;
+import pluginbase.minecraft.location.FacingCoordinates;
 
 import java.util.Collection;
 import java.util.UUID;
