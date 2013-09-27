@@ -1,8 +1,8 @@
 package com.mvplugin.core.destination;
 
+import com.mvplugin.core.MultiverseWorld;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.exceptions.WorldManagementException;
-import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.location.EntityCoordinates;

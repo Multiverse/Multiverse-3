@@ -1,5 +1,8 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.WorldProperties.EntryFee;
+import com.mvplugin.core.WorldProperties.Spawning;
+import com.mvplugin.core.WorldProperties.Spawning.AllowedSpawns;
 import com.mvplugin.core.command.CreateCommand;
 import com.mvplugin.core.command.DeleteCommand;
 import com.mvplugin.core.command.ImportCommand;
@@ -18,9 +21,8 @@ import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.bukkit.AbstractBukkitPlugin;
+import pluginbase.config.SerializationRegistrar;
 import pluginbase.messages.Messages;
-import pluginbase.messages.PluginBaseException;
-import pluginbase.properties.Properties;
 
 /**
  * The primary Bukkit plugin implementation of Multiverse-Core.
@@ -28,6 +30,15 @@ import pluginbase.properties.Properties;
  * See {@link com.mvplugin.core.plugin.MultiverseCore} for a more detailed external api javadocs.
  */
 public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements MultiverseCore {
+
+    static {
+        SerializationRegistrar.registerClass(CoreConfig.class);
+        SerializationRegistrar.registerClass(BukkitCoreConfig.class);
+        SerializationRegistrar.registerClass(WorldProperties.class);
+        SerializationRegistrar.registerClass(EntryFee.class);
+        SerializationRegistrar.registerClass(Spawning.class);
+        SerializationRegistrar.registerClass(AllowedSpawns.class);
+    }
 
     private static final int PROTOCOL = 19;
     private static final String COMMAND_PREFIX = "mv";
@@ -94,14 +105,14 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
 
     @NotNull
     @Override
-    protected Properties getNewConfig() throws PluginBaseException {
-        return new BukkitCoreConfig(this);
+    protected BukkitCoreConfig getDefaultSettings() {
+        return new BukkitCoreConfig();
     }
 
     @NotNull
     @Override
-    public CoreConfig config() {
-        return (CoreConfig) super.config();
+    public BukkitCoreConfig getSettings() {
+        return (BukkitCoreConfig) super.getSettings();
     }
 
     @Override
@@ -124,8 +135,8 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
 
     @Override
     @NotNull
-    public CoreConfig getMVConfig() {
-        return config();
+    public BukkitCoreConfig getMVConfig() {
+        return getSettings();
     }
 
     @Override

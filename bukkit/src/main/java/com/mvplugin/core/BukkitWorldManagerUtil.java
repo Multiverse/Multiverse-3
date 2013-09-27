@@ -6,25 +6,20 @@ import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.BukkitConvert;
 import com.mvplugin.core.util.BukkitLanguage;
-import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
-import com.mvplugin.core.world.WorldProperties;
-import com.mvplugin.core.world.serializers.BukkitFacingCoordinatesSerializer;
-import com.mvplugin.core.world.validators.RespawnWorldValidator;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
 import org.bukkit.World;
 import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
-import org.bukkit.configuration.file.YamlConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
-import pluginbase.bukkit.properties.YamlProperties;
+import pluginbase.bukkit.config.BukkitConfiguration;
+import pluginbase.bukkit.config.YamlConfiguration;
 import pluginbase.logging.Logging;
 import pluginbase.messages.BundledMessage;
 import pluginbase.messages.Message;
 import pluginbase.messages.PluginBaseException;
-import pluginbase.minecraft.location.FacingCoordinates;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -53,6 +48,9 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     BukkitWorldManagerUtil(@NotNull final MultiverseCoreBukkitPlugin plugin) {
         this.plugin = plugin;
         this.worldsFolder = new File(plugin.getDataFolder(), "worlds");
+        if (!worldsFolder.exists()) {
+            worldsFolder.mkdirs();
+        }
         this.worldPropertiesMap = new HashMap<String, WorldProperties>();
         this.defaultGens = new HashMap<String, String>();
         initializeDefaultWorldGenerators();
@@ -66,7 +64,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             }
         });
         if (files != null && files.length == 1) {
-            FileConfiguration bukkitConfig = YamlConfiguration.loadConfiguration(files[0]);
+            FileConfiguration bukkitConfig = org.bukkit.configuration.file.YamlConfiguration.loadConfiguration(files[0]);
             if (bukkitConfig.isConfigurationSection("worlds")) {
                 Set<String> keys = bukkitConfig.getConfigurationSection("worlds").getKeys(false);
                 for (String key : keys) {
@@ -103,11 +101,11 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             }
             try {
                 final WorldProperties worldProperties = newWorldProperties(file);
-                if (worldProperties.get(WorldProperties.AUTO_LOAD)) {
+                if (worldProperties.isAutoLoad()) {
                     final WorldCreationSettings settings = new WorldCreationSettings(worldName);
-                    settings.env(worldProperties.get(WorldProperties.ENVIRONMENT));
-                    settings.generator(worldProperties.get(WorldProperties.GENERATOR));
-                    settings.adjustSpawn(worldProperties.get(WorldProperties.ADJUST_SPAWN));
+                    settings.env(worldProperties.getEnvironment());
+                    settings.generator(worldProperties.getGenerator());
+                    settings.adjustSpawn(worldProperties.isAdjustSpawn());
                     final MultiverseWorld mvWorld = createWorld(settings);
                     mvWorld.setAdjustSpawn(settings.adjustSpawn());
                     initialWorlds.put(mvWorld.getName().toLowerCase(), mvWorld);
@@ -210,14 +208,14 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            final DefaultWorldProperties worldProperties = new DefaultWorldProperties(new YamlProperties(Logging.getLogger(), false, true, file, WorldProperties.class) {
-                @Override
-                protected void registerSerializers() {
-                    super.registerSerializers();
-                    setPropertySerializer(FacingCoordinates.class, new BukkitFacingCoordinatesSerializer());
-                }
-            });
-            worldProperties.setPropertyValidator(WorldProperties.RESPAWN_WORLD, new RespawnWorldValidator(plugin));
+            YamlConfiguration config = BukkitConfiguration.loadYamlConfig(file);
+            WorldProperties defaults = new WorldProperties();
+            WorldProperties worldProperties = config.getToObject("settings", defaults);
+            if (worldProperties == null) {
+                worldProperties = defaults;
+                config.set("settings", worldProperties);
+                config.save(file);
+            }
             return worldProperties;
         } catch (IOException e) {
             throw new MultiverseException(Message.bundleMessage(BukkitLanguage.CREATE_WORLD_FILE_ERROR, file), e);
@@ -334,7 +332,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @NotNull
     private MultiverseWorld getBukkitWorld(@NotNull final World world) throws MultiverseException {
-        return new DefaultMultiverseWorld(getWorldProperties(world.getName()), new BukkitWorldLink(world));
+        return new MultiverseWorld(getWorldProperties(world.getName()), new BukkitWorldLink(world));
     }
 
     @NotNull

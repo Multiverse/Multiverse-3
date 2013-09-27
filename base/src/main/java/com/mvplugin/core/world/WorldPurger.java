@@ -1,5 +1,6 @@
 package com.mvplugin.core.world;
 
+import com.mvplugin.core.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pluginbase.minecraft.BasePlayer;

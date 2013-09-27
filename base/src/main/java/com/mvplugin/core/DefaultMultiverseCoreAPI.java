@@ -7,6 +7,7 @@ import org.jetbrains.annotations.NotNull;
 import pluginbase.plugin.ServerInterface;
 
 class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
+
     @NotNull
     private final ServerInterface serverInterface;
     @NotNull

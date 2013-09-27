@@ -2,9 +2,7 @@ package com.mvplugin.core;
 
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
-import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
-import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.messages.PluginBaseException;
 
@@ -24,10 +22,11 @@ public class MultiverseWorldFactory {
         final WorldProperties properties = worldManagerUtil.getWorldProperties(s.name());
         WorldEnvironment env = s.env();
         Long seed = s.seed();
+        seed = seed == null ? 0L : seed;
         WorldType type = s.type();
-        properties.set(WorldProperties.SEED, seed == null ? 0L : seed);
-        properties.set(WorldProperties.GENERATOR, s.generator());
-        final WorldLink worldLink = WorldLinkFactory.getWorldLink(s.name(), env == null ? WorldEnvironment.NORMAL : env, type == null ? WorldType.NORMAL : type);
-        return new DefaultMultiverseWorld(properties, worldLink);
+        properties.setSeed(seed);
+        properties.setGenerator(s.generator());
+        final WorldLink worldLink = WorldLinkFactory.getMockedWorldLink(s.name(), env == null ? WorldEnvironment.NORMAL : env, type == null ? WorldType.NORMAL : type, seed);
+        return new MultiverseWorld(properties, worldLink);
     }
 }

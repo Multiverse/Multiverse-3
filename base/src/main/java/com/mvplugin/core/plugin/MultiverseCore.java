@@ -22,5 +22,5 @@ public interface MultiverseCore extends MultiversePlugin, PluginBase, Multiverse
 
     @NotNull
     // Overload type
-    CoreConfig config();
+    CoreConfig getSettings();
 }
