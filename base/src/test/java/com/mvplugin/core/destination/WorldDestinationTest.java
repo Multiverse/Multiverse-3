@@ -1,17 +1,18 @@
 package com.mvplugin.core.destination;
 
 import com.mvplugin.core.MultiverseCoreAPI;
+import com.mvplugin.core.MultiverseCoreAPIFactory;
+import com.mvplugin.core.MultiverseTest;
+import com.mvplugin.core.MultiverseWorld;
 import com.mvplugin.core.WorldManager;
+import com.mvplugin.core.WorldManagerFactory;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.exceptions.WorldManagementException;
-import com.mvplugin.core.world.MultiverseWorld;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.runner.RunWith;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import org.powermock.modules.junit4.PowerMockRunner;
 import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
 
@@ -20,9 +21,8 @@ import static org.mockito.Mockito.*;
 import static org.powermock.api.mockito.PowerMockito.mock;
 import static org.powermock.api.mockito.PowerMockito.when;
 
-@RunWith(PowerMockRunner.class)
 @PrepareForTest(WorldDestination.class)
-public class WorldDestinationTest {
+public class WorldDestinationTest extends MultiverseTest {
     private static final FacingCoordinates SPAWNPOINT = Locations.getFacingCoordinates(0, 0, 0, 0F, 0F);
 
     private MultiverseCoreAPI api;
@@ -41,10 +41,12 @@ public class WorldDestinationTest {
         assertEquals(destString, dest.serialize());
         return dest;
     }
+
     @Before
     public void setUp() throws Exception {
-        api = mock(MultiverseCoreAPI.class);
-        worldManager = mock(WorldManager.class);
+        api = MultiverseCoreAPIFactory.getMockedMultiverseCoreAPI();
+        worldManager = WorldManagerFactory.getMockedWorldManager();
+        //worldManager = mock(WorldManager.class);
         when(api.getWorldManager()).thenReturn(worldManager);
         when(worldManager.getWorld("fail")).thenReturn(null);
         final MultiverseWorld mockLoaded = mock(MultiverseWorld.class);

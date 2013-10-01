@@ -108,4 +108,35 @@ class BukkitWorldLink implements WorldLink {
         }
         return result;
     }
+
+    @Override
+    public boolean getPVP() {
+        return getWorld().getPVP();
+    }
+
+    @NotNull
+    @Override
+    public Difficulty getDifficulty() {
+        return BukkitConvert.fromBukkit(getWorld().getDifficulty());
+    }
+
+    @Override
+    public FacingCoordinates getSpawnLocation() {
+        return BukkitConvert.fromBukkit(getWorld().getSpawnLocation());
+    }
+
+    @Override
+    public long getSeed() {
+        return getWorld().getSeed();
+    }
+
+    @Override
+    public boolean getKeepSpawnInMemory() {
+        return getWorld().getKeepSpawnInMemory();
+    }
+
+    @Override
+    public void setKeepSpawnInMemory(boolean keepSpawnInMemory) {
+        getWorld().setKeepSpawnInMemory(keepSpawnInMemory);
+    }
 }

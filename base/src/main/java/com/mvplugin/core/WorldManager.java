@@ -8,9 +8,7 @@ import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.SafeTeleporter;
-import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
-import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pluginbase.logging.Logging;
@@ -37,7 +35,7 @@ import java.util.Map;
  * This API contains all of the world managing
  * functions that your heart desires!
  */
-public class WorldManager {
+public final class WorldManager {
 
     @NotNull
     private final MultiverseCoreAPI api;
@@ -215,10 +213,10 @@ public class WorldManager {
             // Transfer all the properties of the world ot a WorldCreationSettings object.
             final WorldProperties properties = this.worldManagerUtil.getWorldProperties(name);
             final WorldCreationSettings settings = new WorldCreationSettings(name);
-            settings.generator(properties.get(WorldProperties.GENERATOR));
-            settings.seed(properties.get(WorldProperties.SEED));
-            settings.env(properties.get(WorldProperties.ENVIRONMENT));
-            settings.adjustSpawn(properties.get(WorldProperties.ADJUST_SPAWN));
+            settings.generator(properties.getGenerator());
+            settings.seed(properties.getSeed());
+            settings.env(properties.getEnvironment());
+            settings.adjustSpawn(properties.isAdjustSpawn());
 
             try {
                 return addWorld(settings);

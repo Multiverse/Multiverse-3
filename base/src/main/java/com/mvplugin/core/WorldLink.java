@@ -24,9 +24,18 @@ interface WorldLink {
     @NotNull
     WorldEnvironment getEnvironment();
 
+    boolean getPVP();
+
+    @NotNull
+    Difficulty getDifficulty();
+
     long getTime();
 
-    void setTime(final long time);
+    FacingCoordinates getSpawnLocation();
+
+    long getSeed();
+
+    boolean getKeepSpawnInMemory();
 
     @NotNull
     Collection<BasePlayer> getPlayers();
@@ -38,4 +47,8 @@ interface WorldLink {
     void setPVP(final boolean enablePVP);
 
     void setSpawnLocation(@NotNull final FacingCoordinates spawnLocation);
+
+    void setTime(final long time);
+
+    void setKeepSpawnInMemory(boolean keepSpawnInMemory);
 }

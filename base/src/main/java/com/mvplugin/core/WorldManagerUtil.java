@@ -1,9 +1,7 @@
 package com.mvplugin.core;
 
 import com.mvplugin.core.exceptions.WorldCreationException;
-import com.mvplugin.core.world.MultiverseWorld;
 import com.mvplugin.core.world.WorldCreationSettings;
-import com.mvplugin.core.world.WorldProperties;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.messages.BundledMessage;
 import pluginbase.messages.PluginBaseException;

@@ -2,17 +2,19 @@ package com.mvplugin.core.world.serializers;
 
 import org.bukkit.configuration.ConfigurationSection;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import pluginbase.config.serializers.Serializer;
 import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
-import pluginbase.properties.serializers.PropertySerializer;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-public class BukkitFacingCoordinatesSerializer implements PropertySerializer<FacingCoordinates> {
-    @NotNull
+public class BukkitFacingCoordinatesSerializer implements Serializer<FacingCoordinates> {
+
+    @Nullable
     @Override
-    public FacingCoordinates deserialize(Object o) {
+    public FacingCoordinates deserialize(@Nullable Object o, @NotNull Class<FacingCoordinates> clazz) {
         double x = 0D;
         double y = 0D;
         double z = 0D;
@@ -42,9 +44,12 @@ public class BukkitFacingCoordinatesSerializer implements PropertySerializer<Fac
         return Locations.getFacingCoordinates(x, y, z, pitch, yaw);
     }
 
-    @NotNull
+    @Nullable
     @Override
-    public Object serialize(@NotNull final FacingCoordinates facingCoordinates) {
+    public Object serialize(@Nullable final FacingCoordinates facingCoordinates) {
+        if (facingCoordinates == null) {
+            return Locations.NULL_FACING;
+        }
         Map<String, Object> result = new LinkedHashMap<String, Object>(6);
         result.put("x", facingCoordinates.getX());
         result.put("y", facingCoordinates.getY());

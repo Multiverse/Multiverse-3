@@ -1,9 +1,9 @@
 package com.mvplugin.core.command;
 
+import com.mvplugin.core.MultiverseWorld;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;
-import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.command.CommandContext;
 import pluginbase.command.CommandInfo;
