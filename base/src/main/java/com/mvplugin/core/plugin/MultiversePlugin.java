@@ -1,5 +1,6 @@
 package com.mvplugin.core.plugin;
 
+import com.mvplugin.core.util.CoreConfig;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.plugin.PluginBase;
 
@@ -25,4 +26,7 @@ public interface MultiversePlugin extends PluginBase {
      * @return The protocol version.
      */
     int getProtocolVersion();
+
+    @Override
+    CoreConfig getSettings();
 }

@@ -4,10 +4,11 @@ import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.util.PropertyDescriptions;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.config.field.PropertyVetoException;
+import pluginbase.config.field.Validator;
 import pluginbase.messages.Message;
-import pluginbase.properties.PropertyValidator;
 
-public class RespawnWorldValidator implements PropertyValidator<String> {
+public class RespawnWorldValidator implements Validator<String> {
 
     @NotNull
     private final MultiverseCoreAPI api;
@@ -16,14 +17,12 @@ public class RespawnWorldValidator implements PropertyValidator<String> {
         this.api = api;
     }
 
+    @Nullable
     @Override
-    public boolean isValid(@Nullable final String s) {
-        return s != null && api.getWorldManager().isLoaded(s);
-    }
-
-    @NotNull
-    @Override
-    public Message getInvalidMessage() {
-        return PropertyDescriptions.INVALID_RESPAWN_WORLD;
+    public String validateChange(@Nullable String s, @Nullable String s2) throws PropertyVetoException {
+        if (s == null || !api.getWorldManager().isLoaded(s)) {
+            throw new PropertyVetoException(Message.bundleMessage(PropertyDescriptions.INVALID_RESPAWN_WORLD));
+        }
+        return s;
     }
 }

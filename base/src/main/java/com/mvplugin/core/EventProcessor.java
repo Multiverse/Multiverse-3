@@ -1,6 +1,5 @@
 package com.mvplugin.core;
 
-import com.mvplugin.core.world.MultiverseWorld;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -8,7 +7,7 @@ import org.jetbrains.annotations.NotNull;
  *
  * The events Multiverse-Core cares about will be described by the methods in this interface.
  */
-public class EventProcessor {
+public final class EventProcessor {
 
     @NotNull
     private final MultiverseCoreAPI api;

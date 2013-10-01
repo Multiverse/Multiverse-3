@@ -158,7 +158,7 @@
                         <threadCount>10</threadCount>
                         <excludes>
                             <exclude>**/TestCommandSender.java</exclude>
-                            <exclude>**/TestInstanceCreator.java</exclude>
+                            <exclude>**/MultiverseTest.java</exclude>
                         </excludes>
                     </configuration>
                     <dependencies>
