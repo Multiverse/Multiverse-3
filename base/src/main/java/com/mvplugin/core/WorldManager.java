@@ -48,7 +48,7 @@ public final class WorldManager {
         this.api = api;
         this.worldManagerUtil = worldManagerUtil;
         this.worldsMap = new HashMap<String, MultiverseWorld>();
-        this.worldsMap.putAll(worldManagerUtil.getInitialWorlds());
+        this.worldsMap.putAll(worldManagerUtil.loadInitialWorlds());
     }
 
     /**

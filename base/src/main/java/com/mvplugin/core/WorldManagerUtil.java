@@ -14,7 +14,7 @@ interface WorldManagerUtil {
 
     // Names should be lower case
     @NotNull
-    Map<String, MultiverseWorld> getInitialWorlds();
+    Map<String, MultiverseWorld> loadInitialWorlds();
 
     /**
      * Gets an existing WorldProperties object or creates a new one based on the name.

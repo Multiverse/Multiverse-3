@@ -74,14 +74,14 @@ public class WorldManagerUtilFactory {
         }).when(worldManagerUtil).createWorld(any(WorldCreationSettings.class));
 
 
-        // Mock getInitialWorlds
+        // Mock loadInitialWorlds
         List<MultiverseWorld> defaultWorlds = MultiverseWorldFactory.getDefaultWorlds(worldManagerUtil);
         Map<String, MultiverseWorld> initialWorlds = new HashMap<String, MultiverseWorld>(defaultWorlds.size());
         for (final MultiverseWorld world : defaultWorlds) {
             initialWorlds.put(world.getName().toLowerCase(), world);
             managedWorlds.add(world.getName().toLowerCase());
         }
-        when(worldManagerUtil.getInitialWorlds()).thenReturn(initialWorlds);
+        when(worldManagerUtil.loadInitialWorlds()).thenReturn(initialWorlds);
 
         return worldManagerUtil;
     }

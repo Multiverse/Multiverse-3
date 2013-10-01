@@ -14,6 +14,7 @@ import org.bukkit.WorldCreator;
 import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import pluginbase.bukkit.config.BukkitConfiguration;
 import pluginbase.bukkit.config.YamlConfiguration;
 import pluginbase.logging.Logging;
@@ -28,12 +29,16 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
 class BukkitWorldManagerUtil implements WorldManagerUtil {
+
+    static final String WORLD_FILE_EXT = ".yml";
 
     @NotNull
     private final MultiverseCoreBukkitPlugin plugin;
@@ -78,73 +83,73 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @NotNull
     @Override
-    public Map<String, MultiverseWorld> getInitialWorlds() {
-        Map<String, MultiverseWorld> initialWorlds = new HashMap<String, MultiverseWorld>(Bukkit.getWorlds().size());
-        StringBuilder builder = new StringBuilder();
-        for (final World w : Bukkit.getWorlds()) {
-            try {
-                final MultiverseWorld world = getBukkitWorld(w);
-                initialWorlds.put(world.getName().toLowerCase(), world);
-                if (builder.length() != 0) {
-                    builder.append(", ");
-                }
-                builder.append(w.getName());
-            } catch (PluginBaseException e) {
-                Logging.severe("Multiverse could not initialize loaded Bukkit world '%s'", w.getName());
+    public Map<String, MultiverseWorld> loadInitialWorlds() {
+        InitialWorldAggregator worldAggregator = new InitialWorldAggregator(worldsFolder);
+        Map<String, MultiverseWorld> initialWorldsMap = new HashMap<String, MultiverseWorld>(worldAggregator.getNumberOfPotentialWorlds());
+        Iterator<String> loadableWorldsIterator = worldAggregator.getLoadableWorldsIterator();
+        while (loadableWorldsIterator.hasNext()) {
+            String worldName = loadableWorldsIterator.next();
+            World bukkitWorld = Bukkit.getWorld(worldName);
+            MultiverseWorld multiverseWorld;
+            if (bukkitWorld != null) {
+                multiverseWorld = createMultiverseWorldFromBukkitWorldLogErrors(bukkitWorld);
+            } else {
+                multiverseWorld = loadMultiverseWorldLogErrors(worldName);
             }
-        }
-
-        for (File file : getPotentialWorldFiles()) {
-            final String worldName = getWorldNameFromFile(file);
-            if (initialWorlds.containsKey(worldName.toLowerCase())) {
-                continue;
-            }
-            try {
-                final WorldProperties worldProperties = newWorldProperties(file);
-                if (worldProperties.isAutoLoad()) {
-                    final WorldCreationSettings settings = new WorldCreationSettings(worldName);
-                    settings.env(worldProperties.getEnvironment());
-                    settings.generator(worldProperties.getGenerator());
-                    settings.adjustSpawn(worldProperties.isAdjustSpawn());
-                    final MultiverseWorld mvWorld = createWorld(settings);
-                    mvWorld.setAdjustSpawn(settings.adjustSpawn());
-                    initialWorlds.put(mvWorld.getName().toLowerCase(), mvWorld);
-                    if (builder.length() != 0) {
-                        builder.append(", ");
-                    }
-                    builder.append(worldName);
-                } else {
-                    Logging.fine("Not loading '%s' because it is set to autoLoad: false", worldName);
-                }
-            } catch (MultiverseException e) {
-                if (e instanceof WorldCreationException) {
-                    Logging.getLogger().log(Level.WARNING, String.format("Error while attempting to load world '%s'", worldName), e);
-                } else {
-                    Logging.getLogger().log(Level.WARNING, String.format("Could not load world from file '%s'", file), e);
-                }
+            if (multiverseWorld != null) {
+                initialWorldsMap.put(multiverseWorld.getName().toLowerCase(), multiverseWorld);
+            } else {
+                loadableWorldsIterator.remove();
             }
         }
 
         // Simple Output to the Console to show how many Worlds were loaded.
-        Logging.config("Multiverse is now managing: %s", builder.toString());
-        return initialWorlds;
+        Logging.config("Multiverse is now managing: %s", worldAggregator.getCommaSeparatedWorldNames());
+        return initialWorldsMap;
     }
 
-    private String getWorldNameFromFile(@NotNull final File file) {
-        final String simpleName = file.getName();
-        if (simpleName.endsWith(".yml")) {
-            return simpleName.substring(0, simpleName.indexOf(".yml"));
+    @Nullable
+    private MultiverseWorld createMultiverseWorldFromBukkitWorldLogErrors(@NotNull World bukkitWorld) {
+        try {
+            return getBukkitWorld(bukkitWorld);
+        } catch (MultiverseException e) {
+            Logging.severe("Multiverse could not initialize loaded Bukkit world '%s'", bukkitWorld.getName());
+            return null;
         }
-        return simpleName;
     }
 
-    private File[] getPotentialWorldFiles() {
-        return worldsFolder.listFiles(new FilenameFilter() {
-            @Override
-            public boolean accept(final File dir, @NotNull final String name) {
-                return name.endsWith(".yml");
+    @Nullable
+    private MultiverseWorld loadMultiverseWorldLogErrors(@NotNull String worldName) {
+        File worldFile = getWorldFile(worldName);
+        try {
+            WorldProperties worldProperties = loadOrCreateWorldProperties(worldFile);
+            if (worldProperties.isAutoLoad()) {
+                return loadWorldFromProperties(worldProperties);
+            } else {
+                Logging.fine("Not loading '%s' because it is set to autoLoad: false", worldName);
             }
-        });
+        } catch (MultiverseException e) {
+            if (e instanceof WorldCreationException) {
+                Logging.getLogger().log(Level.WARNING, String.format("Error while attempting to load world '%s'", worldName), e);
+            } else {
+                Logging.getLogger().log(Level.WARNING, String.format("Could not load world from file '%s'", worldFile), e);
+            }
+        }
+        return null;
+    }
+
+    private File getWorldFile(String worldName) {
+        return new File(worldsFolder, worldName + WORLD_FILE_EXT);
+    }
+
+    private MultiverseWorld loadWorldFromProperties(WorldProperties properties) throws WorldCreationException {
+        WorldCreationSettings settings = new WorldCreationSettings(properties.getName());
+        settings.env(properties.getEnvironment());
+        settings.generator(properties.getGenerator());
+        settings.adjustSpawn(properties.isAdjustSpawn());
+        MultiverseWorld world = createWorld(settings);
+        world.setAdjustSpawn(settings.adjustSpawn());
+        return world;
     }
 
     @NotNull
@@ -180,7 +185,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         if (isThisAWorld(worldFolder)) {
             toDelete.append("\n  File: ").append(worldFolder);
         }
-        final File persistenceFile = new File(worldsFolder, name + ".yml");
+        final File persistenceFile = new File(worldsFolder, name + WORLD_FILE_EXT);
         toDelete.append("\n  File: ").append(persistenceFile);
         return Message.bundleMessage(BukkitLanguage.THIS_WILL_DELETE_THE_FOLLOWING, toDelete.toString());
     }
@@ -203,7 +208,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @NotNull
-    private WorldProperties newWorldProperties(@NotNull final File file) throws MultiverseException {
+    private WorldProperties loadOrCreateWorldProperties(@NotNull final File file) throws MultiverseException {
         try {
             if (!file.exists()) {
                 file.createNewFile();
@@ -231,7 +236,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         if (this.worldPropertiesMap.containsKey(worldName)) {
             return this.worldPropertiesMap.get(worldName);
         } else {
-            final WorldProperties worldProperties = newWorldProperties(new File(worldsFolder, worldName + ".yml"));
+            final WorldProperties worldProperties = loadOrCreateWorldProperties(new File(worldsFolder, worldName + WORLD_FILE_EXT));
             worldPropertiesMap.put(worldName, worldProperties);
             return worldProperties;
         }
@@ -267,7 +272,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                 break;
             }
         }
-        final File file = new File(worldsFolder, worldName + ".yml");
+        final File file = new File(worldsFolder, worldName + WORLD_FILE_EXT);
         if (!file.exists()) {
             throw new MultiverseException(Message.bundleMessage(BukkitLanguage.WORLD_FILE_NOT_FOUND, file));
         }
@@ -356,5 +361,100 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         final File worldFile = new File(Bukkit.getWorldContainer(), name);
         Logging.fine("Attempting to delete %s", worldFile);
         FileUtils.deleteDirectory(worldFile);
+    }
+
+    private static class InitialWorldAggregator {
+
+        private static final int WORLD_SET_SIZE_FACTOR = 3;
+
+        private File worldsFolder;
+        private Set<String> initialWorldNames;
+        private Set<String> notLoadedWorlds;
+
+        InitialWorldAggregator(File worldsFolder) {
+            this.worldsFolder = worldsFolder;
+            aggregateInitialWorlds();
+        }
+
+        public int getNumberOfPotentialWorlds() {
+            return initialWorldNames.size();
+        }
+
+        public Iterator<String> getLoadableWorldsIterator() {
+            final Iterator<String> iterator = initialWorldNames.iterator();
+            return new Iterator<String>() {
+                String current = null;
+                @Override
+                public boolean hasNext() {
+                    return iterator.hasNext();
+                }
+
+                @Override
+                public String next() {
+                    current = iterator.next();
+                    return current;
+                }
+
+                @Override
+                public void remove() {
+                    iterator.remove();
+                    notLoadedWorlds.add(current);
+                }
+            };
+        }
+
+        public String getCommaSeparatedWorldNames() {
+            StringBuilder worldNameCSV = new StringBuilder();
+            for (String worldName : initialWorldNames) {
+                if (worldNameCSV.length() != 0) {
+                    worldNameCSV.append(", ");
+                }
+                worldNameCSV.append(worldName);
+            }
+            return worldNameCSV.toString();
+        }
+
+        private void aggregateInitialWorlds() {
+            initialWorldNames = new HashSet<String>(Bukkit.getWorlds().size() * WORLD_SET_SIZE_FACTOR);
+            aggregateAlreadyLoadedWorlds();
+            aggregatePotentialWorlds();
+            notLoadedWorlds = new HashSet<String>(initialWorldNames.size());
+        }
+
+        private void aggregateAlreadyLoadedWorlds() {
+            for (final World world : Bukkit.getWorlds()) {
+                addWorld(world.getName());
+            }
+        }
+
+        private void addWorld(String worldName) {
+            initialWorldNames.add(worldName);
+        }
+
+        private void aggregatePotentialWorlds() {
+            for (File file : getPotentialWorldFiles()) {
+                String worldName = getWorldNameFromFile(file);
+                if (!initialWorldNames.contains(worldName)) {
+                    addWorld(worldName);
+                }
+            }
+        }
+
+        private File[] getPotentialWorldFiles() {
+            return worldsFolder.listFiles(new FilenameFilter() {
+                @Override
+                public boolean accept(final File dir, @NotNull final String name) {
+                    return name.endsWith(WORLD_FILE_EXT);
+                }
+            });
+        }
+
+        private String getWorldNameFromFile(@NotNull final File file) {
+            final String simpleName = file.getName();
+            if (simpleName.endsWith(WORLD_FILE_EXT)) {
+                return simpleName.substring(0, simpleName.indexOf(WORLD_FILE_EXT));
+            }
+            return simpleName;
+        }
     }
 }
