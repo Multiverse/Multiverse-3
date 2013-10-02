@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import org.bukkit.Bukkit;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.Server;
@@ -10,9 +11,11 @@ import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
 
+import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
 
+import static org.junit.Assert.*;
 import static org.mockito.Mockito.*;
 
 public class MockServer {
@@ -42,6 +45,14 @@ public class MockServer {
 
     public Server getMock() {
         return server;
+    }
+
+    public static void prepareBukkit() throws Exception {
+        final Server mockedServer = MockServer.getMockedServer();
+        Field field = Bukkit.class.getDeclaredField("server");
+        field.setAccessible(true);
+        field.set(null, mockedServer);
+        assertSame(mockedServer, Bukkit.getServer());
     }
 
     public static Server getMockedServer() {
