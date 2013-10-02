@@ -99,7 +99,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             if (multiverseWorld != null) {
                 initialWorldsMap.put(multiverseWorld.getName().toLowerCase(), multiverseWorld);
             } else {
-                loadableWorldsIterator.remove();
+                cacheNotLoadedWorldPropertiesLogErrors(worldName);
             }
         }
 
@@ -150,6 +150,14 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         MultiverseWorld world = createWorld(settings);
         world.setAdjustSpawn(settings.adjustSpawn());
         return world;
+    }
+
+    private void cacheNotLoadedWorldPropertiesLogErrors(String worldName) {
+        try {
+            getWorldProperties(worldName);
+        } catch (MultiverseException e) {
+            Logging.getLogger().log(Level.WARNING, String.format("Could not cache unloaded world '%s'", worldName), e);
+        }
     }
 
     @NotNull
@@ -401,6 +409,10 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                     notLoadedWorlds.add(current);
                 }
             };
+        }
+
+        public Iterator<String> getNotLoadedWorldsIterator() {
+            return notLoadedWorlds.iterator();
         }
 
         public String getCommaSeparatedWorldNames() {
