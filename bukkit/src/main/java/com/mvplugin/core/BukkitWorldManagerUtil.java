@@ -21,6 +21,7 @@ import pluginbase.logging.Logging;
 import pluginbase.messages.BundledMessage;
 import pluginbase.messages.Message;
 import pluginbase.messages.PluginBaseException;
+import pluginbase.plugin.ServerInterface;
 
 import java.io.File;
 import java.io.FilenameFilter;
@@ -41,7 +42,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     static final String WORLD_FILE_EXT = ".yml";
 
     @NotNull
-    private final MultiverseCoreBukkitPlugin plugin;
+    private final ServerInterface serverInterface;
     @NotNull
     private final File worldsFolder;
 
@@ -50,9 +51,9 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @NotNull
     private final Map<String, String> defaultGens;
 
-    BukkitWorldManagerUtil(@NotNull final MultiverseCoreBukkitPlugin plugin) {
-        this.plugin = plugin;
-        this.worldsFolder = new File(plugin.getDataFolder(), "worlds");
+    BukkitWorldManagerUtil(@NotNull ServerInterface serverInterface, @NotNull File pluginDataFolder) {
+        this.serverInterface = serverInterface;
+        this.worldsFolder = new File(pluginDataFolder, "worlds");
         if (!worldsFolder.exists()) {
             worldsFolder.mkdirs();
         }
@@ -62,7 +63,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     private void initializeDefaultWorldGenerators() {
-        File[] files = this.plugin.getServerInterface().getServerFolder().listFiles(new FilenameFilter() {
+        File[] files = serverInterface.getServerFolder().listFiles(new FilenameFilter() {
             @Override
             public boolean accept(final File file, @NotNull final String s) {
                 return s.equalsIgnoreCase("bukkit.yml");
@@ -120,9 +121,8 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @Nullable
     private MultiverseWorld loadMultiverseWorldLogErrors(@NotNull String worldName) {
-        File worldFile = getWorldFile(worldName);
         try {
-            WorldProperties worldProperties = loadOrCreateWorldProperties(worldFile);
+            WorldProperties worldProperties = loadOrCreateWorldProperties(worldName);
             if (worldProperties.isAutoLoad()) {
                 return loadWorldFromProperties(worldProperties);
             } else {
@@ -132,13 +132,16 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             if (e instanceof WorldCreationException) {
                 Logging.getLogger().log(Level.WARNING, String.format("Error while attempting to load world '%s'", worldName), e);
             } else {
-                Logging.getLogger().log(Level.WARNING, String.format("Could not load world from file '%s'", worldFile), e);
+                Logging.getLogger().log(Level.WARNING, String.format("Could not load world '%s' from file '%s", worldName, getWorldFile(worldName)), e);
             }
         }
         return null;
     }
 
     private File getWorldFile(String worldName) {
+        if (worldName.isEmpty()) {
+            throw new RuntimeException("Can't have blank world name!");
+        }
         return new File(worldsFolder, worldName + WORLD_FILE_EXT);
     }
 
@@ -182,13 +185,13 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @Override
     public boolean isThisAWorld(@NotNull final String name) {
-        return isThisAWorld(new File(this.plugin.getServerInterface().getWorldContainer(), name));
+        return isThisAWorld(new File(serverInterface.getWorldContainer(), name));
     }
 
     @NotNull
     @Override
     public BundledMessage whatWillThisDelete(@NotNull final String name) {
-        final File worldFolder = new File(this.plugin.getServerInterface().getWorldContainer(), name);
+        final File worldFolder = new File(serverInterface.getWorldContainer(), name);
         StringBuilder toDelete = new StringBuilder();
         if (isThisAWorld(worldFolder)) {
             toDelete.append("\n  File: ").append(worldFolder);
@@ -216,24 +219,36 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     }
 
     @NotNull
-    private WorldProperties loadOrCreateWorldProperties(@NotNull final File file) throws MultiverseException {
+    private WorldProperties loadOrCreateWorldProperties(@NotNull final String worldName) throws MultiverseException {
+        File file = getWorldFile(worldName);
         try {
             if (!file.exists()) {
                 file.createNewFile();
             }
             YamlConfiguration config = BukkitConfiguration.loadYamlConfig(file);
-            WorldProperties defaults = new WorldProperties();
+            WorldProperties defaults = new WorldProperties(worldName);
             WorldProperties worldProperties = config.getToObject("settings", defaults);
             if (worldProperties == null) {
                 worldProperties = defaults;
-                config.set("settings", worldProperties);
-                config.save(file);
+                saveWorldProperties(worldProperties, config, file);
             }
             return worldProperties;
         } catch (IOException e) {
-            throw new MultiverseException(Message.bundleMessage(BukkitLanguage.CREATE_WORLD_FILE_ERROR, file), e);
+            throw new MultiverseException(Message.bundleMessage(BukkitLanguage.SAVE_WORLD_FILE_ERROR, file), e);
         } catch (PluginBaseException e) {
+            if (e instanceof MultiverseException) {
+                throw (MultiverseException) e;
+            }
             throw new MultiverseException(e);
+        }
+    }
+
+    private void saveWorldProperties(@NotNull WorldProperties properties, @NotNull YamlConfiguration config, @NotNull File file) throws MultiverseException {
+        try {
+            config.set("settings", properties);
+            config.save(file);
+        } catch (IOException e) {
+            throw new MultiverseException(Message.bundleMessage(BukkitLanguage.SAVE_WORLD_FILE_ERROR, file), e);
         }
     }
 
@@ -244,7 +259,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         if (this.worldPropertiesMap.containsKey(worldName)) {
             return this.worldPropertiesMap.get(worldName);
         } else {
-            final WorldProperties worldProperties = loadOrCreateWorldProperties(new File(worldsFolder, worldName + WORLD_FILE_EXT));
+            final WorldProperties worldProperties = loadOrCreateWorldProperties(worldName);
             worldPropertiesMap.put(worldName, worldProperties);
             return worldProperties;
         }
@@ -263,7 +278,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                 }
             }
         }
-        for (final File file : Bukkit.getWorldContainer().listFiles()) {
+        for (final File file : serverInterface.getWorldContainer().listFiles()) {
             if (isThisAWorld(file) && file.getName().equalsIgnoreCase(name)) {
                 return file.getName();
             }
@@ -355,7 +370,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
 
     @Override
     public boolean unloadWorldFromServer(@NotNull final MultiverseWorld world) {
-        return this.plugin.getServer().unloadWorld(world.getName(), true);
+        return Bukkit.unloadWorld(world.getName(), true);
     }
 
     @NotNull
@@ -371,13 +386,19 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         FileUtils.deleteDirectory(worldFile);
     }
 
+    @Override
+    public void saveWorld(@NotNull MultiverseWorld world) throws MultiverseException {
+        File worldFile = getWorldFile(world.getName());
+        YamlConfiguration config = new YamlConfiguration();
+        saveWorldProperties(world.getProperties(), config, worldFile);
+    }
+
     private static class InitialWorldAggregator {
 
         private static final int WORLD_SET_SIZE_FACTOR = 3;
 
         private File worldsFolder;
         private Set<String> initialWorldNames;
-        private Set<String> notLoadedWorlds;
 
         InitialWorldAggregator(File worldsFolder) {
             this.worldsFolder = worldsFolder;
@@ -389,30 +410,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         }
 
         public Iterator<String> getLoadableWorldsIterator() {
-            final Iterator<String> iterator = initialWorldNames.iterator();
-            return new Iterator<String>() {
-                String current = null;
-                @Override
-                public boolean hasNext() {
-                    return iterator.hasNext();
-                }
-
-                @Override
-                public String next() {
-                    current = iterator.next();
-                    return current;
-                }
-
-                @Override
-                public void remove() {
-                    iterator.remove();
-                    notLoadedWorlds.add(current);
-                }
-            };
-        }
-
-        public Iterator<String> getNotLoadedWorldsIterator() {
-            return notLoadedWorlds.iterator();
+            return initialWorldNames.iterator();
         }
 
         public String getCommaSeparatedWorldNames() {
@@ -430,7 +428,6 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             initialWorldNames = new HashSet<String>(Bukkit.getWorlds().size() * WORLD_SET_SIZE_FACTOR);
             aggregateAlreadyLoadedWorlds();
             aggregatePotentialWorlds();
-            notLoadedWorlds = new HashSet<String>(initialWorldNames.size());
         }
 
         private void aggregateAlreadyLoadedWorlds() {

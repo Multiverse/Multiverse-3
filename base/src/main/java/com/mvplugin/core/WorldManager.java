@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.exceptions.WorldManagementException;
@@ -274,6 +275,10 @@ public final class WorldManager {
                 throw new WorldManagementException(Message.bundleMessage(Language.WORLD_COULD_NOT_UNLOAD_FROM_SERVER, world.getName()));
             }
         }
+    }
+
+    public void saveWorld(@NotNull MultiverseWorld world) throws MultiverseException {
+        worldManagerUtil.saveWorld(world);
     }
 
     /**

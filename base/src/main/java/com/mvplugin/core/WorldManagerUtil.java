@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.world.WorldCreationSettings;
 import org.jetbrains.annotations.NotNull;
@@ -76,4 +77,6 @@ interface WorldManagerUtil {
 
     @NotNull
     String getCorrectlyCasedWorldName(@NotNull final String name);
+
+    void saveWorld(@NotNull MultiverseWorld worldProperties) throws MultiverseException;
 }

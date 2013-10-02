@@ -5,8 +5,8 @@ import pluginbase.messages.Message;
 public class BukkitLanguage {
     public static final Message CREATE_WORLD_ERROR = Message.createMessage("worlds.create_world_error",
             "$TBukkit $-experienced a problem while attempting to create '$v%s$-'!");
-    public static final Message CREATE_WORLD_FILE_ERROR = Message.createMessage("worlds.create_world_file_error",
-            "$tMultiverse $-was unable to create the persistence file $v%s");
+    public static final Message SAVE_WORLD_FILE_ERROR = Message.createMessage("worlds.create_world_file_error",
+            "$tMultiverse $-was unable to save the persistence file $v%s");
     public static final Message ALREADY_BUKKIT_WORLD = Message.createMessage("worlds.bukkit_world_exists",
             "$TBukkit $ialready knows about a world named '$v%s$i'.  $,Try importing it instead!");
     public static final Message WGEN_UNKNOWN_GENERATOR = Message.createMessage("worlds.create.unknown_generator",

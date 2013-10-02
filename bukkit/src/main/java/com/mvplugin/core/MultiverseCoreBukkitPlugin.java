@@ -76,8 +76,8 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
     }
 
     private void prepareAPI() {
-        this.api = new DefaultMultiverseCoreAPI(this.getServerInterface(),
-                new BukkitWorldManagerUtil(this), new BukkitBlockSafety());
+        this.api = new DefaultMultiverseCoreAPI(getServerInterface(),
+                new BukkitWorldManagerUtil(getServerInterface(), getDataFolder()), new BukkitBlockSafety());
     }
 
     @Override
