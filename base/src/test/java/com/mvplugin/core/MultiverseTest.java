@@ -12,12 +12,11 @@ public abstract class MultiverseTest {
 
     @Before
     public void setupDirectories() throws Exception {
-        FileLocations.cleanupDirectories();
         FileLocations.setupDirectories();
     }
 
     @After
     public void cleanupDirectories() throws Exception {
-        //FileLocations.cleanupDirectories();
+        FileLocations.cleanupDirectories();
     }
 }
