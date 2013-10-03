@@ -394,7 +394,10 @@ public class MockServer implements Server {
 
     @Override
     public void shutdown() {
-        // TODO probably implement
+        System.out.println("Saving worlds...");
+        for (World world : worlds) {
+            world.save();
+        }
     }
 
     @Override

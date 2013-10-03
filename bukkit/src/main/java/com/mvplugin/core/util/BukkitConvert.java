@@ -48,7 +48,7 @@ public final class BukkitConvert {
 
     @NotNull
     public static Location toBukkit(@NotNull final FacingCoordinates position, final World world) {
-        return new Location(world, position.getX(), position.getY(), position.getZ());
+        return new Location(world, position.getX(), position.getY(), position.getZ(), position.getYaw(), position.getPitch());
     }
 
     @NotNull

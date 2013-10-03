@@ -56,7 +56,6 @@ public class MockPluginManager implements PluginManager {
 
     @Override
     public Plugin getPlugin(String s) {
-        System.out.println(plugins);
         for (Plugin plugin : plugins) {
             if (plugin.getName().equals(s)) {
                 return plugin;

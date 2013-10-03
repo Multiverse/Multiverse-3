@@ -30,41 +30,78 @@ import org.bukkit.inventory.ItemStack;
 import org.bukkit.metadata.MetadataValue;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.util.Vector;
+import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import pluginbase.bukkit.config.BukkitConfiguration;
+import pluginbase.bukkit.config.YamlConfiguration;
+import pluginbase.config.SerializationRegistrar;
+import pluginbase.config.annotation.SerializeWith;
+import pluginbase.config.serializers.Serializer;
 
 import java.io.File;
-import java.io.IOException;
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
 import java.util.UUID;
 
 public class MockWorld implements World {
 
+    static {
+        SerializationRegistrar.registerClass(MockWorld.class);
+        SerializationRegistrar.registerClass(Location.class);
+        SerializationRegistrar.registerClass(UUID.class);
+    }
+
     String name;
-    WorldType type;
+    @SerializeWith(UUIDSerializer.class)
+    UUID uuid;
+    WorldType type = WorldType.NORMAL;
     Environment environment;
-    long seed;
-    long time = 0L;
+    long seed = 0L;
+    transient long time = 0L;
     boolean pvp = true;
     boolean keepSpawnInMemory = true;
     Difficulty difficulty = Difficulty.EASY;
-    Location spawn = new Location(this, 0, 0, 0);
-    File folder;
-    UUID uuid;
+    @SerializeWith(LocationSerializer.class)
+    Location spawn = new Location(this, 0, 0, 0, 0, 0);
+
+    transient File folder;
+    transient File datFile;
+
+    private MockWorld() { }
 
     public MockWorld(WorldCreator creator) {
         this.name = creator.name();
-        this.type = creator.type();
         this.environment = creator.environment();
-        this.seed = creator.seed();
         folder = new File(FileLocations.WORLDS_DIRECTORY, name);
-        folder.mkdirs();
-        try {
-            new File(folder, "level.dat").createNewFile();
-        } catch (IOException e) {
-            e.printStackTrace();
+        datFile = new File(folder, "level.dat");
+        if (!datFile.exists()) {
+            this.type = creator.type();
+            this.seed = creator.seed();
+            uuid = UUID.nameUUIDFromBytes(name.getBytes());
+            save();
+        } else {
+            try {
+                YamlConfiguration config = BukkitConfiguration.loadYamlConfig(datFile);
+                MockWorld world = (MockWorld) config.get(name);
+                this.type = world.type;
+                this.seed = world.seed;
+                this.uuid = world.uuid;
+                this.environment = world.environment;
+                this.spawn = world.spawn;
+                this.difficulty = world.difficulty;
+                this.pvp = world.pvp;
+                this.keepSpawnInMemory = world.keepSpawnInMemory;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
-        uuid = UUID.nameUUIDFromBytes(name.getBytes());
+    }
+
+    private void load() {
+
     }
 
     @Override
@@ -410,7 +447,17 @@ public class MockWorld implements World {
 
     @Override
     public void save() {
-        //To change body of implemented methods use File | Settings | File Templates.
+        try {
+            if (!datFile.exists()) {
+                folder.mkdirs();
+                datFile.createNewFile();
+            }
+            YamlConfiguration config = new YamlConfiguration();
+            config.set(name, this);
+            config.save(datFile);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     @Override
@@ -661,5 +708,50 @@ public class MockWorld implements World {
     @Override
     public Set<String> getListeningPluginChannels() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    private static class UUIDSerializer implements Serializer<UUID> {
+        @Nullable
+        @Override
+        public Object serialize(@Nullable UUID uuid) {
+            return uuid != null ? uuid.toString() : null;
+        }
+
+        @Nullable
+        @Override
+        public UUID deserialize(@Nullable Object o, @NotNull Class<UUID> uuidClass) throws IllegalArgumentException {
+            return o != null ? UUID.fromString(o.toString()) : null;
+        }
+    }
+
+    private static class LocationSerializer implements Serializer<Location> {
+        @Nullable
+        @Override
+        public Object serialize(@Nullable Location l) {
+            if (l == null) {
+                return null;
+            }
+            Map<String, Object> map = new HashMap<String, Object>(3);
+            map.put("x", l.getX());
+            map.put("y", l.getY());
+            map.put("z", l.getZ());
+            return map;
+        }
+
+        @Nullable
+        @Override
+        public Location deserialize(@Nullable Object serialized, @NotNull Class<Location> wantedType) throws IllegalArgumentException {
+            if (serialized == null || !(serialized instanceof Map)) {
+                return null;
+            }
+            Map map = (Map) serialized;
+            double x = 0, y = 0, z = 0;
+            try {
+                x = Double.valueOf(map.get("x").toString());
+                y = Double.valueOf(map.get("y").toString());
+                z = Double.valueOf(map.get("z").toString());
+            } catch (Exception ignore) { }
+            return new Location(null, x, y, z);
+        }
     }
 }
