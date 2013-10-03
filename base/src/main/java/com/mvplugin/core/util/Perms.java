@@ -25,7 +25,7 @@ public class Perms {
             .commandPermission().usePluginName().build();
 
     public static final Perm CMD_MODIFY = PermFactory.newPerm(MultiverseCore.class, "cmd.modify")
-            .commandPermission().usePluginName().build();
+            .commandPermission().usePluginName().specificOnly().build();
 
     public static final Perm CMD_DELETE = PermFactory.newPerm(MultiverseCore.class, "cmd.delete")
             .commandPermission().usePluginName().build();

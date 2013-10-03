@@ -12,7 +12,8 @@ import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
 
-import static com.mvplugin.core.util.Language.Command.List.*;
+import static com.mvplugin.core.util.Language.Command.List.HELP;
+import static com.mvplugin.core.util.Language.Command.List.LIST_WORLDS;
 
 @CommandInfo(
         primaryAlias = "list",
@@ -42,7 +43,7 @@ public class ListCommand extends MultiverseCommand {
         final StringBuilder builder = new StringBuilder();
         for (@NotNull final MultiverseWorld world : getPlugin().getWorldManager().getWorlds()) {
             if (!Perms.ACCESS.hasPermission(sender, world.getName())
-                    || (world.isHidden() && !Perms.CMD_MODIFY.hasPermission(sender))) {
+                    || (world.isHidden() && !Perms.CMD_MODIFY.hasPermission(sender, world.getName()))) {
                 continue;
             }
             if (builder.length() != 0) {
