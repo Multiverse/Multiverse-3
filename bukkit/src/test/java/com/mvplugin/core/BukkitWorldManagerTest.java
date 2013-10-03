@@ -8,13 +8,13 @@ import static org.junit.Assert.*;
 
 public class BukkitWorldManagerTest extends BukkitMultiverseTest {
 
+    MultiverseCoreBukkitPlugin plugin;
     MultiverseCoreAPI api;
 
     @Before
     public void setup() throws Exception {
-        api = BukkitAPIFactory.getAPI();
-        assertNotNull(api);
-        assertNotNull(api.getWorldManager());
+        plugin = (MultiverseCoreBukkitPlugin) server.getPluginManager().getPlugin("Multiverse-Core");
+        api = plugin.getMultiverseCore();
     }
 
     @Test
@@ -29,7 +29,7 @@ public class BukkitWorldManagerTest extends BukkitMultiverseTest {
         gargamel.setAutoLoad(false);
         api.getWorldManager().saveWorld(gargamel);
 
-        api = BukkitAPIFactory.getAPI();
+        //api = BukkitAPIFactory.getAPI();
         assertFalse(api.getWorldManager().isLoaded("gargamel"));
         assertTrue(api.getWorldManager().isManaged("gargamel"));
     }
