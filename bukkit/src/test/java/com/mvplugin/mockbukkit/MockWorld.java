@@ -75,25 +75,29 @@ public class MockWorld implements World {
     public MockWorld(WorldCreator creator) {
         this.name = creator.name();
         this.environment = creator.environment();
+        this.type = creator.type();
+        this.seed = creator.seed();
+        this.uuid = UUID.nameUUIDFromBytes(name.getBytes());
         folder = new File(FileLocations.WORLDS_DIRECTORY, name);
         datFile = new File(folder, "level.dat");
         if (!datFile.exists()) {
-            this.type = creator.type();
-            this.seed = creator.seed();
-            uuid = UUID.nameUUIDFromBytes(name.getBytes());
             save();
         } else {
             try {
                 YamlConfiguration config = BukkitConfiguration.loadYamlConfig(datFile);
                 MockWorld world = (MockWorld) config.get(name);
-                this.type = world.type;
-                this.seed = world.seed;
-                this.uuid = world.uuid;
-                this.environment = world.environment;
-                this.spawn = world.spawn;
-                this.difficulty = world.difficulty;
-                this.pvp = world.pvp;
-                this.keepSpawnInMemory = world.keepSpawnInMemory;
+                if (world != null) {
+                    this.type = world.type;
+                    this.seed = world.seed;
+                    this.uuid = world.uuid;
+                    this.environment = world.environment;
+                    this.spawn = world.spawn;
+                    this.difficulty = world.difficulty;
+                    this.pvp = world.pvp;
+                    this.keepSpawnInMemory = world.keepSpawnInMemory;
+                } else {
+                    save();
+                }
             } catch (Exception e) {
                 e.printStackTrace();
             }
