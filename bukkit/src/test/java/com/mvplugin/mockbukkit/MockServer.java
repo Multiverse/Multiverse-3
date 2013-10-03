@@ -2,6 +2,7 @@ package com.mvplugin.mockbukkit;
 
 import com.avaje.ebean.config.ServerConfig;
 import com.mvplugin.core.FileLocations;
+import com.mvplugin.mockbukkit.help.MockHelpMap;
 import com.mvplugin.mockbukkit.plugin.MockPluginManager;
 import com.mvplugin.mockbukkit.scheduler.MockBukkitScheduler;
 import org.bukkit.GameMode;
@@ -60,6 +61,7 @@ public class MockServer implements Server {
     private MockPluginManager pluginManager = new MockPluginManager(this);
     private MockBukkitScheduler bukkitScheduler = new MockBukkitScheduler();
     private ServicesManager servicesManager = new SimpleServicesManager();
+    private HelpMap helpMap = new MockHelpMap();
 
     public void loadDefaultWorlds() {
         createWorld(new WorldCreator("world").environment(Environment.NORMAL));
@@ -462,7 +464,7 @@ public class MockServer implements Server {
 
     @Override
     public HelpMap getHelpMap() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return helpMap;
     }
 
     @Override

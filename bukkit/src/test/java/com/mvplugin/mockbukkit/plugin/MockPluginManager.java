@@ -1,13 +1,14 @@
 package com.mvplugin.mockbukkit.plugin;
 
+import com.google.common.collect.ImmutableSet;
 import com.mvplugin.core.FileLocations;
-import com.mvplugin.core.PluginInfo;
 import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.permissions.Permissible;
 import org.bukkit.permissions.Permission;
+import org.bukkit.permissions.PermissionDefault;
 import org.bukkit.plugin.EventExecutor;
 import org.bukkit.plugin.InvalidDescriptionException;
 import org.bukkit.plugin.InvalidPluginException;
@@ -16,25 +17,36 @@ import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.UnknownDependencyException;
-import org.powermock.api.mockito.PowerMockito;
+import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
+import java.lang.reflect.Constructor;
+import java.lang.reflect.Field;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.HashSet;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Set;
-
-import static org.mockito.Mockito.*;
+import java.util.WeakHashMap;
 
 public class MockPluginManager implements PluginManager {
 
     List<Plugin> plugins = new ArrayList<Plugin>();
     Set<Plugin> enabledPlugins = new HashSet<Plugin>();
+    private final Map<String, Permission> permissions = new HashMap<String, Permission>();
+    private final Map<Boolean, Set<Permission>> defaultPerms = new LinkedHashMap<Boolean, Set<Permission>>();
+    private final Map<String, Map<Permissible, Boolean>> permSubs = new HashMap<String, Map<Permissible, Boolean>>();
+    private final Map<Boolean, Map<Permissible, Boolean>> defSubs = new HashMap<Boolean, Map<Permissible, Boolean>>();
 
     Server server;
 
     public MockPluginManager(Server server) {
         this.server = server;
+
+        defaultPerms.put(true, new HashSet<Permission>());
+        defaultPerms.put(false, new HashSet<Permission>());
     }
 
     @Override
@@ -44,6 +56,7 @@ public class MockPluginManager implements PluginManager {
 
     @Override
     public Plugin getPlugin(String s) {
+        System.out.println(plugins);
         for (Plugin plugin : plugins) {
             if (plugin.getName().equals(s)) {
                 return plugin;
@@ -77,19 +90,28 @@ public class MockPluginManager implements PluginManager {
         return null;
     }
 
-    public Plugin loadPlugin(PluginInfo pluginInfo) {
+    public Plugin loadPlugin(PluginDescriptionFile pdf) {
         try {
-            Plugin plugin = PowerMockito.spy(pluginInfo.plugin);
-            System.out.println(plugin.getClass());
-            when(plugin.getServer()).thenReturn(server);
-            when(plugin.getDescription()).thenReturn(new PluginDescriptionFile(pluginInfo.name, pluginInfo.version, pluginInfo.mainClass));
-            when(plugin.getDataFolder()).thenReturn(new File(FileLocations.PLUGIN_DIRECTORY, plugin.getName()));
+            Class<Plugin> clazz = (Class<Plugin>) Class.forName(pdf.getMain());
+            Constructor<Plugin> constructor = clazz.getDeclaredConstructor();
+            constructor.setAccessible(true);
+            Plugin plugin = constructor.newInstance();
+            getField("server").set(plugin, server);
+            getField("description").set(plugin, pdf);
+            getField("dataFolder").set(plugin, new File(FileLocations.PLUGIN_DIRECTORY, plugin.getName()));
             plugin.onLoad();
+            plugins.add(plugin);
             return plugin;
         } catch (Exception e) {
             e.printStackTrace();
         }
         return null;
+    }
+
+    private Field getField(String name) throws Exception {
+        Field field = JavaPlugin.class.getDeclaredField(name);
+        field.setAccessible(true);
+        return field;
     }
 
     @Override
@@ -143,69 +165,132 @@ public class MockPluginManager implements PluginManager {
         }
     }
 
-    @Override
-    public Permission getPermission(String s) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public Permission getPermission(String name) {
+        return permissions.get(name.toLowerCase());
     }
 
-    @Override
-    public void addPermission(Permission permission) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void addPermission(Permission perm) {
+        String name = perm.getName().toLowerCase();
+
+        if (permissions.containsKey(name)) {
+            throw new IllegalArgumentException("The permission " + name + " is already defined!");
+        }
+
+        permissions.put(name, perm);
+        calculatePermissionDefault(perm);
     }
 
-    @Override
-    public void removePermission(Permission permission) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public Set<Permission> getDefaultPermissions(boolean op) {
+        return ImmutableSet.copyOf(defaultPerms.get(op));
     }
 
-    @Override
-    public void removePermission(String s) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void removePermission(Permission perm) {
+        removePermission(perm.getName());
     }
 
-    @Override
-    public Set<Permission> getDefaultPermissions(boolean b) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public void removePermission(String name) {
+        permissions.remove(name.toLowerCase());
     }
 
-    @Override
-    public void recalculatePermissionDefaults(Permission permission) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void recalculatePermissionDefaults(Permission perm) {
+        if (permissions.containsValue(perm)) {
+            defaultPerms.get(true).remove(perm);
+            defaultPerms.get(false).remove(perm);
+
+            calculatePermissionDefault(perm);
+        }
     }
 
-    @Override
-    public void subscribeToPermission(String s, Permissible permissible) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    private void calculatePermissionDefault(Permission perm) {
+        if ((perm.getDefault() == PermissionDefault.OP) || (perm.getDefault() == PermissionDefault.TRUE)) {
+            defaultPerms.get(true).add(perm);
+            dirtyPermissibles(true);
+        }
+        if ((perm.getDefault() == PermissionDefault.NOT_OP) || (perm.getDefault() == PermissionDefault.TRUE)) {
+            defaultPerms.get(false).add(perm);
+            dirtyPermissibles(false);
+        }
     }
 
-    @Override
-    public void unsubscribeFromPermission(String s, Permissible permissible) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    private void dirtyPermissibles(boolean op) {
+        Set<Permissible> permissibles = getDefaultPermSubscriptions(op);
+
+        for (Permissible p : permissibles) {
+            p.recalculatePermissions();
+        }
     }
 
-    @Override
-    public Set<Permissible> getPermissionSubscriptions(String s) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public void subscribeToPermission(String permission, Permissible permissible) {
+        String name = permission.toLowerCase();
+        Map<Permissible, Boolean> map = permSubs.get(name);
+
+        if (map == null) {
+            map = new WeakHashMap<Permissible, Boolean>();
+            permSubs.put(name, map);
+        }
+
+        map.put(permissible, true);
     }
 
-    @Override
-    public void subscribeToDefaultPerms(boolean b, Permissible permissible) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public void unsubscribeFromPermission(String permission, Permissible permissible) {
+        String name = permission.toLowerCase();
+        Map<Permissible, Boolean> map = permSubs.get(name);
+
+        if (map != null) {
+            map.remove(permissible);
+
+            if (map.isEmpty()) {
+                permSubs.remove(name);
+            }
+        }
     }
 
-    @Override
-    public void unsubscribeFromDefaultPerms(boolean b, Permissible permissible) {
-        //To change body of implemented methods use File | Settings | File Templates.
+    public Set<Permissible> getPermissionSubscriptions(String permission) {
+        String name = permission.toLowerCase();
+        Map<Permissible, Boolean> map = permSubs.get(name);
+
+        if (map == null) {
+            return ImmutableSet.of();
+        } else {
+            return ImmutableSet.copyOf(map.keySet());
+        }
     }
 
-    @Override
-    public Set<Permissible> getDefaultPermSubscriptions(boolean b) {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+    public void subscribeToDefaultPerms(boolean op, Permissible permissible) {
+        Map<Permissible, Boolean> map = defSubs.get(op);
+
+        if (map == null) {
+            map = new WeakHashMap<Permissible, Boolean>();
+            defSubs.put(op, map);
+        }
+
+        map.put(permissible, true);
     }
 
-    @Override
+    public void unsubscribeFromDefaultPerms(boolean op, Permissible permissible) {
+        Map<Permissible, Boolean> map = defSubs.get(op);
+
+        if (map != null) {
+            map.remove(permissible);
+
+            if (map.isEmpty()) {
+                defSubs.remove(op);
+            }
+        }
+    }
+
+    public Set<Permissible> getDefaultPermSubscriptions(boolean op) {
+        Map<Permissible, Boolean> map = defSubs.get(op);
+
+        if (map == null) {
+            return ImmutableSet.of();
+        } else {
+            return ImmutableSet.copyOf(map.keySet());
+        }
+    }
+
     public Set<Permission> getPermissions() {
-        return null;  //To change body of implemented methods use File | Settings | File Templates.
+        return new HashSet<Permission>(permissions.values());
     }
 
     @Override

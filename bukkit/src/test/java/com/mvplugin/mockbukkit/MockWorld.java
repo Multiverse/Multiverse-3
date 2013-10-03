@@ -57,7 +57,7 @@ public class MockWorld implements World {
         this.type = creator.type();
         this.environment = creator.environment();
         this.seed = creator.seed();
-        folder = new File(FileLocations.SERVER_DIRECTORY, name);
+        folder = new File(FileLocations.WORLDS_DIRECTORY, name);
         folder.mkdirs();
         try {
             new File(folder, "level.dat").createNewFile();

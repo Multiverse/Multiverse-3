@@ -1,18 +1,25 @@
 package com.mvplugin.core;
 
-import com.mvplugin.mockbukkit.MockServer;
 import org.bukkit.Bukkit;
-import org.bukkit.plugin.Plugin;
+import org.bukkit.Server;
+import org.bukkit.plugin.PluginBase;
+import org.bukkit.plugin.PluginDescriptionFile;
 import org.junit.Before;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import pluginbase.bukkit.AbstractBukkitPlugin;
 
-@PrepareForTest({Bukkit.class, Plugin.class})
+@PrepareForTest({Bukkit.class, MultiverseCoreBukkitPlugin.class, AbstractBukkitPlugin.class, PluginBase.class})
 public class BukkitMultiverseTest extends MultiverseTest {
 
-    protected MockServer server;
+    protected MultiverseCoreBukkitPlugin plugin;
 
     @Before
     public void initialize() throws Exception {
-        server = BukkitUtil.prepareBukkit(new PluginInfo("Multiverse-Core", "vTest", MultiverseCoreBukkitPlugin.class.getName(), new MultiverseCoreBukkitPlugin()));
+        reloadServer();
+    }
+
+    public void reloadServer() throws Exception {
+        Server server = BukkitUtil.prepareBukkit(new PluginDescriptionFile("Multiverse-Core", "Test", MultiverseCoreBukkitPlugin.class.getName()));
+        plugin = (MultiverseCoreBukkitPlugin) server.getPluginManager().getPlugin("Multiverse-Core");
     }
 }
