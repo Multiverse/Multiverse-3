@@ -24,8 +24,11 @@ public class Perms {
     public static final Perm CMD_LIST = PermFactory.newPerm(MultiverseCore.class, "cmd.list")
             .commandPermission().usePluginName().build();
 
-    public static final Perm CMD_MODIFY = PermFactory.newPerm(MultiverseCore.class, "cmd.modify")
+    private static final Perm CMD_MODIFY_ALL = PermFactory.newPerm(MultiverseCore.class, "cmd.modify.*")
             .commandPermission().usePluginName().specificOnly().build();
+
+    public static final Perm CMD_MODIFY = PermFactory.newPerm(MultiverseCore.class, "cmd.modify")
+            .commandPermission().parent(CMD_MODIFY_ALL).usePluginName().specificOnly().build();
 
     public static final Perm CMD_DELETE = PermFactory.newPerm(MultiverseCore.class, "cmd.delete")
             .commandPermission().usePluginName().build();

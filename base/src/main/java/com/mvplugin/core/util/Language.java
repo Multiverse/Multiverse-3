@@ -8,6 +8,9 @@ public final class Language {
     public static final class Command {
         private Command() { }
 
+        public static final Message MUST_SPECIFY_WORLD = Message.createMessage("command.general.console_must_specify_world",
+                "$-You must specify a world when using this command when not in game!");
+
         public static final class Create {
             private Create() { }
 
@@ -89,6 +92,31 @@ public final class Language {
                     + "\n$hOnly the worlds you may access will be shown.");
             public static final Message LIST_WORLDS = Message.createMessage("command.list.list",
                     "$=====[ Multiverse World List ]====\n%s");
+        }
+
+        public static final class Modify {
+            private Modify() { }
+
+            public static final Message ALL_PROPERTIES_LIST = Message.createMessage("command.modify.property_list",
+                    "$iAvailable properties: \n%s");
+
+            public static final Message NO_SUCH_PROPERTY = Message.createMessage("command.modify.no_such_property",
+                    "$-There is no property '$v%s$-'");
+
+            public static final Message PROPERTY_DESCRIPTION = Message.createMessage("command.modify.property_description",
+                    "$hDescription for property '$v%s$h': \n$i%s");
+
+            public static final Message NO_MODIFY_PERMISSION = Message.createMessage("command.modify.no_perm",
+                    "$-You do not have permission to modify world '$v%s$-'!");
+
+            public static final class Set {
+                private Set() { }
+
+                public static final Message HELP = Message.createMessage("command.modify.set.help",
+                        "$hSets the value of a property for a world managed by $tMultiverse$h."
+                                + "\n$hYou may type this command with no args to see a list of available properties."
+                                + "\n$hYou may type this command with only a property name to see a description of the property.");
+            }
         }
 
         public static final class Load {

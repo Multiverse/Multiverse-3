@@ -8,6 +8,7 @@ import com.mvplugin.core.command.DeleteCommand;
 import com.mvplugin.core.command.ImportCommand;
 import com.mvplugin.core.command.ListCommand;
 import com.mvplugin.core.command.LoadCommand;
+import com.mvplugin.core.command.ModifySetCommand;
 import com.mvplugin.core.command.TeleportCommand;
 import com.mvplugin.core.command.UnloadCommand;
 import com.mvplugin.core.destination.DestinationRegistry;
@@ -89,6 +90,7 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         registerCommand(DeleteCommand.class);
         registerCommand(CreateCommand.class);
         registerCommand(TeleportCommand.class);
+        registerCommand(ModifySetCommand.class);
     }
 
     @NotNull

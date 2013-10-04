@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.minecraft.GameMode;
@@ -8,13 +9,18 @@ import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import pluginbase.config.field.Field;
+import pluginbase.config.field.FieldMap;
+import pluginbase.config.field.FieldMapper;
 import pluginbase.config.field.PropertyVetoException;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
 
 import java.util.Collection;
+import java.util.Deque;
 import java.util.HashMap;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -131,9 +137,31 @@ public final class MultiverseWorld {
     }
 
     @NotNull
-    public String getAllPropertyNames() {
-        //TODO
-        return null;
+    public static String[] getAllPropertyNames() {
+        return new PropertyNameExtractor(WorldProperties.class).extractPropertyNames();
+    }
+
+    @Nullable
+    public static String getPropertyDescriptionKey(String... name) throws NoSuchFieldException {
+        Field field = getField(name);
+        return field.getDescription();
+    }
+
+    private static Field getField(String... name) throws NoSuchFieldException {
+        FieldMap fieldMap = FieldMapper.getFieldMap(WorldProperties.class);
+        Field field = null;
+        for (String s : name) {
+            field = fieldMap.getField(s);
+            if (field != null) {
+                fieldMap = field;
+            } else {
+                break;
+            }
+        }
+        if (field == null) {
+            throw new NoSuchFieldException("No such property");
+        }
+        return field;
     }
 
     @NotNull
@@ -379,6 +407,10 @@ public final class MultiverseWorld {
         properties.setProperty(value, name);
     }
 
+    public void setProperty(@NotNull String propertyName, @NotNull String value) throws MultiverseException {
+        // TODO
+    }
+
     @Nullable
     public Object getPropertyUnchecked(@NotNull final String... name) throws IllegalArgumentException {
         return properties.getPropertyUnchecked(name);
@@ -388,5 +420,49 @@ public final class MultiverseWorld {
         return properties.setPropertyUnchecked(value, name);
     }
 
-    
+    private static class PropertyNameExtractor {
+        Class clazz;
+        List<String> allProperties;
+        Deque<String> currentPropertyParents;
+
+        PropertyNameExtractor(Class clazz) {
+            this.clazz = clazz;
+        }
+
+        public String[] extractPropertyNames() {
+            prepareBuffers();
+            appendNamesFromFieldMap(FieldMapper.getFieldMap(clazz));
+            return allProperties.toArray(new String[allProperties.size()]);
+        }
+
+        private void prepareBuffers() {
+            allProperties = new LinkedList<String>();
+            currentPropertyParents = new LinkedList<String>();
+        }
+
+        private void appendNamesFromFieldMap(FieldMap fieldMap) {
+            for (Field field : fieldMap) {
+                String fieldName = field.getName();
+                if (field.hasChildFields()) {
+                    currentPropertyParents.add(fieldName);
+                    appendNamesFromFieldMap(field);
+                    currentPropertyParents.pollLast();
+                } else {
+                    if (!field.isImmutable()) {
+                        appendPropertyName(fieldName);
+                    }
+                }
+            }
+        }
+
+        private void appendPropertyName(String name) {
+            StringBuilder buffer = new StringBuilder();
+            for (String parent : currentPropertyParents) {
+                buffer.append(parent);
+                buffer.append('.');
+            }
+            buffer.append(name);
+            allProperties.add(buffer.toString());
+        }
+    }
 }
