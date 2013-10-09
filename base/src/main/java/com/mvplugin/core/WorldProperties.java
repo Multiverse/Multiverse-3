@@ -305,9 +305,12 @@ class WorldProperties extends PropertiesWrapper {
 
     private transient WorldLink worldLink;
 
-    public WorldProperties() { }
+    public WorldProperties() {
+        super(".");
+    }
 
     public WorldProperties(String name) {
+        super(".");
         this.name.set(name);
     }
 

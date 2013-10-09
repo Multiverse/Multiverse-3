@@ -1,6 +1,5 @@
 package com.mvplugin.core;
 
-import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.minecraft.GameMode;
@@ -13,14 +12,13 @@ import pluginbase.config.field.Field;
 import pluginbase.config.field.FieldMap;
 import pluginbase.config.field.FieldMapper;
 import pluginbase.config.field.PropertyVetoException;
+import pluginbase.config.properties.PropertiesWrapper;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
 
 import java.util.Collection;
-import java.util.Deque;
 import java.util.HashMap;
-import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -138,7 +136,7 @@ public final class MultiverseWorld {
 
     @NotNull
     public static String[] getAllPropertyNames() {
-        return new PropertyNameExtractor(WorldProperties.class).extractPropertyNames();
+        return PropertiesWrapper.getAllPropertyNames(WorldProperties.class, ".");
     }
 
     @Nullable
@@ -399,70 +397,44 @@ public final class MultiverseWorld {
     }
 
     @Nullable
-    public Object getProperty(@NotNull final String... name) throws NoSuchFieldException, IllegalArgumentException {
-        return properties.getProperty(name);
+    public Object getProperty(@NotNull String name) throws NoSuchFieldException {
+        return getProperties().getProperty(name);
     }
 
-    public void setProperty(@Nullable final Object value, @NotNull final String... name) throws IllegalAccessException, NoSuchFieldException, PropertyVetoException, IllegalArgumentException {
-        properties.setProperty(value, name);
+    public void setProperty(@NotNull String name, @NotNull String value) throws IllegalAccessException, NoSuchFieldException, PropertyVetoException, IllegalArgumentException {
+        getProperties().setProperty(name, value);
     }
 
-    public void setProperty(@NotNull String propertyName, @NotNull String value) throws MultiverseException {
-        // TODO
+    public void addProperty(@NotNull String name, @NotNull String value) throws IllegalAccessException, NoSuchFieldException, PropertyVetoException, IllegalArgumentException {
+        getProperties().addProperty(name, value);
+    }
+
+    public void removeProperty(@NotNull String name, @NotNull String value) throws IllegalAccessException, NoSuchFieldException, PropertyVetoException, IllegalArgumentException {
+        getProperties().removeProperty(name, value);
+    }
+
+    public void clearProperty(@NotNull String name) throws IllegalAccessException, NoSuchFieldException, PropertyVetoException, IllegalArgumentException {
+        getProperties().clearProperty(name);
     }
 
     @Nullable
-    public Object getPropertyUnchecked(@NotNull final String... name) throws IllegalArgumentException {
-        return properties.getPropertyUnchecked(name);
+    public Object getPropertyUnchecked(@NotNull String name) {
+        return getProperties().getPropertyUnchecked(name);
     }
 
-    public boolean setPropertyUnchecked(@Nullable final Object value, @NotNull final String... name) throws IllegalArgumentException {
-        return properties.setPropertyUnchecked(value, name);
+    public boolean setPropertyUnchecked(@NotNull String name, @NotNull String value) {
+        return getProperties().setPropertyUnchecked(name, value);
     }
 
-    private static class PropertyNameExtractor {
-        Class clazz;
-        List<String> allProperties;
-        Deque<String> currentPropertyParents;
+    public boolean addPropertyUnchecked(@NotNull String name, @NotNull String value) {
+        return getProperties().addPropertyUnchecked(name, value);
+    }
 
-        PropertyNameExtractor(Class clazz) {
-            this.clazz = clazz;
-        }
+    public boolean removePropertyUnchecked(@NotNull String name, @NotNull String value) {
+        return getProperties().removePropertyUnchecked(name, value);
+    }
 
-        public String[] extractPropertyNames() {
-            prepareBuffers();
-            appendNamesFromFieldMap(FieldMapper.getFieldMap(clazz));
-            return allProperties.toArray(new String[allProperties.size()]);
-        }
-
-        private void prepareBuffers() {
-            allProperties = new LinkedList<String>();
-            currentPropertyParents = new LinkedList<String>();
-        }
-
-        private void appendNamesFromFieldMap(FieldMap fieldMap) {
-            for (Field field : fieldMap) {
-                String fieldName = field.getName();
-                if (field.hasChildFields()) {
-                    currentPropertyParents.add(fieldName);
-                    appendNamesFromFieldMap(field);
-                    currentPropertyParents.pollLast();
-                } else {
-                    if (!field.isImmutable()) {
-                        appendPropertyName(fieldName);
-                    }
-                }
-            }
-        }
-
-        private void appendPropertyName(String name) {
-            StringBuilder buffer = new StringBuilder();
-            for (String parent : currentPropertyParents) {
-                buffer.append(parent);
-                buffer.append('.');
-            }
-            buffer.append(name);
-            allProperties.add(buffer.toString());
-        }
+    public boolean clearPropertyUnchecked(@NotNull String name) {
+        return getProperties().clearPropertyUnchecked(name);
     }
 }

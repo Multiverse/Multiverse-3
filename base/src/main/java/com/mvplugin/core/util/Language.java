@@ -109,6 +109,10 @@ public final class Language {
             public static final Message NO_MODIFY_PERMISSION = Message.createMessage("command.modify.no_perm",
                     "$-You do not have permission to modify world '$v%s$-'!");
 
+            public static final Message PROBABLY_INVALID_VALUE = Message.createMessage("command.modify.probably_invalid_value",
+                    "$-That doesn't seem like a valid value for '$v%s$-'."
+                            + "\nMore details will follow.");
+
             public static final class Set {
                 private Set() { }
 
@@ -116,6 +120,12 @@ public final class Language {
                         "$hSets the value of a property for a world managed by $tMultiverse$h."
                                 + "\n$hYou may type this command with no args to see a list of available properties."
                                 + "\n$hYou may type this command with only a property name to see a description of the property.");
+
+                public static final Message PROPERTY_CANNOT_BE_SET = Message.createMessage("command.modify.set.cannot_set",
+                        "$-'$v%s$-' cannot be set!");
+
+                public static final Message SUCCESS = Message.createMessage("command.modify.set.success",
+                        "$+You have successfully set '$v%s$+' to '$v%s$+'!");
             }
         }
 
