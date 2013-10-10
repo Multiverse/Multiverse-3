@@ -4,6 +4,7 @@ import com.mvplugin.core.minecraft.CreatureSpawnCause;
 import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.minecraft.ServerDetails;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -20,11 +21,15 @@ import java.util.Set;
  */
 public final class SpawnException {
 
+    static {
+
+    }
+
     private static final String DELIMITER = ",";
 
-    private final Collection<CreatureSpawnCause> spawnCauses;
-    private final EntityType entityType;
-    private final String spawnExceptionString;
+    private Set<CreatureSpawnCause> spawnCauses;
+    private EntityType entityType;
+    private String spawnExceptionString;
 
     private SpawnException(@NotNull final String spawnExceptionString, @NotNull final EntityType entityType, @NotNull final Set<CreatureSpawnCause> spawnCauses) {
         this.spawnExceptionString = spawnExceptionString;
@@ -35,7 +40,7 @@ public final class SpawnException {
     private SpawnException(@NotNull final EntityType entityType, @NotNull final Set<CreatureSpawnCause> spawnCauses) {
         this.entityType = entityType;
         this.spawnCauses = Collections.unmodifiableSet(spawnCauses);
-        final StringBuilder builder = new StringBuilder(entityType.getName());
+        final StringBuilder builder = new StringBuilder(entityType.name());
         for (final CreatureSpawnCause spawnReason : this.spawnCauses) {
             builder.append(DELIMITER).append(spawnReason);
         }
@@ -54,7 +59,7 @@ public final class SpawnException {
      * @param spawnExceptionString The string that contains SpawnException data.
      * @return a new SpawnException for the given entity type and spawn reasons.
      */
-    @NotNull
+    @Nullable
     public static SpawnException valueOf(@NotNull final ServerDetails serverDetails, @NotNull final String spawnExceptionString) {
         final String[] split = spawnExceptionString.split(DELIMITER);
         final EntityType entityType = serverDetails.getEntityTypeByName(split[0]);

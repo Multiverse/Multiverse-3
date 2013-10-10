@@ -5,18 +5,22 @@ import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
+import com.mvplugin.core.util.Language.Properties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pluginbase.config.annotation.Comment;
 import pluginbase.config.annotation.Description;
+import pluginbase.config.annotation.HandlePropertyWith;
 import pluginbase.config.annotation.Immutable;
 import pluginbase.config.annotation.SerializeWith;
 import pluginbase.config.annotation.ValidateWith;
 import pluginbase.config.field.DependentField;
+import pluginbase.config.field.FieldInstance;
 import pluginbase.config.field.PropertyVetoException;
 import pluginbase.config.field.Validator;
 import pluginbase.config.properties.PropertiesWrapper;
 import pluginbase.config.properties.PropertyAliases;
+import pluginbase.config.properties.PropertyHandler;
 import pluginbase.config.serializers.Serializer;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.location.FacingCoordinates;
@@ -147,6 +151,7 @@ class WorldProperties extends PropertiesWrapper {
     @Description(SPAWN_LOCATION_KEY)
     @NotNull
     @SerializeWith(FacingCoordinatesSerializer.class)
+    @HandlePropertyWith(FacingCoordinatesPropertyHandler.class)
     private Proxy<FacingCoordinates> spawnLocation = new Proxy<FacingCoordinates>(Locations.NULL_FACING) {
         @Override
         protected FacingCoordinates getValue() {
@@ -295,22 +300,22 @@ class WorldProperties extends PropertiesWrapper {
     private GameMode gameMode = GameMode.SURVIVAL;
 
     @NotNull
+    @Immutable
     private final EntryFee entryFee = new EntryFee();
     @Comment({
             "These settings will control the rates at which creatures spawn and also the limits of how many are allowed.",
             "A negative value in any of these settings will indicate the default will be used."
     })
     @NotNull
+    @Immutable
     private final Spawning spawning = new Spawning();
 
+    @Immutable
     private transient WorldLink worldLink;
 
-    public WorldProperties() {
-        super(".");
-    }
+    public WorldProperties() { }
 
     public WorldProperties(String name) {
-        super(".");
         this.name.set(name);
     }
 
@@ -599,6 +604,7 @@ class WorldProperties extends PropertiesWrapper {
         @Description(WATER_LIMIT_KEY)
         private int waterLimit = -1;
 
+        @Immutable
         @NotNull
         private final AllowedSpawns allowedSpawns = new AllowedSpawns();
 
@@ -672,6 +678,7 @@ class WorldProperties extends PropertiesWrapper {
             })
             @Description(SPAWN_EXCEPTIONS_KEY)
             @NotNull
+            @HandlePropertyWith(SpawnExceptionListHandler.class)
             private List<SpawnException> spawnExceptions = new ArrayList<SpawnException>();
 
             private AllowedSpawns() { }
@@ -687,6 +694,28 @@ class WorldProperties extends PropertiesWrapper {
             @NotNull
             public List<SpawnException> getSpawnExceptions() {
                 return spawnExceptions;
+            }
+
+            private static class SpawnExceptionListHandler implements PropertyHandler {
+                @Override
+                public void set(@NotNull FieldInstance field, @NotNull String newValue) throws PropertyVetoException, UnsupportedOperationException {
+                    //To change body of implemented methods use File | Settings | File Templates.
+                }
+
+                @Override
+                public void add(@NotNull FieldInstance field, @NotNull String valueToAdd) throws PropertyVetoException, UnsupportedOperationException {
+                    //To change body of implemented methods use File | Settings | File Templates.
+                }
+
+                @Override
+                public void remove(@NotNull FieldInstance field, @NotNull String valueToRemove) throws PropertyVetoException, UnsupportedOperationException {
+                    //To change body of implemented methods use File | Settings | File Templates.
+                }
+
+                @Override
+                public void clear(@NotNull FieldInstance field) throws UnsupportedOperationException {
+                    //To change body of implemented methods use File | Settings | File Templates.
+                }
             }
         }
     }
@@ -844,6 +873,40 @@ class WorldProperties extends PropertiesWrapper {
             result.put("pitch", facingCoordinates.getPitch());
             result.put("yaw", facingCoordinates.getYaw());
             return result;
+        }
+    }
+
+    private static class FacingCoordinatesPropertyHandler implements PropertyHandler {
+        @Override
+        public void set(@NotNull FieldInstance field, @NotNull String newValue) throws PropertyVetoException, UnsupportedOperationException {
+            String[] locParts = newValue.split(",");
+            if (locParts.length != 3) {
+                throw new PropertyVetoException(Message.bundleMessage(Properties.VALID_SPAWN_STRING));
+            }
+            int x = 0, y = 0, z = 0;
+            try {
+                x = Integer.valueOf(locParts[0]);
+                y = Integer.valueOf(locParts[1]);
+                z = Integer.valueOf(locParts[2]);
+            } catch (NumberFormatException e) {
+                throw new PropertyVetoException(Message.bundleMessage(Properties.VALID_SPAWN_STRING));
+            }
+            field.setValue(Locations.getFacingCoordinates(x, y, z, 0, 0));
+        }
+
+        @Override
+        public void add(@NotNull FieldInstance field, @NotNull String valueToAdd) throws PropertyVetoException, UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void remove(@NotNull FieldInstance field, @NotNull String valueToRemove) throws PropertyVetoException, UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void clear(@NotNull FieldInstance field) throws UnsupportedOperationException {
+            throw new UnsupportedOperationException();
         }
     }
 

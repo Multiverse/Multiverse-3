@@ -208,6 +208,12 @@ public final class Language {
                         "$-$*Multiverse could not teleport '$v%s$-$*' to safe location '$v%s$-$*'.");
     }
 
+    public static final class Properties {
+        public static final Message VALID_SPAWN_STRING = Message.createMessage("world_properties.spawn_location.valid_string",
+                "$iA valid spawn string is in the form '$vx,y,z$i'."
+                +"\n$cExample: 503,67,-22");
+    }
+
     public static final Message WORLD_ALREADY_EXISTS = Message.createMessage("worlds.world_exists",
             "$tMultiverse $-already knows about '$v%s$-'.  $?Perhaps it needs to be loaded? ($~$C/mv load$?)");
 

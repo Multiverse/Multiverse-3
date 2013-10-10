@@ -13,6 +13,7 @@ import pluginbase.config.field.FieldMap;
 import pluginbase.config.field.FieldMapper;
 import pluginbase.config.field.PropertyVetoException;
 import pluginbase.config.properties.PropertiesWrapper;
+import pluginbase.config.properties.PropertyAliases;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
@@ -136,12 +137,19 @@ public final class MultiverseWorld {
 
     @NotNull
     public static String[] getAllPropertyNames() {
-        return PropertiesWrapper.getAllPropertyNames(WorldProperties.class, ".");
+        return PropertiesWrapper.getAllPropertyNames(WorldProperties.class);
     }
 
     @Nullable
-    public static String getPropertyDescriptionKey(String... name) throws NoSuchFieldException {
-        Field field = getField(name);
+    public static String getPropertyDescriptionKey(String name) throws NoSuchFieldException {
+        String[] path = PropertyAliases.getPropertyName(WorldProperties.class, name);
+        if (path == null) {
+            path = name.split("\\.");
+        }
+        Field field = getField(path);
+        if (field.isImmutable()) {
+            throw new NoSuchFieldException();
+        }
         return field.getDescription();
     }
 

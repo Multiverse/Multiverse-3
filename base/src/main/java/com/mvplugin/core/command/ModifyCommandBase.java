@@ -43,7 +43,7 @@ public abstract class ModifyCommandBase extends MultiverseCommand {
 
     private BundledMessage getPropertyDescription(String propertyName) {
         try {
-            String descriptionKey = MultiverseWorld.getPropertyDescriptionKey(propertyName.split("\\."));
+            String descriptionKey = MultiverseWorld.getPropertyDescriptionKey(propertyName);
             String description = getMessager().getLocalizedMessage(descriptionKey != null ? descriptionKey : "");
             return Message.bundleMessage(Language.Command.Modify.PROPERTY_DESCRIPTION, propertyName, description);
         } catch (NoSuchFieldException e) {

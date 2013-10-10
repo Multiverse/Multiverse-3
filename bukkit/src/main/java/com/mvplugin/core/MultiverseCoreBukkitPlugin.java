@@ -13,6 +13,8 @@ import com.mvplugin.core.command.TeleportCommand;
 import com.mvplugin.core.command.UnloadCommand;
 import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.listeners.BukkitWorldListener;
+import com.mvplugin.core.minecraft.CreatureSpawnCause;
+import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.BukkitLanguage;
@@ -20,6 +22,7 @@ import com.mvplugin.core.util.CoreConfig;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
+import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.bukkit.AbstractBukkitPlugin;
 import pluginbase.config.SerializationRegistrar;
@@ -39,6 +42,19 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         SerializationRegistrar.registerClass(EntryFee.class);
         SerializationRegistrar.registerClass(Spawning.class);
         SerializationRegistrar.registerClass(AllowedSpawns.class);
+        SerializationRegistrar.registerClass(SpawnException.class);
+        SerializationRegistrar.registerClass(CreatureSpawnCause.class);
+        SerializationRegistrar.registerClass(EntityType.class);
+    }
+
+    static {
+        CreatureSpawnCause.specifyNaturalCause(SpawnReason.NATURAL.name());
+        for (SpawnReason spawnReason : SpawnReason.values()) {
+            CreatureSpawnCause.registerSpawnCause(spawnReason.name());
+        }
+        for (org.bukkit.entity.EntityType entityType : org.bukkit.entity.EntityType.values()) {
+            EntityType.registerEntityType(entityType.name());
+        }
     }
 
     private static final int PROTOCOL = 19;
