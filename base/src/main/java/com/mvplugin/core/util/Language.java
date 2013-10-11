@@ -127,6 +127,52 @@ public final class Language {
                 public static final Message SUCCESS = Message.createMessage("command.modify.set.success",
                         "$+You have successfully set '$v%s$+' to '$v%s$+'!");
             }
+
+            public static final class Add {
+                private Add() { }
+
+                public static final Message HELP = Message.createMessage("command.modify.add.help",
+                        "$hAdds a value to a property for a world managed by $tMultiverse$h."
+                                + "\n$hYou may type this command with no args to see a list of available properties."
+                                + "\n$hYou may type this command with only a property name to see a description of the property.");
+
+                public static final Message PROPERTY_CANNOT_BE_ADDED = Message.createMessage("command.modify.add.cannot_add",
+                        "$-'$v%s$-' cannot be added to!");
+
+                public static final Message SUCCESS = Message.createMessage("command.modify.add.success",
+                        "$+You have successfully added '$v%s$+' to '$v%s$+'!"
+                                + "\n$iResult: $v%s");
+            }
+
+            public static final class Remove {
+                private Remove() { }
+
+                public static final Message HELP = Message.createMessage("command.modify.remove.help",
+                        "$hRemoves a value from a property for a world managed by $tMultiverse$h."
+                                + "\n$hYou may type this command with no args to see a list of available properties."
+                                + "\n$hYou may type this command with only a property name to see a description of the property.");
+
+                public static final Message PROPERTY_CANNOT_BE_REMOVED = Message.createMessage("command.modify.remove.cannot_remove",
+                        "$-'$v%s$-' cannot be removed from!");
+
+                public static final Message SUCCESS = Message.createMessage("command.modify.remove.success",
+                        "$+You have successfully removed '$v%s$+' from '$v%s$+'!"
+                                + "\n$iResult: $v%s");
+            }
+
+            public static final class Clear {
+                private Clear() { }
+
+                public static final Message HELP = Message.createMessage("command.modify.clear.help",
+                        "$hClears the value of a property for a world managed by $tMultiverse$h."
+                                + "\n$hYou may type this command with no args to see a list of available properties.");
+
+                public static final Message PROPERTY_CANNOT_BE_CLEARED = Message.createMessage("command.modify.clear.cannot_clear",
+                        "$-'$v%s$-' cannot be cleared!");
+
+                public static final Message SUCCESS = Message.createMessage("command.modify.clear.success",
+                        "$+You have successfully cleared '$v%s$+'!");
+            }
         }
 
         public static final class Load {
