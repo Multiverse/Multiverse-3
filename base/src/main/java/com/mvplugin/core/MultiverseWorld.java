@@ -1,7 +1,6 @@
 package com.mvplugin.core;
 
 import com.mvplugin.core.minecraft.Difficulty;
-import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
@@ -19,7 +18,6 @@ import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.UUID;
@@ -30,18 +28,11 @@ public final class MultiverseWorld {
     private final WorldProperties properties;
     @NotNull
     private final WorldLink worldLink;
-    @NotNull
-    private final Map<EntityType, SpawnException> worldSpawnExceptions = new HashMap<EntityType, SpawnException>();
 
     MultiverseWorld(@NotNull final WorldProperties worldProperties, @NotNull final WorldLink worldLink) {
         this.properties = worldProperties;
         this.worldLink = worldLink;
         getProperties().linkToWorld(worldLink);
-
-        final List<SpawnException> spawnExceptions = this.getProperties().getSpawning().getAllowedSpawns().getSpawnExceptions();
-        for (final SpawnException exception : spawnExceptions) {
-            this.worldSpawnExceptions.put(exception.getEntityType(), exception);
-        }
     }
 
     public int hashCode() {

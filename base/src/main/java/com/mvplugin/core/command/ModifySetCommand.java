@@ -12,8 +12,12 @@ import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
 
-import static com.mvplugin.core.util.Language.Command.Modify.*;
-import static com.mvplugin.core.util.Language.Command.Modify.Set.*;
+import static com.mvplugin.core.util.Language.Command.Modify.NO_MODIFY_PERMISSION;
+import static com.mvplugin.core.util.Language.Command.Modify.NO_SUCH_PROPERTY;
+import static com.mvplugin.core.util.Language.Command.Modify.PROBABLY_INVALID_VALUE;
+import static com.mvplugin.core.util.Language.Command.Modify.Set.HELP;
+import static com.mvplugin.core.util.Language.Command.Modify.Set.PROPERTY_CANNOT_BE_SET;
+import static com.mvplugin.core.util.Language.Command.Modify.Set.SUCCESS;
 
 @CommandInfo(
         primaryAlias = "modify set",
@@ -55,7 +59,8 @@ public class ModifySetCommand extends ModifyCommandBase {
                     try {
                         world.setProperty(propertyName, value);
                         getWorldManager().saveWorld(world);
-                        getMessager().message(sender, SUCCESS, propertyName, value);
+                        Object realValue = world.getProperty(propertyName);
+                        getMessager().message(sender, SUCCESS, propertyName, realValue);
                     } catch (IllegalAccessException e) {
                         getMessager().message(sender, PROPERTY_CANNOT_BE_SET, propertyName);
                     } catch (NoSuchFieldException e) {

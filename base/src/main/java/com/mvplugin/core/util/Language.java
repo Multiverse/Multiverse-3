@@ -262,4 +262,10 @@ public final class Language {
     public static final Message INVALID_WORLD_TYPE = Message.createMessage("worlds.invalid_type",
             "$v%s $-is not a valid world type."
             + "\n$iFor a list of available world types, $~type $C/mvtype");
+
+    public static final Message INVALID_ENTITY_TYPE = Message.createMessage("entities.invalid_entity_type",
+            "$-'$v%s$-' is not a valid entity type!");
+
+    public static final Message INVALID_SPAWN_CAUSE = Message.createMessage("entities.invalid_spawn_cause",
+            "$-'$v%s$-' is not a valid spawn cause!");
 }

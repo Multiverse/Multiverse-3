@@ -1,10 +1,13 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.minecraft.CreatureSpawnCause;
 import com.mvplugin.core.minecraft.Difficulty;
+import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.minecraft.GameMode;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
+import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.Language.Properties;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -27,16 +30,51 @@ import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mvplugin.core.util.PropertyDescriptions.*;
+import static com.mvplugin.core.util.PropertyDescriptions.ADJUST_SPAWN_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.ALIAS_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.ALLOW_WEATHER_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.AMBIENT_LIMIT_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.AMOUNT_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.ANIMAL_LIMIT_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.ANIMAL_TICKS_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.AUTO_HEAL_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.AUTO_LOAD_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.BED_RESPAWN_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.BLACK_LIST_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.CURRENCY_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.DIFFICULTY_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.ENVIRONMENT_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.GAME_MODE_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.GENERATOR_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.HIDDEN_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.HUNGER_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.INVALID_SCALE;
+import static com.mvplugin.core.util.PropertyDescriptions.KEEP_SPAWN_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.MONSTER_LIMIT_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.MONSTER_TICKS_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.PLAYER_LIMIT_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.PORTAL_FORM_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.PREFIX_CHAT_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.PREVENT_SPAWNS_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.PVP_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.RESPAWN_WORLD_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.SCALE_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.SEED_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.SPAWN_EXCEPTIONS_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.SPAWN_LOCATION_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.WATER_LIMIT_KEY;
 
 /**
  * Houses all of the properties for a Multiverse world.
@@ -679,7 +717,8 @@ class WorldProperties extends PropertiesWrapper {
             @Description(SPAWN_EXCEPTIONS_KEY)
             @NotNull
             @HandlePropertyWith(SpawnExceptionListHandler.class)
-            private List<SpawnException> spawnExceptions = new ArrayList<SpawnException>();
+            @SerializeWith(SpawnExceptionSerializer.class)
+            private Map<EntityType, Set<CreatureSpawnCause>> spawnExceptions = new HashMap<EntityType, Set<CreatureSpawnCause>>();
 
             private AllowedSpawns() { }
 
@@ -692,29 +731,138 @@ class WorldProperties extends PropertiesWrapper {
             }
 
             @NotNull
-            public List<SpawnException> getSpawnExceptions() {
+            public Map<EntityType, Set<CreatureSpawnCause>> getSpawnExceptions() {
                 return spawnExceptions;
             }
 
             private static class SpawnExceptionListHandler implements PropertyHandler {
+                private Map<EntityType, Set<CreatureSpawnCause>> getValue(FieldInstance field) {
+                    return (Map<EntityType, Set<CreatureSpawnCause>>) field.getValue();
+                }
                 @Override
                 public void set(@NotNull FieldInstance field, @NotNull String newValue) throws PropertyVetoException, UnsupportedOperationException {
-                    //To change body of implemented methods use File | Settings | File Templates.
+                    SpawnExceptionBuilder builder = new SpawnExceptionBuilder(newValue);
+                    Map<EntityType, Set<CreatureSpawnCause>> spawnExceptions = getValue(field);
+                    spawnExceptions.put(builder.entityType, builder.getSpawnCauses());
                 }
 
                 @Override
                 public void add(@NotNull FieldInstance field, @NotNull String valueToAdd) throws PropertyVetoException, UnsupportedOperationException {
-                    //To change body of implemented methods use File | Settings | File Templates.
+                    SpawnExceptionBuilder builder = new SpawnExceptionBuilder(valueToAdd);
+                    Map<EntityType, Set<CreatureSpawnCause>> spawnExceptions = getValue(field);
+                    Set<CreatureSpawnCause> spawnCauses = spawnExceptions.get(builder.getEntityType());
+                    if (spawnCauses == null) {
+                        spawnExceptions.put(builder.getEntityType(), builder.getSpawnCauses());
+                    } else {
+                        spawnCauses.addAll(builder.getSpawnCauses());
+                    }
                 }
 
                 @Override
                 public void remove(@NotNull FieldInstance field, @NotNull String valueToRemove) throws PropertyVetoException, UnsupportedOperationException {
-                    //To change body of implemented methods use File | Settings | File Templates.
+                    SpawnExceptionBuilder builder = new SpawnExceptionBuilder(valueToRemove);
+                    Map<EntityType, Set<CreatureSpawnCause>> spawnExceptions = getValue(field);
+                    Set<CreatureSpawnCause> spawnCauses = spawnExceptions.get(builder.getEntityType());
+                    if (spawnCauses == null) {
+                        spawnExceptions.put(builder.getEntityType(), new HashSet<CreatureSpawnCause>());
+                    } else {
+                        spawnCauses.removeAll(builder.getSpawnCauses());
+                    }
                 }
 
                 @Override
                 public void clear(@NotNull FieldInstance field) throws UnsupportedOperationException {
-                    //To change body of implemented methods use File | Settings | File Templates.
+                    Map<EntityType, Set<CreatureSpawnCause>> spawnExceptions = getValue(field);
+                    spawnExceptions.clear();
+                }
+
+                private static class SpawnExceptionBuilder {
+                    private EntityType entityType;
+                    private Set<CreatureSpawnCause> spawnCauses;
+
+                    SpawnExceptionBuilder(String value) throws PropertyVetoException {
+                        String[] parts = value.split(":");
+                        entityType = EntityType.valueOf(parts[0]);
+                        if (entityType == null) {
+                            throw new PropertyVetoException(Message.bundleMessage(Language.INVALID_ENTITY_TYPE, parts[0]));
+                        }
+                        if (parts.length > 1) {
+                            String[] causes = parts[1].split(",");
+                            spawnCauses = new HashSet<CreatureSpawnCause>(causes.length);
+                            for (String cause : causes) {
+                                if (cause.equalsIgnoreCase("all") || cause.equals("*")) {
+                                    CreatureSpawnCause[] allCauses = CreatureSpawnCause.values();
+                                    spawnCauses = new HashSet<CreatureSpawnCause>(allCauses.length);
+                                    spawnCauses.addAll(Arrays.asList(allCauses));
+                                    break;
+                                }
+                                CreatureSpawnCause c = CreatureSpawnCause.valueOf(cause);
+                                if (c == null) {
+                                    throw new PropertyVetoException(Message.bundleMessage(Language.INVALID_SPAWN_CAUSE, cause));
+                                }
+                                spawnCauses.add(c);
+                            }
+                        } else {
+                            spawnCauses = new HashSet<CreatureSpawnCause>(0);
+                        }
+                    }
+
+                    public EntityType getEntityType() {
+                        return entityType;
+                    }
+
+                    public Set<CreatureSpawnCause> getSpawnCauses() {
+                        return spawnCauses;
+                    }
+                }
+            }
+
+            private static class SpawnExceptionSerializer implements Serializer<Map<EntityType, Set<CreatureSpawnCause>>> {
+                @Nullable
+                @Override
+                public Object serialize(@Nullable final Map<EntityType, Set<CreatureSpawnCause>> spawnExceptions) {
+                    if (spawnExceptions == null) {
+                        return null;
+                    }
+                    Map<String, List<String>> result = new HashMap<String, List<String>>(spawnExceptions.size());
+                    for (Map.Entry<EntityType, Set<CreatureSpawnCause>> entry : spawnExceptions.entrySet()) {
+                        List<String> causes = new ArrayList<String>(entry.getValue().size());
+                        for (CreatureSpawnCause cause : entry.getValue()) {
+                            causes.add(cause.name());
+                        }
+                        result.put(entry.getKey().name(), causes);
+                    }
+                    return result;
+                }
+
+                @Nullable
+                @Override
+                public Map<EntityType, Set<CreatureSpawnCause>> deserialize(@Nullable final Object serialized, @NotNull final Class<Map<EntityType, Set<CreatureSpawnCause>>> mapClass) throws IllegalArgumentException {
+                    if (!(serialized instanceof Map)) {
+                        throw new IllegalArgumentException("Spawn exceptions formatted incorrectly");
+                    }
+                    Map<?, ?> map = (Map) serialized;
+                    Map<EntityType, Set<CreatureSpawnCause>> result = new HashMap<EntityType, Set<CreatureSpawnCause>>(map.size());
+                    for (Map.Entry entry : map.entrySet()) {
+                        if (!(entry.getValue() instanceof List)) {
+                            throw new IllegalArgumentException("Spawn exceptions formatted incorrectly");
+                        }
+                        EntityType entityType = EntityType.valueOf(entry.getKey().toString());
+                        if (entityType == null) {
+                            throw new IllegalArgumentException("Invalid entity type in config");
+                        }
+                        List<?> list = (List) entry.getValue();
+                        Set<CreatureSpawnCause> causes = new HashSet<CreatureSpawnCause>(list.size());
+                        for (Object o : list) {
+                            CreatureSpawnCause cause = CreatureSpawnCause.valueOf(o.toString());
+                            if (cause == null) {
+                                throw new IllegalArgumentException("Invalid spawn cause in config");
+                            }
+                            causes.add(cause);
+                        }
+                        result.put(entityType, causes);
+                    }
+                    return result;
                 }
             }
         }
