@@ -12,19 +12,15 @@ import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
 
-import static com.mvplugin.core.util.Language.Command.Modify.Add.HELP;
-import static com.mvplugin.core.util.Language.Command.Modify.Add.PROPERTY_CANNOT_BE_ADDED;
-import static com.mvplugin.core.util.Language.Command.Modify.Add.SUCCESS;
-import static com.mvplugin.core.util.Language.Command.Modify.NO_MODIFY_PERMISSION;
-import static com.mvplugin.core.util.Language.Command.Modify.NO_SUCH_PROPERTY;
-import static com.mvplugin.core.util.Language.Command.Modify.PROBABLY_INVALID_VALUE;
+import static com.mvplugin.core.util.Language.Command.Modify.Add.*;
+import static com.mvplugin.core.util.Language.Command.Modify.*;
 
 @CommandInfo(
         primaryAlias = "modify add",
-        directlyPrefixPrimary = true,
+        directlyPrefixPrimary = false,
         desc = "Modifies the properties of a world.",
         usage = "{PROPERTY} {VALUE} [WORLD]",
-        directlyPrefixedAliases = {"m add", "madd"},
+        directlyPrefixedAliases = {"m add", "madd", "modify add"},
         min = 0,
         max = 3
 )

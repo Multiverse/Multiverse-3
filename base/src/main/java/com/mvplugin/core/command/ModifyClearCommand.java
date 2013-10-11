@@ -12,19 +12,15 @@ import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
 
-import static com.mvplugin.core.util.Language.Command.Modify.Clear.HELP;
-import static com.mvplugin.core.util.Language.Command.Modify.Clear.PROPERTY_CANNOT_BE_CLEARED;
-import static com.mvplugin.core.util.Language.Command.Modify.Clear.SUCCESS;
-import static com.mvplugin.core.util.Language.Command.Modify.NO_MODIFY_PERMISSION;
-import static com.mvplugin.core.util.Language.Command.Modify.NO_SUCH_PROPERTY;
-import static com.mvplugin.core.util.Language.Command.Modify.PROBABLY_INVALID_VALUE;
+import static com.mvplugin.core.util.Language.Command.Modify.Clear.*;
+import static com.mvplugin.core.util.Language.Command.Modify.*;
 
 @CommandInfo(
         primaryAlias = "modify clear",
-        directlyPrefixPrimary = true,
+        directlyPrefixPrimary = false,
         desc = "Modifies the properties of a world.",
         usage = "{PROPERTY} {VALUE} [WORLD]",
-        directlyPrefixedAliases = {"m clear", "mclear"},
+        directlyPrefixedAliases = {"m clear", "mclear", "modify clear"},
         min = 0,
         max = 2
 )

@@ -12,19 +12,15 @@ import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
 
-import static com.mvplugin.core.util.Language.Command.Modify.NO_MODIFY_PERMISSION;
-import static com.mvplugin.core.util.Language.Command.Modify.NO_SUCH_PROPERTY;
-import static com.mvplugin.core.util.Language.Command.Modify.PROBABLY_INVALID_VALUE;
-import static com.mvplugin.core.util.Language.Command.Modify.Remove.HELP;
-import static com.mvplugin.core.util.Language.Command.Modify.Remove.PROPERTY_CANNOT_BE_REMOVED;
-import static com.mvplugin.core.util.Language.Command.Modify.Remove.SUCCESS;
+import static com.mvplugin.core.util.Language.Command.Modify.*;
+import static com.mvplugin.core.util.Language.Command.Modify.Remove.*;
 
 @CommandInfo(
         primaryAlias = "modify remove",
-        directlyPrefixPrimary = true,
+        directlyPrefixPrimary = false,
         desc = "Modifies the properties of a world.",
         usage = "{PROPERTY} {VALUE} [WORLD]",
-        directlyPrefixedAliases = {"m remove", "mremove", "m rm", "mrm"},
+        directlyPrefixedAliases = {"m remove", "mremove", "m rm", "mrm", "modify remove"},
         min = 0,
         max = 3
 )
