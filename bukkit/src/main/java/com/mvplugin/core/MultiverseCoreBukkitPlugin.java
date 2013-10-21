@@ -15,7 +15,8 @@ import com.mvplugin.core.command.ModifySetCommand;
 import com.mvplugin.core.command.TeleportCommand;
 import com.mvplugin.core.command.UnloadCommand;
 import com.mvplugin.core.destination.DestinationRegistry;
-import com.mvplugin.core.listeners.BukkitWorldListener;
+import com.mvplugin.core.listeners.WeatherListener;
+import com.mvplugin.core.listeners.WorldListener;
 import com.mvplugin.core.minecraft.CreatureSpawnCause;
 import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.plugin.MultiverseCore;
@@ -87,7 +88,8 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
     @Override
     public void onPluginEnable() {
         prepareAPI();
-        getServer().getPluginManager().registerEvents(new BukkitWorldListener(this), this);
+        getServer().getPluginManager().registerEvents(new WorldListener(this), this);
+        getServer().getPluginManager().registerEvents(new WeatherListener(this), this);
     }
 
     @Override

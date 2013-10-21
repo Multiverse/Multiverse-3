@@ -8,12 +8,12 @@ import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class BukkitWorldListener implements Listener {
+public class WorldListener implements Listener {
 
     @NotNull
     private final MultiverseCoreBukkitPlugin plugin;
 
-    public BukkitWorldListener(@NotNull final MultiverseCoreBukkitPlugin plugin) {
+    public WorldListener(@NotNull final MultiverseCoreBukkitPlugin plugin) {
         this.plugin = plugin;
     }
 
