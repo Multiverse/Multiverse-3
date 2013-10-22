@@ -241,11 +241,11 @@ class WorldProperties extends PropertiesWrapper {
     @Description(HIDDEN_KEY)
     private boolean hidden = false;
     @Comment({
-            "The prefixChat property adds the world's name (or alias) as a prefix to chat messages.",
+            "The formattingChat property adds the world's name (or alias) as a prefix to chat messages.",
             "Please note, this property can be disabled globally in the configuration."
     })
     @Description(PREFIX_CHAT_KEY)
-    private boolean prefixChat = true;
+    private boolean formattingChat = true;
     @Comment({"The generator property allows you to specify the generator used to generate this world."})
     @Description(GENERATOR_KEY)
     @NotNull
@@ -426,12 +426,12 @@ class WorldProperties extends PropertiesWrapper {
         this.hidden = hidden;
     }
 
-    public boolean isPrefixChat() {
-        return prefixChat;
+    public boolean isFormattingChat() {
+        return formattingChat;
     }
 
-    public void setPrefixChat(boolean prefixChat) {
-        this.prefixChat = prefixChat;
+    public void setFormattingChat(boolean formattingChat) {
+        this.formattingChat = formattingChat;
     }
 
     @NotNull

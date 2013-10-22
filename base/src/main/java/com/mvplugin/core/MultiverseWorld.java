@@ -187,12 +187,12 @@ public final class MultiverseWorld {
         getProperties().setHidden(hidden);
     }
 
-    public boolean getPrefixChat() {
-        return getProperties().isPrefixChat();
+    public boolean isFormattingChat() {
+        return getProperties().isFormattingChat();
     }
 
-    public void setPrefixChat(final boolean prefixChat) {
-        getProperties().setPrefixChat(prefixChat);
+    public void setFormattingChat(final boolean formatChat) {
+        getProperties().setFormattingChat(formatChat);
     }
 
     public boolean isWeatherEnabled() {

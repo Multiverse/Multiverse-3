@@ -45,7 +45,7 @@ class PlayerListener implements Listener {
     public void playerChat(AsyncPlayerChatEvent event) {
         if (plugin.getMVConfig().isFormattingChat()) {
             MultiverseWorld world = plugin.getPlayerTracker().getWorld(event.getPlayer().getName());
-            if (world != null) {
+            if (world != null && world.isFormattingChat()) {
                 String chatFormatString = plugin.getMVConfig().getChatFormatString();
                 try {
                     ChatUtil.validateChat(chatFormatString);
