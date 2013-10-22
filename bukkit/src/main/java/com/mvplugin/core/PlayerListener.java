@@ -45,7 +45,7 @@ class PlayerListener implements Listener {
     public void playerChat(AsyncPlayerChatEvent event) {
         if (plugin.getMVConfig().isFormattingChat()) {
             MultiverseWorld world = plugin.getPlayerTracker().getWorld(event.getPlayer().getName());
-            if (world != null && world.isFormattingChat()) {
+            if (isWorldChatFormattable(world)) {
                 String chatFormatString = plugin.getMVConfig().getChatFormatString();
                 try {
                     ChatUtil.validateChat(chatFormatString);
@@ -60,5 +60,9 @@ class PlayerListener implements Listener {
                 event.setFormat(chatFormatString);
             }
         }
+    }
+
+    private boolean isWorldChatFormattable(MultiverseWorld world) {
+        return world != null && world.isFormattingChat() && !world.isHidden();
     }
 }
