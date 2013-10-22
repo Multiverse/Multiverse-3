@@ -281,12 +281,12 @@ public final class MultiverseWorld {
         getProperties().setAutoHeal(heal);
     }
 
-    public boolean getAdjustSpawn() {
-        return getProperties().isAdjustSpawn();
+    public boolean isAdjustingSpawn() {
+        return getProperties().isAdjustingSpawn();
     }
 
-    public void setAdjustSpawn(final boolean adjust) {
-        getProperties().setAdjustSpawn(adjust);
+    public void setAdjustingSpawn(final boolean adjust) {
+        getProperties().setAdjustingSpawn(adjust);
     }
 
     public boolean getAutoLoad() {

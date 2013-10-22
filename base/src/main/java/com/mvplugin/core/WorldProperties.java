@@ -251,16 +251,16 @@ class WorldProperties extends PropertiesWrapper {
     @NotNull
     private String generator = "";
     @Comment({
-            "The player limit property limits the number of players in a world at a time.",
+            "The playerLimit property limits the number of players in a world at a time.",
             "A value of -1 or lower signifies no player limit."
     })
     @Description(PLAYER_LIMIT_KEY)
     private int playerLimit = -1;
-    @Comment({"The adjust spawn property determines whether or not Multiverse will make adjustments to the world's spawn location if it is unsafe."})
+    @Comment({"The adjustingSpawn property determines whether or not Multiverse will make adjustments to the world's spawn location if it is unsafe."})
     @Description(ADJUST_SPAWN_KEY)
-    private boolean adjustSpawn = true;
+    private boolean adjustingSpawn = true;
     @Comment({
-            "The autoLoad dictates whether this world is loaded automatically on startup or not.",
+            "The autoLoad property dictates whether this world is loaded automatically on startup or not.",
             "This has no effect on default worlds!"
     })
     @Description(AUTO_LOAD_KEY)
@@ -451,12 +451,12 @@ class WorldProperties extends PropertiesWrapper {
         this.playerLimit = playerLimit;
     }
 
-    public boolean isAdjustSpawn() {
-        return adjustSpawn;
+    public boolean isAdjustingSpawn() {
+        return adjustingSpawn;
     }
 
-    public void setAdjustSpawn(boolean adjustSpawn) {
-        this.adjustSpawn = adjustSpawn;
+    public void setAdjustingSpawn(boolean adjustingSpawn) {
+        this.adjustingSpawn = adjustingSpawn;
     }
 
     public boolean isAutoLoad() {
