@@ -351,7 +351,9 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         try {
             Logging.fine("Creating bukkit world '%s'...", settings.name());
             final World w = c.createWorld();
-            return getBukkitWorld(w);
+            MultiverseWorld mvWorld = getBukkitWorld(w);
+            mvWorld.setGenerator(settings.generator());
+            return mvWorld;
         } catch (Exception e) {
             e.printStackTrace();
             throw new WorldCreationException(Message.bundleMessage(BukkitLanguage.CREATE_WORLD_ERROR, settings.name()), e);
