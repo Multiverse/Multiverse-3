@@ -50,7 +50,7 @@ public class ModifyClearCommand extends ModifyCommandBase {
                 if (Perms.CMD_MODIFY.hasPermission(sender, world.getName())) {
                     String propertyName = context.getString(0);
                     try {
-                        world.clearProperty(propertyName);
+                        world.clearProperty(propertyName, null);
                         getWorldManager().saveWorld(world);
                         getMessager().message(sender, SUCCESS, propertyName);
                     } catch (IllegalAccessException e) {

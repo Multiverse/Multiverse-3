@@ -25,6 +25,7 @@ import pluginbase.config.properties.PropertiesWrapper;
 import pluginbase.config.properties.PropertyAliases;
 import pluginbase.config.properties.PropertyHandler;
 import pluginbase.config.serializers.Serializer;
+import pluginbase.messages.ChatColor;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
@@ -42,39 +43,7 @@ import java.util.UUID;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mvplugin.core.util.PropertyDescriptions.ADJUST_SPAWN_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.ALIAS_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.ALLOW_WEATHER_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.AMBIENT_LIMIT_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.AMOUNT_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.ANIMAL_LIMIT_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.ANIMAL_TICKS_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.AUTO_HEAL_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.AUTO_LOAD_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.BED_RESPAWN_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.BLACK_LIST_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.CURRENCY_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.DIFFICULTY_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.ENVIRONMENT_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.GAME_MODE_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.GENERATOR_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.HIDDEN_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.HUNGER_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.INVALID_SCALE;
-import static com.mvplugin.core.util.PropertyDescriptions.KEEP_SPAWN_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.MONSTER_LIMIT_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.MONSTER_TICKS_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.PLAYER_LIMIT_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.PORTAL_FORM_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.PREFIX_CHAT_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.PREVENT_SPAWNS_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.PVP_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.RESPAWN_WORLD_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.SCALE_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.SEED_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.SPAWN_EXCEPTIONS_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.SPAWN_LOCATION_KEY;
-import static com.mvplugin.core.util.PropertyDescriptions.WATER_LIMIT_KEY;
+import static com.mvplugin.core.util.PropertyDescriptions.*;
 
 /**
  * Houses all of the properties for a Multiverse world.
@@ -266,6 +235,7 @@ class WorldProperties extends PropertiesWrapper {
     })
     @Description(ALIAS_KEY)
     @NotNull
+    @HandlePropertyWith(AliasPropertyHandler.class)
     private String alias = "";
     @Comment({"The hidden property allows you to have a world that exists but does not show up in lists."})
     @Description(HIDDEN_KEY)
@@ -771,7 +741,7 @@ class WorldProperties extends PropertiesWrapper {
                 }
 
                 @Override
-                public void clear(@NotNull FieldInstance field) throws UnsupportedOperationException {
+                public void clear(@NotNull FieldInstance field, @Nullable String valueToClear) throws PropertyVetoException, UnsupportedOperationException {
                     Map<EntityType, Set<CreatureSpawnCause>> spawnExceptions = getValue(field);
                     spawnExceptions.clear();
                 }
@@ -1053,8 +1023,31 @@ class WorldProperties extends PropertiesWrapper {
         }
 
         @Override
-        public void clear(@NotNull FieldInstance field) throws UnsupportedOperationException {
+        public void clear(@NotNull FieldInstance field, @Nullable String valueToClear) throws PropertyVetoException, UnsupportedOperationException {
             throw new UnsupportedOperationException();
+        }
+    }
+
+    private static class AliasPropertyHandler implements PropertyHandler {
+        @Override
+        public void set(@NotNull FieldInstance field, @NotNull String newValue) throws PropertyVetoException, UnsupportedOperationException {
+            newValue = ChatColor.translateAlternateColorCodes('&', newValue);
+            field.setValue(newValue);
+        }
+
+        @Override
+        public void add(@NotNull FieldInstance field, @NotNull String valueToAdd) throws PropertyVetoException, UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void remove(@NotNull FieldInstance field, @NotNull String valueToRemove) throws PropertyVetoException, UnsupportedOperationException {
+            throw new UnsupportedOperationException();
+        }
+
+        @Override
+        public void clear(@NotNull FieldInstance field, @Nullable String valueToClear) throws PropertyVetoException, UnsupportedOperationException {
+            field.setValue("");
         }
     }
 

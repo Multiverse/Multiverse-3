@@ -215,6 +215,16 @@ public final class Language {
         }
     }
 
+    public static enum Config {
+        ;
+        public static final Message CHAT_FORMAT_MISSING_PLAYER = Message.createMessage("config.chat_format_missing_player",
+                "Player name marker is missing from chat format string");
+        public static final Message CHAT_FORMAT_MISSING_MESSAGE = Message.createMessage("config.chat_format_missing_message",
+                "Message marker is missing from chat format string");
+        public static final Message CHAT_FORMAT_INVALID_ORDER = Message.createMessage("config.chat_format_invalid_order",
+                "Player name marker must occur before message marker in chat format string");
+    }
+
     public static final class Destination {
         private Destination() { }
 

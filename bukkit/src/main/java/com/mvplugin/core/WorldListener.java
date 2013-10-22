@@ -1,14 +1,12 @@
-package com.mvplugin.core.listeners;
+package com.mvplugin.core;
 
-import com.mvplugin.core.MultiverseCoreBukkitPlugin;
-import com.mvplugin.core.MultiverseWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.world.WorldUnloadEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class WorldListener implements Listener {
+class WorldListener implements Listener {
 
     @NotNull
     private final MultiverseCoreBukkitPlugin plugin;

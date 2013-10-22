@@ -41,4 +41,7 @@ public interface MultiverseCoreAPI {
 
     @NotNull
     ServerInterface getServerInterface();
+
+    @NotNull
+    PlayerTracker getPlayerTracker();
 }

@@ -1,6 +1,7 @@
 package com.mvplugin.core;
 
 import com.mvplugin.core.destination.DestinationRegistry;
+import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
@@ -20,15 +21,20 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     private final SafeTeleporter safeTeleporter;
     @NotNull
     private final DestinationRegistry destinationRegistry;
+    @NotNull
+    private PlayerTracker playerTracker;
 
-    DefaultMultiverseCoreAPI(@NotNull ServerInterface serverInterface,
-                             @NotNull final WorldManagerUtil worldManagerUtil, @NotNull final BlockSafety blockSafety) {
+    DefaultMultiverseCoreAPI(@NotNull MultiverseCore core,
+            @NotNull ServerInterface serverInterface,
+            @NotNull final WorldManagerUtil worldManagerUtil,
+            @NotNull final BlockSafety blockSafety) {
         this.serverInterface = serverInterface;
         this.worldManager = new WorldManager(this, worldManagerUtil);
         this.blockSafety = blockSafety;
-        this.eventProcessor = new EventProcessor(this);
+        this.eventProcessor = new EventProcessor(core);
         this.safeTeleporter = new DefaultSafeTeleporter(this);
         this.destinationRegistry = new DestinationRegistry(this);
+        this.playerTracker = new PlayerTracker();
     }
 
     /**
@@ -81,5 +87,11 @@ class DefaultMultiverseCoreAPI implements MultiverseCoreAPI {
     @Override
     public ServerInterface getServerInterface() {
         return serverInterface;
+    }
+
+    @NotNull
+    @Override
+    public PlayerTracker getPlayerTracker() {
+        return playerTracker;
     }
 }

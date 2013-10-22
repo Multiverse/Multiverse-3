@@ -1,14 +1,12 @@
-package com.mvplugin.core.listeners;
+package com.mvplugin.core;
 
-import com.mvplugin.core.MultiverseCoreBukkitPlugin;
-import com.mvplugin.core.MultiverseWorld;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.Listener;
 import org.bukkit.event.weather.ThunderChangeEvent;
 import org.bukkit.event.weather.WeatherChangeEvent;
 import org.jetbrains.annotations.NotNull;
 
-public class WeatherListener implements Listener {
+class WeatherListener implements Listener {
 
     @NotNull
     private final MultiverseCoreBukkitPlugin plugin;

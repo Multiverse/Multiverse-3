@@ -15,8 +15,6 @@ import com.mvplugin.core.command.ModifySetCommand;
 import com.mvplugin.core.command.TeleportCommand;
 import com.mvplugin.core.command.UnloadCommand;
 import com.mvplugin.core.destination.DestinationRegistry;
-import com.mvplugin.core.listeners.WeatherListener;
-import com.mvplugin.core.listeners.WorldListener;
 import com.mvplugin.core.minecraft.CreatureSpawnCause;
 import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.plugin.MultiverseCore;
@@ -90,6 +88,7 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         prepareAPI();
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
         getServer().getPluginManager().registerEvents(new WeatherListener(this), this);
+        getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
     }
 
     @Override
@@ -98,8 +97,10 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
     }
 
     private void prepareAPI() {
-        this.api = new DefaultMultiverseCoreAPI(getServerInterface(),
-                new BukkitWorldManagerUtil(getServerInterface(), getDataFolder()), new BukkitBlockSafety());
+        this.api = new DefaultMultiverseCoreAPI(this,
+                getServerInterface(),
+                new BukkitWorldManagerUtil(getServerInterface(), getDataFolder()),
+                new BukkitBlockSafety());
     }
 
     @Override
@@ -146,8 +147,6 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         return false;
     }
 
-
-
     @NotNull
     @Override
     public MultiverseCore getMultiverseCore() {
@@ -187,5 +186,11 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
     @Override
     public DestinationRegistry getDestinationRegistry() {
         return this.api.getDestinationRegistry();
+    }
+
+    @NotNull
+    @Override
+    public PlayerTracker getPlayerTracker() {
+        return api.getPlayerTracker();
     }
 }

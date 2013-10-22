@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.plugin.MultiverseCore;
 import org.jetbrains.annotations.NotNull;
 
 /**
@@ -7,13 +8,13 @@ import org.jetbrains.annotations.NotNull;
  *
  * The events Multiverse-Core cares about will be described by the methods in this interface.
  */
-public final class EventProcessor {
+final class EventProcessor {
 
     @NotNull
-    private final MultiverseCoreAPI api;
+    private MultiverseCore core;
 
-    EventProcessor(@NotNull final MultiverseCoreAPI api) {
-        this.api = api;
+    EventProcessor(@NotNull final MultiverseCore core) {
+        this.core = core;
     }
 
     /**
@@ -25,6 +26,19 @@ public final class EventProcessor {
      * @param world The world being unloaded.
      */
     public void worldUnload(@NotNull final MultiverseWorld world) {
-        this.api.getWorldManager().removeWorldFromMemory(world);
+        core.getWorldManager().removeWorldFromMemory(world);
+    }
+
+    public void playerJoin(@NotNull String playerName, @NotNull String worldName) {
+        MultiverseWorld world = core.getWorldManager().getWorld(worldName);
+        if (world == null) {
+            core.getPlayerTracker().playerLeftMultiverseWorlds(playerName);
+        } else {
+            core.getPlayerTracker().playerJoinedMultiverseWorld(playerName, world);
+        }
+    }
+
+    public void playerQuit(@NotNull String playerName) {
+        core.getPlayerTracker().playerLeftMultiverseWorlds(playerName);
     }
 }

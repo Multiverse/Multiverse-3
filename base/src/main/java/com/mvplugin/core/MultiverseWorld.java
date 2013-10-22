@@ -412,8 +412,8 @@ public final class MultiverseWorld {
         getProperties().removeProperty(name, value);
     }
 
-    public void clearProperty(@NotNull String name) throws IllegalAccessException, NoSuchFieldException, PropertyVetoException, IllegalArgumentException {
-        getProperties().clearProperty(name);
+    public void clearProperty(@NotNull String name, @Nullable String value) throws IllegalAccessException, NoSuchFieldException, PropertyVetoException, IllegalArgumentException {
+        getProperties().clearProperty(name, value);
     }
 
     @Nullable
@@ -433,7 +433,7 @@ public final class MultiverseWorld {
         return getProperties().removePropertyUnchecked(name, value);
     }
 
-    public boolean clearPropertyUnchecked(@NotNull String name) {
-        return getProperties().clearPropertyUnchecked(name);
+    public boolean clearPropertyUnchecked(@NotNull String name, @Nullable String value) {
+        return getProperties().clearPropertyUnchecked(name, value);
     }
 }
