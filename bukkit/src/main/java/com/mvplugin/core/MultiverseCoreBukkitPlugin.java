@@ -142,11 +142,6 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         return (BukkitCoreConfig) super.getSettings();
     }
 
-    @Override
-    protected boolean useDatabase() {
-        return false;
-    }
-
     @NotNull
     @Override
     public MultiverseCore getMultiverseCore() {
