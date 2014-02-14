@@ -155,17 +155,6 @@ public enum PropertyDescriptions {
             "The waterLimit property specifies how many water entities are allowed to be spawned per chunk."
             + "\nA negative value will indicate the default will be used.");
 
-    public static final String PREVENT_SPAWNS_KEY = "world_properties.descriptions.spawning.allowedSpawns.preventSpawnsList";
-    public static final Message PREVENT_SPAWNS = Message.createMessage(PREVENT_SPAWNS_KEY,
-            "The preventSpawnsList property determines whether the spawnExceptions list is a blacklist or a whitelist."
-            + "\nSetting this to false will indicate the creatures listed in spawnExceptions will be the ONLY creatures allowed to spawn."
-            + "\nSetting this to true will indicate the creatures listed in spawnExceptions will be creatures NOT allowed to spawn.");
-
-    public static final String SPAWN_EXCEPTIONS_KEY = "world_properties.descriptions.spawning.allowedSpawns.spawnExceptions";
-    public static final Message SPAWN_EXCEPTIONS = Message.createMessage(SPAWN_EXCEPTIONS_KEY,
-            "The spawnExceptions property defines what creatures are allowed/disallowed in this world."
-            + "\nWhether or not they are allowed or disallowed is based on the value of preventSpawnsList.");
-
     //public static final String INVALID_SCALE_KEY = "world_properties.validation.scale";
     public static final Message INVALID_SCALE = Message.createMessage("world_properties.validation.scale",
             "Scale must be a number higher than 0!");

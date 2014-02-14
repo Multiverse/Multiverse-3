@@ -2,7 +2,6 @@ package com.mvplugin.core;
 
 import com.mvplugin.core.WorldProperties.EntryFee;
 import com.mvplugin.core.WorldProperties.Spawning;
-import com.mvplugin.core.WorldProperties.Spawning.AllowedSpawns;
 import com.mvplugin.core.command.CreateCommand;
 import com.mvplugin.core.command.DeleteCommand;
 import com.mvplugin.core.command.ImportCommand;
@@ -43,7 +42,6 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         SerializationRegistrar.registerClass(WorldProperties.class);
         SerializationRegistrar.registerClass(EntryFee.class);
         SerializationRegistrar.registerClass(Spawning.class);
-        SerializationRegistrar.registerClass(AllowedSpawns.class);
         SerializationRegistrar.registerClass(SpawnException.class);
         SerializationRegistrar.registerClass(CreatureSpawnCause.class);
         SerializationRegistrar.registerClass(EntityType.class);
