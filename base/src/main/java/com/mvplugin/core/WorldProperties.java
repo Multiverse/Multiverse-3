@@ -269,13 +269,7 @@ class WorldProperties extends PropertiesWrapper {
     @Description(BLACK_LIST_KEY)
     @NotNull
     private List<String> worldBlackList = new ArrayList<String>();
-    @Comment({
-            "The scale property represents the scaling of worlds when using Multiverse-NetherPortals.",
-            "Setting this value will have no effect on anything but Multiverse-NetherPortals."
-    })
-    @Description(SCALE_KEY)
-    @ValidateWith(ScaleValidator.class)
-    private double scale = 1D;
+
     @Comment({
             "The respawnWorld property is the world you will respawn to if you die in this world.",
             "This value can be the same as this world."
@@ -289,10 +283,6 @@ class WorldProperties extends PropertiesWrapper {
     })
     @Description(AUTO_HEAL_KEY)
     private boolean autoHeal = true;
-    @Comment({"The portalFrom property allows you to specify which type of portals are allowed to be created in this world."})
-    @Description(PORTAL_FORM_KEY)
-    @NotNull
-    private PortalType portalForm = PortalType.ALL;
     @Comment({
             "The gameMode property allows you to specify the GameMode for this world.",
             "Players entering this world will automatically be switched to this GameMode unless they are exempted."
@@ -311,6 +301,23 @@ class WorldProperties extends PropertiesWrapper {
     @NotNull
     @Immutable
     private final Spawning spawning = new Spawning();
+
+    // TODO Add comments and description
+    @NotNull
+    @Immutable
+    private final Map<PortalType, ConnectedWorld> connectedWorlds = new HashMap<PortalType, ConnectedWorld>(PortalType.values().length) {{
+        // TODO will this actually work with SerializationConfigurable?
+        for (PortalType portalType : PortalType.values()) {
+            // This is not ideal... Better options?
+            ConnectedWorld connectedWorld = new ConnectedWorld();
+            if (portalType.name().equals("NETHER")) {
+                connectedWorld.setScale(8);
+            } else if (portalType.name().equals("ENDER")) {
+                connectedWorld.setScale(1000);
+            }
+            put(portalType, new ConnectedWorld());
+        }
+    }};
 
     @Immutable
     private transient WorldLink worldLink;
@@ -477,14 +484,6 @@ class WorldProperties extends PropertiesWrapper {
         this.hunger = hunger;
     }
 
-    public double getScale() {
-        return scale;
-    }
-
-    public void setScale(double scale) {
-        this.scale = scale;
-    }
-
     @NotNull
     public String getRespawnWorld() {
         return respawnWorld;
@@ -500,15 +499,6 @@ class WorldProperties extends PropertiesWrapper {
 
     public void setAutoHeal(boolean autoHeal) {
         this.autoHeal = autoHeal;
-    }
-
-    @NotNull
-    public PortalType getPortalForm() {
-        return portalForm;
-    }
-
-    public void setPortalForm(@NotNull PortalType portalForm) {
-        this.portalForm = portalForm;
     }
 
     @NotNull
@@ -538,6 +528,16 @@ class WorldProperties extends PropertiesWrapper {
     @NotNull
     public List<String> getWorldBlackList() {
         return worldBlackList;
+    }
+
+    @NotNull
+    public ConnectedWorld getConnectedWorld(@NotNull PortalType portalType) {
+        ConnectedWorld connectedWorld = connectedWorlds.get(portalType);
+        if (connectedWorld == null) {
+            connectedWorld = new ConnectedWorld();
+            connectedWorlds.put(portalType, connectedWorld);
+        }
+        return connectedWorld;
     }
 
     private static class ScaleValidator implements Validator<Double> {
@@ -654,6 +654,38 @@ class WorldProperties extends PropertiesWrapper {
 
         public void setWaterLimit(int waterLimit) {
             this.waterLimit = waterLimit;
+        }
+    }
+
+    public static class ConnectedWorld {
+
+        @Comment({
+                "The scale property represents the scaling of worlds when using Multiverse-NetherPortals.",
+                "Setting this value will have no effect on anything but Multiverse-NetherPortals."
+        })
+        @Description(SCALE_KEY)
+        @ValidateWith(ScaleValidator.class)
+        private double scale = 1D;
+        @Comment({"The portalFrom property allows you to specify whether the portal type for this connected world are allowed to be formed."})
+        @Description(PORTAL_FORM_KEY)
+        @NotNull
+        private boolean portalForm = true;
+
+        public double getScale() {
+            return scale;
+        }
+
+        public void setScale(double scale) {
+            this.scale = scale;
+        }
+
+        @NotNull
+        public boolean getPortalForm() {
+            return portalForm;
+        }
+
+        public void setPortalForm(@NotNull boolean portalForm) {
+            this.portalForm = portalForm;
         }
     }
 

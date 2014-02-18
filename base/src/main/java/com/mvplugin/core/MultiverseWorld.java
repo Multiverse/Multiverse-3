@@ -2,7 +2,6 @@ package com.mvplugin.core;
 
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
-import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import org.jetbrains.annotations.NotNull;
@@ -264,15 +263,6 @@ public final class MultiverseWorld {
         getProperties().setRespawnWorld(respawnWorld == null ? "" : respawnWorld);
     }
 
-    public double getScale() {
-        return getProperties().getScale();
-    }
-
-    public void setScale(final double scale) {
-        // TODO validation?
-        getProperties().setScale(scale);
-    }
-
     public boolean getAutoHeal() {
         return getProperties().isAutoHeal();
     }
@@ -311,15 +301,6 @@ public final class MultiverseWorld {
 
     public int getPlayerLimit() {
         return getProperties().getPlayerLimit();
-    }
-
-    public void allowPortalMaking(@NotNull final PortalType type) {
-        getProperties().setPortalForm(type);
-    }
-
-    @NotNull
-    public PortalType getAllowedPortals() {
-        return getProperties().getPortalForm();
     }
 
     @NotNull

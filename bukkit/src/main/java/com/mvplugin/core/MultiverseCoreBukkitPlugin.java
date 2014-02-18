@@ -23,6 +23,7 @@ import com.mvplugin.core.util.CoreConfig;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
+import org.bukkit.PortalType;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.bukkit.AbstractBukkitPlugin;
@@ -37,6 +38,19 @@ import pluginbase.messages.Messages;
 public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements MultiverseCore {
 
     static {
+        CreatureSpawnCause.specifyNaturalCause(SpawnReason.NATURAL.name());
+        for (SpawnReason spawnReason : SpawnReason.values()) {
+            CreatureSpawnCause.registerSpawnCause(spawnReason.name());
+        }
+        for (org.bukkit.entity.EntityType entityType : org.bukkit.entity.EntityType.values()) {
+            EntityType.registerEntityType(entityType.name());
+        }
+        for (PortalType portalType : PortalType.values()) {
+            com.mvplugin.core.minecraft.PortalType.registerPortalType(portalType.name());
+        }
+    }
+
+    static {
         SerializationRegistrar.registerClass(CoreConfig.class);
         SerializationRegistrar.registerClass(BukkitCoreConfig.class);
         SerializationRegistrar.registerClass(WorldProperties.class);
@@ -45,16 +59,6 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         SerializationRegistrar.registerClass(SpawnException.class);
         SerializationRegistrar.registerClass(CreatureSpawnCause.class);
         SerializationRegistrar.registerClass(EntityType.class);
-    }
-
-    static {
-        CreatureSpawnCause.specifyNaturalCause(SpawnReason.NATURAL.name());
-        for (SpawnReason spawnReason : SpawnReason.values()) {
-            CreatureSpawnCause.registerSpawnCause(spawnReason.name());
-        }
-        for (org.bukkit.entity.EntityType entityType : org.bukkit.entity.EntityType.values()) {
-            EntityType.registerEntityType(entityType.name());
-        }
     }
 
     private static final int PROTOCOL = 19;
