@@ -11,9 +11,9 @@ import pluginbase.messages.ChatColor;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
+import pluginbase.plugin.PluginBase;
 
-import static com.mvplugin.core.util.Language.Command.List.HELP;
-import static com.mvplugin.core.util.Language.Command.List.LIST_WORLDS;
+import static com.mvplugin.core.util.Language.Command.List.*;
 
 @CommandInfo(
         primaryAlias = "list",
@@ -23,7 +23,7 @@ import static com.mvplugin.core.util.Language.Command.List.LIST_WORLDS;
         max = 0
 )
 public class ListCommand extends MultiverseCommand {
-    protected ListCommand(@NotNull final MultiverseCore plugin) {
+    protected ListCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
         super(plugin);
     }
 

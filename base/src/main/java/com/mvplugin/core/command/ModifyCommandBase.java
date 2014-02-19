@@ -8,10 +8,11 @@ import pluginbase.messages.BundledMessage;
 import pluginbase.messages.Message;
 import pluginbase.messages.Theme;
 import pluginbase.minecraft.BasePlayer;
+import pluginbase.plugin.PluginBase;
 
 public abstract class ModifyCommandBase extends MultiverseCommand {
 
-    protected ModifyCommandBase(@NotNull final MultiverseCore plugin) {
+    protected ModifyCommandBase(@NotNull final PluginBase<MultiverseCore> plugin) {
         super(plugin);
     }
 

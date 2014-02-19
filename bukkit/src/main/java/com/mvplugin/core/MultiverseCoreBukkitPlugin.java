@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.WorldProperties.ConnectedWorld;
 import com.mvplugin.core.WorldProperties.EntryFee;
 import com.mvplugin.core.WorldProperties.Spawning;
 import com.mvplugin.core.command.CreateCommand;
@@ -24,6 +25,7 @@ import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.bukkit.PortalType;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
@@ -70,6 +72,7 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         SerializationRegistrar.registerClass(EntryFee.class);
         SerializationRegistrar.registerClass(Spawning.class);
         SerializationRegistrar.registerClass(SpawnException.class);
+        SerializationRegistrar.registerClass(ConnectedWorld.class);
         SerializationRegistrar.registerClass(CreatureSpawnCause.class);
         SerializationRegistrar.registerClass(EntityType.class);
     }
@@ -80,7 +83,7 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
 
     private MultiverseCoreAPI api;
 
-    private final BukkitPluginAgent pluginAgent = BukkitPluginAgent.getPluginAgent(this, COMMAND_PREFIX);
+    private final BukkitPluginAgent<MultiverseCore> pluginAgent = BukkitPluginAgent.getPluginAgent(MultiverseCore.class, this, COMMAND_PREFIX);
 
     public MultiverseCoreBukkitPlugin() {
         pluginAgent.setPermissionPrefix(PERMISSION_PREFIX);
@@ -101,7 +104,7 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         pluginAgent.registerCommand(LoadCommand.class);
         pluginAgent.registerCommand(UnloadCommand.class);
         pluginAgent.registerCommand(ListCommand.class);
-        pluginAgent.registerCommand(DeleteCommand.class);
+        pluginAgent.registerQueuedCommand(DeleteCommand.class);
         pluginAgent.registerCommand(CreateCommand.class);
         pluginAgent.registerCommand(TeleportCommand.class);
         pluginAgent.registerCommand(ModifySetCommand.class);
@@ -110,7 +113,7 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         pluginAgent.registerCommand(ModifyClearCommand.class);
     }
 
-    private PluginBase getPluginBase() {
+    private PluginBase<MultiverseCore> getPluginBase() {
         return pluginAgent.getPluginBase();
     }
 
@@ -147,6 +150,11 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
     public void reloadConfig() {
         getPluginBase().reloadConfig();
         prepareAPI();
+    }
+
+    @Override
+    public boolean onCommand(CommandSender sender, org.bukkit.command.Command command, String label, String[] args) {
+        return pluginAgent.callCommand(sender, command, label, args);
     }
 
     private void prepareAPI() {

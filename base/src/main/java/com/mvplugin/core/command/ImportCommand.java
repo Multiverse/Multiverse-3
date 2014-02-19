@@ -12,6 +12,7 @@ import pluginbase.messages.Message;
 import pluginbase.messages.Theme;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
+import pluginbase.plugin.PluginBase;
 
 import java.io.File;
 
@@ -28,7 +29,7 @@ import static com.mvplugin.core.util.Language.Command.Import.*;
         max = 2
 )
 public class ImportCommand extends MultiverseCommand {
-    protected ImportCommand(@NotNull final MultiverseCore plugin) {
+    protected ImportCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
         super(plugin);
     }
 

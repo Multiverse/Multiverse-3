@@ -11,6 +11,7 @@ import pluginbase.config.field.PropertyVetoException;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
+import pluginbase.plugin.PluginBase;
 
 import static com.mvplugin.core.util.Language.Command.Modify.Clear.*;
 import static com.mvplugin.core.util.Language.Command.Modify.*;
@@ -25,7 +26,7 @@ import static com.mvplugin.core.util.Language.Command.Modify.*;
         max = 2
 )
 public class ModifyClearCommand extends ModifyCommandBase {
-    protected ModifyClearCommand(@NotNull final MultiverseCore plugin) {
+    protected ModifyClearCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
         super(plugin);
     }
 

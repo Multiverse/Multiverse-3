@@ -12,6 +12,7 @@ import pluginbase.command.CommandInfo;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
+import pluginbase.plugin.PluginBase;
 
 import static com.mvplugin.core.util.Language.Command.Create.*;
 
@@ -25,7 +26,7 @@ import static com.mvplugin.core.util.Language.Command.Create.*;
         max = 2
 )
 public class CreateCommand extends MultiverseCommand {
-    protected CreateCommand(@NotNull final MultiverseCore plugin) {
+    protected CreateCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
         super(plugin);
     }
 

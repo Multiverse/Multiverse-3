@@ -11,6 +11,7 @@ import pluginbase.config.field.PropertyVetoException;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
+import pluginbase.plugin.PluginBase;
 
 import static com.mvplugin.core.util.Language.Command.Modify.*;
 import static com.mvplugin.core.util.Language.Command.Modify.Set.*;
@@ -25,7 +26,7 @@ import static com.mvplugin.core.util.Language.Command.Modify.Set.*;
         max = 3
 )
 public class ModifySetCommand extends ModifyCommandBase {
-    protected ModifySetCommand(@NotNull final MultiverseCore plugin) {
+    protected ModifySetCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
         super(plugin);
     }
 
