@@ -25,17 +25,30 @@ import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.bukkit.PortalType;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
-import pluginbase.bukkit.AbstractBukkitPlugin;
+import pluginbase.bukkit.BukkitPluginAgent;
+import pluginbase.command.Command;
+import pluginbase.command.CommandHandler;
+import pluginbase.command.QueuedCommand;
 import pluginbase.config.SerializationRegistrar;
-import pluginbase.messages.Messages;
+import pluginbase.logging.PluginLogger;
+import pluginbase.messages.PluginBaseException;
+import pluginbase.messages.messaging.Messager;
+import pluginbase.plugin.PluginBase;
+import pluginbase.plugin.ServerInterface;
+import pluginbase.plugin.Settings;
+
+import java.io.IOException;
+import java.util.concurrent.Callable;
+import java.util.logging.Level;
 
 /**
  * The primary Bukkit plugin implementation of Multiverse-Core.
  *
  * See {@link com.mvplugin.core.plugin.MultiverseCore} for a more detailed external api javadocs.
  */
-public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements MultiverseCore {
+public class MultiverseCoreBukkitPlugin extends JavaPlugin implements MultiverseCore {
 
     static {
         CreatureSpawnCause.specifyNaturalCause(SpawnReason.NATURAL.name());
@@ -61,40 +74,78 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
         SerializationRegistrar.registerClass(EntityType.class);
     }
 
-    private static final int PROTOCOL = 19;
+    private static final int PROTOCOL_VERSION = 19;
     private static final String COMMAND_PREFIX = "mv";
     private static final String PERMISSION_PREFIX = "multiverse";
 
     private MultiverseCoreAPI api;
 
-    @NotNull
-    @Override
-    public String getPermissionName() {
-        return PERMISSION_PREFIX;
+    private final BukkitPluginAgent pluginAgent = BukkitPluginAgent.getPluginAgent(this, COMMAND_PREFIX);
+
+    public MultiverseCoreBukkitPlugin() {
+        pluginAgent.setPermissionPrefix(PERMISSION_PREFIX);
+        pluginAgent.setDefaultSettingsCallable(new Callable<Settings>() {
+            @Override
+            public Settings call() throws Exception {
+                return new BukkitCoreConfig();
+            }
+        });
+
+        // Register language stuff
+        pluginAgent.registerMessage(PropertyDescriptions.class);
+        pluginAgent.registerMessage(Language.class);
+        pluginAgent.registerMessage(BukkitLanguage.class);
+
+        // Register commands
+        pluginAgent.registerCommand(ImportCommand.class);
+        pluginAgent.registerCommand(LoadCommand.class);
+        pluginAgent.registerCommand(UnloadCommand.class);
+        pluginAgent.registerCommand(ListCommand.class);
+        pluginAgent.registerCommand(DeleteCommand.class);
+        pluginAgent.registerCommand(CreateCommand.class);
+        pluginAgent.registerCommand(TeleportCommand.class);
+        pluginAgent.registerCommand(ModifySetCommand.class);
+        pluginAgent.registerCommand(ModifyAddCommand.class);
+        pluginAgent.registerCommand(ModifyRemoveCommand.class);
+        pluginAgent.registerCommand(ModifyClearCommand.class);
+    }
+
+    private PluginBase getPluginBase() {
+        return pluginAgent.getPluginBase();
     }
 
     @Override
-    protected void onPluginLoad() {
-
+    public void onLoad() {
+        pluginAgent.loadPluginBase();
     }
 
     @Override
-    protected void registerMessages() {
-        Messages.registerMessages(this, PropertyDescriptions.class);
-        Messages.registerMessages(this, Language.class);
-        Messages.registerMessages(this, BukkitLanguage.class);
-    }
-
-    @Override
-    public void onPluginEnable() {
+    public void onEnable() {
+        pluginAgent.enablePluginBase();
         prepareAPI();
         getServer().getPluginManager().registerEvents(new WorldListener(this), this);
         getServer().getPluginManager().registerEvents(new WeatherListener(this), this);
         getServer().getPluginManager().registerEvents(new PlayerListener(this), this);
+        try {
+            pluginAgent.enableMetrics();
+        } catch (IOException e) {
+            new PluginBaseException(e).logException(getPluginBase().getLog(), Level.WARNING);
+        }
     }
 
     @Override
-    protected void onReloadConfig() {
+    public void onDisable() {
+        try {
+            pluginAgent.disableMetrics();
+        } catch (IOException e) {
+            new PluginBaseException(e).logException(getPluginBase().getLog(), Level.WARNING);
+        }
+        pluginAgent.disablePluginBase();
+    }
+
+    @Override
+    public void reloadConfig() {
+        getPluginBase().reloadConfig();
         prepareAPI();
     }
 
@@ -105,27 +156,6 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
                 new BukkitBlockSafety());
     }
 
-    @Override
-    protected void registerCommands() {
-        registerCommand(ImportCommand.class);
-        registerCommand(LoadCommand.class);
-        registerCommand(UnloadCommand.class);
-        registerCommand(ListCommand.class);
-        registerCommand(DeleteCommand.class);
-        registerCommand(CreateCommand.class);
-        registerCommand(TeleportCommand.class);
-        registerCommand(ModifySetCommand.class);
-        registerCommand(ModifyAddCommand.class);
-        registerCommand(ModifyRemoveCommand.class);
-        registerCommand(ModifyClearCommand.class);
-    }
-
-    @NotNull
-    @Override
-    public String getCommandPrefix() {
-        return COMMAND_PREFIX;
-    }
-
     @NotNull
     @Override
     public WorldManager getWorldManager() {
@@ -134,14 +164,53 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
 
     @NotNull
     @Override
-    protected BukkitCoreConfig getDefaultSettings() {
-        return new BukkitCoreConfig();
+    public BukkitCoreConfig getSettings() {
+        return (BukkitCoreConfig) getPluginBase().getSettings();
     }
 
     @NotNull
     @Override
-    public BukkitCoreConfig getSettings() {
-        return (BukkitCoreConfig) super.getSettings();
+    public ServerInterface getServerInterface() {
+        return getPluginBase().getServerInterface();
+    }
+
+    @NotNull
+    @Override
+    public String getCommandPrefix() {
+        return getPluginBase().getCommandPrefix();
+    }
+
+    @NotNull
+    @Override
+    public CommandHandler getCommandHandler() {
+        return getPluginBase().getCommandHandler();
+    }
+
+    @Override
+    public void scheduleQueuedCommandExpiration(@NotNull final QueuedCommand queuedCommand) {
+        getPluginBase().scheduleQueuedCommandExpiration(queuedCommand);
+    }
+
+    @Override
+    public boolean useQueuedCommands() {
+        return getPluginBase().useQueuedCommands();
+    }
+
+    @NotNull
+    @Override
+    public String[] getAdditionalCommandAliases(final Class<? extends Command> commandClass) {
+        return getPluginBase().getAdditionalCommandAliases(commandClass);
+    }
+
+    @Override
+    public Messager getMessager() {
+        return getPluginBase().getMessager();
+    }
+
+    @NotNull
+    @Override
+    public PluginLogger getLog() {
+        return getPluginBase().getLog();
     }
 
     @NotNull
@@ -152,7 +221,7 @@ public class MultiverseCoreBukkitPlugin extends AbstractBukkitPlugin implements 
 
     @Override
     public int getProtocolVersion() {
-        return PROTOCOL;
+        return PROTOCOL_VERSION;
     }
 
     @Override

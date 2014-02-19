@@ -5,15 +5,15 @@ import org.bukkit.Bukkit;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginBase;
 import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.java.JavaPlugin;
 import org.junit.Before;
 import org.powermock.core.classloader.annotations.PrepareForTest;
-import pluginbase.bukkit.AbstractBukkitPlugin;
 
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertSame;
 
-@PrepareForTest({Bukkit.class, MultiverseCoreBukkitPlugin.class, AbstractBukkitPlugin.class, PluginBase.class})
+@PrepareForTest({Bukkit.class, MultiverseCoreBukkitPlugin.class, JavaPlugin.class, PluginBase.class})
 public class BukkitMultiverseTest extends MultiverseTest {
 
     private MockServer server = null;
