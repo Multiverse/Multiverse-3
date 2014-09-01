@@ -4,15 +4,15 @@ import com.mvplugin.core.MultiverseWorld;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Language;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.command.CommandProvider;
 import pluginbase.messages.BundledMessage;
 import pluginbase.messages.Message;
 import pluginbase.messages.Theme;
 import pluginbase.minecraft.BasePlayer;
-import pluginbase.plugin.PluginBase;
 
 public abstract class ModifyCommandBase extends MultiverseCommand {
 
-    protected ModifyCommandBase(@NotNull final PluginBase<MultiverseCore> plugin) {
+    protected ModifyCommandBase(@NotNull final CommandProvider<MultiverseCore> plugin) {
         super(plugin);
     }
 

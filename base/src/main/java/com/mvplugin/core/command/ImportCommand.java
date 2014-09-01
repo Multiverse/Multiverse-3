@@ -8,11 +8,11 @@ import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.command.CommandContext;
 import pluginbase.command.CommandInfo;
+import pluginbase.command.CommandProvider;
 import pluginbase.messages.Message;
 import pluginbase.messages.Theme;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
-import pluginbase.plugin.PluginBase;
 
 import java.io.File;
 
@@ -29,7 +29,7 @@ import static com.mvplugin.core.util.Language.Command.Import.*;
         max = 2
 )
 public class ImportCommand extends MultiverseCommand {
-    protected ImportCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
+    protected ImportCommand(@NotNull final CommandProvider<MultiverseCore> plugin) {
         super(plugin);
     }
 

@@ -8,11 +8,11 @@ import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.command.CommandContext;
 import pluginbase.command.CommandInfo;
+import pluginbase.command.CommandProvider;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.Entity;
 import pluginbase.permission.Perm;
-import pluginbase.plugin.PluginBase;
 
 import static com.mvplugin.core.util.Language.Command.Teleport.*;
 
@@ -26,7 +26,7 @@ import static com.mvplugin.core.util.Language.Command.Teleport.*;
         max = 2
 )
 public class TeleportCommand extends MultiverseCommand {
-    protected TeleportCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
+    protected TeleportCommand(@NotNull final CommandProvider<MultiverseCore> plugin) {
         super(plugin);
     }
 

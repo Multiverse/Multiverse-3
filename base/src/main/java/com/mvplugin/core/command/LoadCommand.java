@@ -6,10 +6,10 @@ import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.command.CommandContext;
 import pluginbase.command.CommandInfo;
+import pluginbase.command.CommandProvider;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
-import pluginbase.plugin.PluginBase;
 
 import static com.mvplugin.core.util.Language.Command.Load.*;
 
@@ -22,7 +22,7 @@ import static com.mvplugin.core.util.Language.Command.Load.*;
         max = 1
 )
 public class LoadCommand extends MultiverseCommand {
-    protected LoadCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
+    protected LoadCommand(@NotNull final CommandProvider<MultiverseCore> plugin) {
         super(plugin);
     }
 

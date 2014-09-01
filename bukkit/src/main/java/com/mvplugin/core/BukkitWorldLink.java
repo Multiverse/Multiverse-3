@@ -7,7 +7,7 @@ import com.mvplugin.core.util.BukkitConvert;
 import org.bukkit.World;
 import org.bukkit.entity.Player;
 import org.jetbrains.annotations.NotNull;
-import pluginbase.bukkit.BukkitTools;
+import pluginbase.bukkit.minecraft.BukkitTools;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.location.FacingCoordinates;
 

@@ -3,15 +3,15 @@ package com.mvplugin.core.plugin;
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.util.CoreConfig;
 import org.jetbrains.annotations.NotNull;
-import pluginbase.command.CommandProvider;
-import pluginbase.messages.messaging.Messaging;
+import pluginbase.logging.PluginLogger;
+import pluginbase.messages.messaging.Messager;
 
 /**
  * Multiverse 3 Core API
  * <p>
  * This API contains a bunch of useful things you can get out of Multiverse in general!
  */
-public interface MultiverseCore extends MultiversePlugin, MultiverseCoreAPI, CommandProvider, Messaging {
+public interface MultiverseCore extends MultiversePlugin, MultiverseCoreAPI {
 
     /**
      * Gets the Multiverse-Core configuration.
@@ -21,5 +21,9 @@ public interface MultiverseCore extends MultiversePlugin, MultiverseCoreAPI, Com
     @NotNull
     public CoreConfig getMVConfig();
 
-    CoreConfig getSettings();
+    @NotNull
+    Messager getMessager();
+
+    @NotNull
+    PluginLogger getLog();
 }

@@ -7,10 +7,10 @@ import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.command.CommandContext;
 import pluginbase.command.CommandInfo;
+import pluginbase.command.CommandProvider;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
-import pluginbase.plugin.PluginBase;
 
 import static com.mvplugin.core.util.Language.Command.Unload.*;
 
@@ -23,7 +23,7 @@ import static com.mvplugin.core.util.Language.Command.Unload.*;
         max = 1
 )
 public class UnloadCommand extends MultiverseCommand {
-    protected UnloadCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
+    protected UnloadCommand(@NotNull final CommandProvider<MultiverseCore> plugin) {
         super(plugin);
     }
 

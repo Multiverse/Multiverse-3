@@ -723,7 +723,7 @@ public class MockWorld implements World {
 
         @Nullable
         @Override
-        public UUID deserialize(@Nullable Object o, @NotNull Class<UUID> uuidClass) throws IllegalArgumentException {
+        public UUID deserialize(@Nullable Object o, @NotNull Class uuidClass) throws IllegalArgumentException {
             return o != null ? UUID.fromString(o.toString()) : null;
         }
     }
@@ -744,7 +744,7 @@ public class MockWorld implements World {
 
         @Nullable
         @Override
-        public Location deserialize(@Nullable Object serialized, @NotNull Class<Location> wantedType) throws IllegalArgumentException {
+        public Location deserialize(@Nullable Object serialized, @NotNull Class wantedType) throws IllegalArgumentException {
             if (serialized == null || !(serialized instanceof Map)) {
                 return null;
             }

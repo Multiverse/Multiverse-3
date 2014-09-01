@@ -800,7 +800,7 @@ class WorldProperties extends PropertiesWrapper {
     private static class FacingCoordinatesSerializer implements Serializer<FacingCoordinates> {
         @Nullable
         @Override
-        public FacingCoordinates deserialize(@Nullable Object o, @NotNull Class<FacingCoordinates> clazz) {
+        public FacingCoordinates deserialize(@Nullable Object o, @NotNull Class clazz) {
             double x = 0D;
             double y = 0D;
             double z = 0D;

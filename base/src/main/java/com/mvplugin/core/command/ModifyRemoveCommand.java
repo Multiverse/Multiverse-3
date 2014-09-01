@@ -7,11 +7,11 @@ import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.command.CommandContext;
 import pluginbase.command.CommandInfo;
+import pluginbase.command.CommandProvider;
 import pluginbase.config.field.PropertyVetoException;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
-import pluginbase.plugin.PluginBase;
 
 import static com.mvplugin.core.util.Language.Command.Modify.*;
 import static com.mvplugin.core.util.Language.Command.Modify.Remove.*;
@@ -26,7 +26,7 @@ import static com.mvplugin.core.util.Language.Command.Modify.Remove.*;
         max = 3
 )
 public class ModifyRemoveCommand extends ModifyCommandBase {
-    protected ModifyRemoveCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
+    protected ModifyRemoveCommand(@NotNull final CommandProvider<MultiverseCore> plugin) {
         super(plugin);
     }
 

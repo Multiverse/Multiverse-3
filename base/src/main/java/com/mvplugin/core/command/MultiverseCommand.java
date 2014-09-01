@@ -6,22 +6,22 @@ import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Language;
 import org.jetbrains.annotations.NotNull;
+import pluginbase.command.Command;
 import pluginbase.command.CommandContext;
+import pluginbase.command.CommandProvider;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.Entity;
 import pluginbase.minecraft.location.EntityCoordinates;
-import pluginbase.plugin.PluginBase;
-import pluginbase.plugin.command.PluginCommand;
 
-abstract class MultiverseCommand extends PluginCommand<MultiverseCore> {
+abstract class MultiverseCommand extends Command<MultiverseCore> {
 
     static {
         // Statically initialize help language
         CommandHelp.init();
     }
 
-    protected MultiverseCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
+    protected MultiverseCommand(@NotNull final CommandProvider<MultiverseCore> plugin) {
         super(plugin);
     }
 

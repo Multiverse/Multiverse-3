@@ -30,9 +30,6 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.bukkit.BukkitPluginAgent;
-import pluginbase.command.Command;
-import pluginbase.command.CommandHandler;
-import pluginbase.command.QueuedCommand;
 import pluginbase.config.SerializationRegistrar;
 import pluginbase.logging.PluginLogger;
 import pluginbase.messages.PluginBaseException;
@@ -95,16 +92,16 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         });
 
         // Register language stuff
-        pluginAgent.registerMessage(PropertyDescriptions.class);
-        pluginAgent.registerMessage(Language.class);
-        pluginAgent.registerMessage(BukkitLanguage.class);
+        pluginAgent.registerMessages(PropertyDescriptions.class);
+        pluginAgent.registerMessages(Language.class);
+        pluginAgent.registerMessages(BukkitLanguage.class);
 
         // Register commands
         pluginAgent.registerCommand(ImportCommand.class);
         pluginAgent.registerCommand(LoadCommand.class);
         pluginAgent.registerCommand(UnloadCommand.class);
         pluginAgent.registerCommand(ListCommand.class);
-        pluginAgent.registerQueuedCommand(DeleteCommand.class);
+        pluginAgent.registerCommand(DeleteCommand.class);
         pluginAgent.registerCommand(CreateCommand.class);
         pluginAgent.registerCommand(TeleportCommand.class);
         pluginAgent.registerCommand(ModifySetCommand.class);
@@ -172,44 +169,11 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
 
     @NotNull
     @Override
-    public BukkitCoreConfig getSettings() {
-        return (BukkitCoreConfig) getPluginBase().getSettings();
-    }
-
-    @NotNull
-    @Override
     public ServerInterface getServerInterface() {
         return getPluginBase().getServerInterface();
     }
 
     @NotNull
-    @Override
-    public String getCommandPrefix() {
-        return getPluginBase().getCommandPrefix();
-    }
-
-    @NotNull
-    @Override
-    public CommandHandler getCommandHandler() {
-        return getPluginBase().getCommandHandler();
-    }
-
-    @Override
-    public void scheduleQueuedCommandExpiration(@NotNull final QueuedCommand queuedCommand) {
-        getPluginBase().scheduleQueuedCommandExpiration(queuedCommand);
-    }
-
-    @Override
-    public boolean useQueuedCommands() {
-        return getPluginBase().useQueuedCommands();
-    }
-
-    @NotNull
-    @Override
-    public String[] getAdditionalCommandAliases(final Class<? extends Command> commandClass) {
-        return getPluginBase().getAdditionalCommandAliases(commandClass);
-    }
-
     @Override
     public Messager getMessager() {
         return getPluginBase().getMessager();
@@ -235,7 +199,7 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
     @Override
     @NotNull
     public BukkitCoreConfig getMVConfig() {
-        return getSettings();
+        return (BukkitCoreConfig) getPluginBase().getSettings();
     }
 
     @Override

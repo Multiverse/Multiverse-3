@@ -8,11 +8,11 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pluginbase.command.CommandContext;
 import pluginbase.command.CommandInfo;
+import pluginbase.command.CommandProvider;
 import pluginbase.messages.BundledMessage;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
-import pluginbase.plugin.PluginBase;
 
 import static com.mvplugin.core.util.Language.Command.Delete.*;
 
@@ -28,7 +28,7 @@ public class DeleteCommand extends QueuedMultiverseCommand {
 
     private static final long CONFIRMATION_TIME = 10000L;
 
-    protected DeleteCommand(@NotNull final PluginBase<MultiverseCore> plugin) {
+    protected DeleteCommand(@NotNull final CommandProvider<MultiverseCore> plugin) {
         super(plugin);
     }
 
