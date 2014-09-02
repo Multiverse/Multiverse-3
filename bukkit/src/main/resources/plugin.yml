@@ -2,3 +2,5 @@ name: Multiverse-Core
 main: com.mvplugin.core.MultiverseCoreBukkitPlugin
 authors: ['Rigby', 'fernferret', 'lithium3141', 'main--', 'dumptruckman']
 version: maven-version-number
+awareness:
+- !@UTF8
