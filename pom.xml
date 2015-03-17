@@ -24,6 +24,7 @@
     <modules>
         <module>base</module>
         <module>bukkit</module>
+        <module>sponge</module>
     </modules>
 
     <ciManagement>
