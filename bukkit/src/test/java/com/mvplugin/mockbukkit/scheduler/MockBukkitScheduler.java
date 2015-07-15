@@ -1,6 +1,7 @@
 package com.mvplugin.mockbukkit.scheduler;
 
 import org.bukkit.plugin.Plugin;
+import org.bukkit.scheduler.BukkitRunnable;
 import org.bukkit.scheduler.BukkitScheduler;
 import org.bukkit.scheduler.BukkitTask;
 import org.bukkit.scheduler.BukkitWorker;
@@ -109,5 +110,50 @@ public class MockBukkitScheduler implements BukkitScheduler {
     @Override
     public BukkitTask runTaskTimerAsynchronously(Plugin plugin, Runnable runnable, long l, long l2) throws IllegalArgumentException {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public int scheduleSyncDelayedTask(Plugin plugin, BukkitRunnable bukkitRunnable, long l) {
+        return 0;
+    }
+
+    @Override
+    public int scheduleSyncDelayedTask(Plugin plugin, BukkitRunnable bukkitRunnable) {
+        return 0;
+    }
+
+    @Override
+    public int scheduleSyncRepeatingTask(Plugin plugin, BukkitRunnable bukkitRunnable, long l, long l1) {
+        return 0;
+    }
+
+    @Override
+    public BukkitTask runTask(Plugin plugin, BukkitRunnable bukkitRunnable) throws IllegalArgumentException {
+        return null;
+    }
+
+    @Override
+    public BukkitTask runTaskAsynchronously(Plugin plugin, BukkitRunnable bukkitRunnable) throws IllegalArgumentException {
+        return null;
+    }
+
+    @Override
+    public BukkitTask runTaskLater(Plugin plugin, BukkitRunnable bukkitRunnable, long l) throws IllegalArgumentException {
+        return null;
+    }
+
+    @Override
+    public BukkitTask runTaskLaterAsynchronously(Plugin plugin, BukkitRunnable bukkitRunnable, long l) throws IllegalArgumentException {
+        return null;
+    }
+
+    @Override
+    public BukkitTask runTaskTimer(Plugin plugin, BukkitRunnable bukkitRunnable, long l, long l1) throws IllegalArgumentException {
+        return null;
+    }
+
+    @Override
+    public BukkitTask runTaskTimerAsynchronously(Plugin plugin, BukkitRunnable bukkitRunnable, long l, long l1) throws IllegalArgumentException {
+        return null;
     }
 }

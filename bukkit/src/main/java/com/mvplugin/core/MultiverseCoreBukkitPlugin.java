@@ -25,8 +25,11 @@ import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.bukkit.PortalType;
+import org.bukkit.Server;
 import org.bukkit.command.CommandSender;
 import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
+import org.bukkit.plugin.PluginDescriptionFile;
+import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.bukkit.BukkitPluginAgent;
@@ -38,6 +41,7 @@ import pluginbase.plugin.PluginBase;
 import pluginbase.plugin.ServerInterface;
 import pluginbase.plugin.Settings;
 
+import java.io.File;
 import java.io.IOException;
 import java.util.concurrent.Callable;
 import java.util.logging.Level;
@@ -83,6 +87,16 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
     private final BukkitPluginAgent<MultiverseCore> pluginAgent = BukkitPluginAgent.getPluginAgent(MultiverseCore.class, this, COMMAND_PREFIX);
 
     public MultiverseCoreBukkitPlugin() {
+        super();
+        init();
+    }
+
+    MultiverseCoreBukkitPlugin(PluginLoader loader, Server server, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, server, description, dataFolder, file);
+        init();
+    }
+
+    private void init() {
         pluginAgent.setPermissionPrefix(PERMISSION_PREFIX);
         pluginAgent.setDefaultSettingsCallable(new Callable<Settings>() {
             @Override

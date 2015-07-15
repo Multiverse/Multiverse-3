@@ -11,6 +11,7 @@ import org.bukkit.Material;
 import org.bukkit.Sound;
 import org.bukkit.TreeType;
 import org.bukkit.World;
+import org.bukkit.WorldBorder;
 import org.bukkit.WorldCreator;
 import org.bukkit.WorldType;
 import org.bukkit.block.Biome;
@@ -757,5 +758,15 @@ public class MockWorld implements World {
             } catch (Exception ignore) { }
             return new Location(null, x, y, z);
         }
+    }
+
+    @Override
+    public Collection<Entity> getNearbyEntities(Location location, double v, double v1, double v2) {
+        return null;
+    }
+
+    @Override
+    public WorldBorder getWorldBorder() {
+        return null;
     }
 }

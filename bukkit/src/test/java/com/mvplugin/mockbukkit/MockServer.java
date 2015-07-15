@@ -5,9 +5,12 @@ import com.mvplugin.core.FileLocations;
 import com.mvplugin.mockbukkit.help.MockHelpMap;
 import com.mvplugin.mockbukkit.plugin.MockPluginManager;
 import com.mvplugin.mockbukkit.scheduler.MockBukkitScheduler;
+import org.bukkit.BanList;
+import org.bukkit.BanList.Type;
 import org.bukkit.GameMode;
 import org.bukkit.OfflinePlayer;
 import org.bukkit.Server;
+import org.bukkit.UnsafeValues;
 import org.bukkit.Warning.WarningState;
 import org.bukkit.World;
 import org.bukkit.World.Environment;
@@ -30,10 +33,13 @@ import org.bukkit.plugin.ServicesManager;
 import org.bukkit.plugin.SimpleServicesManager;
 import org.bukkit.plugin.messaging.Messenger;
 import org.bukkit.scoreboard.ScoreboardManager;
+import org.bukkit.util.CachedServerIcon;
 import pluginbase.logging.Logging;
 
+import java.awt.image.BufferedImage;
 import java.io.File;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
@@ -84,9 +90,10 @@ public class MockServer implements Server {
         return "1.6.2-R1.0";
     }
 
+
     @Override
-    public Player[] getOnlinePlayers() {
-        return onlinePlayers.toArray(new Player[onlinePlayers.size()]);
+    public Collection<Player> getOnlinePlayers() {
+        return onlinePlayers;
     }
 
     @Override
@@ -543,5 +550,70 @@ public class MockServer implements Server {
     @Override
     public Set<String> getListeningPluginChannels() {
         return null;  //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    @Override
+    public Player[] _INVALID_getOnlinePlayers() {
+        return onlinePlayers.toArray(new Player[onlinePlayers.size()]);
+    }
+
+    @Override
+    public Player getPlayer(UUID uuid) {
+        for (Player player : onlinePlayers) {
+            if (player.getUniqueId().equals(uuid)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public OfflinePlayer getOfflinePlayer(UUID uuid) {
+        for (Player player : onlinePlayers) {
+            if (player.getUniqueId().equals(uuid)) {
+                return player;
+            }
+        }
+        return null;
+    }
+
+    @Override
+    public BanList getBanList(Type type) {
+        return null;
+    }
+
+    @Override
+    public Inventory createInventory(InventoryHolder inventoryHolder, InventoryType inventoryType, String s) {
+        return null;
+    }
+
+    @Override
+    public CachedServerIcon getServerIcon() {
+        return null;
+    }
+
+    @Override
+    public CachedServerIcon loadServerIcon(File file) throws IllegalArgumentException, Exception {
+        return null;
+    }
+
+    @Override
+    public CachedServerIcon loadServerIcon(BufferedImage bufferedImage) throws IllegalArgumentException, Exception {
+        return null;
+    }
+
+    @Override
+    public void setIdleTimeout(int i) {
+
+    }
+
+    @Override
+    public int getIdleTimeout() {
+        return 0;
+    }
+
+    @Override
+    public UnsafeValues getUnsafe() {
+        return null;
     }
 }

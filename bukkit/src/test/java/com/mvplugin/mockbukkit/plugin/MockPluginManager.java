@@ -41,9 +41,12 @@ public class MockPluginManager implements PluginManager {
     private final Map<Boolean, Map<Permissible, Boolean>> defSubs = new HashMap<Boolean, Map<Permissible, Boolean>>();
 
     Server server;
+    PluginLoader pluginLoader;
 
     public MockPluginManager(Server server) {
         this.server = server;
+
+        this.pluginLoader = new MockPluginLoader();
 
         defaultPerms.put(true, new HashSet<Permission>());
         defaultPerms.put(false, new HashSet<Permission>());
@@ -92,12 +95,13 @@ public class MockPluginManager implements PluginManager {
     public Plugin loadPlugin(PluginDescriptionFile pdf) {
         try {
             Class<Plugin> clazz = (Class<Plugin>) Class.forName(pdf.getMain());
-            Constructor<Plugin> constructor = clazz.getDeclaredConstructor();
+            Constructor<Plugin> constructor = clazz.getDeclaredConstructor(PluginLoader.class, Server.class, PluginDescriptionFile.class, File.class, File.class);
             constructor.setAccessible(true);
-            Plugin plugin = constructor.newInstance();
-            getField("server").set(plugin, server);
-            getField("description").set(plugin, pdf);
-            getField("dataFolder").set(plugin, new File(FileLocations.PLUGIN_DIRECTORY, plugin.getName()));
+            File pluginDir = new File(FileLocations.PLUGIN_DIRECTORY, pdf.getName());
+            Plugin plugin = constructor.newInstance(pluginLoader, server, pdf, pluginDir, new File(FileLocations.PLUGIN_DIRECTORY, "pluginTestFile"));
+            //getField("server").set(plugin, server);
+            //getField("description").set(plugin, pdf);
+            //getField("dataFolder").set(plugin, pluginDir);
             plugin.onLoad();
             plugins.add(plugin);
             return plugin;

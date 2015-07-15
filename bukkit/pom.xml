@@ -10,8 +10,8 @@
 
     <repositories>
         <repository>
-            <id>Bukkit Official</id>
-            <url>http://repo.bukkit.org/content/repositories/public</url>
+            <id>spigot</id>
+            <url>https://hub.spigotmc.org/nexus/content/groups/public/</url>
         </repository>
         <!-- Required for Metrics -->
         <repository>
@@ -175,7 +175,7 @@
         <dependency>
             <groupId>org.bukkit</groupId>
             <artifactId>bukkit</artifactId>
-            <version>1.6.2-R1.0</version>
+            <version>1.8.7-R0.1-SNAPSHOT</version>
             <type>jar</type>
             <scope>compile</scope>
         </dependency>

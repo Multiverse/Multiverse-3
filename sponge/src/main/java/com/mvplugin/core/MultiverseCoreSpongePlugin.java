@@ -27,13 +27,13 @@ import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Game;
+import org.spongepowered.api.event.Subscribe;
 import org.spongepowered.api.event.state.InitializationEvent;
 import org.spongepowered.api.event.state.PreInitializationEvent;
 import org.spongepowered.api.event.state.ServerStoppingEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.ConfigDir;
-import org.spongepowered.api.util.event.Subscribe;
 import pluginbase.config.SerializationRegistrar;
 import pluginbase.logging.PluginLogger;
 import pluginbase.messages.messaging.Messager;
@@ -97,7 +97,7 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
     }
 
     private void registerMinecraftJunk(@NotNull Game game) {
-        for (org.spongepowered.api.entity.EntityType entityType : game.getRegistry().getEntities()) {
+        for (org.spongepowered.api.entity.EntityType entityType : game.getRegistry().getAllOf(org.spongepowered.api.entity.EntityType.class)) {
             EntityType.registerEntityType(entityType.getId());
         }
         CreatureSpawnCause.specifyNaturalCause("NATURAL");
