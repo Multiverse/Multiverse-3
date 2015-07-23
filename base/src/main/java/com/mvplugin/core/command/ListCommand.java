@@ -3,6 +3,7 @@ package com.mvplugin.core.command;
 import com.mvplugin.core.MultiverseWorld;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.plugin.MultiverseCore;
+import com.mvplugin.core.util.MultiverseTheme;
 import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.command.CommandContext;
@@ -10,6 +11,7 @@ import pluginbase.command.CommandInfo;
 import pluginbase.command.CommandProvider;
 import pluginbase.messages.ChatColor;
 import pluginbase.messages.Message;
+import pluginbase.messages.Theme;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.permission.Perm;
 
@@ -49,20 +51,20 @@ public class ListCommand extends MultiverseCommand {
             if (builder.length() != 0) {
                 builder.append("\n");
             }
-            ChatColor color = ChatColor.GOLD;
+            MultiverseTheme color = MultiverseTheme.UNKNOWN_WORLD;
             WorldEnvironment env = world.getEnvironment();
             if (env == WorldEnvironment.NETHER) {
-                color = ChatColor.RED;
+                color = MultiverseTheme.WORLD_NETHER;
             } else if (env == WorldEnvironment.NORMAL) {
-                color = ChatColor.DARK_GREEN;
+                color = MultiverseTheme.WORLD_NORMAL;
             } else if (env == WorldEnvironment.THE_END) {
-                color = ChatColor.BLACK;
+                color = MultiverseTheme.WORLD_THE_END;
             }
             if (world.isHidden()) {
-                builder.append(ChatColor.GRAY).append("[H]");
+                builder.append(MultiverseTheme.HIDDEN_WORLD).append("[H]");
             }
-            builder.append(ChatColor.WHITE);
-            builder.append(world.getAlias()).append(ChatColor.WHITE);
+            builder.append(Theme.PLAIN);
+            builder.append(world.getAlias()).append(Theme.PLAIN);
             builder.append(" - ").append(color).append(world.getEnvironment());
 
         }

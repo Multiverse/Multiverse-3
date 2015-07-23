@@ -12,6 +12,14 @@
         <tag>2</tag>
         <color>DARK_GRAY</color>
     </WORLD_THE_END>
+    <UNKNOWN_WORLD_TYPE>
+        <tag>9</tag>
+        <color>GOLD</color>
+    </UNKNOWN_WORLD_TYPE>
+    <HIDDEN_WORLD>
+        <tag>H</tag>
+        <color>GRAY</color>
+    </HIDDEN_WORLD>
     <IMPL_NAME>
         <tag>T</tag>
         <color>DARK_RED</color>
