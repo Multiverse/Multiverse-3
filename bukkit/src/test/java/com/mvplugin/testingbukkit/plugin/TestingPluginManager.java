@@ -1,4 +1,4 @@
-package com.mvplugin.mockbukkit.plugin;
+package com.mvplugin.testingbukkit.plugin;
 
 import com.google.common.collect.ImmutableSet;
 import com.mvplugin.core.FileLocations;
@@ -18,6 +18,7 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.UnknownDependencyException;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.powermock.api.mockito.PowerMockito;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -31,7 +32,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.WeakHashMap;
 
-public class MockPluginManager implements PluginManager {
+public class TestingPluginManager implements PluginManager {
 
     List<Plugin> plugins = new ArrayList<Plugin>();
     Set<Plugin> enabledPlugins = new HashSet<Plugin>();
@@ -43,10 +44,10 @@ public class MockPluginManager implements PluginManager {
     Server server;
     PluginLoader pluginLoader;
 
-    public MockPluginManager(Server server) {
+    public TestingPluginManager(Server server) {
         this.server = server;
 
-        this.pluginLoader = new MockPluginLoader();
+        this.pluginLoader = PowerMockito.mock(PluginLoader.class);
 
         defaultPerms.put(true, new HashSet<Permission>());
         defaultPerms.put(false, new HashSet<Permission>());

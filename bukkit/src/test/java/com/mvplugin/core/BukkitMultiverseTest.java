@@ -1,27 +1,31 @@
 package com.mvplugin.core;
 
-import com.mvplugin.mockbukkit.MockServer;
+import com.mvplugin.testingbukkit.ServerFactory;
+import com.mvplugin.testingbukkit.TestingServer;
 import org.bukkit.Bukkit;
+import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginBase;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.junit.Before;
 import org.powermock.core.classloader.annotations.PrepareForTest;
 
 import java.lang.reflect.Field;
 
-import static org.junit.Assert.assertSame;
+import static org.junit.Assert.*;
 
 @PrepareForTest({Bukkit.class, MultiverseCoreBukkitPlugin.class, JavaPlugin.class, PluginBase.class})
 public class BukkitMultiverseTest extends MultiverseTest {
 
-    private MockServer server = null;
+    private Server server = null;
     protected MultiverseCoreBukkitPlugin plugin;
 
-    @Before
-    public void initialize() throws Exception {
+    protected void extraSetup() throws Exception {
         reloadServer();
+    }
+
+    protected void extraCleanup() throws Exception {
+
     }
 
     public void reloadServer() throws Exception {
@@ -32,22 +36,22 @@ public class BukkitMultiverseTest extends MultiverseTest {
         plugin = (MultiverseCoreBukkitPlugin) server.getPluginManager().getPlugin("Multiverse-Core");
     }
 
-    private static MockServer prepareBukkit(PluginDescriptionFile... plugins) throws Exception {
-        final MockServer mockedServer = new MockServer();
+    private static Server prepareBukkit(PluginDescriptionFile... plugins) throws Exception {
+        final TestingServer testingServer = ServerFactory.createTestingServer();
 
         Field field = Bukkit.class.getDeclaredField("server");
         field.setAccessible(true);
-        field.set(null, mockedServer);
-        assertSame(mockedServer, Bukkit.getServer());
+        field.set(null, testingServer);
+        assertSame(testingServer, Bukkit.getServer());
 
         for (PluginDescriptionFile pluginInfo : plugins) {
-            mockedServer.getPluginManager().loadPlugin(pluginInfo);
+            testingServer.getPluginManager().loadPlugin(pluginInfo);
         }
-        mockedServer.loadDefaultWorlds();
-        for (Plugin plugin : mockedServer.getPluginManager().getPlugins()) {
-            mockedServer.getPluginManager().enablePlugin(plugin);
+        testingServer.loadDefaultWorlds();
+        for (Plugin plugin : testingServer.getPluginManager().getPlugins()) {
+            testingServer.getPluginManager().enablePlugin(plugin);
         }
 
-        return mockedServer;
+        return testingServer;
     }
 }
