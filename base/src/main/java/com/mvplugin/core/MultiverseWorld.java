@@ -136,14 +136,14 @@ public final class MultiverseWorld {
         if (path == null) {
             path = name.split("\\.");
         }
-        Field field = getField(path);
+        Field field = getWorldPropertiesField(path);
         if (field.isImmutable()) {
             throw new NoSuchFieldException();
         }
         return field.getDescription();
     }
 
-    private static Field getField(String... name) throws NoSuchFieldException {
+    private static Field getWorldPropertiesField(String... name) throws NoSuchFieldException {
         FieldMap fieldMap = FieldMapper.getFieldMap(WorldProperties.class);
         Field field = null;
         for (String s : name) {
