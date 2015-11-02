@@ -27,10 +27,10 @@ import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Game;
-import org.spongepowered.api.event.Subscribe;
-import org.spongepowered.api.event.state.InitializationEvent;
-import org.spongepowered.api.event.state.PreInitializationEvent;
-import org.spongepowered.api.event.state.ServerStoppingEvent;
+import org.spongepowered.api.event.Listener;
+import org.spongepowered.api.event.game.state.GameInitializationEvent;
+import org.spongepowered.api.event.game.state.GamePreInitializationEvent;
+import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.ConfigDir;
@@ -76,8 +76,8 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
     @Inject
     private Game game;
 
-    @Subscribe
-    private void preInitialization(PreInitializationEvent event) {
+    @Listener
+    private void preInitialization(GamePreInitializationEvent event) {
         registerMinecraftJunk(game);
         SpongeConvert.initializeWithGame(game);
 
@@ -107,8 +107,8 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
         PortalType.registerPortalType("CUSTOM");
     }
 
-    @Subscribe
-    private void initialization(InitializationEvent event) {
+    @Listener
+    private void initialization(GameInitializationEvent event) {
         // Register commands
         pluginAgent.registerCommand(ImportCommand.class);
         pluginAgent.registerCommand(LoadCommand.class);
@@ -154,8 +154,8 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
         return pluginAgent.getPluginBase();
     }
 
-    @Subscribe
-    private void serverStopping(ServerStoppingEvent event) {
+    @Listener
+    private void serverStopping(GameStoppingServerEvent event) {
         pluginAgent.disablePluginBase();
     }
 
