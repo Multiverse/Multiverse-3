@@ -16,6 +16,7 @@
                 <artifactId>maven-javadoc-plugin</artifactId>
                 <version>2.9</version>
                 <configuration>
+                    <additionalparam>-Xdoclint:-html</additionalparam>
                     <stylesheetfile>${project.basedir}/style/stylesheet.css</stylesheetfile>
                 </configuration>
                 <executions>
