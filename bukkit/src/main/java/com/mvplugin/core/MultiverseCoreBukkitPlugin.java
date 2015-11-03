@@ -21,6 +21,7 @@ import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.BukkitLanguage;
 import com.mvplugin.core.util.CoreConfig;
+import com.mvplugin.core.util.CoreLogger;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
@@ -97,6 +98,8 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
     }
 
     private void init() {
+        CoreLogger.init(getPluginBase());
+
         pluginAgent.setPermissionPrefix(PERMISSION_PREFIX);
         pluginAgent.setDefaultSettingsCallable(new Callable<Settings>() {
             @Override

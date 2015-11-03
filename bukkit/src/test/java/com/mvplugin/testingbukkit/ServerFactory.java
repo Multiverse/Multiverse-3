@@ -1,6 +1,7 @@
 package com.mvplugin.testingbukkit;
 
 import com.mvplugin.core.FileLocations;
+import com.mvplugin.core.util.CoreLogger;
 import com.mvplugin.testingbukkit.answers.NoArgVoidAnswer;
 import com.mvplugin.testingbukkit.answers.SetterAnswer;
 import com.mvplugin.testingbukkit.plugin.TestingPluginManager;
@@ -18,7 +19,6 @@ import org.bukkit.scheduler.BukkitScheduler;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
 import org.powermock.api.mockito.PowerMockito;
-import pluginbase.logging.Logging;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -242,7 +242,7 @@ public final class ServerFactory {
                 // gonna need this apparently...
             }
         }).when(server).reload();
-        when(server.getLogger()).thenReturn(Logging.getLogger());
+        when(server.getLogger()).thenReturn(CoreLogger.getLogger());
         when(server.getOnlineMode()).thenReturn(true);
         when(server.getAllowFlight()).thenReturn(true);
         when(server.isHardcore()).thenReturn(false);

@@ -7,12 +7,12 @@ import com.mvplugin.core.exceptions.WorldManagementException;
 import com.mvplugin.core.minecraft.Generator;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
+import com.mvplugin.core.util.CoreLogger;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.SafeTeleporter;
 import com.mvplugin.core.world.WorldCreationSettings;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pluginbase.logging.Logging;
 import pluginbase.messages.BundledMessage;
 import pluginbase.messages.Message;
 import pluginbase.messages.PluginBaseException;
@@ -129,7 +129,7 @@ public final class WorldManager {
         MultiverseWorld mvWorld = this.worldManagerUtil.createWorld(settings);
         mvWorld.setAdjustingSpawn(settings.adjustSpawn());
         this.worldsMap.put(settings.name().toLowerCase(), mvWorld);
-        Logging.fine("World '%s' has been added to multiverse management", settings.name());
+        CoreLogger.fine("World '%s' has been added to multiverse management", settings.name());
         return mvWorld;
     }
 
@@ -210,7 +210,7 @@ public final class WorldManager {
             throw new WorldManagementException(Message.bundleMessage(Language.WORLD_NOT_MANAGED, name));
         }
         try {
-            Logging.fine("Loading world '%s'...", name);
+            CoreLogger.fine("Loading world '%s'...", name);
             // Transfer all the properties of the world ot a WorldCreationSettings object.
             final WorldProperties properties = this.worldManagerUtil.getWorldProperties(name);
             final WorldCreationSettings settings = new WorldCreationSettings(name);
@@ -270,7 +270,7 @@ public final class WorldManager {
             }
             if (this.worldManagerUtil.unloadWorldFromServer(world)) {
                 removeWorldFromMemory(world);
-                Logging.fine("World '%s' was unloaded from memory.", world.getName());
+                CoreLogger.fine("World '%s' was unloaded from memory.", world.getName());
             } else {
                 throw new WorldManagementException(Message.bundleMessage(Language.WORLD_COULD_NOT_UNLOAD_FROM_SERVER, world.getName()));
             }
@@ -301,7 +301,7 @@ public final class WorldManager {
         final FacingCoordinates sLoc = safeWorld.getSpawnLocation();
         final EntityCoordinates location = Locations.getEntityCoordinates(safeWorld.getName(),
                 sLoc.getX(), sLoc.getY(), sLoc.getZ(), sLoc.getPitch(), sLoc.getYaw());
-        Logging.fine("Removing players from world '%s'...", world.getName());
+        CoreLogger.fine("Removing players from world '%s'...", world.getName());
         for (final BasePlayer p : world.getPlayers()) {
             if (p instanceof Entity) {
                 teleporter.safelyTeleport(null, (Entity) p, location);

@@ -6,6 +6,7 @@ import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.BukkitConvert;
 import com.mvplugin.core.util.BukkitLanguage;
+import com.mvplugin.core.util.CoreLogger;
 import com.mvplugin.core.world.WorldCreationSettings;
 import org.apache.commons.io.FileUtils;
 import org.bukkit.Bukkit;
@@ -17,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pluginbase.bukkit.config.BukkitConfiguration;
 import pluginbase.bukkit.config.YamlConfiguration;
-import pluginbase.logging.Logging;
 import pluginbase.messages.BundledMessage;
 import pluginbase.messages.Message;
 import pluginbase.messages.PluginBaseException;
@@ -78,7 +78,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
                 }
             }
         } else {
-            Logging.warning("Could not read 'bukkit.yml'. Any Default worldgenerators will not be loaded!");
+            CoreLogger.warning("Could not read 'bukkit.yml'. Any Default worldgenerators will not be loaded!");
         }
     }
 
@@ -105,7 +105,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         }
 
         // Simple Output to the Console to show how many Worlds were loaded.
-        Logging.config("Multiverse is now managing: %s", worldAggregator.getCommaSeparatedWorldNames());
+        CoreLogger.config("Multiverse is now managing: %s", worldAggregator.getCommaSeparatedWorldNames());
         return initialWorldsMap;
     }
 
@@ -114,7 +114,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         try {
             return getBukkitWorld(bukkitWorld);
         } catch (MultiverseException e) {
-            Logging.severe("Multiverse could not initialize loaded Bukkit world '%s'", bukkitWorld.getName());
+            CoreLogger.severe("Multiverse could not initialize loaded Bukkit world '%s'", bukkitWorld.getName());
             return null;
         }
     }
@@ -126,13 +126,13 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             if (worldProperties.isAutoLoad()) {
                 return loadWorldFromProperties(worldProperties);
             } else {
-                Logging.fine("Not loading '%s' because it is set to autoLoad: false", worldName);
+                CoreLogger.fine("Not loading '%s' because it is set to autoLoad: false", worldName);
             }
         } catch (MultiverseException e) {
             if (e instanceof WorldCreationException) {
-                Logging.getLogger().log(Level.WARNING, String.format("Error while attempting to load world '%s'", worldName), e);
+                CoreLogger.getLogger().log(Level.WARNING, String.format("Error while attempting to load world '%s'", worldName), e);
             } else {
-                Logging.getLogger().log(Level.WARNING, String.format("Could not load world '%s' from file '%s", worldName, getWorldFile(worldName)), e);
+                CoreLogger.getLogger().log(Level.WARNING, String.format("Could not load world '%s' from file '%s", worldName, getWorldFile(worldName)), e);
             }
         }
         return null;
@@ -159,7 +159,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         try {
             getWorldProperties(worldName);
         } catch (MultiverseException e) {
-            Logging.getLogger().log(Level.WARNING, String.format("Could not cache unloaded world '%s'", worldName), e);
+            CoreLogger.getLogger().log(Level.WARNING, String.format("Could not cache unloaded world '%s'", worldName), e);
         }
     }
 
@@ -290,7 +290,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     public void removeWorldProperties(@NotNull String worldName) throws MultiverseException {
         for (final String propsName : this.worldPropertiesMap.keySet()) {
             if (worldName.equalsIgnoreCase(propsName)) {
-                Logging.finest("Found appropriately cased world name '%s'=>'%s'", worldName, propsName);
+                CoreLogger.finest("Found appropriately cased world name '%s'=>'%s'", worldName, propsName);
                 worldName = propsName;
                 break;
             }
@@ -302,7 +302,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         if (!file.delete()) {
             throw new MultiverseException(Message.bundleMessage(BukkitLanguage.WORLD_COULD_NOT_DELETE_FILE, file));
         }
-        Logging.fine("Removed world properties for world '%s'", worldName);
+        CoreLogger.fine("Removed world properties for world '%s'", worldName);
         this.worldPropertiesMap.remove(worldName);
     }
 
@@ -349,7 +349,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         }
 
         try {
-            Logging.fine("Creating bukkit world '%s'...", settings.name());
+            CoreLogger.fine("Creating bukkit world '%s'...", settings.name());
             final World w = c.createWorld();
             MultiverseWorld mvWorld = getBukkitWorld(w);
             mvWorld.setGenerator(settings.generator());
@@ -384,7 +384,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @Override
     public void deleteWorld(@NotNull final String name) throws IOException {
         final File worldFile = new File(Bukkit.getWorldContainer(), name);
-        Logging.fine("Attempting to delete %s", worldFile);
+        CoreLogger.fine("Attempting to delete %s", worldFile);
         FileUtils.deleteDirectory(worldFile);
     }
 

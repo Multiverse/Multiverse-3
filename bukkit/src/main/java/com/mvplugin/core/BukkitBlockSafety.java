@@ -1,11 +1,11 @@
 package com.mvplugin.core;
 
+import com.mvplugin.core.util.CoreLogger;
 import org.bukkit.Bukkit;
 import org.bukkit.Material;
 import org.bukkit.World;
 import org.bukkit.block.Block;
 import org.jetbrains.annotations.NotNull;
-import pluginbase.logging.Logging;
 import pluginbase.minecraft.location.BlockCoordinates;
 import pluginbase.minecraft.location.Locations;
 
@@ -14,16 +14,16 @@ class BukkitBlockSafety extends AbstractBlockSafety {
     @Override
     protected boolean isSolidBlock(@NotNull final BlockCoordinates l) {
         if (l.getBlockY() < 0) {
-            Logging.finer("Location '%s' is below the world.");
+            CoreLogger.finer("Location '%s' is below the world.");
             return false;
         }
         final World world = Bukkit.getWorld(l.getWorld());
         if (world == null) {
-            Logging.warning("World does not exist for location '%s'", l);
+            CoreLogger.warning("World does not exist for location '%s'", l);
             return true;
         }
         if (l.getBlockY() >= world.getMaxHeight()) {
-            Logging.finer("Location '%s' is above the world.");
+            CoreLogger.finer("Location '%s' is above the world.");
             return false;
         }
         final Block block = world.getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ());
@@ -89,7 +89,7 @@ class BukkitBlockSafety extends AbstractBlockSafety {
             case WATER:
                 return false;
             default:
-                Logging.finer("Solid block detected at %s", l);
+                CoreLogger.finer("Solid block detected at %s", l);
                 return true;
         }
     }
@@ -97,27 +97,27 @@ class BukkitBlockSafety extends AbstractBlockSafety {
     @Override
     protected boolean isBlockSafe(@NotNull final BlockCoordinates l) {
         if (l.getBlockY() < 0) {
-            Logging.finer("Location '%s' is below the world.");
+            CoreLogger.finer("Location '%s' is below the world.");
             return false;
         }
         final World world = Bukkit.getWorld(l.getWorld());
         if (world == null) {
-            Logging.warning("World does not exist for location '%s'", l);
+            CoreLogger.warning("World does not exist for location '%s'", l);
             return true;
         }
         if (l.getBlockY() >= world.getMaxHeight()) {
-            Logging.finer("Location '%s' is above the world.");
+            CoreLogger.finer("Location '%s' is above the world.");
             return false;
         }
         final Block block = world.getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ());
         final Material type = block.getType();
 
         if (type == Material.LAVA || type == Material.STATIONARY_LAVA) {
-            Logging.finer("Lava detected at %s", l);
+            CoreLogger.finer("Lava detected at %s", l);
             return false;
         }
         if (type == Material.FIRE) {
-            Logging.finer("Fire detected at %s", l);
+            CoreLogger.finer("Fire detected at %s", l);
             return false;
         }
         return true;
@@ -126,16 +126,16 @@ class BukkitBlockSafety extends AbstractBlockSafety {
     @Override
     protected boolean isBlockAir(@NotNull final BlockCoordinates l) {
         if (l.getBlockY() < 0) {
-            Logging.finer("Location '%s' is below the world.");
+            CoreLogger.finer("Location '%s' is below the world.");
             return false;
         }
         final World world = Bukkit.getWorld(l.getWorld());
         if (world == null) {
-            Logging.warning("World does not exist for location '%s'", l);
+            CoreLogger.warning("World does not exist for location '%s'", l);
             return true;
         }
         if (l.getBlockY() >= world.getMaxHeight()) {
-            Logging.finer("Location '%s' is above the world.");
+            CoreLogger.finer("Location '%s' is above the world.");
             return false;
         }
         final Block block = world.getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ());
@@ -146,16 +146,16 @@ class BukkitBlockSafety extends AbstractBlockSafety {
     @Override
     protected boolean hasTwoBlocksOfWaterBelow(@NotNull final BlockCoordinates l) {
         if (l.getBlockY() < 0) {
-            Logging.finer("Location '%s' is below the world.");
+            CoreLogger.finer("Location '%s' is below the world.");
             return false;
         }
         final World world = Bukkit.getWorld(l.getWorld());
         if (world == null) {
-            Logging.warning("World does not exist for location '%s'", l);
+            CoreLogger.warning("World does not exist for location '%s'", l);
             return true;
         }
         if (l.getBlockY() >= world.getMaxHeight()) {
-            Logging.finer("Location '%s' is above the world.");
+            CoreLogger.finer("Location '%s' is above the world.");
             return false;
         }
         final Block block = world.getBlockAt(l.getBlockX(), l.getBlockY(), l.getBlockZ());

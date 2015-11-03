@@ -1,9 +1,9 @@
 package com.mvplugin.core.destination;
 
 import com.mvplugin.core.MultiverseCoreAPI;
+import com.mvplugin.core.util.CoreLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pluginbase.logging.Logging;
 
 import java.util.Collections;
 import java.util.LinkedList;
@@ -43,7 +43,7 @@ public final class DestinationRegistry {
                 } catch (InstantiationException e) {
                     // Somebody made a constructor that just randomly throws exceptions at us?
                     // *sigh* ... come on, let's just log it and then disable that clown
-                    Logging.warning("The destination type '%s' triggered an exception (not Multiverse's fault!): %s",
+                    CoreLogger.warning("The destination type '%s' triggered an exception (not Multiverse's fault!): %s",
                             type, e.getCause());
                     this.cachedInstance = null; // Disabled.
                     return null;

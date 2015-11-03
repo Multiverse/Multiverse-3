@@ -22,6 +22,7 @@ import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.CoreConfig;
+import com.mvplugin.core.util.CoreLogger;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
@@ -82,6 +83,7 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
         SpongeConvert.initializeWithGame(game);
 
         pluginAgent = SpongePluginAgent.getPluginAgent(game, MultiverseCore.class, this, pluginContainer, COMMAND_PREFIX, dataFolder);
+        CoreLogger.init(pluginAgent.getPluginBase());
         pluginAgent.setPermissionPrefix(PERMISSION_PREFIX);
         pluginAgent.setDefaultSettingsCallable(new Callable<Settings>() {
             @Override
@@ -134,7 +136,7 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
         */
     }
 
-    File getDataFolder() {
+    public File getDataFolder() {
         return dataFolder;
     }
 

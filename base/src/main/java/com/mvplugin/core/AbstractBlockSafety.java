@@ -1,8 +1,8 @@
 package com.mvplugin.core;
 
 import com.mvplugin.core.util.BlockSafety;
+import com.mvplugin.core.util.CoreLogger;
 import org.jetbrains.annotations.NotNull;
-import pluginbase.logging.Logging;
 import pluginbase.minecraft.location.BlockCoordinates;
 import pluginbase.minecraft.location.Locations;
 
@@ -21,9 +21,9 @@ abstract class AbstractBlockSafety implements BlockSafety {
         }
 
         if (isBlockAir(downOne)) {
-            Logging.finer("Air detected below %s", actual);
+            CoreLogger.finer("Air detected below %s", actual);
             final boolean waterBelow = hasTwoBlocksOfWaterBelow(downOne);
-            Logging.finer("Has 2 blocks of water below [%s]", waterBelow);
+            CoreLogger.finer("Has 2 blocks of water below [%s]", waterBelow);
             return waterBelow;
         }
         return true;

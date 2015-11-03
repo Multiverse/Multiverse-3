@@ -1,10 +1,10 @@
 package com.mvplugin.core;
 
 import com.mvplugin.core.exceptions.TeleportException;
+import com.mvplugin.core.util.CoreLogger;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pluginbase.logging.Logging;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.Entity;
@@ -35,10 +35,10 @@ class DefaultSafeTeleporter implements SafeTeleporter {
         // TODO: Make this configurable
         final EntityCoordinates safe = checkAboveAndBelowLocation(location, height, width);
         if (safe != null) {
-            Logging.fine("Found a safe location: %s", safe); // TODO plugin.getLocationManipulation().strCoordsRaw(safe));
+            CoreLogger.fine("Found a safe location: %s", safe); // TODO plugin.getLocationManipulation().strCoordsRaw(safe));
             return getBlockCenteredCoordinates(safe);
         } else {
-            Logging.fine("Uh oh! No safe location found!");
+            CoreLogger.fine("Uh oh! No safe location found!");
             return null;
         }
     }
@@ -53,8 +53,8 @@ class DefaultSafeTeleporter implements SafeTeleporter {
 
     @Nullable
     private EntityCoordinates checkAboveAndBelowLocation(@NotNull final EntityCoordinates location, final int height, final int width) {
-        Logging.finer("Given Location of: %s", location); // TODO plugin.getLocationManipulation().strCoordsRaw(l));
-        Logging.finer("Checking +-%s with a radius of %s", height, width);
+        CoreLogger.finer("Given Location of: %s", location); // TODO plugin.getLocationManipulation().strCoordsRaw(l));
+        CoreLogger.finer("Checking +-%s with a radius of %s", height, width);
         // For now this will just do a straight up block.
         // Check the main level
         EntityCoordinates safe = checkAroundLocation(location, width);
