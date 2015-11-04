@@ -152,7 +152,8 @@ class DefaultSafeTeleporter implements SafeTeleporter {
             if (!target.teleport(safeLocation)) {
                 throw new TeleportException(Message.bundleMessage(TELEPORT_FAILED, target, safeLocation));
             }
+        } else {
+            throw new TeleportException(Message.bundleMessage(NO_SAFE_LOCATION, location, target));
         }
-        throw new TeleportException(Message.bundleMessage(NO_SAFE_LOCATION, location, target));
     }
 }
