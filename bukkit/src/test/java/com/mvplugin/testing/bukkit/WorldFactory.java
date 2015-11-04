@@ -1,8 +1,8 @@
-package com.mvplugin.testingbukkit;
+package com.mvplugin.testing.bukkit;
 
-import com.mvplugin.core.FileLocations;
-import com.mvplugin.testingbukkit.answers.NoArgVoidAnswer;
-import com.mvplugin.testingbukkit.answers.SetterAnswer;
+import com.mvplugin.testing.FileLocations;
+import com.mvplugin.testing.answers.NoArgVoidAnswer;
+import com.mvplugin.testing.answers.SetterAnswer;
 import org.bukkit.Difficulty;
 import org.bukkit.Location;
 import org.bukkit.World;

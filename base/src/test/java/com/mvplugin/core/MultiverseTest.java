@@ -1,5 +1,6 @@
 package com.mvplugin.core;
 
+import com.mvplugin.testing.FileLocations;
 import org.junit.After;
 import org.junit.Before;
 import org.junit.runner.RunWith;

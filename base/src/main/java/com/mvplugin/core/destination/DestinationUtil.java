@@ -1,10 +1,12 @@
 package com.mvplugin.core.destination;
 
+import org.jetbrains.annotations.NotNull;
+
 /**
  * Contains some utility methods for {@link Destination} implementations.
  */
-final class Util {
-    private Util() { }
+final class DestinationUtil {
+    private DestinationUtil() { }
 
     /**
      * Creates a named regular expression matching group that matches any signed and unsigned number.
@@ -12,8 +14,8 @@ final class Util {
      * @param name The name for the matching group.
      * @return The matching group, ready to be inserted into a regular expression.
      */
-    public static String numberRegex(String name) {
-        return String.format(":(?<%s>[-+]?\\d+(\\.\\d+)?)", name);
+    static String numberRegex(@NotNull String name) {
+        return String.format("(?<%s>[-+]?\\d+(\\.\\d+)?)", name);
     }
 
     /**
@@ -22,10 +24,16 @@ final class Util {
      * @param args The arguments that should be used to create the string.
      * @return The joined string.
      */
-    public static String colonJoin(Object... args) {
+    static String colonJoin(Object... args) {
         StringBuilder builder = new StringBuilder(args[0].toString());
         for (int i = 1; i < args.length; i++)
             builder.append(':').append(args[i].toString());
         return builder.toString();
+    }
+
+    @NotNull
+    static String removePrefix(@NotNull String destinationString) {
+        String[] parts = destinationString.split(":", 2);
+        return parts.length == 1 ? destinationString : parts[1];
     }
 }

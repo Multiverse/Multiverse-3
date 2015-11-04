@@ -5,6 +5,7 @@ import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.world.WorldCreationSettings;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.messages.PluginBaseException;
+import pluginbase.minecraft.location.Locations;
 
 import java.util.Arrays;
 import java.util.List;

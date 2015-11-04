@@ -1,7 +1,7 @@
 package com.mvplugin.core;
 
-import com.mvplugin.testingbukkit.ServerFactory;
-import com.mvplugin.testingbukkit.TestingServer;
+import com.mvplugin.testing.bukkit.ServerFactory;
+import com.mvplugin.testing.bukkit.TestingServer;
 import org.bukkit.Bukkit;
 import org.bukkit.Server;
 import org.bukkit.plugin.Plugin;

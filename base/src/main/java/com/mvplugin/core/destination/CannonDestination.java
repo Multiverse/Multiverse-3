@@ -1,89 +1,135 @@
 package com.mvplugin.core.destination;
 
+import com.mvplugin.core.MultiverseCoreAPI;
+import com.mvplugin.core.exceptions.InvalidDestinationException;
 import com.mvplugin.core.exceptions.TeleportException;
+import com.mvplugin.core.util.Language;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
+import pluginbase.messages.Message;
 import pluginbase.minecraft.Entity;
 import pluginbase.minecraft.location.EntityCoordinates;
 import pluginbase.minecraft.location.Locations;
-import pluginbase.minecraft.location.Vector;
 import pluginbase.permission.Permissible;
 
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import static com.mvplugin.core.destination.Util.*;
+import static com.mvplugin.core.destination.DestinationUtil.*;
 
 /**
  * A destination that accelerates the player after he was teleported.
  */
 public class CannonDestination extends SimpleDestination {
-    @NotNull
-    private EntityCoordinates coordinates;
-    @NotNull
-    private Vector velocity;
+
+    static final Set<String> PREFIXES = new CopyOnWriteArraySet<String>() {{
+        add("cannon");
+        add("ca");
+    }};
+
+    @Nullable
+    private final EntityCoordinates coordinates;
+    private final double speed;
 
     // TODO: Decide about pitch+yaw vs vector
-    private static final Pattern PATTERN = Pattern.compile("cannon:(?<world>[^:]+)"
-            + numberRegex("x") + numberRegex("y") + numberRegex("z") + numberRegex("pitch") + numberRegex("yaw")
-            + numberRegex("vx") + numberRegex("vy") + numberRegex("vz"));
+    private static final Pattern LOC_PATTERN = Pattern.compile(colonJoin("(?<world>[^:]+)", numberRegex("x"),
+            numberRegex("y"), numberRegex("z"), numberRegex("pitch"), numberRegex("yaw"), numberRegex("speed")));
+    private static final Pattern LAUNCH_PATTERN = Pattern.compile(numberRegex("speed"));
 
-    public CannonDestination() { }
-    public CannonDestination(@NotNull final EntityCoordinates coordinates, @NotNull final Vector velocity) {
+    public CannonDestination(@NotNull MultiverseCoreAPI api, @Nullable EntityCoordinates coordinates, double speed) {
+        super(api);
         this.coordinates = coordinates;
-        this.velocity = velocity;
+        this.speed = speed;
     }
 
+    // TODO: These strings are wrong as they need to use speed rather than vector... I think.
     @Override
-    public boolean tryParse(final String str) {
-        // redundant but faster than the regex and we have to filter out other types as fast as possible
-        if (!str.startsWith("cannon:"))
-            return false;
+    @NotNull
+    public String getDestinationString() {
+        EntityCoordinates c = coordinates;
+        if (c != null) {
+            return DestinationUtil.colonJoin("cannon", c.getWorld(), c.getX(), c.getY(), c.getZ(), c.getPitch(), c.getYaw(), speed);
+        } else {
+            return DestinationUtil.colonJoin("cannon", speed);
+        }
+    }
 
-        final Matcher m = PATTERN.matcher(str);
-        if (!m.matches())
-            return false;
-
-        try {
-            this.coordinates = Locations.getEntityCoordinates(m.group("world"),
-                    Double.parseDouble(m.group("x")), Double.parseDouble(m.group("y")), Double.parseDouble(m.group("z")),
-                    Float.parseFloat(m.group("pitch")), Float.parseFloat(m.group("yaw")));
-            this.velocity = new Vector(Double.parseDouble(m.group("vx")), Double.parseDouble(m.group("vy")),
-                    Double.parseDouble(m.group("vz")));
-            return true;
-        } catch (NumberFormatException e) {
-            // I have no idea how this could still happen but just in case...
-            return false;
+    @NotNull
+    @Override
+    protected EntityCoordinates getDestination() throws TeleportException {
+        if (coordinates != null) {
+            return this.coordinates;
+        } else {
+            throw new TeleportException(Message.bundleMessage(Language.Destination.Cannon.LAUNCH_ONLY, getDestinationString()));
         }
     }
 
     @Override
-    public String serialize() {
-        EntityCoordinates c = coordinates;
-        return Util.colonJoin("cannon", c.getWorld(), c.getX(), c.getY(), c.getZ(), c.getPitch(), c.getYaw(),
-                velocity.getX(), velocity.getY(), velocity.getZ());
-    }
-
-    @Override
-    protected EntityCoordinates getDestination() {
-        return this.coordinates;
-    }
-
-    @Override
-    public void teleport(final Permissible teleporter, final Permissible teleportee,
-                         final Entity teleporteeEntity) throws TeleportException {
-        super.teleport(teleporter, teleportee, teleporteeEntity);
-        teleporteeEntity.setVelocity(this.velocity);
+    public void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee,
+                         @NotNull Entity teleporteeEntity) throws TeleportException {
+        // TODO Handle permissions
+        if (coordinates != null) {
+            super.teleport(teleporter, teleportee, teleporteeEntity);
+            teleporteeEntity.setVelocity(coordinates.getDirection().multiply(speed));
+        } else {
+            teleporteeEntity.setVelocity(teleporteeEntity.getLocation().getDirection().multiply(speed));
+        }
     }
 
     @Override
     public boolean equals(final Object o) {
         return this == o || ((o != null) && (getClass() == o.getClass())
                 && Locations.equal(this.coordinates, ((CannonDestination) o).coordinates)
-                && this.velocity.equals(((CannonDestination) o).velocity));
+                && this.speed == ((CannonDestination) o).speed);
     }
 
     @Override
     public int hashCode() {
-        return coordinates.hashCode() * 13 + velocity.hashCode();
+        return (coordinates != null ? coordinates.hashCode() * 13 : 0) + Double.hashCode(speed);
+    }
+
+    /**
+     * Returns the speed at which this cannon destination launches entities.
+     *
+     * @return the speed at which this cannon destination launches entities.
+     */
+    public double getLaunchSpeed() {
+        return speed;
+    }
+
+    static class Factory implements DestinationFactory {
+        @NotNull
+        @Override
+        public CannonDestination createDestination(@NotNull MultiverseCoreAPI api, @NotNull String destinationString) throws InvalidDestinationException {
+            destinationString = DestinationUtil.removePrefix(destinationString);
+
+            try {
+                EntityCoordinates coords = null;
+                Matcher m = LOC_PATTERN.matcher(destinationString);
+                if (m.matches()) {
+                    coords = Locations.getEntityCoordinates(m.group("world"), Double.parseDouble(m.group("x")),
+                            Double.parseDouble(m.group("y")), Double.parseDouble(m.group("z")),
+                            Float.parseFloat(m.group("pitch")), Float.parseFloat(m.group("yaw")));
+                } else {
+                    m = LAUNCH_PATTERN.matcher(destinationString);
+                    if (!m.matches()) {
+                        throw new InvalidDestinationException(Message.bundleMessage(Language.Destination.Cannon.INVALID_COORDS, destinationString));
+                    }
+                }
+                double speed = Double.parseDouble(m.group("speed"));
+
+                return new CannonDestination(api, coords, speed);
+            } catch (NumberFormatException e) {
+                throw new InvalidDestinationException(Message.bundleMessage(Language.Destination.Cannon.INVALID_COORDS, destinationString));
+            }
+        }
+
+        @NotNull
+        @Override
+        public Set<String> getDestinationPrefixes() {
+            return PREFIXES;
+        }
     }
 }

@@ -2,6 +2,7 @@ package com.mvplugin.core.command;
 
 import com.mvplugin.core.destination.Destination;
 import com.mvplugin.core.destination.UnknownDestination;
+import com.mvplugin.core.exceptions.InvalidDestinationException;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.Perms;
@@ -61,7 +62,14 @@ public class TeleportCommand extends MultiverseCommand {
             strDestination = context.getString(1);
         } else throw new IllegalStateException();
 
-        Destination destination = this.getPlugin().getDestinationRegistry().parseDestination(strDestination);
+        Destination destination;
+        try {
+            destination = this.getPlugin().getDestinationRegistry().parseDestination(strDestination);
+        } catch (InvalidDestinationException e) {
+            e.sendException(getMessager(), sender);
+            return true;
+        }
+
         if (destination instanceof UnknownDestination) {
             getMessager().message(sender, NO_SUCH_DESTINATION, strDestination);
             return true;
@@ -70,7 +78,7 @@ public class TeleportCommand extends MultiverseCommand {
         try {
             destination.teleport(sender, teleportee, (Entity) teleportee);
         } catch (TeleportException e) {
-            getMessager().message(sender, e.getBundledMessage());
+            e.sendException(getMessager(), sender);
         }
         return true;
     }

@@ -11,26 +11,22 @@ import pluginbase.permission.Permissible;
 
 /**
  * A destination for teleportations.
- * <p />
- * Implementations <b>must</b> provide a parameterless constructor that <b>never</b> throws exceptions.
- * Therefore, implementing a custom constructor is discouraged.
+ * <br/>
+ * In order to create a custom destination, a {@link DestinationFactory} must be registered via
+ * {@link DestinationRegistry#registerDestinationFactory(DestinationFactory)}. The DestinationFactory will handle
+ * creation of custom Destination objects.
  *
  * @see SimpleDestination
  * @see DestinationRegistry
+ * @see DestinationFactory
  */
 public abstract class Destination {
-    @Nullable
-    private MultiverseCoreAPI api;
 
-    /**
-     * This should only ever be called by the {@link DestinationRegistry} to initialize
-     * this object and bind it to a {@link MultiverseCoreAPI}.
-     * @param api The {@link MultiverseCoreAPI} this {@link Destination} should be bound to.
-     */
-    final void init(@NotNull final MultiverseCoreAPI api) {
-        if (this.api != null)
-            throw new UnsupportedOperationException("This object is already initialized!");
-        this.api = api;
+    @NotNull
+    private final MultiverseCoreAPI api;
+
+    protected Destination(@NotNull MultiverseCoreAPI coreAPI) {
+        this.api = coreAPI;
     }
 
     /**
@@ -43,52 +39,51 @@ public abstract class Destination {
      * @param teleporteeEntity The {@link Entity} that is going to be teleported.
      * @throws TeleportException If the teleportation fails.
      */
-    public abstract void teleport(Permissible teleporter, Permissible teleportee, Entity teleporteeEntity) throws TeleportException;
+    public abstract void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee, @NotNull Entity teleporteeEntity) throws TeleportException;
 
     /**
-     * Deserializes a destination string into this destination object if the string actually is of this type.
-     * <p />
-     * The {@link DestinationRegistry} calls this on every destination type it knows when it's parsing
-     * a destination string until one returns {@code true}. Therefore, this method should provide optimal performance
-     * for destination strings that belong to a different destination type (consider using a prefix).
-     * <p />
-     * <b>{@link Destination} objects must not be reused. Further invocations of this method after it has returned
-     * {@code true} once are unspecified behavior.</b>
-     *
-     * @param str The destination string that should be parsed.
-     * @return Whether the destination string represented a destination of this type and could be successfully parsed.
-     * @see #serialize()
-     */
-    public abstract boolean tryParse(String str);
-
-    /**
-     * Serializes this {@link Destination} into a destination string that can be deserialized
-     * by {@link #tryParse(String)}. Implementations may use an arbitrary format, as long as it's unique.
-     * Ambiguities result in unspecified behavior. Consider using a prefix.
+     * Converts this {@link Destination} into a destination string that can be parsed by
+     * {@link DestinationFactory#createDestination(MultiverseCoreAPI, String)}.
+     * <br/>The string must be prefixed with a destination prefix listed in
+     * {@link DestinationFactory#getDestinationPrefixes()} and a colon. If the destination has multiple prefixes,
+     * it is recommended that the most unique prefix be used for the destination string.
+     * <p/>
+     * <strong>Example strings:</strong>
+     * <ul>
+     *     <li>player:someguy47</li>
+     *     <li>loc:56,23,100</li>
+     *     <li>world:world_nether</li>
+     *     <li>w:world_nether <em>(not recommended due to the short prefix!)</em></li>
+     * </ul>
      *
      * @return The destination string that represents this destination object.
-     * @see #tryParse(String)
      */
-    public abstract String serialize();
+    @NotNull
+    protected abstract String getDestinationString();
 
     /**
      * Gets the {@link MultiverseCoreAPI} that this {@link Destination} is bound to.
+     *
      * @return The {@link MultiverseCoreAPI} that this {@link Destination} is bound to.
      */
     @NotNull
-    public final MultiverseCoreAPI getApi() {
-        if (this.api == null)
-            throw new UnsupportedOperationException("This object has to be initialized before it can be used!");
+    protected final MultiverseCoreAPI getApi() {
         return this.api;
     }
 
     /**
      * The {@link SafeTeleporter} is the recommended means of teleportation and should be used instead
      * of {@link Entity#teleport(EntityCoordinates)} when applicable.
+     *
      * @return The {@link SafeTeleporter} instance.
      */
     @NotNull
     protected final SafeTeleporter getSafeTeleporter() {
-        return this.getApi().getSafeTeleporter();
+        return getApi().getSafeTeleporter();
+    }
+
+    @Override
+    public String toString() {
+        return getClass() + ": {" + getDestinationString() + "}";
     }
 }

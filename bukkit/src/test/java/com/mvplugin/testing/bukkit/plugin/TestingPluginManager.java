@@ -1,7 +1,7 @@
-package com.mvplugin.testingbukkit.plugin;
+package com.mvplugin.testing.bukkit.plugin;
 
 import com.google.common.collect.ImmutableSet;
-import com.mvplugin.core.FileLocations;
+import com.mvplugin.testing.FileLocations;
 import org.bukkit.Server;
 import org.bukkit.event.Event;
 import org.bukkit.event.EventPriority;

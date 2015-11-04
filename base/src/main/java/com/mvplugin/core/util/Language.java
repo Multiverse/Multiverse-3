@@ -237,6 +237,24 @@ public final class Language {
                             "$-$*The destination player '$v%s$-$*' is offline right now!");
         }
 
+        public static final class Coordinates {
+            private Coordinates() { }
+
+            public static final Message INVALID_COORDS = Message.createMessage("destination.coordinates.invalid",
+                    "$-$*The destination '$v%s$-$*' does not follow the format of '$ce:world:x:y:z$o[:pitch:yaw]$-$*'");
+        }
+
+        public static final class Cannon {
+            private Cannon() { }
+
+            public static final Message INVALID_COORDS = Message.createMessage("destination.cannon.invalid",
+                    "$-$*The destination '$v%s$-$*' does not follow the format of '$cca:world:x:y:z:pitch:yaw:speed$-$*'"
+                            + " or '$cca:speed$-$*'");
+
+            public static final Message LAUNCH_ONLY = Message.createMessage("destination.cannon.launchonly",
+                    "$-$*The cannon destination '$v%s$-$*' is only usable for launching a player from their current location.");
+        }
+
         public static final class Unknown {
             private Unknown() { }
 

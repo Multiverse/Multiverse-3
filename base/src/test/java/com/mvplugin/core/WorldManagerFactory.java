@@ -1,15 +1,10 @@
 package com.mvplugin.core;
 
-import org.powermock.api.mockito.PowerMockito;
+import org.jetbrains.annotations.NotNull;
 
 public class WorldManagerFactory {
 
-    public static WorldManager getWorldManager() throws Exception {
-        return new WorldManager(MultiverseCoreAPIFactory.getMockedMultiverseCoreAPI(), WorldManagerUtilFactory.getMockedWorldManagerUtil());
-    }
-
-    public static WorldManager getMockedWorldManager() throws Exception {
-        WorldManager worldManager = PowerMockito.mock(WorldManager.class);
-        return worldManager;
+    public static WorldManager getWorldManager(@NotNull MultiverseCoreAPI api) throws Exception {
+        return new WorldManager(api, WorldManagerUtilFactory.getMockedWorldManagerUtil());
     }
 }

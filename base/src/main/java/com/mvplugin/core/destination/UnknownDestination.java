@@ -1,5 +1,7 @@
 package com.mvplugin.core.destination;
 
+import com.mvplugin.core.MultiverseCoreAPI;
+import com.mvplugin.core.exceptions.InvalidDestinationException;
 import com.mvplugin.core.exceptions.TeleportException;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
@@ -32,29 +34,27 @@ public final class UnknownDestination extends Destination {
     @Nullable
     private Destination lazilyResolvedDestination;
 
-    public UnknownDestination(@NotNull final DestinationRegistry registry, final int registrationCount,
-                              @NotNull final String destinationString) {
+    public UnknownDestination(@NotNull MultiverseCoreAPI api, @NotNull final DestinationRegistry registry,
+                              final int registrationCount, @NotNull final String destinationString) {
+        super(api);
         this.registry = registry;
         this.oldRegistrationCount = registrationCount;
         this.destinationString = destinationString;
     }
 
     @Override
-    public void teleport(final Permissible teleporter, final Permissible teleportee, final Entity teleporteeEntity) throws TeleportException {
-        if (reResolve())
+    public void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee, @NotNull Entity teleporteeEntity) throws TeleportException {
+        if (reResolve() && lazilyResolvedDestination != null) {
             lazilyResolvedDestination.teleport(teleporter, teleportee, teleporteeEntity);
-        else
+        } else {
             throw new TeleportException(Message.bundleMessage(UNKNOWN_DESTINATION, teleporteeEntity, destinationString));
+        }
     }
 
+    @NotNull
     @Override
-    public boolean tryParse(final String str) {
-        throw new UnsupportedOperationException("The unknown destination doesn't support the usual parsing process!");
-    }
-
-    @Override
-    public String serialize() {
-        return reResolve() ? lazilyResolvedDestination.serialize() : this.destinationString;
+    public String getDestinationString() {
+        return reResolve() && lazilyResolvedDestination != null ? lazilyResolvedDestination.getDestinationString() : this.destinationString;
     }
 
     /**
@@ -70,14 +70,19 @@ public final class UnknownDestination extends Destination {
      */
     public boolean reResolve() {
         if (lazilyResolvedDestination == null) {
-            if (registry.getRegistrationCount() == oldRegistrationCount)
+            if (registry.getRegistrationCount() == oldRegistrationCount) {
                 return false; // No new registrations since we last checked? Then we can skip this.
+            }
 
-            Destination d = registry.parseDestination(this.destinationString);
-            if (d instanceof UnknownDestination) {
-                this.oldRegistrationCount = registry.getRegistrationCount();
-                return false;
-            } else this.lazilyResolvedDestination = d;
+            try {
+                Destination d = registry.parseDestination(this.destinationString);
+                if (d instanceof UnknownDestination) {
+                    this.oldRegistrationCount = registry.getRegistrationCount();
+                    return false;
+                } else {
+                    this.lazilyResolvedDestination = d;
+                }
+            } catch (InvalidDestinationException ignore) { }
         }
         return true;
     }

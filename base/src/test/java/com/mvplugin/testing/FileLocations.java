@@ -1,4 +1,4 @@
-package com.mvplugin.core;
+package com.mvplugin.testing;
 
 import org.apache.commons.io.FileUtils;
 

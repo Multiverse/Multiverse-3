@@ -1,6 +1,6 @@
-package com.mvplugin.testingbukkit;
+package com.mvplugin.testing.bukkit;
 
-import com.mvplugin.testingbukkit.plugin.TestingPluginManager;
+import com.mvplugin.testing.bukkit.plugin.TestingPluginManager;
 import org.bukkit.Server;
 
 public interface TestingServer extends Server {

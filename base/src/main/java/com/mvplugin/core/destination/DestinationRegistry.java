@@ -1,14 +1,13 @@
 package com.mvplugin.core.destination;
 
 import com.mvplugin.core.MultiverseCoreAPI;
+import com.mvplugin.core.exceptions.InvalidDestinationException;
 import com.mvplugin.core.util.CoreLogger;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
-import java.util.Collections;
-import java.util.LinkedList;
-import java.util.List;
-import java.util.concurrent.CopyOnWriteArrayList;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class is responsible for registering destination types and parsing destination strings.
@@ -16,131 +15,75 @@ import java.util.concurrent.CopyOnWriteArrayList;
  * @see Destination
  */
 public final class DestinationRegistry {
-    private final class CacheEntry {
-        @NotNull
-        private final Class<? extends Destination> type;
-        @Nullable
-        private Destination cachedInstance;
 
-        public CacheEntry(@NotNull final Class<? extends Destination> type)
-                throws IllegalAccessException, InstantiationException {
-            this.type = type;
-            // another advantage of the caching mechanism: it's impossible to register a non-instantiatable type
-            this.cachedInstance = type.newInstance();
-            this.cachedInstance.init(api);
-        }
-
-        @Nullable
-        public synchronized Destination tryParseAndRegenIfNecessary(@NotNull final String str) {
-            if ((cachedInstance != null) && cachedInstance.tryParse(str)) {
-                try {
-                    Destination d = this.cachedInstance;
-                    this.cachedInstance = type.newInstance();
-                    this.cachedInstance.init(api);
-                    return d;
-                } catch (IllegalAccessException e) {
-                    throw new Error(e); // should never happen since we are testing that in registerDestination()
-                } catch (InstantiationException e) {
-                    // Somebody made a constructor that just randomly throws exceptions at us?
-                    // *sigh* ... come on, let's just log it and then disable that clown
-                    CoreLogger.warning("The destination type '%s' triggered an exception (not Multiverse's fault!): %s",
-                            type, e.getCause());
-                    this.cachedInstance = null; // Disabled.
-                    return null;
-                }
-            }
-            else return null;
-        }
-    }
-
-    /**
-     * This cache contains all the destination types and an instance for each one, for performance reasons
-     * so we don't have to create-and-throw-away objects for every type whenever we parse a destination.
-     */
     @NotNull
-    private List<CacheEntry> destinationCache;
+    private Map<String, DestinationFactory> prefixFactoryMap = new HashMap<>();
+    @NotNull
+    private WorldDestination.Factory worldDestinationFactory = new WorldDestination.Factory();
 
     @NotNull
     private final MultiverseCoreAPI api;
 
     public DestinationRegistry(@NotNull final MultiverseCoreAPI api) {
         this.api = api;
-        this.destinationCache = Collections.synchronizedList(new LinkedList<CacheEntry>());
 
-        this.registerDefaultDestinationTypes();
+        registerDestinationFactory(new ExactDestination.Factory());
+        registerDestinationFactory(new CannonDestination.Factory());
+        registerDestinationFactory(worldDestinationFactory);
+        registerDestinationFactory(new PlayerDestination.Factory());
     }
 
-    private void registerDefaultDestinationTypes() {
-        try {
-            this.registerDestination(EntityCoordinatesDestination.class);
-            this.registerDestination(CannonDestination.class);
-            this.registerDestination(WorldDestination.class);
-            this.registerDestination(PlayerDestination.class);
-        } catch (IllegalAccessException e) {
-            throw new Error(e); // should never happen
-        } catch (InstantiationException e) {
-            throw new Error(e); // should never happen
+    public void registerDestinationFactory(@NotNull DestinationFactory destinationFactory) {
+        CoreLogger.fine("Registering DestinationFactory: " + destinationFactory);
+        if (destinationFactory.getDestinationPrefixes().isEmpty()) {
+            CoreLogger.warning("DestinationFactory: %s cannot be registered without any prefixes.", destinationFactory.getClass());
         }
-    }
-
-    /**
-     * Registers a destination type.
-     *
-     * @param type The destination type that should be registered.
-     * @throws IllegalAccessException Thrown by {@link Class#newInstance()} (invoked on {@code type}).
-     * @throws InstantiationException Thrown by {@link Class#newInstance()} (invoked on {@code type}).
-     */
-    public void registerDestination(Class<? extends Destination> type) throws IllegalAccessException, InstantiationException {
-        destinationCache.add(new CacheEntry(type));
-    }
-
-    /**
-     * Upgrades the internal storage in this {@link DestinationRegistry} to a {@link CopyOnWriteArrayList}.
-     * Although not strictly necessary, doing this before actively using {@link #parseDestination(String)} will
-     * result in better performance, since the method no longer has to synchronize on the list.
-     * <p />
-     * This should only be called once almost all destination registration are completed because any further
-     * invocations of {@link #registerDestination(Class)} will have <b>terrible</b> performance (copy on write).
-     */
-    public void upgradeStorage() {
-        synchronized (destinationCache) {
-            if (!(destinationCache instanceof CopyOnWriteArrayList))
-                destinationCache = new CopyOnWriteArrayList<CacheEntry>(destinationCache);
+        for (String prefix : destinationFactory.getDestinationPrefixes()) {
+            if (prefix.isEmpty()) {
+                CoreLogger.warning("DestinationFactory: %s attempted to register an empty prefix.", destinationFactory.getClass());
+                continue;
+            }
+            prefix = prefix.toLowerCase();
+            if (!prefixFactoryMap.containsKey(prefix) || !destinationFactory.getWeakPrefixes().contains(prefix)) {
+                prefixFactoryMap.put(prefix, destinationFactory);
+                CoreLogger.finer("Registered prefix: %s to DestinationFactory: %s", prefix, destinationFactory.getClass());
+            } else {
+                CoreLogger.finer("Skipped weak prefix: %s for DestinationFactory: %s as that prefix has previously been registered.", prefix, destinationFactory.getClass());
+            }
         }
     }
 
     /**
      * Parses a destination string. If the process fails, an {@link UnknownDestination} is returned.
      *
-     * @param str The destination string.
+     * @param destinationString The destination string.
      * @return A {@link Destination} object for the destination.
      */
     @NotNull
-    public Destination parseDestination(@NotNull final String str) {
-        // If this cache was already upgraded to a CopyOnWriteArrayList, we don't have to synchronize on it
-        if (destinationCache instanceof CopyOnWriteArrayList)
-            return doParseDestination(str);
-        else synchronized (destinationCache) {
-            return doParseDestination(str);
+    public Destination parseDestination(@NotNull final String destinationString) throws InvalidDestinationException {
+        String[] destParts = destinationString.split(":", 2);
+        if (destParts.length == 1) {
+            return worldDestinationFactory.createDestination(api, destinationString);
         }
-    }
 
-    @NotNull
-    private Destination doParseDestination(@NotNull final String str) {
-        for (CacheEntry entry : destinationCache) {
-            Destination d;
-            if ((d = entry.tryParseAndRegenIfNecessary(str)) != null)
-                return d;
+        DestinationFactory destinationFactory = getDestinationFactory(destParts[0]);
+        if (destinationFactory != null) {
+            return destinationFactory.createDestination(api, destinationString);
         }
 
         // No? Fallback: UnknownDestination
-        return new UnknownDestination(this, getRegistrationCount(), str);
+        return new UnknownDestination(api, this, getRegistrationCount(), destinationString);
+    }
+
+    @Nullable
+    DestinationFactory getDestinationFactory(@NotNull String prefix) {
+        return prefixFactoryMap.get(prefix);
     }
 
     /**
      * @return The amount of destination types that have been registered.
      */
     int getRegistrationCount() {
-        return destinationCache.size();
+        return prefixFactoryMap.size();
     }
 }

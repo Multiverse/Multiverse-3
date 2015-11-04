@@ -31,7 +31,7 @@ public class WorldManagerTest extends MultiverseTest {
 
     @Before
     public void setUp() throws Exception {
-        worldManager = WorldManagerFactory.getWorldManager();
+        worldManager = WorldManagerFactory.getWorldManager(MultiverseCoreAPIFactory.getMockedMultiverseCoreAPI());
         if (testSeed == null) {
             throw new NullPointerException();
         }

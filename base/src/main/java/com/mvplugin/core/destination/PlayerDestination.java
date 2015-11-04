@@ -1,5 +1,7 @@
 package com.mvplugin.core.destination;
 
+import com.mvplugin.core.MultiverseCoreAPI;
+import com.mvplugin.core.exceptions.InvalidDestinationException;
 import com.mvplugin.core.exceptions.TeleportException;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.messages.Message;
@@ -7,54 +9,68 @@ import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.Entity;
 import pluginbase.minecraft.location.EntityCoordinates;
 
+import java.util.Set;
+import java.util.concurrent.CopyOnWriteArraySet;
+
 import static com.mvplugin.core.util.Language.Destination.Player.*;
 
 /**
  * This destination type teleports to a player.
  */
 public final class PlayerDestination extends SimpleDestination {
-    private static final String PREFIX = "player:";
+
+    static final Set<String> PREFIXES = new CopyOnWriteArraySet<String>() {{
+        add("player");
+        add("pl");
+    }};
 
     @NotNull
-    private String playerName;
+    private final String playerName;
 
-    public PlayerDestination() { }
-    public PlayerDestination(String playerName) {
+    PlayerDestination(@NotNull MultiverseCoreAPI api, @NotNull String playerName) {
+        super(api);
         this.playerName = playerName;
     }
 
+    @NotNull
     @Override
     protected EntityCoordinates getDestination() throws TeleportException {
         BasePlayer player = this.getApi().getServerInterface().getPlayer(playerName);
-        if (player == null)
-            throw new TeleportException(Message.bundleMessage(NOT_FOUND));
         if (player instanceof Entity) {
             return ((Entity) player).getLocation();
-        } else throw new TeleportException(Message.bundleMessage(OFFLINE));
+        } else {
+            throw new TeleportException(Message.bundleMessage(NOT_FOUND, playerName));
+        }
     }
 
+    @NotNull
     @Override
-    public boolean tryParse(final String str) {
-        if (!str.startsWith(PREFIX))
-            return false;
-
-        playerName = str.substring(PREFIX.length());
-        return true;
-    }
-
-    @Override
-    public String serialize() {
-        return PREFIX + playerName;
+    public String getDestinationString() {
+        return "player:" + playerName;
     }
 
     @Override
     public boolean equals(final Object o) {
-        return this == o || !(o == null || getClass() != o.getClass())
-                && playerName.equals(((PlayerDestination) o).playerName);
+        return this == o || !(o == null || getClass() != o.getClass()) && playerName.equals(((PlayerDestination) o).playerName);
     }
 
     @Override
     public int hashCode() {
         return playerName.hashCode();
+    }
+
+    static class Factory implements DestinationFactory {
+        @NotNull
+        @Override
+        public PlayerDestination createDestination(@NotNull MultiverseCoreAPI api, @NotNull String destinationString) throws InvalidDestinationException {
+            destinationString = DestinationUtil.removePrefix(destinationString);
+            return new PlayerDestination(api, destinationString);
+        }
+
+        @NotNull
+        @Override
+        public Set<String> getDestinationPrefixes() {
+            return PREFIXES;
+        }
     }
 }
