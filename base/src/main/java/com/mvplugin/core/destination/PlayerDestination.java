@@ -54,16 +54,16 @@ public final class PlayerDestination extends SimpleDestination {
     }
 
     @Override
-    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws PermissionException {
         super.checkPermissions(teleporter, teleportee);
-        if (teleporter.equals(teleportee) && teleportee instanceof Entity) {
+        if (teleporter.equals(teleportee)) {
             if (!teleporter.hasPerm(Perms.TP_SELF_PLAYER, playerName)) {
-                throw new PermissionException(Message.bundleMessage(Player.NO_PERMISSION, ((Entity) teleportee).getName(),
+                throw new PermissionException(Message.bundleMessage(Player.NO_PERMISSION, teleportee.getName(),
                         playerName, Perms.TP_SELF_PLAYER.getName(playerName)), Perms.TP_SELF_PLAYER);
             }
-        } else if (!teleporter.equals(teleportee) && teleportee instanceof Entity) {
+        } else if (!teleporter.equals(teleportee)) {
             if (!teleporter.hasPerm(Perms.TP_OTHER_PLAYER, playerName)) {
-                throw new PermissionException(Message.bundleMessage(Player.NO_PERMISSION, ((Entity) teleportee).getName(),
+                throw new PermissionException(Message.bundleMessage(Player.NO_PERMISSION, teleportee.getName(),
                         playerName, Perms.TP_OTHER_PLAYER.getName(playerName)), Perms.TP_OTHER_PLAYER);
             }
         }

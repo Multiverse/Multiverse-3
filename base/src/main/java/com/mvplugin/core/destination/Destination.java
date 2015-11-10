@@ -4,7 +4,6 @@ import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
 import pluginbase.minecraft.Entity;
 import pluginbase.minecraft.location.EntityCoordinates;
 import pluginbase.permission.Permissible;
@@ -31,15 +30,12 @@ public abstract class Destination {
 
     /**
      * Carries out a teleportation to this {@link Destination}.
-     * <br />
-     * Usually {@code teleportee == teleporteeEntity}.
      *
      * @param teleporter The {@link Permissible} that initiated the teleportation.
-     * @param teleportee The {@link Permissible} that is going to be teleported.
-     * @param teleporteeEntity The {@link Entity} that is going to be teleported.
+     * @param teleportee The {@link Entity} that is going to be teleported.
      * @throws TeleportException If the teleportation fails.
      */
-    public abstract void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee, @NotNull Entity teleporteeEntity) throws TeleportException;
+    public abstract void teleport(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws TeleportException;
 
     /**
      * Converts this {@link Destination} into a destination string that can be parsed by

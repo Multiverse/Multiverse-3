@@ -76,7 +76,7 @@ public class TeleportCommand extends MultiverseCommand {
         }
 
         try {
-            destination.teleport(sender, teleportee, (Entity) teleportee);
+            destination.teleport(sender, (Entity) teleportee);
         } catch (TeleportException e) {
             e.sendException(getMessager(), sender);
         }

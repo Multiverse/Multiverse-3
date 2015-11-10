@@ -73,7 +73,7 @@ public class PlayerDestinationTest {
         PlayerDestination dest = new PlayerDestination(api, "someplayer");
         assertNotEquals(dest.getDestination(), ((Entity) player).getLocation());
         assertEquals(1, ((Entity) player).getVelocity().length(), 0.00001);
-        dest.teleport(player, player, (Entity) player);
+        dest.teleport(player, (Entity) player);
         assertEquals(dest.getDestination(), ((Entity) player).getLocation());
         assertEquals(1, ((Entity) player).getVelocity().length(), 0.00001);
     }

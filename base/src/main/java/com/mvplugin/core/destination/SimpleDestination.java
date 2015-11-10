@@ -32,26 +32,25 @@ public abstract class SimpleDestination extends Destination {
 
     /**
      * {@inheritDoc}
-     * @implNote the default implementation of this method calls {@link #checkPermissions(Permissible, Permissible)}.
-     * If you override this method you will probably want to call {@link #checkPermissions(Permissible, Permissible)}
+     * @implNote the default implementation of this method calls {@link #checkPermissions(Permissible, Entity)}.
+     * If you override this method you will probably want to call {@link #checkPermissions(Permissible, Entity)}
      * manually to ensure permissions are checked before teleportation.
      */
     @Override
-    public void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee,
-                         @NotNull Entity teleporteeEntity) throws TeleportException {
+    public void teleport(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws TeleportException {
         try {
             checkPermissions(teleporter, teleportee);
         } catch (PermissionException e) {
             throw new TeleportException(e.getBundledMessage(), e);
         }
-        this.getSafeTeleporter().safelyTeleport(null, teleporteeEntity, getDestination());
+        this.getSafeTeleporter().safelyTeleport(null, teleportee, getDestination());
     }
 
     /**
      * This method verifies that the teleporter has the required permissions to teleport the teleportee to the
      * destination given by {@link #getDestination()}. The method should simply return if permissions are satisfied.
      * <br/>
-     * The default implemenation of {@link #teleport(Permissible, Permissible, Entity)} will call this method before
+     * The default implemenation of {@link Destination#teleport(Permissible, Entity)} will call this method before
      * teleporting anyone.
      * <br/>
      * The default implementation of this method will check the following (if relevant):
@@ -69,18 +68,18 @@ public abstract class SimpleDestination extends Destination {
      * @throws PermissionException thrown when permissions are not met. The exception should include an appropriate
      * description of the permission issue to show to the teleporter.
      */
-    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws PermissionException {
         try {
             EntityCoordinates coordinates = getDestination();
-            if (teleportee instanceof Entity && !coordinates.getWorld().equals(((Entity) teleportee).getLocation().getWorld())) {
+            if (!coordinates.getWorld().equals(teleportee.getLocation().getWorld())) {
                 if (teleporter.equals(teleportee)) {
                     if (!teleporter.hasPerm(Perms.TP_SELF_WORLD, coordinates.getWorld())) {
-                        throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, ((Entity) teleportee).getName(),
+                        throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, teleportee.getName(),
                                 coordinates.getWorld(), Perms.TP_SELF_WORLD.getName(coordinates.getWorld())), Perms.TP_SELF_WORLD);
                     }
                 } else {
                     if (!teleporter.hasPerm(Perms.TP_OTHER_WORLD, coordinates.getWorld())) {
-                        throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, ((Entity) teleportee).getName(),
+                        throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, teleportee.getName(),
                                 coordinates.getWorld(), Perms.TP_OTHER_WORLD.getName(coordinates.getWorld())), Perms.TP_OTHER_WORLD);
                     }
                 }

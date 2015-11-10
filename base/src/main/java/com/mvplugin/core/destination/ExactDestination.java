@@ -62,16 +62,16 @@ public final class ExactDestination extends SimpleDestination {
     }
 
     @Override
-    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws PermissionException {
         super.checkPermissions(teleporter, teleportee);
-        if (teleporter.equals(teleportee) && teleportee instanceof Entity) {
+        if (teleporter.equals(teleportee)) {
             if (!teleporter.hasPerm(Perms.TP_SELF_EXACT)) {
-                throw new PermissionException(Message.bundleMessage(Coordinates.NO_PERMISSION, ((Entity) teleportee).getName(),
+                throw new PermissionException(Message.bundleMessage(Coordinates.NO_PERMISSION, teleportee.getName(),
                         Perms.TP_SELF_EXACT.getName()), Perms.TP_SELF_EXACT);
             }
-        } else if (!teleporter.equals(teleportee) && teleportee instanceof Entity) {
+        } else {
             if (!teleporter.hasPerm(Perms.TP_OTHER_EXACT)) {
-                throw new PermissionException(Message.bundleMessage(Coordinates.NO_PERMISSION, ((Entity) teleportee).getName(),
+                throw new PermissionException(Message.bundleMessage(Coordinates.NO_PERMISSION, teleportee.getName(),
                         Perms.TP_OTHER_EXACT.getName()), Perms.TP_OTHER_EXACT);
             }
         }

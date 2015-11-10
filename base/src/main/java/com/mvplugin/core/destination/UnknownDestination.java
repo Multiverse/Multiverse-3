@@ -43,11 +43,11 @@ public final class UnknownDestination extends Destination {
     }
 
     @Override
-    public void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee, @NotNull Entity teleporteeEntity) throws TeleportException {
+    public void teleport(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws TeleportException {
         if (reResolve() && lazilyResolvedDestination != null) {
-            lazilyResolvedDestination.teleport(teleporter, teleportee, teleporteeEntity);
+            lazilyResolvedDestination.teleport(teleporter, teleportee);
         } else {
-            throw new TeleportException(Message.bundleMessage(UNKNOWN_DESTINATION, teleporteeEntity, destinationString));
+            throw new TeleportException(Message.bundleMessage(UNKNOWN_DESTINATION, teleportee.getName(), destinationString));
         }
     }
 

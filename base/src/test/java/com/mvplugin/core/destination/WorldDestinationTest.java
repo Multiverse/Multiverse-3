@@ -7,7 +7,6 @@ import org.junit.Before;
 import org.junit.Test;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.Entity;
-import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
 
 import java.util.Arrays;
@@ -72,7 +71,7 @@ public class WorldDestinationTest extends MultiverseTest {
         WorldDestination dest = new WorldDestination(api, "world");
         assertNotEquals(dest.getDestination(), ((Entity) player).getLocation());
         assertEquals(1, ((Entity) player).getVelocity().length(), 0.00001);
-        dest.teleport(player, player, (Entity) player);
+        dest.teleport(player, (Entity) player);
         assertEquals(dest.getDestination(), ((Entity) player).getLocation());
         assertEquals(1, ((Entity) player).getVelocity().length(), 0.00001);
     }

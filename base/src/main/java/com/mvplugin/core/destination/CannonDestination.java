@@ -70,32 +70,31 @@ public class CannonDestination extends SimpleDestination {
     }
 
     @Override
-    public void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee,
-                         @NotNull Entity teleporteeEntity) throws TeleportException {
+    public void teleport(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws TeleportException {
         if (coordinates != null) {
-            super.teleport(teleporter, teleportee, teleporteeEntity);
-            teleporteeEntity.setVelocity(coordinates.getDirection().multiply(speed));
+            super.teleport(teleporter, teleportee);
+            teleportee.setVelocity(coordinates.getDirection().multiply(speed));
         } else {
             try {
                 checkPermissions(teleporter, teleportee);
             } catch (PermissionException e) {
                 throw new TeleportException(e.getBundledMessage(), e);
             }
-            teleporteeEntity.setVelocity(teleporteeEntity.getLocation().getDirection().multiply(speed));
+            teleportee.setVelocity(teleportee.getLocation().getDirection().multiply(speed));
         }
     }
 
     @Override
-    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws PermissionException {
         super.checkPermissions(teleporter, teleportee);
-        if (teleporter.equals(teleportee) && teleportee instanceof Entity) {
+        if (teleporter.equals(teleportee)) {
             if (!teleporter.hasPerm(Perms.TP_SELF_CANNON)) {
-                throw new PermissionException(Message.bundleMessage(Cannon.NO_PERMISSION, ((Entity) teleportee).getName(),
+                throw new PermissionException(Message.bundleMessage(Cannon.NO_PERMISSION, teleportee.getName(),
                         Perms.TP_SELF_CANNON.getName()), Perms.TP_SELF_CANNON);
             }
-        } else if (!teleporter.equals(teleportee) && teleportee instanceof Entity) {
+        } else {
             if (!teleporter.hasPerm(Perms.TP_OTHER_CANNON)) {
-                throw new PermissionException(Message.bundleMessage(Cannon.NO_PERMISSION, ((Entity) teleportee).getName(),
+                throw new PermissionException(Message.bundleMessage(Cannon.NO_PERMISSION, teleportee.getName(),
                         Perms.TP_OTHER_CANNON.getName()), Perms.TP_OTHER_CANNON);
             }
         }

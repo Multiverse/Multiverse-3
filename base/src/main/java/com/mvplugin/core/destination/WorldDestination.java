@@ -59,24 +59,21 @@ public final class WorldDestination extends SimpleDestination {
     }
 
     @Override
-    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
-        if (teleportee instanceof Entity) {
-            try {
-                EntityCoordinates coordinates = getDestination();
-                if (teleporter.equals(teleportee)) {
-                    if (!teleporter.hasPerm(Perms.TP_SELF_WORLD, coordinates.getWorld())) {
-                        throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, ((Entity) teleportee).getName(),
-                                coordinates.getWorld(), Perms.TP_SELF_WORLD.getName(coordinates.getWorld())), Perms.TP_SELF_WORLD);
-                    }
-                } else {
-                    if (!teleporter.hasPerm(Perms.TP_OTHER_WORLD, coordinates.getWorld())) {
-                        throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, ((Entity) teleportee).getName(),
-                                coordinates.getWorld(), Perms.TP_OTHER_WORLD.getName(coordinates.getWorld())), Perms.TP_OTHER_WORLD);
-                    }
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws PermissionException {
+        try {
+            EntityCoordinates coordinates = getDestination();
+            if (teleporter.equals(teleportee)) {
+                if (!teleporter.hasPerm(Perms.TP_SELF_WORLD, coordinates.getWorld())) {
+                    throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, teleportee.getName(),
+                            coordinates.getWorld(), Perms.TP_SELF_WORLD.getName(coordinates.getWorld())), Perms.TP_SELF_WORLD);
                 }
-            } catch (TeleportException ignore) {
+            } else {
+                if (!teleporter.hasPerm(Perms.TP_OTHER_WORLD, coordinates.getWorld())) {
+                    throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, teleportee.getName(),
+                            coordinates.getWorld(), Perms.TP_OTHER_WORLD.getName(coordinates.getWorld())), Perms.TP_OTHER_WORLD);
+                }
             }
-        }
+        } catch (TeleportException ignore) { }
     }
 
     @Override

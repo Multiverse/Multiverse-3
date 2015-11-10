@@ -25,7 +25,7 @@ public class DestinationTest {
 
         basicDestination = new Destination(api) {
             @Override
-            public void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee, @NotNull Entity teleporteeEntity) throws TeleportException { }
+            public void teleport(@NotNull Permissible teleporter, @NotNull Entity teleportee) throws TeleportException { }
 
             @NotNull
             @Override

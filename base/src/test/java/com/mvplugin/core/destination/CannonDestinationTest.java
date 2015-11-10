@@ -80,7 +80,7 @@ public class CannonDestinationTest {
         CannonDestination dest = new CannonDestination(api, Locations.getEntityCoordinates("someworld", 50.5, 50, 50.5, 0, 0), 5);
         assertNotEquals(dest.getDestination(), ((Entity) player).getLocation());
         assertEquals(1, ((Entity) player).getVelocity().length(), 0.00001);
-        dest.teleport(player, player, (Entity) player);
+        dest.teleport(player, (Entity) player);
         assertEquals(dest.getDestination(), ((Entity) player).getLocation());
         assertEquals(dest.getLaunchSpeed(), ((Entity) player).getVelocity().length(), 0.00001);
     }
@@ -92,7 +92,7 @@ public class CannonDestinationTest {
         CannonDestination dest = new CannonDestination(api, null, 5);
         EntityCoordinates originalCoords = ((Entity) player).getLocation();
         assertEquals(1, ((Entity) player).getVelocity().length(), 0.00001);
-        dest.teleport(player, player, (Entity) player);
+        dest.teleport(player, (Entity) player);
         assertEquals(originalCoords, ((Entity) player).getLocation());
         assertEquals(dest.getLaunchSpeed(), ((Entity) player).getVelocity().length(), 0.00001);
     }
