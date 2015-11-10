@@ -20,17 +20,29 @@ public class DestinationRegistryTest {
 
     @Test
     public void testRegisterDestinationFactory() throws Exception {
-        TestDestination.PREFIXES.forEach(x -> {assertNull(registry.getDestinationFactory(x));});
+        for (String prefix : TestDestination.PREFIXES) {
+            assertNull(registry.getDestinationFactory(prefix));
+        }
         registry.registerDestinationFactory(new TestDestination.Factory());
-        TestDestination.PREFIXES.forEach(x -> {assertNotNull(registry.getDestinationFactory(x));});
+        for (String prefix : TestDestination.PREFIXES) {
+            assertNotNull(registry.getDestinationFactory(prefix));
+        }
     }
 
     @Test
     public void testGetDefaultDestinationFactories() {
-        CannonDestination.PREFIXES.forEach(x -> {assertNotNull(registry.getDestinationFactory(x));});
-        ExactDestination.PREFIXES.stream().forEach(x -> {assertNotNull(registry.getDestinationFactory(x));});
-        PlayerDestination.PREFIXES.forEach(x -> {assertNotNull(registry.getDestinationFactory(x));});
-        WorldDestination.PREFIXES.forEach(x -> {assertNotNull(registry.getDestinationFactory(x));});
+        for (String prefix : CannonDestination.PREFIXES) {
+            assertNotNull(registry.getDestinationFactory(prefix));
+        }
+        for (String prefix : ExactDestination.PREFIXES) {
+            assertNotNull(registry.getDestinationFactory(prefix));
+        }
+        for (String prefix : PlayerDestination.PREFIXES) {
+            assertNotNull(registry.getDestinationFactory(prefix));
+        }
+        for (String prefix : WorldDestination.PREFIXES) {
+            assertNotNull(registry.getDestinationFactory(prefix));
+        }
     }
 
     @Test // This is a special case test since World Destination is the only one allowed without a prefix
