@@ -235,6 +235,9 @@ public final class Language {
                     "$-$*Multiverse could not find the destination player '$v%s$-$*'!");
             public static final Message OFFLINE = Message.createMessage("destination.player.offline",
                             "$-$*The destination player '$v%s$-$*' is offline right now!");
+            /** Requires 2 args: teleportee name, missing permission */
+            public static final Message NO_PERMISSION = Message.createMessage("destination.player.nopermission",
+                    "$-You do not have permission to teleport $v%s$- to another player. Requires $v");
         }
 
         public static final class Coordinates {
@@ -242,6 +245,9 @@ public final class Language {
 
             public static final Message INVALID_COORDS = Message.createMessage("destination.coordinates.invalid",
                     "$-$*The destination '$v%s$-$*' does not follow the format of '$ce:world:x:y:z$o[:pitch:yaw]$-$*'");
+            /** Requires 2 args: teleportee name, missing permission */
+            public static final Message NO_PERMISSION = Message.createMessage("destination.coordinates.nopermission",
+                    "$-You do not have permission to teleport $v%s$- to an exact destination. Requires $v");
         }
 
         public static final class Cannon {
@@ -250,9 +256,11 @@ public final class Language {
             public static final Message INVALID_COORDS = Message.createMessage("destination.cannon.invalid",
                     "$-$*The destination '$v%s$-$*' does not follow the format of '$cca:world:x:y:z:pitch:yaw:speed$-$*'"
                             + " or '$cca:speed$-$*'");
-
             public static final Message LAUNCH_ONLY = Message.createMessage("destination.cannon.launchonly",
                     "$-$*The cannon destination '$v%s$-$*' is only usable for launching a player from their current location.");
+            /** Requires 2 args: teleportee name, missing permission */
+            public static final Message NO_PERMISSION = Message.createMessage("destination.cannon.nopermission",
+                    "$-You do not have permission to teleport $v%s$- via cannon. Requires $v");
         }
 
         public static final class Unknown {
@@ -266,6 +274,9 @@ public final class Language {
         public static final class World {
             private World() { }
 
+            /** Requires 3 args: teleportee name, world name, missing permission */
+            public static final Message NO_PERMISSION = Message.createMessage("destination.world.nopermission",
+                    "$-You do not have permission to teleport $v%s$- to the world $v%s$-. Requires $v");
             public static final Message CANT_LOAD = Message.createMessage("destination.world.cantload",
                     "$-$*Multiverse could not load the destination world '$v%s$-$*'!");
             public static final Message NOT_LOADED = Message.createMessage("destination.world.notloaded",

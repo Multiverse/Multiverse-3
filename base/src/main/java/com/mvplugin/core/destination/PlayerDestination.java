@@ -2,12 +2,16 @@ package com.mvplugin.core.destination;
 
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.exceptions.InvalidDestinationException;
+import com.mvplugin.core.exceptions.PermissionException;
 import com.mvplugin.core.exceptions.TeleportException;
+import com.mvplugin.core.util.Language.Destination.Player;
+import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.BasePlayer;
 import pluginbase.minecraft.Entity;
 import pluginbase.minecraft.location.EntityCoordinates;
+import pluginbase.permission.Permissible;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -46,7 +50,23 @@ public final class PlayerDestination extends SimpleDestination {
     @NotNull
     @Override
     public String getDestinationString() {
-        return "player:" + playerName;
+        return DestinationUtil.colonJoin("player", playerName);
+    }
+
+    @Override
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
+        super.checkPermissions(teleporter, teleportee);
+        if (teleporter.equals(teleportee) && teleportee instanceof Entity) {
+            if (!teleporter.hasPerm(Perms.TP_SELF_PLAYER, playerName)) {
+                throw new PermissionException(Message.bundleMessage(Player.NO_PERMISSION, ((Entity) teleportee).getName(),
+                        playerName, Perms.TP_SELF_PLAYER.getName(playerName)), Perms.TP_SELF_PLAYER);
+            }
+        } else if (!teleporter.equals(teleportee) && teleportee instanceof Entity) {
+            if (!teleporter.hasPerm(Perms.TP_OTHER_PLAYER, playerName)) {
+                throw new PermissionException(Message.bundleMessage(Player.NO_PERMISSION, ((Entity) teleportee).getName(),
+                        playerName, Perms.TP_OTHER_PLAYER.getName(playerName)), Perms.TP_OTHER_PLAYER);
+            }
+        }
     }
 
     @Override

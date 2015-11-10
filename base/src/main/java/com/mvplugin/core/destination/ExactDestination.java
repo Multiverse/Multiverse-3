@@ -2,11 +2,16 @@ package com.mvplugin.core.destination;
 
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.exceptions.InvalidDestinationException;
+import com.mvplugin.core.exceptions.PermissionException;
 import com.mvplugin.core.util.Language;
+import com.mvplugin.core.util.Language.Destination.Coordinates;
+import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.messages.Message;
+import pluginbase.minecraft.Entity;
 import pluginbase.minecraft.location.EntityCoordinates;
 import pluginbase.minecraft.location.Locations;
+import pluginbase.permission.Permissible;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -54,6 +59,22 @@ public final class ExactDestination extends SimpleDestination {
     public String getDestinationString() {
         EntityCoordinates c = coordinates;
         return DestinationUtil.colonJoin("exact", c.getWorld(), c.getX(), c.getY(), c.getZ(), c.getPitch(), c.getYaw());
+    }
+
+    @Override
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
+        super.checkPermissions(teleporter, teleportee);
+        if (teleporter.equals(teleportee) && teleportee instanceof Entity) {
+            if (!teleporter.hasPerm(Perms.TP_SELF_EXACT)) {
+                throw new PermissionException(Message.bundleMessage(Coordinates.NO_PERMISSION, ((Entity) teleportee).getName(),
+                        Perms.TP_SELF_EXACT.getName()), Perms.TP_SELF_EXACT);
+            }
+        } else if (!teleporter.equals(teleportee) && teleportee instanceof Entity) {
+            if (!teleporter.hasPerm(Perms.TP_OTHER_EXACT)) {
+                throw new PermissionException(Message.bundleMessage(Coordinates.NO_PERMISSION, ((Entity) teleportee).getName(),
+                        Perms.TP_OTHER_EXACT.getName()), Perms.TP_OTHER_EXACT);
+            }
+        }
     }
 
     @Override

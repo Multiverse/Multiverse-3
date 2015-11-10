@@ -8,6 +8,7 @@ import pluginbase.minecraft.Entity;
 import pluginbase.minecraft.location.EntityCoordinates;
 import pluginbase.minecraft.location.Locations;
 import pluginbase.minecraft.location.Vector;
+import pluginbase.permission.Perm;
 import pluginbase.plugin.ServerInterface;
 
 import static org.mockito.Mockito.*;
@@ -68,6 +69,9 @@ public class ServerInterfaceFactory {
                 return null;
             }
         }).when(player).setVelocity(any(Vector.class));
+
+        when(player.hasPerm(any(Perm.class))).thenReturn(true);
+        when(player.hasPerm(any(Perm.class), anyString())).thenReturn(true);
 
         return player;
     }

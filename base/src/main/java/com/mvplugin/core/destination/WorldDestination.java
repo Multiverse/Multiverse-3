@@ -3,11 +3,16 @@ package com.mvplugin.core.destination;
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.MultiverseWorld;
 import com.mvplugin.core.exceptions.InvalidDestinationException;
+import com.mvplugin.core.exceptions.PermissionException;
 import com.mvplugin.core.exceptions.TeleportException;
+import com.mvplugin.core.util.Language.Destination.World;
+import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.messages.Message;
+import pluginbase.minecraft.Entity;
 import pluginbase.minecraft.location.EntityCoordinates;
 import pluginbase.minecraft.location.Locations;
+import pluginbase.permission.Permissible;
 
 import java.util.Set;
 import java.util.concurrent.CopyOnWriteArraySet;
@@ -51,6 +56,27 @@ public final class WorldDestination extends SimpleDestination {
     @Override
     public String getDestinationString() {
         return DestinationUtil.colonJoin("world", world);
+    }
+
+    @Override
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
+        if (teleportee instanceof Entity) {
+            try {
+                EntityCoordinates coordinates = getDestination();
+                if (teleporter.equals(teleportee)) {
+                    if (!teleporter.hasPerm(Perms.TP_SELF_WORLD, coordinates.getWorld())) {
+                        throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, ((Entity) teleportee).getName(),
+                                coordinates.getWorld(), Perms.TP_SELF_WORLD.getName(coordinates.getWorld())), Perms.TP_SELF_WORLD);
+                    }
+                } else {
+                    if (!teleporter.hasPerm(Perms.TP_OTHER_WORLD, coordinates.getWorld())) {
+                        throw new PermissionException(Message.bundleMessage(World.NO_PERMISSION, ((Entity) teleportee).getName(),
+                                coordinates.getWorld(), Perms.TP_OTHER_WORLD.getName(coordinates.getWorld())), Perms.TP_OTHER_WORLD);
+                    }
+                }
+            } catch (TeleportException ignore) {
+            }
+        }
     }
 
     @Override

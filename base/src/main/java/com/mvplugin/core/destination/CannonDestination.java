@@ -2,8 +2,11 @@ package com.mvplugin.core.destination;
 
 import com.mvplugin.core.MultiverseCoreAPI;
 import com.mvplugin.core.exceptions.InvalidDestinationException;
+import com.mvplugin.core.exceptions.PermissionException;
 import com.mvplugin.core.exceptions.TeleportException;
 import com.mvplugin.core.util.Language;
+import com.mvplugin.core.util.Language.Destination.Cannon;
+import com.mvplugin.core.util.Perms;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pluginbase.messages.Message;
@@ -69,12 +72,32 @@ public class CannonDestination extends SimpleDestination {
     @Override
     public void teleport(@NotNull Permissible teleporter, @NotNull Permissible teleportee,
                          @NotNull Entity teleporteeEntity) throws TeleportException {
-        // TODO Handle permissions
         if (coordinates != null) {
             super.teleport(teleporter, teleportee, teleporteeEntity);
             teleporteeEntity.setVelocity(coordinates.getDirection().multiply(speed));
         } else {
+            try {
+                checkPermissions(teleporter, teleportee);
+            } catch (PermissionException e) {
+                throw new TeleportException(e.getBundledMessage(), e);
+            }
             teleporteeEntity.setVelocity(teleporteeEntity.getLocation().getDirection().multiply(speed));
+        }
+    }
+
+    @Override
+    protected void checkPermissions(@NotNull Permissible teleporter, @NotNull Permissible teleportee) throws PermissionException {
+        super.checkPermissions(teleporter, teleportee);
+        if (teleporter.equals(teleportee) && teleportee instanceof Entity) {
+            if (!teleporter.hasPerm(Perms.TP_SELF_CANNON)) {
+                throw new PermissionException(Message.bundleMessage(Cannon.NO_PERMISSION, ((Entity) teleportee).getName(),
+                        Perms.TP_SELF_CANNON.getName()), Perms.TP_SELF_CANNON);
+            }
+        } else if (!teleporter.equals(teleportee) && teleportee instanceof Entity) {
+            if (!teleporter.hasPerm(Perms.TP_OTHER_CANNON)) {
+                throw new PermissionException(Message.bundleMessage(Cannon.NO_PERMISSION, ((Entity) teleportee).getName(),
+                        Perms.TP_OTHER_CANNON.getName()), Perms.TP_OTHER_CANNON);
+            }
         }
     }
 
