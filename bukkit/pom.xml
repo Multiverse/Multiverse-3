@@ -83,12 +83,17 @@
                                 <includes>
                                     <include>com.mvplugin:MultiverseCore-Base</include>
                                     <include>com.dumptruckman.minecraft.pluginbase:Plugin-Bukkit</include>
+                                    <include>org.mcstats.bukkit:metrics</include>
                                 </includes>
                             </artifactSet>
                             <relocations>
                                 <relocation>
                                     <pattern>pluginbase</pattern>
                                     <shadedPattern>com.mvplugin.pluginbase</shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.mcstats</pattern>
+                                    <shadedPattern>com.mvplugin.org.mcstats</shadedPattern>
                                 </relocation>
                             </relocations>
                             <!--
