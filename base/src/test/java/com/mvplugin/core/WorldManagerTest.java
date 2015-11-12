@@ -69,7 +69,7 @@ public class WorldManagerTest extends MultiverseTest {
         assertEquals(testSeed.longValue(), w.getSeed());
         assertEquals(testWorldType, w.getWorldType());
         assertEquals(testGenerator, w.getGenerator());
-        assertEquals(testAdjustSpawn, w.isAdjustingSpawn());
+        assertEquals(testAdjustSpawn, w.isAdjustSpawnEnabled());
 
         boolean thrown = false;
         try {

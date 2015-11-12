@@ -175,7 +175,7 @@ public final class MultiverseWorld {
         return getProperties().isPVPEnabled();
     }
 
-    public void setPVPEnabled(final boolean pvp) {
+    public void setPVP(final boolean pvp) {
         getProperties().setPVPEnabled(pvp);
     }
 
@@ -187,11 +187,11 @@ public final class MultiverseWorld {
         getProperties().setHidden(hidden);
     }
 
-    public boolean isFormattingChat() {
+    public boolean isFormatChatEnabled() {
         return getProperties().isFormattingChat();
     }
 
-    public void setFormattingChat(final boolean formatChat) {
+    public void setFormatChat(final boolean formatChat) {
         getProperties().setFormattingChat(formatChat);
     }
 
@@ -204,7 +204,7 @@ public final class MultiverseWorld {
     }
 
 
-    public boolean isKeepingSpawnInMemory() {
+    public boolean isKeepSpawnInMemoryEnabled() {
         return getProperties().isKeepSpawnInMemory();
     }
 
@@ -221,7 +221,7 @@ public final class MultiverseWorld {
         getProperties().setSpawnLocation(spawnLocation != null ? spawnLocation : Locations.NULL_FACING);
     }
 
-    public boolean getHunger() {
+    public boolean isHungerEnabled() {
         return getProperties().isHunger();
     }
 
@@ -264,7 +264,7 @@ public final class MultiverseWorld {
         getProperties().setRespawnWorld(respawnWorld == null ? "" : respawnWorld);
     }
 
-    public boolean getAutoHeal() {
+    public boolean isAutoHealEnabled() {
         return getProperties().isAutoHeal();
     }
 
@@ -272,15 +272,15 @@ public final class MultiverseWorld {
         getProperties().setAutoHeal(heal);
     }
 
-    public boolean isAdjustingSpawn() {
+    public boolean isAdjustSpawnEnabled() {
         return getProperties().isAdjustingSpawn();
     }
 
-    public void setAdjustingSpawn(final boolean adjust) {
+    public void setAdjustSpawn(final boolean adjust) {
         getProperties().setAdjustingSpawn(adjust);
     }
 
-    public boolean getAutoLoad() {
+    public boolean isAutoLoadEnabled() {
         return getProperties().isAutoLoad();
     }
 
@@ -288,7 +288,7 @@ public final class MultiverseWorld {
         getProperties().setAutoLoad(autoLoad);
     }
 
-    public boolean getBedRespawn() {
+    public boolean isBedRespawnEnabled() {
         return getProperties().isBedRespawn();
     }
 

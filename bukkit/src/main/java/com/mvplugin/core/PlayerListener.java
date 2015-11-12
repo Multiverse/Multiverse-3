@@ -63,6 +63,6 @@ class PlayerListener implements Listener {
     }
 
     private boolean isWorldChatFormattable(MultiverseWorld world) {
-        return world != null && world.isFormattingChat() && !world.isHidden();
+        return world != null && world.isFormatChatEnabled() && !world.isHidden();
     }
 }

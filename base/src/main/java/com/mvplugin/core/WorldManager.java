@@ -127,7 +127,7 @@ public final class WorldManager {
             throw new WorldCreationException(Message.bundleMessage(Language.WORLD_ALREADY_EXISTS, settings.name()));
         }
         MultiverseWorld mvWorld = this.worldManagerUtil.createWorld(settings);
-        mvWorld.setAdjustingSpawn(settings.adjustSpawn());
+        mvWorld.setAdjustSpawn(settings.adjustSpawn());
         this.worldsMap.put(settings.name().toLowerCase(), mvWorld);
         CoreLogger.fine("World '%s' has been added to multiverse management", settings.name());
         return mvWorld;

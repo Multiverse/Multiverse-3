@@ -151,7 +151,7 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         settings.generator(properties.getGenerator());
         settings.adjustSpawn(properties.isAdjustingSpawn());
         MultiverseWorld world = createWorld(settings);
-        world.setAdjustingSpawn(settings.adjustSpawn());
+        world.setAdjustSpawn(settings.adjustSpawn());
         return world;
     }
 
