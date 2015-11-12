@@ -2,6 +2,7 @@ package com.mvplugin.core;
 
 import com.mvplugin.core.minecraft.Difficulty;
 import com.mvplugin.core.minecraft.GameMode;
+import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.minecraft.WorldEnvironment;
 import com.mvplugin.core.minecraft.WorldType;
 import org.jetbrains.annotations.NotNull;
@@ -309,51 +310,51 @@ public final class MultiverseWorld {
     }
 
     public long getTicksPerAnimalSpawn() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return getProperties().getSpawning().getAnimalTicks();
     }
 
     public void setTicksPerAnimalSpawn(final long ticks) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getProperties().getSpawning().setAnimalTicks(ticks);
     }
 
     public long getTicksPerMonsterSpawn() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return getProperties().getSpawning().getMonsterTicks();
     }
 
     public void setTicksPerMonsterSpawn(final long ticks) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getProperties().getSpawning().setMonsterTicks(ticks);
     }
 
     public int getAnimalSpawnLimit() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return getProperties().getSpawning().getAnimalLimit();
     }
 
     public void setAnimalSpawnLimit(final int limit) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getProperties().getSpawning().setAnimalLimit(limit);
     }
 
     public int getMonsterSpawnLimit() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return getProperties().getSpawning().getMonsterLimit();
     }
 
     public void setMonsterSpawnLimit(final int limit) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getProperties().getSpawning().setMonsterLimit(limit);
     }
 
     public int getAmbientSpawnLimit() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return getProperties().getSpawning().getAmbientLimit();
     }
 
     public void setAmbientSpawnLimit(final int limit) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getProperties().getSpawning().setAmbientLimit(limit);
     }
 
     public int getWaterAnimalSpawnLimit() {
-        return 0;  //To change body of implemented methods use File | Settings | File Templates.
+        return getProperties().getSpawning().getWaterLimit();
     }
 
     public void setWaterAnimalSpawnLimit(final int limit) {
-        //To change body of implemented methods use File | Settings | File Templates.
+        getProperties().getSpawning().setWaterLimit(limit);
     }
 
     public boolean isPreventingSpawnsList() {
@@ -374,6 +375,22 @@ public final class MultiverseWorld {
 
     public void removeSpawnException(@NotNull final String creatureType) {
         //To change body of implemented methods use File | Settings | File Templates.
+    }
+
+    public double getScale(@NotNull PortalType portalType) {
+        return getProperties().getConnectedWorld(portalType).getScale();
+    }
+
+    public void setScale(@NotNull PortalType portalType, double scale) {
+        getProperties().getConnectedWorld(portalType).setScale(scale);
+    }
+
+    public boolean getPortalForm(@NotNull PortalType portalType) {
+        return getProperties().getConnectedWorld(portalType).getPortalForm();
+    }
+
+    public void setPortalForm(@NotNull PortalType portalType, boolean portalForm) {
+        getProperties().getConnectedWorld(portalType).setPortalForm(portalForm);
     }
 
     @Nullable
