@@ -4,17 +4,6 @@ import com.google.inject.Inject;
 import com.mvplugin.core.WorldProperties.ConnectedWorld;
 import com.mvplugin.core.WorldProperties.EntryFee;
 import com.mvplugin.core.WorldProperties.Spawning;
-import com.mvplugin.core.command.CreateCommand;
-import com.mvplugin.core.command.DeleteCommand;
-import com.mvplugin.core.command.ImportCommand;
-import com.mvplugin.core.command.ListCommand;
-import com.mvplugin.core.command.LoadCommand;
-import com.mvplugin.core.command.ModifyAddCommand;
-import com.mvplugin.core.command.ModifyClearCommand;
-import com.mvplugin.core.command.ModifyRemoveCommand;
-import com.mvplugin.core.command.ModifySetCommand;
-import com.mvplugin.core.command.TeleportCommand;
-import com.mvplugin.core.command.UnloadCommand;
 import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.minecraft.CreatureSpawnCause;
 import com.mvplugin.core.minecraft.EntityType;
@@ -22,9 +11,6 @@ import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.CoreConfig;
-import com.mvplugin.core.util.CoreLogger;
-import com.mvplugin.core.util.Language;
-import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Game;
@@ -63,7 +49,6 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
 
     private static final int PROTOCOL_VERSION = 19;
     private static final String COMMAND_PREFIX = "mv";
-    private static final String PERMISSION_PREFIX = "multiverse";
 
     private MultiverseCoreAPI api;
 
@@ -83,19 +68,7 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
         SpongeConvert.initializeWithGame(game);
 
         pluginAgent = SpongePluginAgent.getPluginAgent(game, MultiverseCore.class, this, pluginContainer, COMMAND_PREFIX, dataFolder);
-        CoreLogger.init(pluginAgent.getPluginBase());
-        pluginAgent.setPermissionPrefix(PERMISSION_PREFIX);
-        pluginAgent.setDefaultSettingsCallable(new Callable<Settings>() {
-            @Override
-            public Settings call() throws Exception {
-                return new SpongeCoreConfig();
-            }
-        });
 
-        // Register language stuff
-        pluginAgent.registerMessages(PropertyDescriptions.class);
-        pluginAgent.registerMessages(Language.class);
-        pluginAgent.registerMessages(SpongeLanguage.class);
     }
 
     private void registerMinecraftJunk(@NotNull Game game) {
@@ -111,18 +84,17 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
 
     @Listener
     private void initialization(GameInitializationEvent event) {
-        // Register commands
-        pluginAgent.registerCommand(ImportCommand.class);
-        pluginAgent.registerCommand(LoadCommand.class);
-        pluginAgent.registerCommand(UnloadCommand.class);
-        pluginAgent.registerCommand(ListCommand.class);
-        pluginAgent.registerCommand(DeleteCommand.class);
-        pluginAgent.registerCommand(CreateCommand.class);
-        pluginAgent.registerCommand(TeleportCommand.class);
-        pluginAgent.registerCommand(ModifySetCommand.class);
-        pluginAgent.registerCommand(ModifyAddCommand.class);
-        pluginAgent.registerCommand(ModifyRemoveCommand.class);
-        pluginAgent.registerCommand(ModifyClearCommand.class);
+        new MultiverseCoreInitializer(pluginAgent);
+
+        pluginAgent.setDefaultSettingsCallable(new Callable<Settings>() {
+            @Override
+            public Settings call() throws Exception {
+                return new SpongeCoreConfig();
+            }
+        });
+
+        // Register language stuff
+        pluginAgent.registerMessages(SpongeLanguage.class);
 
         pluginAgent.loadPluginBase();
         pluginAgent.enablePluginBase();

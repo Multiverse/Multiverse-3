@@ -3,18 +3,6 @@ package com.mvplugin.core;
 import com.mvplugin.core.WorldProperties.ConnectedWorld;
 import com.mvplugin.core.WorldProperties.EntryFee;
 import com.mvplugin.core.WorldProperties.Spawning;
-import com.mvplugin.core.command.CreateCommand;
-import com.mvplugin.core.command.DeleteCommand;
-import com.mvplugin.core.command.ImportCommand;
-import com.mvplugin.core.command.InfoCommand;
-import com.mvplugin.core.command.ListCommand;
-import com.mvplugin.core.command.LoadCommand;
-import com.mvplugin.core.command.ModifyAddCommand;
-import com.mvplugin.core.command.ModifyClearCommand;
-import com.mvplugin.core.command.ModifyRemoveCommand;
-import com.mvplugin.core.command.ModifySetCommand;
-import com.mvplugin.core.command.TeleportCommand;
-import com.mvplugin.core.command.UnloadCommand;
 import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.minecraft.CreatureSpawnCause;
 import com.mvplugin.core.minecraft.EntityType;
@@ -22,9 +10,6 @@ import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.BukkitLanguage;
 import com.mvplugin.core.util.CoreConfig;
-import com.mvplugin.core.util.CoreLogger;
-import com.mvplugin.core.util.Language;
-import com.mvplugin.core.util.PropertyDescriptions;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.bukkit.PortalType;
 import org.bukkit.Server;
@@ -82,7 +67,7 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
 
     private static final int PROTOCOL_VERSION = 19;
     private static final String COMMAND_PREFIX = "mv";
-    private static final String PERMISSION_PREFIX = "multiverse";
+
 
     private MultiverseCoreAPI api;
 
@@ -99,9 +84,8 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
     }
 
     private void init() {
-        CoreLogger.init(getPluginBase());
+        new MultiverseCoreInitializer(pluginAgent);
 
-        pluginAgent.setPermissionPrefix(PERMISSION_PREFIX);
         pluginAgent.setDefaultSettingsCallable(new Callable<Settings>() {
             @Override
             public Settings call() throws Exception {
@@ -110,23 +94,7 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         });
 
         // Register language stuff
-        pluginAgent.registerMessages(PropertyDescriptions.class);
-        pluginAgent.registerMessages(Language.class);
         pluginAgent.registerMessages(BukkitLanguage.class);
-
-        // Register commands
-        pluginAgent.registerCommand(ImportCommand.class);
-        pluginAgent.registerCommand(LoadCommand.class);
-        pluginAgent.registerCommand(UnloadCommand.class);
-        pluginAgent.registerCommand(ListCommand.class);
-        pluginAgent.registerCommand(DeleteCommand.class);
-        pluginAgent.registerCommand(CreateCommand.class);
-        pluginAgent.registerCommand(TeleportCommand.class);
-        pluginAgent.registerCommand(ModifySetCommand.class);
-        pluginAgent.registerCommand(ModifyAddCommand.class);
-        pluginAgent.registerCommand(ModifyRemoveCommand.class);
-        pluginAgent.registerCommand(ModifyClearCommand.class);
-        pluginAgent.registerCommand(InfoCommand.class);
     }
 
     private PluginBase<MultiverseCore> getPluginBase() {
