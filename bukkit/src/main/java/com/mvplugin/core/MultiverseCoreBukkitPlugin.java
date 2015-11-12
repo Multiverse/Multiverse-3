@@ -6,6 +6,7 @@ import com.mvplugin.core.WorldProperties.Spawning;
 import com.mvplugin.core.command.CreateCommand;
 import com.mvplugin.core.command.DeleteCommand;
 import com.mvplugin.core.command.ImportCommand;
+import com.mvplugin.core.command.InfoCommand;
 import com.mvplugin.core.command.ListCommand;
 import com.mvplugin.core.command.LoadCommand;
 import com.mvplugin.core.command.ModifyAddCommand;
@@ -125,6 +126,7 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         pluginAgent.registerCommand(ModifyAddCommand.class);
         pluginAgent.registerCommand(ModifyRemoveCommand.class);
         pluginAgent.registerCommand(ModifyClearCommand.class);
+        pluginAgent.registerCommand(InfoCommand.class);
     }
 
     private PluginBase<MultiverseCore> getPluginBase() {

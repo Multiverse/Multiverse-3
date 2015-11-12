@@ -12,6 +12,9 @@ public class Perms {
     public static final Perm CMD_CREATE = PermFactory.newPerm(MultiverseCore.class, "cmd.create")
             .commandPermission().usePluginName().build();
 
+    public static final Perm CMD_INFO = PermFactory.newPerm(MultiverseCore.class, "cmd.info")
+            .commandPermission().usePluginName().build();
+
     public static final Perm CMD_IMPORT = PermFactory.newPerm(MultiverseCore.class, "cmd.import")
             .commandPermission().usePluginName().build();
 

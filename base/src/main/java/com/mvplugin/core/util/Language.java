@@ -39,6 +39,84 @@ public final class Language {
                     "$+Successfully created world $!%s$+!");
         }
 
+        public static final class Info {
+            private Info() { }
+
+            public static final Message HELP = Message.createMessage("command.info.help",
+                    "$hDisplays information about the world you're in or the world given in the command."
+                    + "\n$hExamples:"
+                    + "\n$c  /mv info"
+                    + "\n$c  /mv info $rspace"
+                    + "\n$c  /mv info $r\"hell world\"");
+            /**
+             * This list is going to be a PITA to upkeep. $: is the theme for odd items, $; is for even.<br/>
+             * Args are required in the following order:
+             * <ul>
+             *     <li>ambient spawn limit</li>
+             *     <li>water spawn limit</li>
+             *     <li>monster spawn limit</li>
+             *     <li>animal spawn limit</li>
+             *     <li>monster spawn ticks</li>
+             *     <li>animal spawn ticks</li>
+             *     <li>keepSpawn</li>
+             *     <li>blacklist</li>
+             *     <li>respawn world</li>
+             *     <li>bed respawn</li>
+             *     <li>adjust spawn</li>
+             *     <li>generator</li>
+             *     <li>seed</li>
+             *     <li>environment</li>
+             *     <li>auto load</li>
+             *     <li>allow weather</li>
+             *     <li>entry fee currency</li>
+             *     <li>entry fee amount</li>
+             *     <li>hidden</li>
+             *     <li>prefix chat</li>
+             *     <li>player limit</li>
+             *     <li>auto heal</li>
+             *     <li>pvp</li>
+             *     <li>hunger</li>
+             *     <li>difficulty</li>
+             *     <li>game mode</li>
+             *     <li>spawn location</li>
+             *     <li>alias</li>
+             *     <li>name</li>
+             * </ul>
+             */
+            public static final Message INFO = Message.createMessage("command.info.info",
+                    "$+---- End of List (Read bottom to top) ----",
+                    "$:Ambiet Creature Spawn Limit: $v%s",
+                    "$;Water Creature Spawn Limit: $v%s",
+                    "$:Monster Spawn Limit: $v%s",
+                    "$;Animal Spawn Limit: $v%s",
+                    "$:Ticks Per Monster Spawn: $v%s",
+                    "$;Ticks Per Animal Spawn: $v%s",
+                    "$:Keep Spawn In Memory: $v%s",
+                    "$;Blacklist: $v%s",
+                    "$:Respawn World: $v%s",
+                    "$;Bed Respawn: $v%s",
+                    "$:Adjust Spawn: $v%s",
+                    "$;Generator: $v%s",
+                    "$:Seed: $v%s",
+                    "$;Environment: $v%s",
+                    "$:Auto Load: $v%s",
+                    "$;Allow Weather: $v%s",
+                    "$:Entry Fee Currency: $v%s",
+                    "$;Entry Fee: $v%s",
+                    "$:Hidden: $v%s",
+                    "$;Prefix Chat: $v%s",
+                    "$:Player Limit: $v%s",
+                    "$;Auto Heal: $v%s",
+                    "$:PVP: $v%s",
+                    "$;Hunger: $v%s",
+                    "$:Difficulty: $v%s",
+                    "$;Game Mode: $v%s",
+                    "$:Spawn Location: $v%s",
+                    "$;Alias: $v%s",
+                    "$:Name: $v%s",
+                    "$i---- $tWorld Information$i ----");
+        }
+
         public static final class Delete {
             private Delete() { }
 
