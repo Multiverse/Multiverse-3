@@ -36,7 +36,7 @@ abstract class MultiverseCommand extends Command<MultiverseCore> {
         if (context.argsLength() > expectedWorldArgIndex) {
             world = worldManager.getWorld(context.getString(expectedWorldArgIndex));
             if (world == null) {
-                throw new MultiverseException(Message.bundleMessage(Language.WORLD_NOT_MANAGED));
+                throw new MultiverseException(Message.bundleMessage(Language.WORLD_NOT_MANAGED, context.getString(expectedWorldArgIndex)));
             }
         } else if (sender instanceof Entity) {
             world = getEntityWorld((Entity) sender);
