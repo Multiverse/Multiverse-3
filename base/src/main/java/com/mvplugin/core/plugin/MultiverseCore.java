@@ -13,7 +13,7 @@ import pluginbase.messages.messaging.Messager;
  */
 public interface MultiverseCore extends MultiversePlugin, MultiverseCoreAPI {
 
-    int PROTOCOL_VERSION = 19;
+    int PROTOCOL_VERSION = 1;
 
     /**
      * Gets the Multiverse-Core configuration.
