@@ -24,4 +24,11 @@ public interface MultiversePlugin {
      * @return The protocol version.
      */
     int getProtocolVersion();
+
+    /**
+     * Returns the version string of this Multiverse Plugin.
+     *
+     * @return the version string of this Multiverse Plugin.
+     */
+    String getVersion();
 }

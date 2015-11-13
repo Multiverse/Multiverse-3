@@ -65,7 +65,6 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         SerializationRegistrar.registerClass(EntityType.class);
     }
 
-    private static final int PROTOCOL_VERSION = 19;
     private static final String COMMAND_PREFIX = "mv";
 
 
@@ -181,6 +180,11 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
     @Override
     public int getProtocolVersion() {
         return PROTOCOL_VERSION;
+    }
+
+    @Override
+    public String getVersion() {
+        return getDescription().getVersion();
     }
 
     @Override

@@ -48,5 +48,7 @@ class MultiverseCoreInitializer {
         pluginAgent.registerCommand(ModifyRemoveCommand.class);
         pluginAgent.registerCommand(ModifyClearCommand.class);
         pluginAgent.registerCommand(InfoCommand.class);
+
+        pluginAgent.setVersionInfoModifier(new VersionInfo(pluginAgent.getPluginBase().getPlugin()));
     }
 }

@@ -47,7 +47,6 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
         SerializationRegistrar.registerClass(EntityType.class);
     }
 
-    private static final int PROTOCOL_VERSION = 19;
     private static final String COMMAND_PREFIX = "mv";
 
     private MultiverseCoreAPI api;
@@ -166,6 +165,11 @@ public class MultiverseCoreSpongePlugin implements MultiverseCore {
     @Override
     public int getProtocolVersion() {
         return PROTOCOL_VERSION;
+    }
+
+    @Override
+    public String getVersion() {
+        return "Sponge"; // TODO: Fix
     }
 
     @Override
