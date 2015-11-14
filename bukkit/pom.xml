@@ -17,6 +17,14 @@
             <id>vault-repo</id>
             <url>http://nexus.theyeticave.net/content/repositories/pub_releases</url>
         </repository>
+        <repository>
+            <id>bukkit-3rdparty</id>
+            <url>http://repo.onarandombox.com/content/repositories/bukkit-thirdparty</url>
+        </repository>
+        <repository>
+            <id>3rdparty</id>
+            <url>http://repo.onarandombox.com/content/repositories/thirdparty</url>
+        </repository>
     </repositories>
 
     <build>
