@@ -20,9 +20,10 @@ public enum PropertyDescriptions {
     public static final Message HIDDEN = Message.createMessage(HIDDEN_KEY,
             "The hidden property allows you to have a world that exists but does not show up in lists.");
 
-    public static final String PREFIX_CHAT_KEY = "world_properties.descriptions.prefixChat";
+    public static final String PREFIX_CHAT_KEY = "world_properties.descriptions.formattingChat";
     public static final Message PREFIX_CHAT = Message.createMessage(PREFIX_CHAT_KEY,
-            "The prefixChat property adds the world's name (or alias) as a prefix to chat messages.");
+            "The formattingChat property adds the world's name (or alias) as a prefix to chat messages.",
+            "Please note, this property can be disabled globally in the configuration.");
 
     public static final String SEED_KEY = "world_properties.descriptions.seed";
     public static final Message SEED = Message.createMessage(SEED_KEY,
