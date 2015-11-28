@@ -1,16 +1,12 @@
 package com.mvplugin.core;
 
 import com.google.inject.Inject;
-import com.mvplugin.core.WorldProperties.ConnectedWorld;
-import com.mvplugin.core.WorldProperties.EntryFee;
-import com.mvplugin.core.WorldProperties.Spawning;
 import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.minecraft.CreatureSpawnCause;
 import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.minecraft.PortalType;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
-import com.mvplugin.core.util.CoreConfig;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.jetbrains.annotations.NotNull;
 import org.spongepowered.api.Game;
@@ -21,7 +17,6 @@ import org.spongepowered.api.event.game.state.GameStoppingServerEvent;
 import org.spongepowered.api.plugin.Plugin;
 import org.spongepowered.api.plugin.PluginContainer;
 import org.spongepowered.api.service.config.ConfigDir;
-import pluginbase.config.SerializationRegistrar;
 import pluginbase.logging.PluginLogger;
 import pluginbase.messages.messaging.Messager;
 import pluginbase.plugin.PluginBase;
@@ -34,18 +29,6 @@ import java.util.concurrent.Callable;
 
 @Plugin(id = "Multiverse-Core", name = "Multiverse-Core")
 public class MultiverseCoreSpongePlugin implements MultiverseCore {
-
-    static {
-        SerializationRegistrar.registerClass(CoreConfig.class);
-        SerializationRegistrar.registerClass(SpongeCoreConfig.class);
-        SerializationRegistrar.registerClass(WorldProperties.class);
-        SerializationRegistrar.registerClass(EntryFee.class);
-        SerializationRegistrar.registerClass(Spawning.class);
-        SerializationRegistrar.registerClass(SpawnException.class);
-        SerializationRegistrar.registerClass(ConnectedWorld.class);
-        SerializationRegistrar.registerClass(CreatureSpawnCause.class);
-        SerializationRegistrar.registerClass(EntityType.class);
-    }
 
     private static final String COMMAND_PREFIX = "mv";
 

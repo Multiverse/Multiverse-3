@@ -38,6 +38,7 @@ public class BukkitMultiverseTest extends MultiverseTest {
 
     private static Server prepareBukkit(PluginDescriptionFile... plugins) throws Exception {
         final TestingServer testingServer = ServerFactory.createTestingServer();
+        System.out.println("Testing server created");
 
         Field field = Bukkit.class.getDeclaredField("server");
         field.setAccessible(true);

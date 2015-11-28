@@ -16,8 +16,8 @@ import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.plugin.Plugin;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import pluginbase.bukkit.config.BukkitConfiguration;
-import pluginbase.bukkit.config.YamlConfiguration;
+import pluginbase.config.datasource.DataSource;
+import pluginbase.config.datasource.hocon.HoconDataSource;
 import pluginbase.messages.BundledMessage;
 import pluginbase.messages.Message;
 import pluginbase.messages.PluginBaseException;
@@ -39,7 +39,7 @@ import java.util.logging.Level;
 
 class BukkitWorldManagerUtil implements WorldManagerUtil {
 
-    static final String WORLD_FILE_EXT = ".yml";
+    static final String WORLD_FILE_EXT = ".conf";
 
     @NotNull
     private final ServerInterface serverInterface;
@@ -225,13 +225,13 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            YamlConfiguration config = BukkitConfiguration.loadYamlConfig(file);
+            DataSource dataSource = HoconDataSource.builder().setFile(file).build();
             WorldProperties defaults = new WorldProperties(worldName);
-            WorldProperties worldProperties = config.getToObject("settings", defaults);
+            WorldProperties worldProperties = dataSource.loadToObject(defaults);
             if (worldProperties == null) {
                 worldProperties = defaults;
-                saveWorldProperties(worldProperties, config, file);
             }
+            saveWorldProperties(worldProperties, dataSource, file);
             return worldProperties;
         } catch (IOException e) {
             throw new MultiverseException(Message.bundleMessage(BukkitLanguage.SAVE_WORLD_FILE_ERROR, file), e);
@@ -243,11 +243,10 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
         }
     }
 
-    private void saveWorldProperties(@NotNull WorldProperties properties, @NotNull YamlConfiguration config, @NotNull File file) throws MultiverseException {
+    private void saveWorldProperties(@NotNull WorldProperties properties, @NotNull DataSource dataSource, @NotNull File file) throws MultiverseException {
         try {
-            config.set("settings", properties);
-            config.save(file);
-        } catch (IOException e) {
+            dataSource.save(properties);
+        } catch (PluginBaseException e) {
             throw new MultiverseException(Message.bundleMessage(BukkitLanguage.SAVE_WORLD_FILE_ERROR, file), e);
         }
     }
@@ -391,8 +390,8 @@ class BukkitWorldManagerUtil implements WorldManagerUtil {
     @Override
     public void saveWorld(@NotNull MultiverseWorld world) throws MultiverseException {
         File worldFile = getWorldFile(world.getName());
-        YamlConfiguration config = new YamlConfiguration();
-        saveWorldProperties(world.getProperties(), config, worldFile);
+        DataSource dataSource = HoconDataSource.builder().setFile(worldFile).build();
+        saveWorldProperties(world.getProperties(), dataSource, worldFile);
     }
 
     private static class InitialWorldAggregator {

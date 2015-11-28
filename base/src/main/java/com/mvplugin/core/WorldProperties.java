@@ -22,6 +22,7 @@ import pluginbase.config.properties.PropertiesWrapper;
 import pluginbase.config.properties.PropertyAliases;
 import pluginbase.config.properties.PropertyHandler;
 import pluginbase.config.serializers.Serializer;
+import pluginbase.config.serializers.SerializerSet;
 import pluginbase.messages.ChatColor;
 import pluginbase.messages.Message;
 import pluginbase.minecraft.location.FacingCoordinates;
@@ -800,7 +801,7 @@ class WorldProperties extends PropertiesWrapper {
     private static class FacingCoordinatesSerializer implements Serializer<FacingCoordinates> {
         @Nullable
         @Override
-        public FacingCoordinates deserialize(@Nullable Object o, @NotNull Class clazz) {
+        public FacingCoordinates deserialize(@Nullable Object o, @NotNull Class clazz, @NotNull SerializerSet serializerSet) {
             double x = 0D;
             double y = 0D;
             double z = 0D;
@@ -831,7 +832,7 @@ class WorldProperties extends PropertiesWrapper {
 
         @Nullable
         @Override
-        public Object serialize(@Nullable final FacingCoordinates facingCoordinates) {
+        public Object serialize(@Nullable final FacingCoordinates facingCoordinates, @NotNull SerializerSet serializerSet) {
             if (facingCoordinates == null) {
                 return Locations.NULL_FACING;
             }
