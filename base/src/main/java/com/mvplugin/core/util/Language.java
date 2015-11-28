@@ -401,6 +401,15 @@ public final class Language {
     public static final Message WORLD_REMOVE_ERROR = Message.createMessage("world.remove.error",
             "$tMultiverse $-experienced a problem while attempting to remove '$v%s$-'.");
 
+    public static final Message WORLD_SAVE_FILE_ERROR = Message.createMessage("worlds.create_world_file_error",
+            "$tMultiverse $-was unable to save the persistence file $v%s");
+
+    public static final Message THIS_WILL_DELETE_THE_FOLLOWING = Message.createMessage("worlds.delete.this_will_delete_the_following",
+            "$i$!The following will be deleted: $v%s");
+
+    public static final Message WORLD_FILE_NOT_FOUND = Message.createMessage("worlds.file_not_found", "$^The world file was not found: $v%s");
+    public static final Message WORLD_COULD_NOT_DELETE_FILE = Message.createMessage("worlds.could_not_delete_file", "$-The world file could not be deleted: $v%s");
+
     public static final Message CANNOT_DELETE_UNMANAGED = Message.createMessage("world.delete.must_be_managed",
              "$$You may only delete worlds that Multiverse manages.");
 
