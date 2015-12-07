@@ -1,15 +1,11 @@
 package com.mvplugin.core;
 
-import com.mvplugin.core.WorldProperties.ConnectedWorld;
-import com.mvplugin.core.WorldProperties.EntryFee;
-import com.mvplugin.core.WorldProperties.Spawning;
 import com.mvplugin.core.destination.DestinationRegistry;
 import com.mvplugin.core.minecraft.CreatureSpawnCause;
 import com.mvplugin.core.minecraft.EntityType;
 import com.mvplugin.core.plugin.MultiverseCore;
 import com.mvplugin.core.util.BlockSafety;
 import com.mvplugin.core.util.BukkitLanguage;
-import com.mvplugin.core.util.CoreConfig;
 import com.mvplugin.core.util.SafeTeleporter;
 import org.bukkit.PortalType;
 import org.bukkit.Server;
@@ -20,7 +16,6 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.bukkit.BukkitPluginAgent;
-import pluginbase.config.SerializationRegistrar;
 import pluginbase.logging.PluginLogger;
 import pluginbase.messages.PluginBaseException;
 import pluginbase.messages.messaging.Messager;
@@ -51,18 +46,6 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         for (PortalType portalType : PortalType.values()) {
             com.mvplugin.core.minecraft.PortalType.registerPortalType(portalType.name());
         }
-    }
-
-    static {
-        SerializationRegistrar.registerClass(CoreConfig.class);
-        SerializationRegistrar.registerClass(BukkitCoreConfig.class);
-        SerializationRegistrar.registerClass(WorldProperties.class);
-        SerializationRegistrar.registerClass(EntryFee.class);
-        SerializationRegistrar.registerClass(Spawning.class);
-        SerializationRegistrar.registerClass(SpawnException.class);
-        SerializationRegistrar.registerClass(ConnectedWorld.class);
-        SerializationRegistrar.registerClass(CreatureSpawnCause.class);
-        SerializationRegistrar.registerClass(EntityType.class);
     }
 
     private static final String COMMAND_PREFIX = "mv";

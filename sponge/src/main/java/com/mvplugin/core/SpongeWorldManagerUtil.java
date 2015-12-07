@@ -1,11 +1,9 @@
 package com.mvplugin.core;
 
-import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.exceptions.WorldCreationException;
 import com.mvplugin.core.world.WorldCreationSettings;
 import org.jetbrains.annotations.NotNull;
-import pluginbase.messages.BundledMessage;
-import pluginbase.messages.PluginBaseException;
+import org.jetbrains.annotations.Nullable;
 import pluginbase.plugin.ServerInterface;
 
 import java.io.File;
@@ -14,78 +12,32 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-class SpongeWorldManagerUtil implements WorldManagerUtil {
-
-    static final String WORLD_FILE_EXT = ".conf";
-
-    @NotNull
-    private final ServerInterface serverInterface;
-    @NotNull
-    private final File worldsFolder;
-
-    @NotNull
-    private final Map<String, WorldProperties> worldPropertiesMap;
-    @NotNull
-    private final Map<String, String> defaultGens;
+class SpongeWorldManagerUtil extends WorldManagerUtil {
 
     SpongeWorldManagerUtil(@NotNull ServerInterface serverInterface, @NotNull File pluginDataFolder) {
-        this.serverInterface = serverInterface;
-        this.worldsFolder = new File(pluginDataFolder, "worlds");
-        if (!worldsFolder.exists()) {
-            worldsFolder.mkdirs();
-        }
-        this.worldPropertiesMap = new HashMap<String, WorldProperties>();
-        this.defaultGens = new HashMap<String, String>();
+        super(serverInterface, pluginDataFolder);
     }
 
-    @NotNull
     @Override
-    public Map<String, MultiverseWorld> loadInitialWorlds() {
+    Map<String, String> getDefaultWorldGenerators() {
         return null;
     }
 
     @NotNull
     @Override
-    public WorldProperties getWorldProperties(@NotNull String worldName) throws PluginBaseException {
+    protected InitialWorldAggregator createInitialWorldAggregator(@NotNull File worldsFolder) {
         return null;
     }
 
+    @Nullable
     @Override
-    public void removeWorldProperties(@NotNull String worldName) throws PluginBaseException {
-
-    }
-
-    @NotNull
-    @Override
-    public MultiverseWorld createWorld(@NotNull WorldCreationSettings settings) throws WorldCreationException {
+    protected MultiverseWorld createMultiverseWorldByName(@NotNull String worldName) {
         return null;
     }
 
+    @Nullable
     @Override
-    public boolean unloadWorldFromServer(@NotNull MultiverseWorld world) {
-        return false;
-    }
-
-    @NotNull
-    @Override
-    public String getSafeWorldName() {
-        return null;
-    }
-
-    @NotNull
-    @Override
-    public Collection<String> getManagedWorldNames() {
-        return null;
-    }
-
-    @Override
-    public boolean isThisAWorld(@NotNull String name) {
-        return false;
-    }
-
-    @NotNull
-    @Override
-    public BundledMessage whatWillThisDelete(@NotNull String name) {
+    protected String getCorrectlyCasedWorldNameFromServer(@NotNull String name) {
         return null;
     }
 
@@ -95,19 +47,25 @@ class SpongeWorldManagerUtil implements WorldManagerUtil {
         return null;
     }
 
-    @Override
-    public void deleteWorld(@NotNull String name) throws IOException {
-
-    }
-
     @NotNull
     @Override
-    public String getCorrectlyCasedWorldName(@NotNull String name) {
+    MultiverseWorld createWorld(@NotNull WorldCreationSettings settings) throws WorldCreationException {
         return null;
     }
 
     @Override
-    public void saveWorld(@NotNull MultiverseWorld worldProperties) throws MultiverseException {
+    boolean unloadWorldFromServer(@NotNull MultiverseWorld world) {
+        return false;
+    }
+
+    @NotNull
+    @Override
+    String getSafeWorldName() {
+        return null;
+    }
+
+    @Override
+    void deleteWorld(@NotNull String name) throws IOException {
 
     }
 }

@@ -13,12 +13,13 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.mockito.invocation.InvocationOnMock;
 import org.mockito.stubbing.Answer;
-import pluginbase.bukkit.config.BukkitConfiguration;
-import pluginbase.bukkit.config.YamlConfiguration;
-import pluginbase.config.SerializationRegistrar;
+import pluginbase.config.SerializableConfig;
 import pluginbase.config.annotation.SerializableAs;
 import pluginbase.config.annotation.SerializeWith;
+import pluginbase.config.datasource.DataSource;
+import pluginbase.config.datasource.hocon.HoconDataSource;
 import pluginbase.config.serializers.Serializer;
+import pluginbase.config.serializers.SerializerSet;
 
 import java.io.File;
 import java.util.HashMap;
@@ -34,9 +35,7 @@ public final class WorldFactory {
     private static class WorldData {
 
         static {
-            SerializationRegistrar.registerClass(WorldData.class);
-            SerializationRegistrar.registerClass(Location.class);
-            SerializationRegistrar.registerClass(UUID.class);
+            SerializableConfig.registerSerializableAsClass(WorldData.class);
         }
 
         String name;
@@ -69,8 +68,8 @@ public final class WorldFactory {
                 save();
             } else {
                 try {
-                    YamlConfiguration config = BukkitConfiguration.loadYamlConfig(datFile);
-                    WorldData world = (WorldData) config.get(name);
+                    DataSource dataSource = HoconDataSource.builder().setFile(datFile).build();
+                    WorldData world = (WorldData) dataSource.load();
                     if (world != null) {
                         this.type = world.type;
                         this.seed = world.seed;
@@ -96,9 +95,8 @@ public final class WorldFactory {
                     folder.mkdirs();
                     datFile.createNewFile();
                 }
-                YamlConfiguration config = new YamlConfiguration();
-                config.set(name, this);
-                config.save(datFile);
+                DataSource dataSource = HoconDataSource.builder().setFile(datFile).build();
+                dataSource.save(this);
             } catch (Exception e) {
                 e.printStackTrace();
             }
@@ -107,13 +105,13 @@ public final class WorldFactory {
         private static class UUIDSerializer implements Serializer<UUID> {
             @Nullable
             @Override
-            public Object serialize(@Nullable UUID uuid) {
+            public Object serialize(@Nullable UUID uuid, @NotNull SerializerSet serializerSet) {
                 return uuid != null ? uuid.toString() : null;
             }
 
             @Nullable
             @Override
-            public UUID deserialize(@Nullable Object o, @NotNull Class uuidClass) throws IllegalArgumentException {
+            public UUID deserialize(@Nullable Object o, @NotNull Class uuidClass, @NotNull SerializerSet serializerSet) throws IllegalArgumentException {
                 return o != null ? UUID.fromString(o.toString()) : null;
             }
         }
@@ -121,7 +119,7 @@ public final class WorldFactory {
         private static class LocationSerializer implements Serializer<Location> {
             @Nullable
             @Override
-            public Object serialize(@Nullable Location l) {
+            public Object serialize(@Nullable Location l, @NotNull SerializerSet serializerSet) {
                 if (l == null) {
                     return null;
                 }
@@ -134,7 +132,7 @@ public final class WorldFactory {
 
             @Nullable
             @Override
-            public Location deserialize(@Nullable Object serialized, @NotNull Class wantedType) throws IllegalArgumentException {
+            public Location deserialize(@Nullable Object serialized, @NotNull Class wantedType, @NotNull SerializerSet serializerSet) throws IllegalArgumentException {
                 if (serialized == null || !(serialized instanceof Map)) {
                     return null;
                 }

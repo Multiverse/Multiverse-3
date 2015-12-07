@@ -1,7 +1,6 @@
 package com.mvplugin.core.util;
 
 import org.jetbrains.annotations.Nullable;
-import pluginbase.config.SerializationRegistrar;
 import pluginbase.config.annotation.Comment;
 import pluginbase.config.annotation.ValidateWith;
 import pluginbase.config.field.PropertyVetoException;
@@ -13,10 +12,6 @@ import pluginbase.plugin.Settings;
  * options used here and in other Multiverse plugins.
  */
 public class CoreConfig extends Settings {
-
-    static {
-        SerializationRegistrar.registerClass(Chat.class);
-    }
 
     private Chat chat = new Chat();
 
