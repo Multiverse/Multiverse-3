@@ -12,6 +12,7 @@ import pluginbase.config.annotation.Comment;
 import pluginbase.config.annotation.Description;
 import pluginbase.config.annotation.HandlePropertyWith;
 import pluginbase.config.annotation.Immutable;
+import pluginbase.config.annotation.NoTypeKey;
 import pluginbase.config.annotation.SerializeWith;
 import pluginbase.config.annotation.ValidateWith;
 import pluginbase.config.field.DependentField;
@@ -43,7 +44,8 @@ import static com.mvplugin.core.util.PropertyDescriptions.*;
 /**
  * Houses all of the properties for a Multiverse world.
  */
-class WorldProperties extends PropertiesWrapper {
+@NoTypeKey
+final class WorldProperties extends PropertiesWrapper {
 
     static {
         createAlias("curr", "currency");
@@ -552,6 +554,7 @@ class WorldProperties extends PropertiesWrapper {
         }
     }
 
+    @NoTypeKey
     public static final class EntryFee {
 
         @Comment({
@@ -586,6 +589,7 @@ class WorldProperties extends PropertiesWrapper {
         }
     }
 
+    @NoTypeKey
     public static final class Spawning {
 
         @Comment({"The animalTicks property specifies the rate in ticks at which animals are spawned."})
@@ -658,7 +662,8 @@ class WorldProperties extends PropertiesWrapper {
         }
     }
 
-    public static class ConnectedWorld {
+    @NoTypeKey
+    public final static class ConnectedWorld {
 
         @Comment({
                 "The scale property represents the scaling of worlds when using Multiverse-NetherPortals.",

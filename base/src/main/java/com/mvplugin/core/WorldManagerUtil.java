@@ -2,12 +2,9 @@ package com.mvplugin.core;
 
 import com.mvplugin.core.exceptions.MultiverseException;
 import com.mvplugin.core.exceptions.WorldCreationException;
-import com.mvplugin.core.minecraft.WorldEnvironment;
-import com.mvplugin.core.minecraft.WorldType;
 import com.mvplugin.core.util.CoreLogger;
 import com.mvplugin.core.util.Language;
 import com.mvplugin.core.world.WorldCreationSettings;
-import org.apache.commons.io.FileUtils;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import pluginbase.config.datasource.DataSource;
@@ -20,7 +17,15 @@ import pluginbase.plugin.ServerInterface;
 import java.io.File;
 import java.io.FilenameFilter;
 import java.io.IOException;
-import java.util.*;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 import java.util.logging.Level;
 
 abstract class WorldManagerUtil {
@@ -103,7 +108,7 @@ abstract class WorldManagerUtil {
             if (!file.exists()) {
                 file.createNewFile();
             }
-            DataSource dataSource = HoconDataSource.builder().setFile(file).build();
+            DataSource dataSource = HoconDataSource.builder().setCommentsEnabled(true).setFile(file).build();
             WorldProperties defaults = new WorldProperties(worldName);
             WorldProperties worldProperties = dataSource.loadToObject(defaults);
             if (worldProperties == null) {
@@ -264,7 +269,7 @@ abstract class WorldManagerUtil {
 
     public void saveWorld(@NotNull MultiverseWorld world) throws MultiverseException {
         File worldFile = getWorldFile(world.getName());
-        DataSource dataSource = HoconDataSource.builder().setFile(worldFile).build();
+        DataSource dataSource = HoconDataSource.builder().setCommentsEnabled(true).setFile(worldFile).build();
         saveWorldProperties(world.getProperties(), dataSource, worldFile);
     }
 

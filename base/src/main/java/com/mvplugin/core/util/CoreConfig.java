@@ -2,6 +2,7 @@ package com.mvplugin.core.util;
 
 import org.jetbrains.annotations.Nullable;
 import pluginbase.config.annotation.Comment;
+import pluginbase.config.annotation.NoTypeKey;
 import pluginbase.config.annotation.ValidateWith;
 import pluginbase.config.field.PropertyVetoException;
 import pluginbase.config.field.Validator;
@@ -31,8 +32,9 @@ public class CoreConfig extends Settings {
         chat.chatFormatString = formatString;
     }
 
+    @NoTypeKey
     @Comment("Settings related to chat handling.")
-    private static class Chat {
+    private static final class Chat {
 
         @Comment({
                 "If this is set to true, Multiverse will format ALL chat messages.",
