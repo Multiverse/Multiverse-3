@@ -9,6 +9,8 @@ import org.powermock.api.mockito.PowerMockito;
 import pluginbase.minecraft.location.FacingCoordinates;
 import pluginbase.minecraft.location.Locations;
 
+import java.util.UUID;
+
 import static org.mockito.Mockito.*;
 
 public class WorldLinkFactory {
@@ -20,6 +22,7 @@ public class WorldLinkFactory {
         when(worldLink.getType()).thenReturn(type);
         when(worldLink.getSpawnLocation()).thenReturn(Locations.NULL_FACING);
         when(worldLink.getSeed()).thenReturn(seed);
+        when(worldLink.getUID()).thenReturn(UUID.nameUUIDFromBytes(name.getBytes()));
 
         WorldLinkData data = new WorldLinkData();
 

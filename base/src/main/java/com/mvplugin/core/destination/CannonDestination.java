@@ -16,6 +16,7 @@ import pluginbase.minecraft.location.Locations;
 import pluginbase.permission.Permissible;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -131,7 +132,9 @@ public class CannonDestination extends SimpleDestination {
                 EntityCoordinates coords = null;
                 Matcher m = LOC_PATTERN.matcher(destinationString);
                 if (m.matches()) {
-                    coords = Locations.getEntityCoordinates(m.group("world"), Double.parseDouble(m.group("x")),
+                    String worldName = m.group("world");
+                    UUID worldUID = api.getWorldManager().getWorldUUID(worldName);
+                    coords = Locations.getEntityCoordinates(worldName, worldUID, Double.parseDouble(m.group("x")),
                             Double.parseDouble(m.group("y")), Double.parseDouble(m.group("z")),
                             Float.parseFloat(m.group("pitch")), Float.parseFloat(m.group("yaw")));
                 } else {

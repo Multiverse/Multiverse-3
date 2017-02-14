@@ -47,7 +47,7 @@ class DefaultSafeTeleporter implements SafeTeleporter {
 
     @NotNull
     private EntityCoordinates getBlockCenteredCoordinates(@NotNull final EntityCoordinates loc) {
-        return Locations.getEntityCoordinates(loc.getWorld(), loc.getBlockX() + BLOCK_CENTER,
+        return Locations.getEntityCoordinates(loc.getWorld(), loc.getWorldUUID(), loc.getBlockX() + BLOCK_CENTER,
                 loc.getY(), loc.getBlockZ() + BLOCK_CENTER, loc.getPitch(), loc.getYaw());
     }
 
@@ -64,13 +64,15 @@ class DefaultSafeTeleporter implements SafeTeleporter {
         // We've already checked zero right above this.
         for (int currentLevel = 1; currentLevel <= height; currentLevel++) {
             // Check above
-            if ((safe = checkAroundLocation(Locations.getEntityCoordinates(location.getWorld(), location.getX(),
-                    location.getY() + currentLevel, location.getZ(), location.getPitch(), location.getYaw()), width)) != null)
+            if ((safe = checkAroundLocation(Locations.getEntityCoordinates(location.getWorld(), location.getWorldUUID(),
+                    location.getX(), location.getY() + currentLevel, location.getZ(), location.getPitch(),
+                    location.getYaw()), width)) != null)
                 return safe;
 
             // Check below
-            if ((safe = checkAroundLocation(Locations.getEntityCoordinates(location.getWorld(), location.getX(),
-                    location.getY() - currentLevel, location.getZ(), location.getPitch(), location.getYaw()), width)) != null)
+            if ((safe = checkAroundLocation(Locations.getEntityCoordinates(location.getWorld(), location.getWorldUUID(),
+                    location.getX(), location.getY() - currentLevel, location.getZ(), location.getPitch(),
+                    location.getYaw()), width)) != null)
                 return safe;
         }
 

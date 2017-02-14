@@ -29,6 +29,7 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 /**
  * Multiverse 2 World Manager API
@@ -50,6 +51,18 @@ public final class WorldManager {
         this.worldManagerUtil = worldManagerUtil;
         this.worldsMap = new HashMap<String, MultiverseWorld>();
         this.worldsMap.putAll(worldManagerUtil.loadInitialWorlds());
+    }
+
+    /**
+     * Gets the UUID of a world based on it's name.
+     *
+     * @param worldName the name of the world.
+     * @return the world's UUID if the world exists, otherwise a UUID will be generated using the name in
+     * {@link UUID#nameUUIDFromBytes(byte[])}.
+     */
+    @NotNull
+    public UUID getWorldUUID(@NotNull String worldName) {
+        return worldManagerUtil.getUUID(worldName);
     }
 
     /**
@@ -299,7 +312,7 @@ public final class WorldManager {
         final MultiverseWorld safeWorld = getSafeWorld();
         final SafeTeleporter teleporter = this.api.getSafeTeleporter();
         final FacingCoordinates sLoc = safeWorld.getSpawnLocation();
-        final EntityCoordinates location = Locations.getEntityCoordinates(safeWorld.getName(),
+        final EntityCoordinates location = Locations.getEntityCoordinates(safeWorld.getName(), safeWorld.getWorldUID(),
                 sLoc.getX(), sLoc.getY(), sLoc.getZ(), sLoc.getPitch(), sLoc.getYaw());
         CoreLogger.fine("Removing players from world '%s'...", world.getName());
         for (final BasePlayer p : world.getPlayers()) {

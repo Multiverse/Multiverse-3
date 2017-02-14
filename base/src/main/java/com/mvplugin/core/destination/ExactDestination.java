@@ -14,6 +14,7 @@ import pluginbase.minecraft.location.Locations;
 import pluginbase.permission.Permissible;
 
 import java.util.Set;
+import java.util.UUID;
 import java.util.concurrent.CopyOnWriteArraySet;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
@@ -108,7 +109,9 @@ public final class ExactDestination extends SimpleDestination {
             }
 
             try {
-                EntityCoordinates coordinates = Locations.getEntityCoordinates(m.group("world"),
+                String worldName = m.group("world");
+                UUID worldUID = api.getWorldManager().getWorldUUID(worldName);
+                EntityCoordinates coordinates = Locations.getEntityCoordinates(worldName, worldUID,
                         Double.parseDouble(m.group("x")), Double.parseDouble(m.group("y")), Double.parseDouble(m.group("z")),
                         pitch, yaw);
                 return new ExactDestination(api, coordinates);

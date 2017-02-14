@@ -9,8 +9,8 @@ import pluginbase.plugin.ServerInterface;
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 class SpongeWorldManagerUtil extends WorldManagerUtil {
 
@@ -67,5 +67,11 @@ class SpongeWorldManagerUtil extends WorldManagerUtil {
     @Override
     void deleteWorld(@NotNull String name) throws IOException {
 
+    }
+
+    @NotNull
+    @Override
+    UUID getUUID(@NotNull String name) {
+        return null;
     }
 }

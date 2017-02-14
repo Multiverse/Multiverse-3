@@ -11,6 +11,7 @@ import pluginbase.minecraft.location.Locations;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.UUID;
 
 import static org.junit.Assert.*;
 
@@ -66,7 +67,7 @@ public class WorldDestinationTest extends MultiverseTest {
         BasePlayer player = api.getServerInterface().getPlayer("Player");
         assertNotNull(player);
         // Location must be middle of block since our safe teleporter does this
-        ((Entity) player).teleport(Locations.getEntityCoordinates("someworld", 50.5, 50, 50.5, 0, 0));
+        ((Entity) player).teleport(Locations.getEntityCoordinates("someworld", UUID.randomUUID(), 50.5, 50, 50.5, 0, 0));
 
         WorldDestination dest = new WorldDestination(api, "world");
         assertNotEquals(dest.getDestination(), ((Entity) player).getLocation());

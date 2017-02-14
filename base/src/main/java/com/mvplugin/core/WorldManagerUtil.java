@@ -26,6 +26,7 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 import java.util.logging.Level;
 
 abstract class WorldManagerUtil {
@@ -298,6 +299,12 @@ abstract class WorldManagerUtil {
     abstract String getSafeWorldName();
 
     abstract void deleteWorld(@NotNull final String name) throws IOException;
+
+    /**
+     * Returns the UUID of the given world name, if the world exists. Otherwise, returns a UUID based on the given name.
+     */
+    @NotNull
+    abstract UUID getUUID(@NotNull final String name);
 
     abstract static class InitialWorldAggregator {
 

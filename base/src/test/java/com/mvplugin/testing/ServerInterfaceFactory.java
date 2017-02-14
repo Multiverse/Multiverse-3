@@ -11,6 +11,8 @@ import pluginbase.minecraft.location.Vector;
 import pluginbase.permission.Perm;
 import pluginbase.plugin.ServerInterface;
 
+import java.util.UUID;
+
 import static org.mockito.Mockito.*;
 
 public class ServerInterfaceFactory {
@@ -79,7 +81,7 @@ public class ServerInterfaceFactory {
     private abstract static class EntityPlayer extends BasePlayer implements Entity { }
 
     private static class EntityData {
-        private EntityCoordinates coordinates = Locations.getEntityCoordinates("world", 0.5, 0, 0.5, 0, 0);
+        private EntityCoordinates coordinates = Locations.getEntityCoordinates("world", UUID.randomUUID(), 0.5, 0, 0.5, 0, 0);
         private Vector velocity = coordinates.getDirection();
     }
 }

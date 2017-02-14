@@ -27,6 +27,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
+import java.util.UUID;
 
 class BukkitWorldManagerUtil extends WorldManagerUtil {
 
@@ -187,6 +188,13 @@ class BukkitWorldManagerUtil extends WorldManagerUtil {
         final File worldFile = new File(Bukkit.getWorldContainer(), name);
         CoreLogger.fine("Attempting to delete %s", worldFile);
         FileUtils.deleteDirectory(worldFile);
+    }
+
+    @NotNull
+    @Override
+    UUID getUUID(@NotNull String name) {
+        World world = Bukkit.getWorld(name);
+        return world != null ? world.getUID() : UUID.nameUUIDFromBytes(name.getBytes());
     }
 
     private static class BukkitInitialWorldAggregator extends InitialWorldAggregator {

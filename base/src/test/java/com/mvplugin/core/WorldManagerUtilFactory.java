@@ -11,6 +11,7 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
 
 import static org.mockito.Mockito.*;
 
@@ -22,6 +23,7 @@ public class WorldManagerUtilFactory {
 
         // Mock getSafeWorldName
         when(worldManagerUtil.getSafeWorldName()).thenReturn("world");
+        when(worldManagerUtil.getUUID(anyString())).thenReturn(UUID.randomUUID());
 
         // Mock unloadWorldFromServer
         doAnswer(new Answer<Boolean>() {

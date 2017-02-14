@@ -23,6 +23,7 @@ import static com.mvplugin.core.util.Language.Destination.World.*;
 /**
  * This destination type teleports to a world's spawnpoint.
  */
+// TODO this needs to somehow handle UUID better.
 public final class WorldDestination extends SimpleDestination {
 
     static final Set<String> PREFIXES = new CopyOnWriteArraySet<String>() {{
@@ -33,7 +34,7 @@ public final class WorldDestination extends SimpleDestination {
     @NotNull
     private String world;
 
-    public WorldDestination(@NotNull MultiverseCoreAPI api, @NotNull String world) {
+    WorldDestination(@NotNull MultiverseCoreAPI api, @NotNull String world) {
         super(api);
         this.world = world;
     }
@@ -47,7 +48,8 @@ public final class WorldDestination extends SimpleDestination {
             throw new TeleportException(Message.bundleMessage(NOT_LOADED, world));
         }
 
-        return Locations.getEntityCoordinates(world, mvWorld.getSpawnLocation());
+        return Locations.getEntityCoordinates(world, getApi().getWorldManager().getWorldUUID(world),
+                mvWorld.getSpawnLocation());
     }
 
     // TODO: We need to implement cardinal directions

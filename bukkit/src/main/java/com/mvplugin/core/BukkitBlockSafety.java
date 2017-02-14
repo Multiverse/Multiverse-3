@@ -168,7 +168,7 @@ class BukkitBlockSafety extends AbstractBlockSafety {
             return false;
         }
 
-        return hasTwoBlocksOfWaterBelow(Locations.getBlockCoordinates(l.getWorld(),
+        return hasTwoBlocksOfWaterBelow(Locations.getBlockCoordinates(l.getWorld(), l.getWorldUUID(),
                 l.getBlockX(), l.getBlockY() - 1, l.getBlockZ()));
     }
 }
