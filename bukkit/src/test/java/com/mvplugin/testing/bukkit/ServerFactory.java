@@ -62,7 +62,7 @@ public final class ServerFactory {
 
         when(server.getName()).thenReturn("MockBukkit");
         when(server.getVersion()).thenReturn("0.0.1");
-        when(server.getBukkitVersion()).thenReturn("1.8.7-R0.1-SNAPSHOT");
+        when(server.getBukkitVersion()).thenReturn("1.11.2-R0.1-SNAPSHOT");
         when(server.getOnlinePlayers()).thenAnswer(new Answer<Collection<Player>>() {
             @Override
             public Collection<Player> answer(InvocationOnMock invocationOnMock) throws Throwable {
@@ -246,7 +246,8 @@ public final class ServerFactory {
         when(server.getOnlineMode()).thenReturn(true);
         when(server.getAllowFlight()).thenReturn(true);
         when(server.isHardcore()).thenReturn(false);
-        when(server.useExactLoginLocation()).thenReturn(true);
+        // TODO why was this removed from the server?
+        // when(server.useExactLoginLocation()).thenReturn(true);
         doAnswer(new Answer<Void>() {
             @Override
             public Void answer(InvocationOnMock invocationOnMock) throws Throwable {

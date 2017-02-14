@@ -8,13 +8,18 @@ import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.PluginBase;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
+import org.junit.Test;
+import org.junit.runner.RunWith;
 import org.powermock.core.classloader.annotations.PrepareForTest;
+import org.powermock.modules.junit4.PowerMockRunner;
 
 import java.lang.reflect.Field;
 
 import static org.junit.Assert.*;
 
-@PrepareForTest({Bukkit.class, MultiverseCoreBukkitPlugin.class, JavaPlugin.class, PluginBase.class})
+@PrepareForTest({Bukkit.class, MultiverseCoreBukkitPlugin.class, JavaPlugin.class, PluginBase.class, JavaPluginLoader.class})
+@RunWith(PowerMockRunner.class)
 public class BukkitMultiverseTest extends MultiverseTest {
 
     private Server server = null;
@@ -54,5 +59,10 @@ public class BukkitMultiverseTest extends MultiverseTest {
         }
 
         return testingServer;
+    }
+
+    @Test
+    public void emptyTest() {
+        // Required to make JUnit happy. There's probably a better solution.
     }
 }

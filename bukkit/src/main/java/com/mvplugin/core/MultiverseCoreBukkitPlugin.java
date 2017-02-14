@@ -14,6 +14,7 @@ import org.bukkit.event.entity.CreatureSpawnEvent.SpawnReason;
 import org.bukkit.plugin.PluginDescriptionFile;
 import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.java.JavaPlugin;
+import org.bukkit.plugin.java.JavaPluginLoader;
 import org.jetbrains.annotations.NotNull;
 import pluginbase.bukkit.BukkitPluginAgent;
 import pluginbase.logging.PluginLogger;
@@ -60,8 +61,8 @@ public class MultiverseCoreBukkitPlugin extends JavaPlugin implements Multiverse
         init();
     }
 
-    MultiverseCoreBukkitPlugin(PluginLoader loader, Server server, PluginDescriptionFile description, File dataFolder, File file) {
-        super(loader, server, description, dataFolder, file);
+    MultiverseCoreBukkitPlugin(JavaPluginLoader loader, PluginDescriptionFile description, File dataFolder, File file) {
+        super(loader, description, dataFolder, file);
         init();
     }
 

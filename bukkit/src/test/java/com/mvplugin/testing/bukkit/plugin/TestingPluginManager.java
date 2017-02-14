@@ -18,7 +18,7 @@ import org.bukkit.plugin.PluginLoader;
 import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.UnknownDependencyException;
 import org.bukkit.plugin.java.JavaPlugin;
-import org.powermock.api.mockito.PowerMockito;
+import org.bukkit.plugin.java.JavaPluginLoader;
 
 import java.io.File;
 import java.lang.reflect.Constructor;
@@ -42,12 +42,12 @@ public class TestingPluginManager implements PluginManager {
     private final Map<Boolean, Map<Permissible, Boolean>> defSubs = new HashMap<Boolean, Map<Permissible, Boolean>>();
 
     Server server;
-    PluginLoader pluginLoader;
+    JavaPluginLoader pluginLoader;
 
     public TestingPluginManager(Server server) {
         this.server = server;
 
-        this.pluginLoader = PowerMockito.mock(PluginLoader.class);
+        this.pluginLoader = new JavaPluginLoader(server);//PowerMockito.spy(new JavaPluginLoader(server));
 
         defaultPerms.put(true, new HashSet<Permission>());
         defaultPerms.put(false, new HashSet<Permission>());
@@ -96,10 +96,10 @@ public class TestingPluginManager implements PluginManager {
     public Plugin loadPlugin(PluginDescriptionFile pdf) {
         try {
             Class<Plugin> clazz = (Class<Plugin>) Class.forName(pdf.getMain());
-            Constructor<Plugin> constructor = clazz.getDeclaredConstructor(PluginLoader.class, Server.class, PluginDescriptionFile.class, File.class, File.class);
+            Constructor<Plugin> constructor = clazz.getDeclaredConstructor(JavaPluginLoader.class, PluginDescriptionFile.class, File.class, File.class);
             constructor.setAccessible(true);
             File pluginDir = new File(FileLocations.PLUGIN_DIRECTORY, pdf.getName());
-            Plugin plugin = constructor.newInstance(pluginLoader, server, pdf, pluginDir, new File(FileLocations.PLUGIN_DIRECTORY, "pluginTestFile"));
+            Plugin plugin = constructor.newInstance(pluginLoader, pdf, pluginDir, new File(FileLocations.PLUGIN_DIRECTORY, "pluginTestFile"));
             //getField("server").set(plugin, server);
             //getField("description").set(plugin, pdf);
             //getField("dataFolder").set(plugin, pluginDir);
