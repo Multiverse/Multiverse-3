@@ -42,3 +42,5 @@ debug.log
 # Doxygen
 /docs/html
 debug.txt
+
+dependency-reduced-pom.xml
