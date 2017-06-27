@@ -1,0 +1,112 @@
+- General Features
+  - ~~Load worlds specified in configs at startup~~
+  - ~~Destinations~~ - Needs review
+  - ~~BlockSafety~~ - Needs review
+  - ~~Localizable~~ - Consider proper Java i18n
+  - Anchors
+  - WorldPurger - Questionable whether this will be readded since
+    WorldGuard is a much more dynamic option for this purpose
+- Commands
+  - ~~CreateCommand~~
+  - ~~DeleteCommand~~
+  - ~~ImportCommand~~
+  - ~~InfoCommand~~
+  - ~~ListCommand~~
+  - ~~LoadCommand~~
+  - ~~UnloadCommand~~
+  - ~~HelpCommand~~ - Needs improvement
+  - ~~Modify commands~~ - Needs review
+  - ~~TeleportCommand~~ - Needs review
+  - AnchorCommand
+  - CheckCommand
+  - CloneCommand
+  - ConfigCommand
+  - ConfirmCommand
+  - CoordCommand
+  - EnvironmentCommand
+  - GameruleCommand
+  - GamerulesCommand
+  - GeneratorCommand
+  - PurgeCommand - See comments on WorldPurger
+  - RegenCommand
+  - RemoveCommand
+  - ScriptCommand
+  - SetSpawnCommand
+  - SilentCommand
+  - SpawnCommand
+  - WhoCommand
+- Permissions
+  - ~~Teleport~~
+    - ~~Self~~
+    - ~~Other~~
+  - ~~Destinations~~ - Needs review
+  - World Management
+    - ~~Create~~
+    - ~~Delete~~
+    - ~~Import~~
+    - Remove
+    - ~~Load~~
+    - ~~Unload~~
+    - Modify
+      - ~~Set~~ - Needs review
+      - Add
+      - Remove
+      - Clear
+    - Regen
+    - Purge
+  - Info
+    - ~~Info~~
+    - List
+      - ~~Worlds~~
+      - Who
+      - Environments
+    - Coords
+  - Others
+    - ~~Reload~~
+    - ~~Debug~~
+    - ~~Version~~
+    - Anchors
+    - Config
+    - Generator
+    - Silent
+  - Access
+    - Access
+    - Exemption
+    - Bypass
+  - Spawn
+    - Other
+    - Self
+    - Set
+- World Properties
+  - ~~name~~
+  - ~~type~~
+  - ~~environment~~
+  - ~~difficulty~~
+  - ~~time~~
+  - ~~seed~~
+  - ~~pvp~~
+  - ~~keepSpawnInMemory~~
+  - ~~allowWeather~~
+  - ~~adjustingSpawn~~
+  - ~~uuid~~ - Needs review
+  - ~~spawnLocation~~ - Needs review
+  - ~~formattingChat~~ - Needs Review
+  - ~~generator~~ - Needs review
+  - ~~autoLoad~~ - Needs review
+  - alias
+  - hidden
+  - playerLimit
+  - bedRespawn
+  - hunger
+  - worldBlacklist
+  - respawnWorld
+  - autoHeal
+  - gameMode
+  - entryFee
+  - allowFlight
+  - creature spawn control - this is pared down since WorldGuard is
+    a better option for this.
+  - connectedWorlds
+- Extra
+  - Convert MV2 configs
+  - Add tab complete
